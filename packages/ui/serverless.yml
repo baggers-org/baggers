@@ -1,0 +1,12 @@
+app: baggers
+service: baggers-ui
+org: dancooke
+baggers:
+  component: "@sls-next/serverless-component@1.17.0"
+  build:
+    env:
+      NEXT_PUBLIC_BUILD_TIME: ${env.NEXT_PUBLIC_BUILD_TIME}
+      NEXT_PUBLIC_VERSION: ${env.NEXT_PUBLIC_VERSION}
+  inputs:
+   cloudfront:
+    distributionId: E2AJCJNNU53L39

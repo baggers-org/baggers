@@ -1,0 +1,33 @@
+{
+  "name": "@baggers/cron-market-data",
+  "version": "1.0.0",
+  "description": "Read market data into the baggers database",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node -e \"require('./build/getQuotes').run()\"",
+    "dev": "tsc && NODE_ENV=development node -e \"require('./build/getQuotes').run()\""
+  },
+  "dependencies": {
+    "@baggers/mongoose": "^1.0.9",
+    "async-mutex": "^0.3.1",
+    "basic-ftp": "^4.6.6",
+    "dotenv": "^9.0.2",
+    "mongodb": "^3.6.6",
+    "node-fetch": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=15.11.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "4.21.0",
+    "@typescript-eslint/parser": "4.15.2",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.2.1"
+  }
+}

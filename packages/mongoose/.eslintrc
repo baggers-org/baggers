@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": false,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "plugins": ["import", "prettier"],
+  "extends": ["../../.eslintrc", "eslint-config-prettier"],
+  "rules": {
+    "arrow-body-style": "off",
+    "prettier/prettier": "error",
+    "camelcase": "off",
+    "import/prefer-default-export": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+    "quotes": "off",
+    "no-underscore-dangle": "off",
+    "no-param-reassign": "off"
+  }
+}

@@ -1,0 +1,70 @@
+mutation createPortfolio($record: CreateOnePortfolioInput!) {
+  createPortfolio(record: $record){
+    error {
+      message
+    }
+    record {
+      _id
+      owner
+      name
+      description
+    }
+  }
+}
+
+mutation updatePortfolio($id: MongoID!, $record: UpdateByIdPortfolioInput!) {
+  updatePortfolio(_id: $id, record: $record){
+    error {
+      message
+    }
+    record {
+      _id
+      owner
+      private
+      name
+      description
+    }
+  }
+}
+
+
+mutation addPosition($record: CreateOnePositionInput!) {
+  addPosition(record: $record) {
+    error {
+      message
+    }
+    recordId 
+    record {
+      _id
+      owner
+      numberOfShares
+      averagePrice
+      profitLossPercent
+      costBasis
+      marketValue
+      symbol {
+        _id
+        symbol
+        securityName
+        quote {
+          _id
+          latestPrice
+        }
+      }
+    }
+  }
+}
+
+mutation removePosition($id: MongoID!) {
+  removePosition(_id: $id) {
+    error {
+      message
+    }
+  }
+}
+
+mutation removePositions($ids: [MongoID!]!) {
+  removePositions(ids: $ids) {
+    numAffected
+  }
+}

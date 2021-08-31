@@ -1,0 +1,20 @@
+{
+    "presets": [
+      "next/babel",
+      "@babel/preset-typescript",
+      ["@babel/preset-env", {
+        "targets": {
+          "esmodules": true
+        }
+      }]
+    ],
+    "plugins": [
+        ["styled-components", { "ssr": true, 
+          "minify": true,
+          "transpileTemplateLiterals": true,
+          "pure": true,
+          "displayName": true,
+          "preprocess": false 
+          }]
+    ]
+}

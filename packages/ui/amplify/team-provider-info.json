@@ -1,0 +1,32 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-baggersui-dev-190358-authRole",
+      "UnauthRoleArn": "arn:aws:iam::539913629665:role/amplify-baggersui-dev-190358-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::539913629665:role/amplify-baggersui-dev-190358-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-baggersui-dev-190358-deployment",
+      "UnauthRoleName": "amplify-baggersui-dev-190358-unauthRole",
+      "StackName": "amplify-baggersui-dev-190358",
+      "StackId": "arn:aws:cloudformation:eu-west-1:539913629665:stack/amplify-baggersui-dev-190358/d97e1ba0-f2f2-11eb-a22f-0ac845cf6975",
+      "AmplifyAppId": "d276tbd29j6ir8"
+    },
+    "categories": {
+      "auth": {
+        "baggersuie0ea867d": {
+          "userPoolId": "eu-west-1_sGiWizhzE",
+          "userPoolName": "BaggersUserPool",
+          "webClientId": "6ou0d1tc9at0hcsfhpmm6migle",
+          "nativeClientId": "6ou0d1tc9at0hcsfhpmm6migle",
+          "identityPoolId": "eu-west-1:47eece70-2e38-4e83-85e2-7c948cf22ff1",
+          "identityPoolName": "BaggersIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "authRoleArn": "arn:aws:iam::539913629665:role/BaggersIdentityPoolAuth_Role",
+          "authRoleName": "BaggersIdentityPoolAuth_Role",
+          "unauthRoleArn": "arn:aws:iam::539913629665:role/BaggersIdentityPoolUnauth_Role",
+          "unauthRoleName": "BaggersIdentityPoolUnauth_Role"
+        }
+      }
+    }
+  }
+}
