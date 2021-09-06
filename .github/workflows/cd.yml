@@ -1,0 +1,36 @@
+# Version in master 0.0.0
+# Version in develop = 1.0.0-beta-21
+# Version in feature branch = 1.0.0-beta-branch-39482
+
+name: CD
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ develop ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install global dependencies
+        run: npm i -g yarn serverless
+
+      - uses: actions/checkout@v2
+
+      - name: Install workspace dependencies
+        run: yarn workspaces focus -A
+
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production
+
+      - name: Remove development dependencies
+        run: yarn workspaces focus --production -A

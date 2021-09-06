@@ -8,7 +8,7 @@
     "deploy": "./scripts/deploy.sh",
     "test": "null",
     "lint": "yarn workspaces foreach -v run lint",
-    "build": "yarn workspaces foreach -vtAp run build"
+    "build": "yarn workspaces foreach -vtApi run build"
   },
   "repository": {
     "type": "git",

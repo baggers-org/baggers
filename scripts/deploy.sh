@@ -39,20 +39,8 @@ yarn lerna run deploy
 
 ## TODO: Wed 18th August - 
 
-## GRAPHQL BUILD - Working (i think)
-# Picked up for 10 minutes, realised mongoose was not being installed in the graphql package
-# because it was not listed in production deps
-# I decided to modify baggers/mongoose to list mongoose as peer dependency, and it installs it in dev
-# So this means no additional hacking is required to get a valid build other than `yarn workspaces focus -A` , build, then install production deps
-
-
-## UI Build 
-# UI build is still not working, it requires an http GraphQL server running somehwere so it can generate the index.d.ts
-# See my github post here https://github.com/piglovesyou/graphql-let/issues/549
-# Most likely approach will be to make appropriate changes to the graphql-let library
-
-
 ### Graphql Deploy
+
 # Unfortunately serverless does not allow you to dynamically set plugins,
 # when we got to deploy our production node_modules we get "Serverless-offline" not found
 # For now i will probably just include this as a production dependency (ew)
@@ -61,7 +49,7 @@ yarn lerna run deploy
 # serverless github actions will help to deploy after we get this working locally
 
 
-### UI Deploy
-# The UI deploy will need to use `npx serverless` so need to make sure `npx` is available on the CD
+## TODO: 1st September
 
-## Checkout act the github actions local runner to test CD pipeline once all this is working
+# Graphql And UI builds working
+# This script needs to be broken down into .github/workflow commands etc.
