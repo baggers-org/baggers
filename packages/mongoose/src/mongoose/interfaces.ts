@@ -1,4 +1,4 @@
-import { Document, ObjectId } from "mongoose";
+import { Document, ObjectId } from 'mongoose';
 
 export interface ISymbol {
   symbol: string;
@@ -53,7 +53,7 @@ export interface IQuote {
   low: number;
   lowTime: number;
   lowSource: string;
-  latestSource: "Close";
+  latestSource: 'Close';
   latestTime: string;
   latestVolume: number;
   iexRealtimePrice: number;

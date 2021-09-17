@@ -1,15 +1,15 @@
-import { schemaComposer } from "graphql-compose";
-import addPosition from "./addPosition";
-import removePosition from "./removePosition";
+import { schemaComposer } from 'graphql-compose';
+import addPosition from './addPosition';
+import removePosition from './removePosition';
 import {
   requireAuthenticatedResourceOwner,
   getTypeComposer,
   onlyOwnerCanMutate,
-} from "../util";
-import addRemovePositionsResolver from "./removePositions";
+} from '../util';
+import addRemovePositionsResolver from './removePositions';
 
-import { addGetPositionsResolver } from "./getPositions";
-import { BaggersMongoose, PositionDocument } from "@baggers/mongoose";
+import { addGetPositionsResolver } from './getPositions';
+import { BaggersMongoose, PositionDocument } from '@baggers/mongoose';
 
 const addResolvers = () => {
   addGetPositionsResolver();
@@ -37,7 +37,7 @@ const addMutations = () => {
 
           if (doc.owner !== rp.context.identity.sub) {
             throw new Error(
-              `You do not own this resource, you are unable to modify it`
+              `You do not own this resource, you are unable to modify it`,
             );
           }
           // Remove it from the portfolio
@@ -45,7 +45,7 @@ const addMutations = () => {
             doc.portfolio,
             {
               $pull: { positions: doc._id },
-            }
+            },
           );
           return doc;
         };

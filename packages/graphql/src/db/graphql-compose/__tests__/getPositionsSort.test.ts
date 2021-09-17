@@ -1,5 +1,5 @@
-import getPositionsSort from "../Positions/getPositionsSort";
-import { PossibleSortOptions } from "../Positions/getPositions";
+import getPositionsSort from '../Positions/getPositionsSort';
+import { PossibleSortOptions } from '../Positions/getPositions';
 
 describe(`getMyPositionsSort`, () => {
   it(`should take input in the form SORT_KEY_VARIABLE_LENGTH_ASC or SORT_KEY_VARIABLE_LENGTH_DESC and produce mongodb sort operations`, () => {
@@ -10,6 +10,16 @@ describe(`getMyPositionsSort`, () => {
 
     expect(results).toMatchInlineSnapshot(`
       Array [
+        Object {
+          "$sort": Object {
+            "costBasis": 1,
+          },
+        },
+        Object {
+          "$sort": Object {
+            "costBasis": -1,
+          },
+        },
         Object {
           "$sort": Object {
             "marketValue": 1,
@@ -68,6 +78,16 @@ describe(`getMyPositionsSort`, () => {
         Object {
           "$sort": Object {
             "symbol.quote.changePercent": -1,
+          },
+        },
+        Object {
+          "$sort": Object {
+            "symbol.quote.latestPrice": 1,
+          },
+        },
+        Object {
+          "$sort": Object {
+            "symbol.quote.latestPrice": -1,
           },
         },
         Object {

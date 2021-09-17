@@ -1,7 +1,7 @@
-import { mongo, ObjectId } from "mongoose";
-import batchFetchQuotes from "../http/batchFetchQuotes";
-import { SymbolDocument } from "../mongoose/interfaces";
-import { models } from "../mongoose/index";
+import { mongo, ObjectId } from 'mongoose';
+import batchFetchQuotes from '../http/batchFetchQuotes';
+import { SymbolDocument } from '../mongoose/interfaces';
+import { models } from '../mongoose/index';
 
 /**
  * @param symbolIds Array of ids from symbol._id to fetch the quote data for
@@ -79,7 +79,7 @@ const updateSymbolQuoteBatch = async (symbolIds: Array<ObjectId>) => {
       console.log(
         `Linking `,
         bulkLinkQuoteToSymbol.length,
-        ` new quotes to relevant symbol`
+        ` new quotes to relevant symbol`,
       );
 
       // Map through all the newly inserrted quotes, and link them up to the relevant symbols
@@ -93,7 +93,7 @@ const updateSymbolQuoteBatch = async (symbolIds: Array<ObjectId>) => {
 
       if (linkRes?.modifiedCount) {
         console.log(
-          `Successfully linked ${linkRes.modifiedCount} quotes to their relevant symbol`
+          `Successfully linked ${linkRes.modifiedCount} quotes to their relevant symbol`,
         );
       }
     }
@@ -102,13 +102,13 @@ const updateSymbolQuoteBatch = async (symbolIds: Array<ObjectId>) => {
     console.log(
       `Updating `,
       bulkUpdateExistingQuote.length,
-      ` existing quotes`
+      ` existing quotes`,
     );
 
     const updateRes = await models.Quote?.bulkWrite(bulkUpdateExistingQuote);
     if (updateRes?.modifiedCount) {
       console.log(
-        `Successfully updated ${updateRes.modifiedCount} quotes with latest market data`
+        `Successfully updated ${updateRes.modifiedCount} quotes with latest market data`,
       );
     }
   }

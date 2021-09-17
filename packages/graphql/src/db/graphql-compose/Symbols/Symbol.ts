@@ -1,6 +1,6 @@
-import { BaggersMongoose } from "@baggers/mongoose";
-import { schemaComposer } from "graphql-compose";
-import { getTypeComposer } from "../util";
+import { BaggersMongoose } from '@baggers/mongoose';
+import { schemaComposer } from 'graphql-compose';
+import { getTypeComposer } from '../util';
 
 const addResolvers = () => {
   getTypeComposer(`Symbol`).addResolver({

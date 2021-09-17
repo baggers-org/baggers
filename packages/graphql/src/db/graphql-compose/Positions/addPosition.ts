@@ -1,6 +1,6 @@
-import { BaggersMongoose, PositionDocument } from "@baggers/mongoose";
-import { AuthenticationError } from "apollo-server-errors";
-import { getTypeComposer, recordRequestOwner } from "../util";
+import { BaggersMongoose, PositionDocument } from '@baggers/mongoose';
+import { AuthenticationError } from 'apollo-server-errors';
+import { getTypeComposer, recordRequestOwner } from '../util';
 
 const addPosition = () => ({
   addPosition: getTypeComposer(`Position`)
@@ -18,7 +18,7 @@ const addPosition = () => ({
     .wrapResolve((next: any) => async (rp: any) => {
       // Check if the portfolio exists, and this person is the owner, otherwise throw an error
       const portfolio = await BaggersMongoose.models.Portfolio?.findById(
-        rp.args.record.portfolio
+        rp.args.record.portfolio,
       );
 
       if (!portfolio) {
@@ -27,14 +27,14 @@ const addPosition = () => ({
 
       if (portfolio.owner !== rp.context.identity.sub) {
         throw new AuthenticationError(
-          `You do not own this portfolio, you cannot add a position to it`
+          `You do not own this portfolio, you cannot add a position to it`,
         );
       }
 
       rp.beforeRecordMutate = async (doc: PositionDocument, rp: any) => {
         if (doc.owner !== rp.context.identity.sub) {
           throw new Error(
-            `You do not own this resource, you are unable to modify it`
+            `You do not own this resource, you are unable to modify it`,
           );
         }
         // Calculate cost basis here
@@ -52,12 +52,12 @@ const addPosition = () => ({
           portfolio._id,
           {
             $push: { positions: position._id },
-          }
+          },
         );
 
         // Get the symbol and check if it has quote data
         const positionSymbol = await BaggersMongoose.models.Symbol?.findById(
-          position.symbol
+          position.symbol,
         );
 
         if (positionSymbol && !positionSymbol?.quote) {
@@ -65,13 +65,13 @@ const addPosition = () => ({
 
           // Fetch market data for this symbol
           await BaggersMongoose.marketDataFunctions.updateSymbolQuote(
-            positionSymbol?._id
+            positionSymbol?._id,
           );
           console.log(`Added quot for `, positionSymbol.symbol);
         }
         // Update the position's metrics
         const populatedPos = await BaggersMongoose.marketDataFunctions.updatePositionMetrics(
-          position._id as any
+          position._id as any,
         );
 
         if (populatedPos) {

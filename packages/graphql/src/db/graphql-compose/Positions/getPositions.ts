@@ -1,6 +1,6 @@
-import { BaggersMongoose, mongo } from "@baggers/mongoose";
-import { getTypeComposer } from "../util";
-import getPositionsSort from "./getPositionsSort";
+import { BaggersMongoose, mongo } from '@baggers/mongoose';
+import { getTypeComposer } from '../util';
+import getPositionsSort from './getPositionsSort';
 
 export const PossibleSortOptions = [
   `COST_BASIS_ASC`,
@@ -75,7 +75,7 @@ export const addGetPositionsResolver = () => {
       // IF we are fetching a specific users positions, only show public positions, unless we are
       // that owner
       // Only show public
-      // TODO: re-examine this 
+      // TODO: re-examine this
       // pipeline.push({
       //   $match: {
       //     $or: [{ private: true, owner: requestOwner }, { private: false }],
@@ -132,7 +132,7 @@ export const addGetPositionsResolver = () => {
       });
 
       const result = await BaggersMongoose.models.Position?.aggregate(
-        pipeline
+        pipeline,
       ).exec();
 
       return result[0];

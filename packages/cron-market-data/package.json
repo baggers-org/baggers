@@ -1,6 +1,6 @@
 {
   "name": "@baggers/cron-market-data",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "Read market data into the baggers database",
   "author": "",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "dev": "tsc && NODE_ENV=development node -e \"require('./build/getQuotes').run()\""
   },
   "dependencies": {
-    "@baggers/mongoose": "^1.0.9",
+    "@baggers/mongoose": "^1.0.0-beta.0",
     "async-mutex": "^0.3.1",
     "basic-ftp": "^4.6.6",
     "dotenv": "^9.0.2",

@@ -1,6 +1,6 @@
 const calculateDailyProfitLossUsd = (
   numberOfShares: number,
-  change: number
+  change: number,
 ) => {
   return numberOfShares * change;
 };

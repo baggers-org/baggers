@@ -1,4 +1,4 @@
-import { getDbConnection, initSchema } from "./mongoose";
+import { getDbConnection, initSchema } from './mongoose';
 import {
   updatePositionMetrics,
   updatePositionMetricsBatch,
@@ -9,7 +9,7 @@ import {
   calculateMarketValue,
   calculateProfitLossPercent,
   calculateProfitLossUsd,
-} from "./marketDataFunctions";
+} from './marketDataFunctions';
 
 import {
   PortfolioDocument,
@@ -20,10 +20,10 @@ import {
   QuoteDocumentPopulated,
   SymbolDocument,
   SymbolDocumentPopulated,
-} from "./mongoose/interfaces";
-import { models } from "./mongoose/index";
+} from './mongoose/interfaces';
+import { models } from './mongoose/index';
 
-export * from "mongoose";
+export * from 'mongoose';
 
 export type {
   PortfolioDocument,

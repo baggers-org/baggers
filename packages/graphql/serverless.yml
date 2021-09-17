@@ -4,7 +4,7 @@ service: graphql
 useDotenv: true
 provider:
   name: aws
-  region: ${env:REGION}
+  region: eu-west-1
   stage: ${opt:stage, 'dev'}
 
 package:

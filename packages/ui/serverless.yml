@@ -2,11 +2,14 @@ app: baggers
 service: baggers-ui
 org: dancooke
 baggers:
-  component: "@sls-next/serverless-component@1.17.0"
-  build:
-    env:
-      NEXT_PUBLIC_BUILD_TIME: ${env.NEXT_PUBLIC_BUILD_TIME}
-      NEXT_PUBLIC_VERSION: ${env.NEXT_PUBLIC_VERSION}
+  component: "@sls-next/serverless-component@3.3.0"
   inputs:
-   cloudfront:
-    distributionId: E2AJCJNNU53L39
+    build:
+      # This is a weird one, but sls by default builds next with "next build"
+      # we do not want this, so this option will just skip the next build
+      cmd: "true"
+      # Another issue with sls, is that it clears out the .next directory before
+      # running. Our CI will build in an earlier step, so we do not want this
+      cleanupDotNext: false
+    cloudfront:
+      distributionId: E2AJCJNNU53L39

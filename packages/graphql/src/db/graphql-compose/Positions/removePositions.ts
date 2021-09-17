@@ -1,5 +1,5 @@
-import { BaggersMongoose } from "@baggers/mongoose";
-import { getTypeComposer } from "../util";
+import { BaggersMongoose } from '@baggers/mongoose';
+import { getTypeComposer } from '../util';
 
 const addRemovePositionsResolver = () =>
   getTypeComposer(`Position`).addResolver({
@@ -31,7 +31,7 @@ const addRemovePositionsResolver = () =>
       }).exec();
 
       await BaggersMongoose.models.Portfolio?.bulkWrite(
-        updatePortfolioOperations
+        updatePortfolioOperations,
       );
 
       return {

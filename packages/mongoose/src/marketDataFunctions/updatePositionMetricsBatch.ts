@@ -1,7 +1,7 @@
-import { ObjectId } from "mongoose";
-import { models } from "../mongoose";
-import { PositionDocumentPopulated } from "../mongoose/interfaces";
-import calculatePositionMetrics from "./calculatePositionMetrics";
+import { ObjectId } from 'mongoose';
+import { models } from '../mongoose';
+import { PositionDocumentPopulated } from '../mongoose/interfaces';
+import calculatePositionMetrics from './calculatePositionMetrics';
 
 /**
  * Calculates various position metrics based on an aggregated position, quote and portfolio

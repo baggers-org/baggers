@@ -1,4 +1,4 @@
-import { AuthenticationError } from "apollo-server-lambda";
+import { AuthenticationError } from 'apollo-server-lambda';
 
 export const authenticate = (condition: boolean, throwError?: Error) => {
   if (!condition) {
@@ -6,7 +6,7 @@ export const authenticate = (condition: boolean, throwError?: Error) => {
       throw throwError;
     }
     throw new AuthenticationError(
-      `You do not have permission to access this resource`
+      `You do not have permission to access this resource`,
     );
   }
 };

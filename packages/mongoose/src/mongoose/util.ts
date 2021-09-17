@@ -5,7 +5,7 @@ import {
   Schema,
   SchemaDefinition,
   _AllowStringsForIds,
-} from "mongoose";
+} from 'mongoose';
 
 export type SchemaDef<ISchemaType> = SchemaDefinition<
   _AllowStringsForIds<LeanDocument<ISchemaType>>

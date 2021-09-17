@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 
 const fetchQuotes = async (symbols: string[]) => {
   const quoteData = [];
@@ -11,7 +11,7 @@ const fetchQuotes = async (symbols: string[]) => {
 
   const res = await fetch(url, {
     headers: {
-      "Content-Type": `application/json`,
+      'Content-Type': `application/json`,
     },
   });
 

@@ -1,6 +1,6 @@
-import { ObjectId } from "mongoose";
-import fetchQuote from "../http/fetchQuote";
-import { models } from "../mongoose";
+import { ObjectId } from 'mongoose';
+import fetchQuote from '../http/fetchQuote';
+import { models } from '../mongoose';
 
 /**
  * Update a single symbol's quote, uses a more efficeint endpoint than the batch version
@@ -27,7 +27,7 @@ const updateSymbolQuote = async (symbolId: ObjectId) => {
       }
     } else {
       throw new Error(
-        `There was an error adding quote data for ${symbol?.symbol}`
+        `There was an error adding quote data for ${symbol?.symbol}`,
       );
     }
   }

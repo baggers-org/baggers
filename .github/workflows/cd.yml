@@ -8,29 +8,83 @@ name: CD
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ develop ]
+    branches: [ develop, master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_AMPLIFY_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_AMPLIFY_SECRET_ACCESS_KEY }}
+  ATLAS_CLUSTER_URI: ${{ secrets.ATLAS_CLUSTER_URI }}
+  API_DOMAIN: ${{ secrets.API_DOMAIN }}
+  WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
+  REGION: ${{ secrets.REGION }}
+  IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
+  IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
+  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   deploy:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
-
     steps:
-      - name: Install global dependencies
-        run: npm i -g yarn serverless
-
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install global dependencies
+        run: npm i -g yarn serverless @aws-amplify/cli
+
+      - name: Install lerna
+        run: yarn add lerna
+
+      - name: Configure Git User
+        run: |
+          git config --global user.email "cd@baggers.com"
+          git config --global user.name "CD Pipeline"
+
+      - name: Pull amplify auth into UI
+        env:
+          AWS_REGION: eu-west-1
+        run: .github/scripts/amplify_pull.sh
 
       - name: Install workspace dependencies
         run: yarn workspaces focus -A
 
+      - name: Setup env files
+        run: |
+          envsubst < packages/graphql/.env > packages/graphql/.env
+          envsubst < packages/ui/.env > packages/ui/.env
+          git update-index --assume-unchanged packages/graphql/.env
+          git update-index --assume-unchanged packages/ui/.env
+
+      - name: Bump develop app version
+        if: ${{ github.ref == 'refs/heads/develop' && !contains(github.event.commits[0].message, 'chore') }}
+        run: yarn lerna version prerelease --yes
+
+      - name: Bump master app version
+        if: ${{ github.ref == 'refs/heads/master' }}
+        run: yarn lerna version --conventional-commits --conventional-graduate --yes
+
+      - name: Set build info
+        run: |
+          echo "BUILD_ALIAS=$(node scripts/buildAliasGenerator.js)" >> $GITHUB_ENV
+          echo "BUILD_TIME=$(date)" >> $GITHUB_ENV
+          echo "BUILD_VERSION=$(cat lerna.json | jq '.version')"
+
       - name: Build
-        run: yarn build
+        run: yarn build || exit 1
         env:
           NODE_ENV: production
 
+      # TODO: remove rm -rf when https://github.com/yarnpkg/berry/issues/3256 is fixed
       - name: Remove development dependencies
-        run: yarn workspaces focus --production -A
+        run: |
+          yarn workspaces focus --production -A
+          rm -rf packages/graphql/node_modules/@baggers/graphql
+          rm -rf packages/mongoose/node_modules/@baggers/mongoose
+      
+      - name: Deploy
+        run: yarn workspaces foreach -vpi run deploy

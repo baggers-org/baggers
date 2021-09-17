@@ -1,7 +1,7 @@
 {
   "name": "@baggers/ui",
   "description": "Web user interface",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "private": true,
   "author": "Daniel Cooke <danielcooke1996@gmail.com>",
   "license": "MIT",
@@ -42,6 +42,7 @@
     "@material-ui/icons": "4.11.2",
     "@material-ui/lab": "4.0.0-alpha.58",
     "@material-ui/styles": "4.11.4",
+    "@sls-next/serverless-component": "3.3.0",
     "@types/jest": "26.0.23",
     "@types/mongodb": "3.6.8",
     "@types/react-helmet": "6.1.0",

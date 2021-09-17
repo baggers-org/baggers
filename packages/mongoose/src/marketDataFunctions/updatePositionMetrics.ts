@@ -1,14 +1,14 @@
-import { ObjectId } from "mongoose";
-import { models } from "../mongoose";
+import { ObjectId } from 'mongoose';
+import { models } from '../mongoose';
 import {
   IPosition,
   PositionDocument,
   PositionDocumentPopulated,
-} from "../mongoose/interfaces";
-import calculatePositionMetrics from "./calculatePositionMetrics";
+} from '../mongoose/interfaces';
+import calculatePositionMetrics from './calculatePositionMetrics';
 
 const updatePositionMetrics = async (
-  positionId: ObjectId
+  positionId: ObjectId,
 ): Promise<PositionDocument | undefined> => {
   const doc = await models.Position?.findById(positionId)
     .populate(`portfolio`)

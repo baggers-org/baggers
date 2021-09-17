@@ -1,4 +1,4 @@
-import calculateProfitLossPercent from "../calculateProfitLossPercent";
+import calculateProfitLossPercent from '../calculateProfitLossPercent';
 
 test(`it should return the correct pl percent given cost basis and market value`, () => {
   expect(calculateProfitLossPercent(268, 279.58)).toBe(4.32);

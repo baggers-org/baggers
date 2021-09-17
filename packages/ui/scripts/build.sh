@@ -6,8 +6,10 @@
 # Written by Daniel Cooke <danielcooke1996@gmail.com>
 ###################################################################################################
 #!/bin/bash
+set -e
+
 echo "Start graphql dev server"
-yarn workspace @baggers/graphql run dev:nowatch &
+yarn workspace @baggers/graphql run build && yarn workspace @baggers/graphql run offline &
 
 echo "Waiting for GraphQL..."
 until $(curl --output /dev/null --silent --head http://localhost:5000/graphql); do

@@ -1,5 +1,5 @@
-import { camelCase } from "lodash";
-import { PositionsSort } from "./getPositions";
+import { camelCase } from 'lodash';
+import { PositionsSort } from './getPositions';
 
 const getPositionsSort = (sortString: PositionsSort) => {
   const isAscending = sortString.substr(sortString.indexOf(`_ASC`)) === `_ASC`;

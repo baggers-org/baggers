@@ -1,4 +1,4 @@
-import { Portfolio, Position } from "./collections";
+import { Portfolio, Position } from './collections';
 
 Position.schema.index({ portfolio: 1 });
 Position.schema.index({ exposure: 1 });

@@ -1,6 +1,6 @@
-import { ObjectId } from "mongoose";
-import { IQuote, QuoteDocument } from "../mongoose/interfaces";
-import fetchQuotes from "./fetchQuotes";
+import { ObjectId } from 'mongoose';
+import { IQuote, QuoteDocument } from '../mongoose/interfaces';
+import fetchQuotes from './fetchQuotes';
 
 const batchFetchQuotes = async (symbols: Array<string>, fetchRate = 30) => {
   const promiseQueue = [];
@@ -16,7 +16,7 @@ const batchFetchQuotes = async (symbols: Array<string>, fetchRate = 30) => {
             console.error(err);
             reject();
           });
-      })
+      }),
     );
     await new Promise((res) => {
       setTimeout(() => {
@@ -40,7 +40,7 @@ const batchFetchQuotes = async (symbols: Array<string>, fetchRate = 30) => {
   console.log(
     `Fetched market data for ${numberOfFetchedQuotes} symbols in - ${
       Date.now() - tForQuoteData
-    }ms`
+    }ms`,
   );
   return allQuotes;
 };

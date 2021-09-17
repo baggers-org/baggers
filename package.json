@@ -6,9 +6,10 @@
   "main": "null",
   "scripts": {
     "deploy": "./scripts/deploy.sh",
-    "test": "null",
-    "lint": "yarn workspaces foreach -v run lint",
-    "build": "yarn workspaces foreach -vtApi run build"
+    "test": "FORCE_COLOR=1 yarn workspaces foreach -vApi run test",
+    "lint": "FORCE_COLOR=1 yarn workspaces foreach -v run lint",
+    "lint:ts-package": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
+    "build": "FORCE_COLOR=1 yarn workspaces foreach -vtApi run build"
   },
   "repository": {
     "type": "git",
