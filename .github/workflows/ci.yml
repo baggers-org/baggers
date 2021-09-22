@@ -6,10 +6,13 @@ on:
       - develop
 
 env:
+  AWS_REGION: eu-west-1
   ATLAS_CLUSTER_URI: ${{ secrets.ATLAS_CLUSTER_URI }}
   API_DOMAIN: ${{ secrets.API_DOMAIN }}
+  COGNITO_IDENTITYPOOL_ID: ${{ secrets.COGNITO_IDENTITYPOOL_ID }}
+  COGNITO_USERPOOL_ID: ${{ secrets.COGNITO_USERPOOL_ID }}
+  COGNITO_USERPOOL_WEBCLIENT_ID: ${{ secrets.COGNITO_USERPOOL_WEBCLIENT_ID }}
   WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
-  REGION: ${{ secrets.REGION }}
   IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
   IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
   SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
@@ -23,10 +26,13 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup secrets.files
+      - name: Install global dependencies
+        run: npm i -g yarn @aws-amplify/cli
+
+      - name: Setup env files
         run: |
-          secrets.ubst < packages/graphql/.env > packages/graphql/.env
-          secrets.ubst < packages/ui/.env > packages/ui/.env
+          envsubst < packages/graphql/.env > packages/graphql/.env
+          envsubst < packages/ui/.env > packages/ui/.env
           git update-index --assume-unchanged packages/graphql/.env
           git update-index --assume-unchanged packages/ui/.env
 
