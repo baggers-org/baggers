@@ -21,13 +21,12 @@ jobs:
   build:
     timeout-minutes: 20
     runs-on: ubuntu-latest
+    container: amaysim/serverless
     steps:
+
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install global dependencies
-        run: npm i -g yarn @aws-amplify/cli serverless
 
       - name: Setup env files
         run: |
