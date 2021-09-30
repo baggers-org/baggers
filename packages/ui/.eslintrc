@@ -81,7 +81,7 @@
   "settings": {
     "import/resolver": {
       "typescript": {
-        "project": "packages/ui"
+        "project": "."
       }
     },
     "react": {
