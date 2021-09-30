@@ -27,6 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    needs: verify-issue
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
