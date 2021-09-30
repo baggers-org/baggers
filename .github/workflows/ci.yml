@@ -6,6 +6,8 @@ on:
       - develop
 
 env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_AMPLIFY_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_AMPLIFY_SECRET_ACCESS_KEY }}
   AWS_REGION: eu-west-1
   ATLAS_CLUSTER_URI: ${{ secrets.ATLAS_CLUSTER_URI }}
   API_DOMAIN: ${{ secrets.API_DOMAIN }}

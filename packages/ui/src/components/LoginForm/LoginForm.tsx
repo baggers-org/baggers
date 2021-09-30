@@ -1,13 +1,6 @@
 import useNotifications from '@/hooks/useNotifications/useNotifications';
 import theme from '@/styles/theme';
-import {
-  Grid,
-  Button,
-  LinearProgress,
-  Box,
-  lighten,
-  Typography,
-} from '@material-ui/core';
+import { Grid, Button, Box, Typography } from '@material-ui/core';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
@@ -166,7 +159,10 @@ const LoginForm: React.FC<Props> = () => {
       <Grid container item xs={12} spacing={2}>
         <Grid item xs={12}>
           <BaggersTextField
+            id="email"
             variant="outlined"
+            type="email"
+            autoComplete="email"
             label="Email"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -175,8 +171,11 @@ const LoginForm: React.FC<Props> = () => {
         </Grid>
         <Grid item xs={12}>
           <BaggersTextField
+            id="password"
             variant="outlined"
             label="Password"
+            type="password"
+            autoComplete="password"
             secret
             onChange={(e) => {
               setPassword(e.target.value);
@@ -185,7 +184,11 @@ const LoginForm: React.FC<Props> = () => {
         </Grid>
         <Grid container item spacing={2} style={{ marginTop: `20px` }}>
           <Grid item xs={12}>
-            <BaggersButton loading={loggingIn} onClick={handleLogin}>
+            <BaggersButton
+              loading={loggingIn}
+              onClick={handleLogin}
+              type="submit"
+            >
               {!loggingIn ? `Login` : `Logging in...`}
             </BaggersButton>
           </Grid>
