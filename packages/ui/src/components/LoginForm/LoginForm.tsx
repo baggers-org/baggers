@@ -47,7 +47,7 @@ const LoginForm: React.FC<Props> = () => {
     }
   }, [loginError]);
 
-  const handleLogin = async (e: SubmitEvent) => {
+  const handleLogin = async (e: Event) => {
     e.preventDefault();
     if (email && password) {
       setLoggingIn(true);

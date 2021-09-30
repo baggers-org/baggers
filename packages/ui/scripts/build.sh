@@ -12,6 +12,14 @@ echo "Start graphql dev server"
 yarn workspace @baggers/graphql run build && yarn workspace @baggers/graphql run offline &
 
 echo "Waiting for GraphQL..."
+
+teardown() {
+    lsof -i:5000 -t | xargs kill -9
+}
+
+
+trap "teardown" ERR
+
 until $(curl --output /dev/null --silent --head http://localhost:5000/graphql); do
     printf '.'
     sleep 1
@@ -21,4 +29,5 @@ echo "Found graphql"
 
 
 yarn next build
-lsof -i:5000 -t | xargs kill -9
+
+teardown
