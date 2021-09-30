@@ -5,13 +5,21 @@
 # Proprietary and confidential
 # Written by Daniel Cooke <danielcooke1996@gmail.com>
 ###################################################################################################
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
 
 echo "Start graphql dev server"
 yarn workspace @baggers/graphql run build && yarn workspace @baggers/graphql run offline &
 
 echo "Waiting for GraphQL..."
+
+teardown() {
+    echo "Tearing down GraphQL"
+    lsof -i:5000 -t | xargs kill -9
+
+    exit $1
+}
+
+
 until $(curl --output /dev/null --silent --head http://localhost:5000/graphql); do
     printf '.'
     sleep 1
@@ -20,5 +28,4 @@ done
 echo "Found graphql"
 
 
-yarn next build
-lsof -i:5000 -t | xargs kill -9
+(yarn next build || teardown 1) && teardown 0

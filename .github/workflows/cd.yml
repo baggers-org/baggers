@@ -13,6 +13,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+defaults:
+  run:
+    shell: bash
+
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_AMPLIFY_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_AMPLIFY_SECRET_ACCESS_KEY }}
@@ -50,9 +54,6 @@ jobs:
 
       - name: Install workspace dependencies
         run: yarn --immutable && yarn workspaces focus -A
-
-      - name: Stage yarn.lock update
-        run: git stage yarn.lock
 
       - name: Setup env files
         run: |

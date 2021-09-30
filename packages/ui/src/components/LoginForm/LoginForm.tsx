@@ -47,7 +47,7 @@ const LoginForm: React.FC<Props> = () => {
     }
   }, [loginError]);
 
-  const handleLogin = async (e: SubmitEvent) => {
+  const handleLogin = async (e: Event) => {
     e.preventDefault();
     if (email && password) {
       setLoggingIn(true);
@@ -67,15 +67,14 @@ const LoginForm: React.FC<Props> = () => {
         }
         // TODO: return user to the page they were on
         push(`/portfolios`);
-      } catch (e) {
+      } catch (error: any) {
         setLoggingIn(false);
-        console.log(e);
 
-        if (e.code === `UserNotConfirmedException`) {
+        if (error.code === `UserNotConfirmedException`) {
           setShowConfirmEmail(true);
           return;
         }
-        setLoginError(e);
+        setLoginError(error);
       }
     }
   };
