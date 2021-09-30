@@ -5,7 +5,7 @@
 # Proprietary and confidential
 # Written by Daniel Cooke <danielcooke1996@gmail.com>
 ###################################################################################################
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 echo "Start graphql dev server"
