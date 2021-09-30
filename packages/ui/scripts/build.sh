@@ -6,7 +6,6 @@
 # Written by Daniel Cooke <danielcooke1996@gmail.com>
 ###################################################################################################
 #!/usr/bin/env bash
-set -e
 
 echo "Start graphql dev server"
 yarn workspace @baggers/graphql run build && yarn workspace @baggers/graphql run offline &
@@ -14,11 +13,12 @@ yarn workspace @baggers/graphql run build && yarn workspace @baggers/graphql run
 echo "Waiting for GraphQL..."
 
 teardown() {
+    echo "Tearing down GraphQL"
     lsof -i:5000 -t | xargs kill -9
+
+    exit $1
 }
 
-
-trap "teardown" ERR
 
 until $(curl --output /dev/null --silent --head http://localhost:5000/graphql); do
     printf '.'
@@ -28,6 +28,4 @@ done
 echo "Found graphql"
 
 
-yarn next build
-
-teardown
+(yarn next build || teardown 1) && teardown 0
