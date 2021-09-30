@@ -27,7 +27,7 @@ const LoginFormWrapper: React.FC<Props> = ({ children }) => {
               </Typography>
             </Grid>
           </Grid>
-          {children}
+          <form>{children}</form>
         </Grid>
       </Grid>
     </CentredPaper>

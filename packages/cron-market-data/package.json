@@ -10,7 +10,7 @@
     "dev": "tsc && NODE_ENV=development node -e \"require('./build/getQuotes').run()\""
   },
   "dependencies": {
-    "@baggers/mongoose": "^1.0.0-beta.1",
+    "@baggers/mongoose": "workspace:*",
     "async-mutex": "^0.3.1",
     "basic-ftp": "^4.6.6",
     "dotenv": "^9.0.2",

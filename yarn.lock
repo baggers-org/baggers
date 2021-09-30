@@ -4129,7 +4129,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@baggers/cron-market-data@workspace:packages/cron-market-data"
   dependencies:
-    "@baggers/mongoose": ^1.0.0-beta.0
+    "@baggers/mongoose": "workspace:*"
     "@typescript-eslint/eslint-plugin": 4.21.0
     "@typescript-eslint/parser": 4.15.2
     async-mutex: ^0.3.1
@@ -4154,7 +4154,7 @@ __metadata:
     "@babel/plugin-transform-runtime": ^7.13.10
     "@babel/preset-env": ^7.14.2
     "@babel/preset-typescript": ^7.13.0
-    "@baggers/mongoose": ^1.0.0-beta.0
+    "@baggers/mongoose": "workspace:*"
     "@graphql-codegen/cli": 1.21.1
     "@graphql-codegen/plugin-helpers": 1.18.2
     "@graphql-codegen/typescript": 1.21.0
@@ -4194,7 +4194,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@baggers/mongoose@^1.0.0-beta.0, @baggers/mongoose@workspace:packages/mongoose":
+"@baggers/mongoose@workspace:*, @baggers/mongoose@workspace:packages/mongoose":
   version: 0.0.0-use.local
   resolution: "@baggers/mongoose@workspace:packages/mongoose"
   dependencies:
@@ -6617,6 +6617,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lerna/package-graph@patch:@lerna/package-graph@npm:4.0.0#.yarn-patches/@lerna/package-graph.patch::locator=baggers%40workspace%3A.":
+  version: 4.0.0
+  resolution: "@lerna/package-graph@patch:@lerna/package-graph@npm%3A4.0.0#.yarn-patches/@lerna/package-graph.patch::version=4.0.0&hash=255988&locator=baggers%40workspace%3A."
+  dependencies:
+    "@lerna/prerelease-id-from-version": 4.0.0
+    "@lerna/validation-error": 4.0.0
+    npm-package-arg: ^8.1.0
+    npmlog: ^4.1.2
+    semver: ^7.3.4
+  checksum: c85491d078369f26e49673faba965c35c182d4eaffb5b3eb9d88e586a47154c8080fcdf14fbd46a6a60c2e03158b16c4c1d427dcdaa75c6fd338448102299696
+  languageName: node
+  linkType: hard
+
 "@lerna/package@npm:4.0.0":
   version: 4.0.0
   resolution: "@lerna/package@npm:4.0.0"
@@ -6625,6 +6638,17 @@ __metadata:
     npm-package-arg: ^8.1.0
     write-pkg: ^4.0.0
   checksum: 8f537e4acfd165cb178cab699f5e73ac011e6d2f9f9ed7fa167cd3fe7057041fa335802d711884a0fb183fcd8b44380674244ba52ee5894db612fe00b8fbb88f
+  languageName: node
+  linkType: hard
+
+"@lerna/package@patch:@lerna/package@npm:4.0.0#.yarn-patches/@lerna/package.patch::locator=baggers%40workspace%3A.":
+  version: 4.0.0
+  resolution: "@lerna/package@patch:@lerna/package@npm%3A4.0.0#.yarn-patches/@lerna/package.patch::version=4.0.0&hash=47c3bb&locator=baggers%40workspace%3A."
+  dependencies:
+    load-json-file: ^6.2.0
+    npm-package-arg: ^8.1.0
+    write-pkg: ^4.0.0
+  checksum: bbb6219e53e6175784cce1d4935aa8b0fd7252ffdb762185e9c2fcb1255b2249eff691384e62e59f75bd22d81a50db0e68b1fef49b41d761bdcc6514f4230709
   languageName: node
   linkType: hard
 

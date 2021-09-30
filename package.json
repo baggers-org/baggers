@@ -38,5 +38,9 @@
     "packages": [
       "packages/**"
     ]
+  },
+  "resolutions": {
+    "@lerna/package": "patch:@lerna/package@npm:4.0.0#.yarn-patches/@lerna/package.patch",
+    "@lerna/package-graph": "patch:@lerna/package-graph@npm:4.0.0#.yarn-patches/@lerna/package-graph.patch"
   }
 }
