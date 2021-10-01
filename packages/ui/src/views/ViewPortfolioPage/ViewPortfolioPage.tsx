@@ -5,13 +5,10 @@ import Error from 'next/error';
 
 import React, { useMemo, useEffect } from 'react';
 import PositionsTable from '@/components/PositionsTable';
-import useNotifications from '@/hooks/useNotifications/useNotifications';
 import { Portfolio } from '@/graphql/Mutations.document.gql';
 import { useGetPortfolioByIdLazyQuery } from '@/graphql/Queries.document.gql';
 import PageLoadingOverlay from '@/components/PageLoadingOverlay/PageLoadingOverlay';
 import ViewPortfolioHeader from './components/ViewPortfolioHeader/ViewPortfolioHeader';
-
-const Chart = dynamic(() => import(`@/components/Chart`), { ssr: false });
 
 type Props = {};
 const ViewPortfolioPage: React.FC<Props> = () => {
@@ -23,18 +20,13 @@ const ViewPortfolioPage: React.FC<Props> = () => {
     return query.id;
   }, [query]);
 
-  const [
-    fetchPortfolio,
-    { data, error, networkStatus },
-  ] = useGetPortfolioByIdLazyQuery({
+  const [fetchPortfolio, { data }] = useGetPortfolioByIdLazyQuery({
     returnPartialData: true,
     errorPolicy: `all`,
   });
 
   useEffect(() => {
     if (portfolioId) {
-      console.log(`fetching`);
-
       fetchPortfolio({
         variables: {
           id: portfolioId,
@@ -43,15 +35,6 @@ const ViewPortfolioPage: React.FC<Props> = () => {
     }
   }, [portfolioId]);
   const portfolio = data?.getPortfolioById as Portfolio;
-
-  const { sendNotification } = useNotifications();
-
-  useEffect(() => {
-    sendNotification({
-      message: `This page is only a placeholder.`,
-      type: `info`,
-    });
-  }, []);
 
   if (data && !portfolio?._id) {
     return <Error statusCode={404} title="Porfolio not found" />;
