@@ -34,6 +34,7 @@ env:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   deploy:
+    if: ${{ !contains(github.event.commits[0].message, 'chore') }}
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
@@ -63,7 +64,7 @@ jobs:
           git update-index --assume-unchanged packages/ui/.env
 
       - name: Bump develop app version
-        if: ${{ github.ref == 'refs/heads/develop' && !contains(github.event.commits[0].message, 'chore') }}
+        if: ${{ github.ref == 'refs/heads/develop' }}
         run: yarn lerna version prerelease --yes
 
       - name: Bump master app version
@@ -89,5 +90,4 @@ jobs:
           rm -rf packages/mongoose/node_modules/@baggers/mongoose
       
       - name: Deploy
-        if: ${{ !contains(github.event.commits[0].message, 'chore') }}
         run: yarn workspaces foreach -vpi run deploy
