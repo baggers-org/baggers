@@ -5,7 +5,6 @@
   "description": "Baggers monorepo",
   "main": "null",
   "scripts": {
-    "deploy": "./scripts/deploy.sh",
     "test": "FORCE_COLOR=1 yarn workspaces foreach -vApi run test",
     "lint": "FORCE_COLOR=1 yarn workspaces foreach -v run lint",
     "lint:ts-package": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
