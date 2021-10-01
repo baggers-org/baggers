@@ -56,13 +56,6 @@ jobs:
       - name: Install workspace dependencies
         run: yarn --immutable && yarn workspaces focus -A
 
-      - name: Setup env files
-        run: |
-          envsubst < packages/graphql/.env > packages/graphql/.env
-          envsubst < packages/ui/.env > packages/ui/.env
-          git update-index --assume-unchanged packages/graphql/.env
-          git update-index --assume-unchanged packages/ui/.env
-
       - name: Bump develop app version
         if: ${{ github.ref == 'refs/heads/develop' }}
         run: yarn lerna version prerelease --yes
@@ -75,7 +68,14 @@ jobs:
         run: |
           echo "BUILD_ALIAS=$(node scripts/buildAliasGenerator.js)" >> $GITHUB_ENV
           echo "BUILD_TIME=$(date)" >> $GITHUB_ENV
-          echo "BUILD_VERSION=$(cat lerna.json | jq '.version')"
+          echo "BUILD_VERSION=$(cat lerna.json | jq '.version')" >> $GITHUB_ENV
+
+      - name: Setup env files
+        run: |
+          envsubst < packages/graphql/.env > packages/graphql/.env
+          envsubst < packages/ui/.env > packages/ui/.env
+          git update-index --assume-unchanged packages/graphql/.env
+          git update-index --assume-unchanged packages/ui/.env
 
       - name: Build
         run: yarn build || exit 1

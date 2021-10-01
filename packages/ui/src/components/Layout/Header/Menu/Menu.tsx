@@ -1,8 +1,8 @@
 import MenuIcon from '@material-ui/icons/Menu';
 import FolderIcon from '@material-ui/icons/Folder';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import SearchIcon from '@material-ui/icons/SearchOutlined';
 import {
-  AppBar,
   makeStyles,
   Toolbar,
   Button,
@@ -17,6 +17,7 @@ import {
   Divider,
   Grow,
   Typography,
+  InputBase,
 } from '@material-ui/core';
 
 import FolderSharedIcon from '@material-ui/icons/FolderShared';
@@ -25,38 +26,24 @@ import { useState, useEffect } from 'react';
 import { Create, ExpandLess, ExpandMore, MenuOpen } from '@material-ui/icons';
 import { useRouter } from 'next/router';
 import clsx from 'clsx';
-import theme from '@/styles/theme';
 import Link from 'next/link';
 import {
   Portfolio,
   useMyPortfoliosSummaryLazyQuery,
-  useMyPortfoliosSummaryQuery,
 } from '@/graphql/Queries.document.gql';
 import useCurrentUser from '@/hooks/useCurrentUser/useCurrentUser';
-import Logo from '../../../../../public/Logo/Logo Beta.svg';
+import BaggersTextField from '@/components/BaggersTextField/BaggersTextField';
+import { styled } from '@material-ui/styles';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
+import GlobalSearch from '../GlobalSearch';
+import AppBar from '../AppBar';
 
 const drawerWidth = 240;
 const YEAR = new Date().getFullYear();
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: `flex`,
-  },
-  appBar: {
-    background: theme.palette.primary.main,
-    verticalAlign: `center`,
-    justifyContent: `center`,
-    minHeight: `59px`,
-
-    zIndex: theme.zIndex.drawer + 1,
-  },
-
-  logo: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
   },
   drawer: {
     width: drawerWidth,
@@ -143,32 +130,11 @@ const Menu: React.FC = ({ children }) => {
 
   return (
     <div className={classes.root}>
-      <AppBar className={clsx(classes.appBar)}>
-        <Toolbar variant="dense">
-          {user ? (
-            <IconButton
-              onClick={() => setIsMenuDrawerOpen((t) => !t)}
-              className={clsx(classes.menuButton)}
-            >
-              {!isMenuDrawerOpen ? (
-                <MenuIcon style={{ color: `white` }} fontSize="large" />
-              ) : (
-                <MenuOpen style={{ color: `white` }} fontSize="large" />
-              )}
-            </IconButton>
-          ) : null}
-          <div className={clsx(classes.logo)}>
-            <Logo />
-          </div>
-          {user ? (
-            <ProfileMenu />
-          ) : (
-            <Button color="secondary" onClick={() => push(`/signup`)}>
-              Sign up
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+      <AppBar
+        isMenuDrawerOpen={isMenuDrawerOpen}
+        onClickMenuHamburger={() => setIsMenuDrawerOpen((o) => !o)}
+      />
+
       {user ? (
         <Drawer
           anchor="left"
@@ -234,17 +200,12 @@ const Menu: React.FC = ({ children }) => {
 
           <Divider />
           <div className={classes.drawerFooter}>
-            <Typography variant="body2" color="textSecondary">
-              Version: <Link href="/changelog">0.2.1</Link>
+            <Typography variant="body2" color="textPrimary">
+              Version:{` `}
+              {process.env.NEXT_PUBLIC_BUILD_VERSION}
+              {` `}({process.env.NEXT_PUBLIC_BUILD_ALIAS})
             </Typography>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              style={{ fontSize: `9px` }}
-            >
-              Last deployed at {process.env.NEXT_PUBLIC_BUILD_TIME}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="body3" color="textSecondary">
               &copy; {YEAR} Baggers Ltd.
             </Typography>
           </div>
