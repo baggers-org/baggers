@@ -89,4 +89,5 @@ jobs:
           rm -rf packages/mongoose/node_modules/@baggers/mongoose
       
       - name: Deploy
+        if: ${{ !contains(github.event.commits[0].message, 'chore') }}
         run: yarn workspaces foreach -vpi run deploy
