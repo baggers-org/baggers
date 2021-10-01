@@ -1,6 +1,6 @@
 {
   "name": "@baggers/graphql",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "GraphQL API for baggers web application",
   "main": "index.js",
   "scripts": {
