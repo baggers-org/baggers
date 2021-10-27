@@ -72,8 +72,10 @@ jobs:
 
       - name: Setup env files
         run: |
-          envsubst < packages/graphql/.env > packages/graphql/.env
-          envsubst < packages/ui/.env > packages/ui/.env
+          envsubst < packages/graphql/.env > packages/graphql/.env.temp
+          envsubst < packages/ui/.env > packages/ui/.env.temp
+          mv packages/ui/.env.temp packages/ui/.env
+          mv packages/graphql/.env.temp packages/graphql/.env
           git update-index --assume-unchanged packages/graphql/.env
           git update-index --assume-unchanged packages/ui/.env
 
