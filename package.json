@@ -5,6 +5,7 @@
   "description": "Baggers monorepo",
   "main": "null",
   "scripts": {
+    "dev": "FORCE_COLOR=1 yarn workspaces foreach run dev",
     "test": "FORCE_COLOR=1 yarn workspaces foreach -vApi run test",
     "lint": "FORCE_COLOR=1 yarn workspaces foreach -v run lint",
     "lint:ts-package": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
@@ -31,7 +32,7 @@
     "eslint-plugin-prettier": "3.3.1",
     "lerna": "^4.0.0",
     "prettier": "2.2.1",
-    "typescript": "4.2.2"
+    "typescript": "4.1.2"
   },
   "workspaces": {
     "packages": [

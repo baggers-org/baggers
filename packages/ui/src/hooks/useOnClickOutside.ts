@@ -1,6 +1,9 @@
 import { MutableRefObject, useEffect } from 'react';
 
-const useOnClickOutside = (ref: MutableRefObject<any>, callback: () => any) => {
+export const useOnClickOutside = (
+  ref: MutableRefObject<any>,
+  callback: () => any,
+) => {
   useEffect(() => {
     /**
      * Alert if clicked on outside of element
@@ -19,5 +22,3 @@ const useOnClickOutside = (ref: MutableRefObject<any>, callback: () => any) => {
     };
   }, [ref]);
 };
-
-export default useOnClickOutside;

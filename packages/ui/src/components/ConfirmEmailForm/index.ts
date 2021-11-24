@@ -1,3 +1,1 @@
-import ConfirmEmailForm from './ConfirmEmailForm';
-
-export default ConfirmEmailForm;
+export * from './ConfirmEmailForm';

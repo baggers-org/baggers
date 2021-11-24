@@ -1,6 +1,8 @@
 import { createRef, RefObject, useEffect, useState } from 'react';
 
-function useRefArray<TElement>(numberOfRefs: number): RefObject<TElement>[] {
+export function useRefArray<TElement>(
+  numberOfRefs: number,
+): RefObject<TElement>[] {
   const [refs, setRefs] = useState<Array<any>>([]);
   useEffect(() => {
     setRefs(new Array(numberOfRefs).fill(createRef()));
@@ -8,5 +10,3 @@ function useRefArray<TElement>(numberOfRefs: number): RefObject<TElement>[] {
 
   return refs;
 }
-
-export default useRefArray;

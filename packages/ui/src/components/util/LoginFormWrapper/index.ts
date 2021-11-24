@@ -1,3 +1,1 @@
-import LoginFormWrapper from './LoginFormWrapper';
-
-export default LoginFormWrapper;
+export * from './LoginFormWrapper';

@@ -1,16 +1,18 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createTheme } from '@mui/material';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
-      main: `#061a25`,
+      main: `#2196F3`,
+      contrastText: `#FFFFFF`,
+    },
+    secondary: {
+      main: `#FFEB3B`,
+      contrastText: `#000000`,
     },
     background: {
       default: `#F9F9F9`,
       paper: `#FFFFFF`,
-    },
-    secondary: {
-      main: `#f2c13c`,
     },
 
     grey: {
@@ -31,47 +33,10 @@ const theme = createMuiTheme({
     error: {
       main: `#d32f2f`,
     },
-
-    text: {
-      primary: `#3D3D3D`,
-      secondary: `#81898D`,
-    },
   },
   typography: {
-    fontSize: 14,
-    h1: {
-      fontSize: `2.2rem`,
-      fontWeight: `lighter`,
-      letterSpacing: `-1.5px`,
-    },
-    h2: {
-      fontWeight: `lighter`,
-      fontSize: `2rem`,
-      letterSpacing: `-0.5px`,
-    },
-    h3: {
-      fontSize: `1.5rem`,
-    },
-    h4: {
-      fontSize: `1.2rem`,
-    },
-    h5: {
-      fontSize: `1.1rem`,
-    },
-    h6: {
-      fontWeight: `bold`,
-      fontSize: `1.05rem`,
-    },
-    subtitle1: {
-      fontWeight: `bold`,
-    },
-    body1: {
-      fontSize: `1rem`,
-    },
-    body2: {
-      fontSize: `0.9rem`,
-    },
-    fontFamily: `Amiko`,
+    fontSize: 16,
+    fontFamily: `Roboto`,
   },
 });
 export default theme;

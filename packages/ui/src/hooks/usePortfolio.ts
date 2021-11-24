@@ -2,7 +2,7 @@ import { Portfolio } from '@/graphql/Mutations.document.gql';
 import { useGetPortfolioByIdLazyQuery } from '@/graphql/Queries.document.gql';
 import { useEffect } from 'react';
 
-const usePortfolio = (id: string) => {
+export const usePortfolio = (id: string) => {
   const [fetchPortfolio, { data }] = useGetPortfolioByIdLazyQuery({
     returnPartialData: true,
   });
@@ -19,5 +19,3 @@ const usePortfolio = (id: string) => {
 
   return data?.getPortfolioById as Portfolio;
 };
-
-export default usePortfolio;

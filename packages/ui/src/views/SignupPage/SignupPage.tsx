@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import theme from '@/styles/theme';
 import {
   Box,
@@ -5,17 +6,16 @@ import {
   Container,
   Divider,
   Grid,
-  Snackbar,
   Typography,
-} from '@material-ui/core';
-import BaggersTextField from '@/components/BaggersTextField/BaggersTextField';
-import useNotifications from '@/hooks/useNotifications/useNotifications';
-import { useState } from 'react';
+} from '@mui/material';
 import { Auth } from 'aws-amplify';
-import ChangePasswordForm from '@/components/ChangePasswordForm/ChangePasswordForm';
-import { useRouter } from 'next/router';
-import ConfirmEmailForm from '@/components/ConfirmEmailForm';
-import usePrefetch from '@/hooks/usePrefetch/usePrefetch';
+
+import {
+  BaggersTextField,
+  ChangePasswordForm,
+  ConfirmEmailForm,
+} from '@/components';
+import { useNotifications, usePrefetch } from '@/hooks';
 import { BaggersPageComponent } from '../types';
 
 type Props = {};

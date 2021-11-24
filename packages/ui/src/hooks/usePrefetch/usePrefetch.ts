@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const usePrefetch = (route: string) => {
+export const usePrefetch = (route: string) => {
   const { prefetch } = useRouter();
   const [fetched, setFetched] = useState(false);
 
@@ -12,5 +12,3 @@ const usePrefetch = (route: string) => {
     }
   }, [route]);
 };
-
-export default usePrefetch;

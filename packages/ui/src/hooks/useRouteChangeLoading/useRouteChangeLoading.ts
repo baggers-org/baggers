@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const useRouteChangeLoading = () => {
+export const useRouteChangeLoading = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -20,5 +20,3 @@ const useRouteChangeLoading = () => {
 
   return loading;
 };
-
-export default useRouteChangeLoading;

@@ -1,4 +1,4 @@
-import ResetPasswordPage from '@/views/ResetPasswordPage/ResetPasswordPage';
+import { ResetPasswordPage } from '@/views/ResetPasswordPage';
 
 ResetPasswordPage.withoutAppBar = true;
 

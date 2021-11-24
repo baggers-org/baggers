@@ -1,19 +1,24 @@
-import useNotifications from '@/hooks/useNotifications/useNotifications';
-import { Box, Grid, Typography } from '@material-ui/core';
-import EmailIcon from '@material-ui/icons/Email';
-import { Auth } from 'aws-amplify';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import BaggersButton from '../BaggersButton/BaggersButton';
-import BaggersTextField from '../BaggersTextField/BaggersTextField';
+import { Box, Grid, Typography } from '@mui/material';
+import EmailIcon from '@mui/icons-material/Email';
+import { Auth } from 'aws-amplify';
 
-import LoginFormWrapper from '../util/LoginFormWrapper';
+import { useNotifications } from '@/hooks';
+import {
+  BaggersButton,
+  BaggersTextField,
+  LoginFormWrapper,
+} from '@/components';
 
-type Props = {
+export type ConfirmEmailFormProps = {
   email: string;
   password: string;
 };
-const ConfirmEmailForm: React.FC<Props> = ({ email, password }) => {
+export const ConfirmEmailForm: React.FC<ConfirmEmailFormProps> = ({
+  email,
+  password,
+}) => {
   const [resending, setResending] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [code, setCode] = useState<string | undefined>();
@@ -104,4 +109,3 @@ const ConfirmEmailForm: React.FC<Props> = ({ email, password }) => {
     </LoginFormWrapper>
   );
 };
-export default ConfirmEmailForm;

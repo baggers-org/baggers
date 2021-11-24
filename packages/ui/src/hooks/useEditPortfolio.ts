@@ -9,16 +9,15 @@ import {
   Portfolio,
   Position,
   useGetPortfolioByIdLazyQuery,
-  useGetPortfolioByIdQuery,
 } from '@/graphql/Queries.document.gql';
 import { useRouter } from 'next/router';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce/lib';
 import { v4 as uuid } from 'uuid';
-import useNotifications from './useNotifications/useNotifications';
+import { useNotifications } from '@/hooks';
 
-const useEditPortfolio = (portfolioId?: string) => {
+export const useEditPortfolio = (portfolioId?: string) => {
   const [updatePortfolioMutation] = useUpdatePortfolioMutation();
   const [addPositionMutation] = useAddPositionMutation();
   const [removePositionMutation] = useRemovePositionMutation();
@@ -224,5 +223,3 @@ const useEditPortfolio = (portfolioId?: string) => {
     removePositions,
   };
 };
-
-export default useEditPortfolio;

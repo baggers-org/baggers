@@ -1,10 +1,9 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Box, Grid } from '@mui/material';
 import React from 'react';
-import Logo from '../../../../public/Logo/LightLogoLarge.svg';
-import CentredPaper from '../CentredPaper';
+import Logo from '../../../../public/Logo/Mono.svg';
+import { CentredPaper } from '../CentredPaper';
 
-type Props = {};
-const LoginFormWrapper: React.FC<Props> = ({ children }) => {
+export const LoginFormWrapper: React.FC = ({ children }) => {
   return (
     <CentredPaper>
       <Grid
@@ -18,13 +17,13 @@ const LoginFormWrapper: React.FC<Props> = ({ children }) => {
       >
         <Grid item container xs={12} md={8} spacing={4}>
           <Grid container item>
-            <Grid xs={12} item justify="center" container>
+            <Grid xs={12} item justifyContent="center" container>
               <Logo />
             </Grid>
-            <Grid item xs={12} container justify="center">
-              <Typography variant="h1" style={{ fontFamily: `Archivo Black` }}>
+            <Grid item xs={12} container justifyContent="center">
+              <Box fontFamily="Archivo Black" fontSize="35px">
                 BAGGERS
-              </Typography>
+              </Box>
             </Grid>
           </Grid>
           <form>{children}</form>
@@ -33,4 +32,3 @@ const LoginFormWrapper: React.FC<Props> = ({ children }) => {
     </CentredPaper>
   );
 };
-export default LoginFormWrapper;

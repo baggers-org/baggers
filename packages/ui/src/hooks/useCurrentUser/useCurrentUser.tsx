@@ -6,7 +6,7 @@ type Props = {
   // If no current user, redirect to this route
   redirectTo?: string;
 };
-const useCurrentUser = ({ redirectTo }: Props = {}) => {
+export const useCurrentUser = ({ redirectTo }: Props = {}) => {
   const { push } = useRouter();
   const [user, setUser] = useState();
   useEffect(() => {
@@ -22,5 +22,3 @@ const useCurrentUser = ({ redirectTo }: Props = {}) => {
 
   return user;
 };
-
-export default useCurrentUser;

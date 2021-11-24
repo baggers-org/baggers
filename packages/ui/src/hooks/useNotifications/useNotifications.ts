@@ -1,7 +1,7 @@
 import { useSnackbar } from 'notistack';
 import { Notification } from './types';
 
-const useNotifications = () => {
+export const useNotifications = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const sendNotification = (notification: Notification) =>
@@ -11,5 +11,3 @@ const useNotifications = () => {
     sendNotification,
   };
 };
-
-export default useNotifications;

@@ -1,4 +1,4 @@
-import LoginPage from '@/views/LoginPage/LoginPage';
+import { LoginPage } from '@/views/LoginPage';
 
 LoginPage.withoutAppBar = true;
 
