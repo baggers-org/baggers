@@ -62,3 +62,8 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
+
+cypress/videos
+cypress/screenshots
+
+.nyc_output
