@@ -1,10 +1,10 @@
-import { Typography, TypographyProps } from '@material-ui/core';
+import { Typography, TypographyProps } from '@mui/material';
 import Skeleton from 'react-loading-skeleton';
 
-type Props = {
+export type BaggersTypographyProps = {
   loading?: boolean;
 } & TypographyProps;
-const BaggersTypography: React.FC<Props> = ({
+export const BaggersTypography: React.FC<BaggersTypographyProps> = ({
   loading,
   children,
   ...muiProps

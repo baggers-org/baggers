@@ -1,39 +1,21 @@
+import { useState } from 'react';
 import {
   IconButton,
   InputAdornment,
   TextField,
   TextFieldProps,
-  withStyles,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-import { useState } from 'react';
-
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Skeleton from 'react-loading-skeleton';
 
-const StyledTextField = withStyles((theme) => ({
-  root: {
-    '& label.Mui-focused': {
-      color: theme.palette.secondary.contrastText,
-    },
-    '& .MuiOutlinedInput-root': {
-      '&.Mui-focused fieldset': {
-        borderColor: theme.palette.secondary.light,
-      },
-    },
-  },
-}))(TextField);
-
-type Props = {
+export type BaggersTextFieldProps = {
   loading?: boolean;
   isMonetaryInput?: boolean;
   secret?: boolean;
 };
-const BaggersTextField: React.FC<TextFieldProps & Props> = ({
-  loading,
-  isMonetaryInput,
-  secret,
-  ...muiProps
-}) => {
+export const BaggersTextField: React.FC<
+  TextFieldProps & BaggersTextFieldProps
+> = ({ loading, isMonetaryInput, secret, ...muiProps }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   if (loading) {
     let height = 55;
@@ -71,9 +53,5 @@ const BaggersTextField: React.FC<TextFieldProps & Props> = ({
     };
   }
 
-  return (
-    <StyledTextField {...defaultProps} {...muiProps} {...additionalProps} />
-  );
+  return <TextField {...defaultProps} {...muiProps} {...additionalProps} />;
 };
-
-export default BaggersTextField;

@@ -1,18 +1,13 @@
-import {
-  CircularProgress,
-  CircularProgressProps,
-  withStyles,
-} from '@material-ui/core';
+import theme from '@/styles/theme';
+import { CircularProgress, CircularProgressProps } from '@mui/material';
 
-const StyledCircularProgress = withStyles((theme) => ({
-  root: {
-    color: theme.palette.secondary.light,
-  },
-}))(CircularProgress);
-const BaggersCircularProgress: React.FC<CircularProgressProps> = ({
+export const BaggersCircularProgress: React.FC<CircularProgressProps> = ({
   ...muiProps
 }) => {
-  return <StyledCircularProgress {...muiProps} />;
+  return (
+    <CircularProgress
+      sx={{ color: theme.palette.secondary.main }}
+      {...muiProps}
+    />
+  );
 };
-
-export default BaggersCircularProgress;

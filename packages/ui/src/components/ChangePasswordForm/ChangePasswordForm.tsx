@@ -1,22 +1,18 @@
-import { Grid } from '@material-ui/core';
-import { useState } from 'react';
-import BaggersTextField from '../BaggersTextField/BaggersTextField';
+import { Grid } from '@mui/material';
+import { BaggersTextField } from '@/components';
 
-type Props = {
+export type ChangePasswordForm = {
   newPasswordLabel?: string;
   confirmPasswordLabel?: string;
   onChangeNewPassword: (newPassword: string) => void;
   onChangeConfirmPassword: (confirmPassword: string) => void;
 };
-const ChangePasswordForm: React.FC<Props> = ({
-  newPasswordLabel,
-  confirmPasswordLabel,
+export const ChangePasswordForm: React.FC<ChangePasswordForm> = ({
+  newPasswordLabel = `New password`,
+  confirmPasswordLabel = `Confirm password`,
   onChangeConfirmPassword,
   onChangeNewPassword,
 }) => {
-  const [newPassword, setNewPassword] = useState<string | undefined>();
-  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
-
   return (
     <Grid item container spacing={2} direction="column">
       <Grid item>
@@ -36,8 +32,3 @@ const ChangePasswordForm: React.FC<Props> = ({
     </Grid>
   );
 };
-ChangePasswordForm.defaultProps = {
-  newPasswordLabel: `New password`,
-  confirmPasswordLabel: `Confirm password`,
-};
-export default ChangePasswordForm;

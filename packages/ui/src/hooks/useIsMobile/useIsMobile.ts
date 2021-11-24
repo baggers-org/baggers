@@ -1,6 +1,5 @@
-import { Theme, useMediaQuery } from '@material-ui/core';
+import { Theme, useMediaQuery } from '@mui/material';
 
-const useIsMobile = () => {
+export const useIsMobile = () => {
   return useMediaQuery((theme: Theme) => theme.breakpoints.down(900));
 };
-export default useIsMobile;

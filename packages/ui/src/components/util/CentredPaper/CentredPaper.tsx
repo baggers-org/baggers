@@ -1,11 +1,7 @@
-import { Fade, Box, Paper, BoxProps } from '@material-ui/core';
+import { Fade, Box, Paper, BoxProps } from '@mui/material';
 import React from 'react';
 
-type Props = {};
-const CentredPaper: React.FC<Props & BoxProps> = ({
-  children,
-  ...boxProps
-}) => {
+export const CentredPaper: React.FC<BoxProps> = ({ children, ...boxProps }) => {
   return (
     <Fade in>
       <Box
@@ -22,4 +18,3 @@ const CentredPaper: React.FC<Props & BoxProps> = ({
     </Fade>
   );
 };
-export default CentredPaper;

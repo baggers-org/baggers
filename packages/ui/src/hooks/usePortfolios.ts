@@ -4,7 +4,7 @@ import {
 } from '@/graphql/Queries.document.gql';
 import { useEffect, useState } from 'react';
 
-const usePortfolios = () => {
+export const usePortfolios = () => {
   const { data } = useMyPortfoliosQuery();
 
   const [allPortfolios, setAllPortfolios] = useState<Portfolio[]>();
@@ -40,5 +40,3 @@ const usePortfolios = () => {
     },
   };
 };
-
-export default usePortfolios;

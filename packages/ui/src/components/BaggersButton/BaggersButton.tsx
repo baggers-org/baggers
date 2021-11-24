@@ -1,17 +1,18 @@
-import { Button, ButtonProps, LinearProgress } from '@material-ui/core';
 import React from 'react';
+import { Button, ButtonProps, LinearProgress } from '@mui/material';
 
-type Props = {
+export type BaggersButtonProps = {
   loading?: boolean;
-};
-const BaggersButton: React.FC<ButtonProps & Props> = ({
+} & ButtonProps;
+
+export const BaggersButton: React.FC<BaggersButtonProps> = ({
   children,
   loading,
   ...externalProps
 }) => {
   const defaultProps: ButtonProps = {
     variant: `contained`,
-    color: `secondary`,
+    color: `primary`,
     fullWidth: true,
   };
   return (
@@ -24,4 +25,3 @@ const BaggersButton: React.FC<ButtonProps & Props> = ({
     </>
   );
 };
-export default BaggersButton;

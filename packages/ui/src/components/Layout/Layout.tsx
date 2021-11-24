@@ -1,17 +1,10 @@
 import * as React from 'react';
-import Menu from './Header/Menu/Menu';
+import { AppBar } from '@/components/AppBar';
 
-const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = ({ children }) => {
   return (
     <div>
-      <Menu>{children}</Menu>
+      <AppBar>{children}</AppBar>
     </div>
   );
 };
-
-export const withAppBar = (WrappedComponent: any) => (props: any) => (
-  <Layout>
-    <WrappedComponent {...props} />
-  </Layout>
-);
-export default Layout;

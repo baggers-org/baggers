@@ -2,7 +2,7 @@ import { Portfolio } from '@/graphql/Mutations.document.gql';
 import { useGetPortfolioSummaryByIdLazyQuery } from '@/graphql/Queries.document.gql';
 import { useEffect } from 'react';
 
-const usePortfolioSummary = (id?: string) => {
+export const usePortfolioSummary = (id?: string) => {
   const [fetchPortfolio, { data }] = useGetPortfolioSummaryByIdLazyQuery({
     fetchPolicy: `cache-only`,
   });
@@ -19,5 +19,3 @@ const usePortfolioSummary = (id?: string) => {
 
   return data?.getPortfolioById as Portfolio;
 };
-
-export default usePortfolioSummary;

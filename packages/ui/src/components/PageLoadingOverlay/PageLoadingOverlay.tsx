@@ -1,12 +1,10 @@
-import { Backdrop, CircularProgress } from '@material-ui/core';
+import { Backdrop, CircularProgress } from '@mui/material';
 import * as React from 'react';
 
-const PageLoadingOverlay = () => {
+export const PageLoadingOverlay = () => {
   return (
     <Backdrop open>
       <CircularProgress size="60px" color="secondary" />
     </Backdrop>
   );
 };
-
-export default PageLoadingOverlay;

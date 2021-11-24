@@ -1,19 +1,18 @@
 import * as React from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
-import { createApolloClient } from '@/lib/ApolloClient';
 import Amplify, { Auth } from 'aws-amplify';
-import theme from '@/styles/theme';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline } from '@material-ui/core';
-import GlobalCss from '@/styles/globals';
+import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import Head from 'next/head';
-import useRouteChangeLoading from '@/hooks/useRouteChangeLoading/useRouteChangeLoading';
-import PageLoadingOverlay from '@/components/PageLoadingOverlay/PageLoadingOverlay';
+
+import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
 import { useRouter } from 'next/router';
-import Layout from '../components/Layout/Layout';
+import { ThemeProvider } from '@mui/material';
+import { Layout, PageLoadingOverlay } from '@/components';
+import { createApolloClient } from '@/lib/ApolloClient';
+import { useRouteChangeLoading } from '@/hooks';
 
 Amplify.configure({
   aws_project_region: process.env.NEXT_PUBLIC_AWS_REGION,
@@ -70,7 +69,6 @@ export default function MyApp({
       <ThemeProvider theme={theme}>
         <SnackbarProvider maxSnack={3}>
           <CssBaseline />
-          <GlobalCss />
           <ApolloProvider client={client}>
             {Component.withoutAppBar ? (
               getComponent()

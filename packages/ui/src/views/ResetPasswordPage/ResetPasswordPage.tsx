@@ -1,32 +1,25 @@
-import BaggersTextField from '@/components/BaggersTextField/BaggersTextField';
-import LoginFormWrapper from '@/components/util/LoginFormWrapper';
-import theme from '@/styles/theme';
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Paper,
-  Typography,
-} from '@material-ui/core';
+import { BaggersTextField, LoginFormWrapper } from '@/components';
+import { Button, Container, Grid, Typography } from '@mui/material';
 import { Auth } from 'aws-amplify';
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import { BaggersPageComponent } from '../types';
 
 type Props = {};
-const ResetPasswordPage: BaggersPageComponent<Props> = () => {
+
+export const ResetPasswordPage: BaggersPageComponent<Props> = () => {
   const [email, setEmail] = useState<string | undefined>();
+
   const startForgotPassword = async () => {
     if (!email) return;
-    const res = await Auth.forgotPassword(email);
-    console.log(res);
+    await Auth.forgotPassword(email);
   };
+
   return (
     <Container maxWidth="sm">
       <LoginFormWrapper>
-        <Grid container justify="center" spacing={2}>
-          <Grid item xs={8} container justify="center">
+        <Grid container justifyContent="center" spacing={2}>
+          <Grid item xs={8} container justifyContent="center">
             <Typography>Send password reset link to:</Typography>
           </Grid>
           <Grid item xs={12}>
@@ -53,5 +46,3 @@ const ResetPasswordPage: BaggersPageComponent<Props> = () => {
     </Container>
   );
 };
-
-export default ResetPasswordPage;

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from '@material-ui/core';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 
 export default () => {

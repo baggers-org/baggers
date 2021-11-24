@@ -1,22 +1,25 @@
-import useNotifications from '@/hooks/useNotifications/useNotifications';
-import theme from '@/styles/theme';
-import { Grid, Button, Box, Typography } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Grid, Button, Box, Typography } from '@mui/material';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
-import BaggersButton from '../BaggersButton/BaggersButton';
 
-import BaggersTextField from '../BaggersTextField/BaggersTextField';
-import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
-import ConfirmEmailForm from '../ConfirmEmailForm';
-import LoginFormWrapper from '../util/LoginFormWrapper';
+import theme from '@/styles/theme';
+import { useNotifications } from '@/hooks';
+import {
+  BaggersButton,
+  BaggersButtonProps,
+  BaggersTextField,
+  ChangePasswordForm,
+  ConfirmEmailForm,
+  LoginFormWrapper,
+} from '@/components';
 
 type Props = {};
-type LoginError = {
+export type LoginError = {
   __type?: string;
   message: string;
 };
-const LoginForm: React.FC<Props> = () => {
+export const LoginForm: React.FC<Props> = () => {
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
   const { push, prefetch } = useRouter();
@@ -47,7 +50,7 @@ const LoginForm: React.FC<Props> = () => {
     }
   }, [loginError]);
 
-  const handleLogin = async (e: Event) => {
+  const onClickLogin: BaggersButtonProps['onClick'] = async (e) => {
     e.preventDefault();
     if (email && password) {
       setLoggingIn(true);
@@ -116,7 +119,7 @@ const LoginForm: React.FC<Props> = () => {
   if (forceChangePasswordForUser) {
     return (
       <LoginFormWrapper>
-        <Grid container justify="center" spacing={2}>
+        <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
             <Box padding="20px" textAlign="center">
               <Typography variant="subtitle1">
@@ -161,6 +164,7 @@ const LoginForm: React.FC<Props> = () => {
           <BaggersTextField
             id="email"
             variant="outlined"
+            color="primary"
             type="email"
             autoComplete="email"
             label="Email"
@@ -186,18 +190,19 @@ const LoginForm: React.FC<Props> = () => {
           <Grid item xs={12}>
             <BaggersButton
               loading={loggingIn}
-              onClick={handleLogin}
+              color="secondary"
+              onClick={onClickLogin}
               type="submit"
             >
               {!loggingIn ? `Login` : `Logging in...`}
             </BaggersButton>
           </Grid>
-          <Grid item xs={12} container justify="center">
-            <BaggersButton color="primary" onClick={() => push(`/signup`)}>
+          <Grid item xs={12} container justifyContent="center">
+            <BaggersButton variant="contained" onClick={() => push(`/signup`)}>
               Create account
             </BaggersButton>
           </Grid>
-          <Grid item xs={12} container justify="center">
+          <Grid item xs={12} container justifyContent="center">
             <Button
               style={{ color: theme.palette.action.focus }}
               fullWidth
