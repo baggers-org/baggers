@@ -46,13 +46,13 @@ jobs:
       - name: Install workspace dependencies
         run: yarn workspaces focus -A
 
-      - name: Build
-        run: yarn build
-        env:
-          NODE_ENV: production
+      - name: Test
+        run: yarn test
 
       - name: Lint
         run: yarn lint
 
-      - name: Test
-        run: yarn test
+      - name: Build
+        run: yarn build
+        env:
+          NODE_ENV: production

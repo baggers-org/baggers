@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'next/router';
 
 import { useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce/lib';
+import { useDebouncedCallback } from 'use-debounce';
 import { v4 as uuid } from 'uuid';
 import { useNotifications } from '@/hooks';
 
