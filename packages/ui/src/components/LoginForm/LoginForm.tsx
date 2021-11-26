@@ -22,24 +22,17 @@ export type LoginError = {
 export const LoginForm: React.FC<Props> = () => {
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
-  const { push, prefetch } = useRouter();
-
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState<LoginError | null>(null);
-
   const [forceChangePasswordForUser, setForceChangePasswordForuser] = useState(
     null,
   );
-
   const [showConfirmEmail, setShowConfirmEmail] = useState(false);
+  const [newPassword, setNewPassword] = useState<string | undefined>();
+  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
 
+  const { push } = useRouter();
   const { sendNotification } = useNotifications();
-
-  useEffect(() => {
-    prefetch(`/signup`);
-    prefetch(`/reset_password`);
-    prefetch(`/portfolios`);
-  }, []);
 
   useEffect(() => {
     if (loginError?.message) {
@@ -82,9 +75,6 @@ export const LoginForm: React.FC<Props> = () => {
     }
   };
 
-  const [newPassword, setNewPassword] = useState<string | undefined>();
-  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
-
   const changePassword = async () => {
     if (!newPassword) return;
     if (newPassword !== confirmPassword) {
@@ -121,7 +111,7 @@ export const LoginForm: React.FC<Props> = () => {
       <LoginFormWrapper>
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
-            <Box padding="20px" textAlign="center">
+            <Box padding={3} textAlign="center">
               <Typography variant="subtitle1">
                 <strong>
                   You must change your password before you can log in
@@ -133,13 +123,6 @@ export const LoginForm: React.FC<Props> = () => {
             <ChangePasswordForm
               onChangeNewPassword={setNewPassword}
               onChangeConfirmPassword={setConfirmPassword}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <BaggersTextField
-              label="Confirm Password"
-              secret
-              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -186,7 +169,7 @@ export const LoginForm: React.FC<Props> = () => {
             }}
           />
         </Grid>
-        <Grid container item spacing={2} style={{ marginTop: `20px` }}>
+        <Grid container item spacing={2} mt={1}>
           <Grid item xs={12}>
             <BaggersButton
               loading={loggingIn}

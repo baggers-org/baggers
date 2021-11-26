@@ -7,5 +7,5 @@
     }
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "svg.d.ts", "**/*.ts", "**/*.tsx", "**/*.resolvers.ts", "./cypress/support/index.d.ts"]
+  "include": ["next-env.d.ts", "svg.d.ts", "**/*.ts", "**/*.tsx", "**/*.resolvers.ts", "./cypress/support/index.d.ts", "./src/styles/theme.d.ts"]
 }

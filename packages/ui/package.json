@@ -20,6 +20,7 @@
     "start": "next start",
     "pretest": "rm -rf .nyc_output",
     "test": "npx cypress run-ct",
+    "ct-dev": "rm -rf .next && npx cypress open-ct",
     "posttest": "npx nyc report --check-coverage",
     "type-check": "tsc",
     "lint": "../../node_modules/.bin/eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
