@@ -1,34 +1,34 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Fade, Typography } from '@mui/material';
 import React from 'react';
 import Logo from '../../../../public/Logo/Mono.svg';
-import { CentredPaper } from '../CentredPaper';
 
 export const LoginFormWrapper: React.FC = ({ children }) => {
   return (
-    <CentredPaper>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        style={{
-          paddingTop: `40px`,
-          paddingBottom: `40px`,
-        }}
-      >
-        <Grid item container xs={12} md={8} spacing={4}>
-          <Grid container item>
-            <Grid xs={12} item justifyContent="center" container>
-              <Logo />
-            </Grid>
-            <Grid item xs={12} container justifyContent="center">
-              <Box fontFamily="Archivo Black" fontSize="35px">
-                BAGGERS
-              </Box>
-            </Grid>
+    <Fade in>
+      <Box display="flex" height="100vh">
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          margin="auto"
+          width="320px"
+        >
+          <Grid xs={12} item justifyContent="center" container>
+            <Logo />
           </Grid>
-          <form>{children}</form>
+          <Grid item xs={12} container justifyContent="center" mb={2}>
+            <Box fontFamily="Archivo Black" fontSize="35px">
+              BAGGERS
+            </Box>
+          </Grid>
+          <Box mb={2}>
+            <form>{children}</form>
+          </Box>
+          <Typography variant="body1" color="lowEmphasis" textAlign="center">
+            &copy; 2021 Baggers
+          </Typography>
         </Grid>
-      </Grid>
-    </CentredPaper>
+      </Box>
+    </Fade>
   );
 };

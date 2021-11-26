@@ -29,14 +29,25 @@ const theme = createTheme({
     success: {
       main: `#35C32D`,
     },
-
     error: {
       main: `#d32f2f`,
     },
-  },
-  typography: {
-    fontSize: 16,
-    fontFamily: `Roboto`,
+    lowEmphasis: `rgba(0,0,0,0.26)`,
+    mediumEmphasis: `rgba(0,0,0,0.6)`,
+    highEmphasis: `rgba(0,0,0,0.87)`,
   },
 });
+declare module '@mui/material/styles' {
+  interface Palette {
+    lowEmphasis: React.CSSProperties['color'];
+    mediumEmphasis: React.CSSProperties['color'];
+    highEmphasis: React.CSSProperties['color'];
+  }
+  interface PaletteOptions {
+    lowEmphasis: React.CSSProperties['color'];
+    mediumEmphasis: React.CSSProperties['color'];
+    highEmphasis: React.CSSProperties['color'];
+  }
+}
+
 export default theme;
