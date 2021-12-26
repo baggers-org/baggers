@@ -1,4 +1,5 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
 import PortfoliosPage from '@/views/PortfoliosPage';
 
 export const getServerSideProps = async ({ locale }) => ({

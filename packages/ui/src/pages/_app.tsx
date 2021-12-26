@@ -5,21 +5,29 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
+import { appWithTranslation } from 'next-i18next';
 
+import { useRouteChangeLoading } from '@/hooks';
+import '../lib/setupAmplify';
+import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
 import { Layout, PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
-import { useRouteChangeLoading } from '@/hooks';
-import { appWithTranslation } from 'next-i18next';
-import '../lib/setupAmplify';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 
 const client = createApolloClient({});
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache();
 
 function Baggers({
   Component,
   pageProps,
-}: AppProps & { Component: BaggersPageComponent<any> }) {
+  emotionCache = clientSideEmotionCache,
+}: AppProps & {
+  Component: BaggersPageComponent<any>;
+  emotionCache?: EmotionCache;
+}) {
   const routeChangeLoading = useRouteChangeLoading();
 
   const getComponent = () => {
@@ -31,7 +39,7 @@ function Baggers({
   };
 
   return (
-    <>
+    <CacheProvider value={emotionCache}>
       <Head>
         <title>Baggers</title>
       </Head>
@@ -47,7 +55,7 @@ function Baggers({
           </ApolloProvider>
         </SnackbarProvider>
       </ThemeProvider>
-    </>
+    </CacheProvider>
   );
 }
 
