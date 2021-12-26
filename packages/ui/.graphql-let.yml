@@ -4,5 +4,4 @@ documents: "**/*.document.gql"
 plugins:
   - typescript
   - typescript-operations
-  - typescript-resolvers
   - typescript-react-apollo
