@@ -4,6 +4,10 @@ import { authenticate } from '../util/authenticate';
 
 export const createHandler = async () => {
   const schema = await createGraphQLSchema();
+  if (process.env.NODE_ENV === `development`) {
+    const { writeSchemaFile } = await import(`../util/writeSchemaFile`);
+    writeSchemaFile(schema);
+  }
 
   const apolloServer = new ApolloServer({
     schema,

@@ -55,7 +55,7 @@ const SignupPage: BaggersPageComponent<Props> = () => {
       });
 
       setShowConfirmEmail(true);
-    } catch (e) {
+    } catch (e: any) {
       sendNotification({
         message: e?.message || `An error ocurred`,
         type: `error`,

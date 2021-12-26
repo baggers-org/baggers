@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
 import Head from 'next/head';
 
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
-import { useRouter } from 'next/router';
 import { ThemeProvider } from '@mui/material';
 import { Layout, PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';

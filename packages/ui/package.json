@@ -12,7 +12,7 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "dev": "next dev",
-    "build": "./scripts/build.sh",
+    "build": "next build",
     "deploy": "npx serverless",
     "generate": "graphql-let",
     "predev": "yarn generate",
