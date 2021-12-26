@@ -14,9 +14,10 @@ const theme = createTheme({
       default: `#F9F9F9`,
       paper: `#FFFFFF`,
     },
+    appBar: `#303030`,
 
     grey: {
-      50: `#FFFFFF`,
+      50: `#FAFAFA`,
       100: `#061A25`,
       200: `#D1D9DF`,
       300: `#F8F8F8`,
@@ -39,11 +40,13 @@ const theme = createTheme({
 });
 declare module '@mui/material/styles' {
   interface Palette {
+    appBar: React.CSSProperties['color'];
     lowEmphasis: React.CSSProperties['color'];
     mediumEmphasis: React.CSSProperties['color'];
     highEmphasis: React.CSSProperties['color'];
   }
   interface PaletteOptions {
+    appBar: React.CSSProperties['color'];
     lowEmphasis: React.CSSProperties['color'];
     mediumEmphasis: React.CSSProperties['color'];
     highEmphasis: React.CSSProperties['color'];

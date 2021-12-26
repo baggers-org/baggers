@@ -16,7 +16,6 @@ const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
 });
 
-// TODO: handle all unauth erors by redirecting to login page
 const authLink = setContext(async (_, { headers }) => {
   try {
     const session = await Auth.currentSession();

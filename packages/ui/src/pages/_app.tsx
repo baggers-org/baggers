@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import Amplify, { Auth } from 'aws-amplify';
@@ -32,27 +32,6 @@ export default function MyApp({
   Component,
   pageProps,
 }: AppProps & { Component: BaggersPageComponent<any> }) {
-  const performClientAuthCheck = async () => Auth.currentAuthenticatedUser();
-
-  const { push } = useRouter();
-  React.useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector(`#jss-server-side`);
-    if (jssStyles && jssStyles.parentElement) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-
-    if (typeof window !== `undefined`) {
-      if (Component?.clientAuthenticatedRouteConfig) {
-        performClientAuthCheck().catch(() => {
-          push(
-            Component?.clientAuthenticatedRouteConfig?.redirectTo || `/login`,
-          );
-        });
-      }
-    }
-  }, []);
-
   const routeChangeLoading = useRouteChangeLoading();
 
   const getComponent = () => {

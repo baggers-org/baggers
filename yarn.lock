@@ -5121,6 +5121,7 @@ __metadata:
     "@graphql-codegen/typescript-resolvers": 1.18.2
     "@mui/icons-material": ^5.1.1
     "@mui/material": ^5.1.1
+    "@mui/styled-engine": ^5.2.0
     "@mui/system": ^5.2.0
     "@next/bundle-analyzer": 11.0.0
     "@sls-next/serverless-component": 3.3.0
