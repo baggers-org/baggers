@@ -1,11 +1,7 @@
-schema: 
-  -  http://localhost:5000/graphql:
-        headers:
-          Authorization: ${API_TOKEN}
+schema: "../graphql/schema.gql"
 
 documents: "**/*.document.gql"
 plugins:
   - typescript
   - typescript-operations
-  - typescript-resolvers
   - typescript-react-apollo

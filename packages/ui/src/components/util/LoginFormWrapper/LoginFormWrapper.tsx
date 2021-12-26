@@ -1,6 +1,6 @@
 import { Box, Grid, Fade, Typography } from '@mui/material';
 import React from 'react';
-import Logo from '../../../../public/Logo/Mono.svg';
+import Logo from '../../../../public/Logo/logo_light_50x50.svg';
 
 export const LoginFormWrapper: React.FC = ({ children }) => {
   return (
