@@ -1,33 +1,22 @@
 import React from 'react';
 import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
-import Amplify from 'aws-amplify';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
+import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
-import { ThemeProvider } from '@mui/material';
 import { Layout, PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { useRouteChangeLoading } from '@/hooks';
-
-const AMPLIFY_CONFIG = {
-  aws_project_region: process.env.NEXT_PUBLIC_AWS_REGION,
-  aws_cognito_region: process.env.NEXT_PUBLIC_AWS_REGION,
-  aws_cognito_identity_pool_id: process.env.NEXT_PUBLIC_COGNITO_IDENTITYPOOL_ID,
-  aws_user_pools_id: process.env.NEXT_PUBLIC_COGNITO_USERPOOL_ID,
-  aws_user_pools_web_client_id:
-    process.env.NEXT_PUBLIC_COGNITO_USERPOOL_WEBCLIENT_ID,
-  oauth: {},
-  ssr: true,
-};
-
-Amplify.configure(AMPLIFY_CONFIG);
+import { appWithTranslation } from 'next-i18next';
+import '../lib/setupAmplify';
 
 const client = createApolloClient({});
-export default function MyApp({
+
+function Baggers({
   Component,
   pageProps,
 }: AppProps & { Component: BaggersPageComponent<any> }) {
@@ -61,3 +50,5 @@ export default function MyApp({
     </>
   );
 }
+
+export default appWithTranslation(Baggers);

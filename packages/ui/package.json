@@ -24,7 +24,8 @@
     "posttest": "npx nyc report --check-coverage",
     "type-check": "tsc",
     "lint": "../../node_modules/.bin/eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
-    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write"
+    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
+    "i18n": "i18next 'src/**/*{.ts,.tsx}' -c i18n/i18next-parser.config.js"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [
@@ -59,6 +60,7 @@
     "lightweight-charts": "3.3.0",
     "lodash": "4.17.21",
     "next": "latest",
+    "next-i18next": "^10.0.1",
     "notistack": "latest",
     "react": "17.0.1",
     "react-cookie": "4.0.3",
@@ -94,6 +96,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "graphql-let": "0.16.3",
     "html-webpack-plugin": "4",
+    "i18next-parser": "^5.3.0",
     "lint-staged": "10.5.4",
     "webpack": "4",
     "webpack-dev-server": "^4.5.0",
