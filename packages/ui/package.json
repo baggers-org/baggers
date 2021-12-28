@@ -52,7 +52,7 @@
     "@types/react-helmet": "6.1.0",
     "@types/react-redux": "7.1.16",
     "@types/uuid": "8.3.0",
-    "aws-amplify": "3.3.26",
+    "aws-amplify": "latest",
     "clsx": "1.1.1",
     "deepmerge": "4.2.2",
     "dotenv": "8.2.0",

@@ -38,13 +38,12 @@ const ViewPortfolioPage: React.FC<Props> = () => {
     return <Error statusCode={404} title="Porfolio not found" />;
   }
 
+  // TODO: replace with skeleton
   if (!portfolioId) {
     return <PageLoadingOverlay />;
   }
   return (
-    <Container maxWidth="lg">
       <Paper>Placeholder</Paper>
-    </Container>
   );
 };
 export default ViewPortfolioPage;

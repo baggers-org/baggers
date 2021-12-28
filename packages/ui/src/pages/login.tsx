@@ -1,5 +1,5 @@
 import { LoginPage } from '@/views/LoginPage';
 
-LoginPage.withoutAppBar = true;
+LoginPage.getLayout = (page) => <>{page}</>;
 
 export default LoginPage;

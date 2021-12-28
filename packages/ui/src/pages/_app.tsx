@@ -3,7 +3,7 @@ import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
-import { ThemeProvider } from '@mui/material';
+import { Box, LinearProgress, ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
@@ -12,7 +12,7 @@ import '../lib/setupAmplify';
 import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
-import { Layout, PageLoadingOverlay } from '@/components';
+import { BaseLayout, PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 
@@ -28,15 +28,10 @@ function Baggers({
   Component: BaggersPageComponent<any>;
   emotionCache?: EmotionCache;
 }) {
-  const routeChangeLoading = useRouteChangeLoading();
+  const getLayout =
+    Component.getLayout || ((page) => <BaseLayout>{page}</BaseLayout>);
 
-  const getComponent = () => {
-    if (routeChangeLoading) {
-      return <PageLoadingOverlay />;
-    }
-
-    return <Component {...pageProps} />;
-  };
+  const isLoading = useRouteChangeLoading();
 
   return (
     <CacheProvider value={emotionCache}>
@@ -47,12 +42,9 @@ function Baggers({
         <SnackbarProvider maxSnack={3}>
           <CssBaseline />
           <ApolloProvider client={client}>
-            {Component.withoutAppBar ? (
-              getComponent()
-            ) : (
-              <Layout>{getComponent()}</Layout>
-            )}
+            {getLayout(<Component {...pageProps} />)}
           </ApolloProvider>
+          {isLoading ? <PageLoadingOverlay /> : null}
         </SnackbarProvider>
       </ThemeProvider>
     </CacheProvider>

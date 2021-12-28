@@ -93,7 +93,7 @@ export const LoginForm: React.FC<Props> = () => {
           message: `Password updated!`,
           type: `success`,
         });
-        push(`/portfolios`);
+        push(`/portfolios/created`);
       }
     } catch (e) {
       sendNotification({
