@@ -2,10 +2,9 @@ import React from 'react';
 import { PortfolioCard } from '@/components/PortfolioCard';
 import { useMyPortfoliosQuery } from '@/graphql/Queries.document.gql';
 import { BaggersPageComponent } from '@/views/types';
-import { Box, Button, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Portfolio } from '@/graphql/Mutations.document.gql';
 import { CreatePortfolioCard, NoPortfoliosMessage } from './components';
-import AnalystAd from '../../../../public/svg/analyst_ad.svg';
 
 export const CreatedPortfoliosPage: BaggersPageComponent = () => {
   const { data } = useMyPortfoliosQuery({

@@ -1,7 +1,6 @@
 import theme from '@/styles/theme';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/material/node_modules/@mui/system';
-import { lighten } from '@mui/system';
 import React from 'react';
 
 export type PriceTagProps = {

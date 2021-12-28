@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
-import { Container, Paper } from '@mui/material';
+import { Paper } from '@mui/material';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
 
@@ -42,8 +42,6 @@ const ViewPortfolioPage: React.FC<Props> = () => {
   if (!portfolioId) {
     return <PageLoadingOverlay />;
   }
-  return (
-      <Paper>Placeholder</Paper>
-  );
+  return <Paper>Placeholder</Paper>;
 };
 export default ViewPortfolioPage;

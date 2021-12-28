@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  ISeriesApi,
-  IChartApi,
-  SeriesType,
-  createChart,
-} from 'lightweight-charts';
+import { IChartApi, createChart } from 'lightweight-charts';
 import { BaseChartProps } from '../types';
 
 export const useSetupChart = (props: BaseChartProps) => {

@@ -1,14 +1,6 @@
 import { useNewPortfolio } from '@/hooks';
 import theme from '@/styles/theme';
-import {
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  Stack,
-} from '@mui/material';
-import { darken } from '@mui/system';
+import { Button, Card, CardActionArea, CardContent } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import PortfolioGraphic from '../../../../../public/svg/portfolio.svg';
 

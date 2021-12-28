@@ -3,7 +3,7 @@ import { AppProps } from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import { SnackbarProvider } from 'notistack';
-import { Box, LinearProgress, ThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 

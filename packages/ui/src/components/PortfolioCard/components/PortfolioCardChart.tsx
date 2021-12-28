@@ -1,8 +1,7 @@
-import { AreaChart, LineChart } from '@/components';
+import { AreaChart } from '@/components';
 import theme from '@/styles/theme';
 import { alpha } from '@mui/system';
-import { CrosshairMode } from 'lightweight-charts';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const POINTS = [
   { time: `2018-12-22`, value: 32.51 },
@@ -68,7 +67,6 @@ export const PortfolioCardChart = () => {
         lineColor: alpha(theme.palette.success.light, 0.4),
         bottomColor: alpha(`rgba(86,218,179,0.2)`, 0.03),
         crosshairMarkerVisible: false,
-
       }}
       data={chartData}
     />

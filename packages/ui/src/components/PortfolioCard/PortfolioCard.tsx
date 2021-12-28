@@ -1,3 +1,4 @@
+import React from 'react';
 import { Portfolio } from '@/graphql/Queries.document.gql';
 import { Favorite, ModeComment, RemoveRedEye } from '@mui/icons-material';
 import {
@@ -6,7 +7,6 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  CardMedia,
   Grid,
   Link,
   Skeleton,
@@ -14,7 +14,6 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 
