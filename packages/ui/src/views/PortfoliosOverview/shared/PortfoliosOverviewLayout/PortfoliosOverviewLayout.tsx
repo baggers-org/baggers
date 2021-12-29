@@ -24,7 +24,7 @@ export const PortfoliosOverviewLayout: React.FC = ({ children }) => {
         >
           <PortfoliosOverviewTabs />
         </Grid>
-        <Grid xs={12} pt={7}>
+        <Grid item xs={12} pt={7}>
           {children}
         </Grid>
       </Grid>

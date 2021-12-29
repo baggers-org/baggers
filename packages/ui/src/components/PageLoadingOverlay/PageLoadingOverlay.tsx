@@ -11,6 +11,7 @@ export const PageLoadingOverlay = () => {
       bottom={{ xs: 76, md: undefined }}
       top={{ xs: undefined, md: 70 }}
       width="100%"
+      zIndex={999}
     >
       <LinearProgress />
       <Box

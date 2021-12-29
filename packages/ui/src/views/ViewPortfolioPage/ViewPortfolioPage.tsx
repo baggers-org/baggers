@@ -6,9 +6,9 @@ import Error from 'next/error';
 import { Portfolio } from '@/graphql/Mutations.document.gql';
 import { useGetPortfolioByIdLazyQuery } from '@/graphql/Queries.document.gql';
 import { PageLoadingOverlay } from '@/components';
+import { BaggersPageComponent } from '../types';
 
-type Props = {};
-const ViewPortfolioPage: React.FC<Props> = () => {
+const ViewPortfolioPage: BaggersPageComponent = () => {
   const { query } = useRouter();
   const portfolioId = useMemo(() => {
     if (Array.isArray(query.id)) {

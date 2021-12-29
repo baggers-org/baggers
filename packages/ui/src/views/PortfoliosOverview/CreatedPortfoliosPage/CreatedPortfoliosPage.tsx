@@ -17,14 +17,14 @@ export const CreatedPortfoliosPage: BaggersPageComponent = () => {
 
   return (
     <Grid container spacing={3}>
+      <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
+        <CreatePortfolioCard />
+      </Grid>
       {data?.myPortfolios?.map((portfolio) => (
         <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
           <PortfolioCard portfolio={portfolio as Portfolio} />
         </Grid>
       ))}
-      <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
-        <CreatePortfolioCard />
-      </Grid>
     </Grid>
   );
 };

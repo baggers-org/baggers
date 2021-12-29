@@ -5,7 +5,12 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/portfolios',
+        destination: '/portfolios/created',
+        permanent: true,
+      },
+      {
+        source: '/portfolios',
+        destination: '/portfolios/created',
         permanent: true,
       },
     ];

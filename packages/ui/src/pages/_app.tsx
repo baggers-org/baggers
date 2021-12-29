@@ -12,7 +12,7 @@ import '../lib/setupAmplify';
 import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
-import { BaseLayout, PageLoadingOverlay } from '@/components';
+import { PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 
@@ -28,8 +28,7 @@ function Baggers({
   Component: BaggersPageComponent<any>;
   emotionCache?: EmotionCache;
 }) {
-  const getLayout =
-    Component.getLayout || ((page) => <BaseLayout>{page}</BaseLayout>);
+  const getLayout = Component.getLayout || ((page) => <>{page}</>);
 
   const isLoading = useRouteChangeLoading();
 

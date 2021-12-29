@@ -30,7 +30,7 @@ export const AppBar: React.FC = ({ children }) => {
               sx={{
                 position: { xs: `fixed`, md: `relative` },
                 bottom: { xs: 0 },
-                zIndex: 1,
+                zIndex: 999,
                 width: { xs: `100%` },
                 height: { xs: `74px`, md: `100%` },
               }}
@@ -39,7 +39,10 @@ export const AppBar: React.FC = ({ children }) => {
             >
               <Stack height="100vh" alignItems="center" pt={{ xs: 0, md: 3 }}>
                 <AppBarLogo />
-                <Box pt={{ xs: 0, md: 6 }}>
+                <Box
+                  width={{ xs: undefined, md: `100%` }}
+                  pt={{ xs: 0, md: 6 }}
+                >
                   {orientation && (
                     <Tabs orientation={orientation} value={activeTab}>
                       <AppBarTab

@@ -15,6 +15,7 @@ export const AppBarHeader: React.FC<AppBarHeaderProps> = () => {
     <Box
       display={{ xs: `none`, md: `flex` }}
       p={2}
+      px={{ sm: 2, md: 4, lg: 10 }}
       bgcolor={theme.palette.background.paper}
       borderBottom={`1px solid ${theme.palette.divider}`}
     >
