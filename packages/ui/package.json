@@ -19,7 +19,6 @@
     "prestart": "yarn generate",
     "start": "next start",
     "pretest": "rm -rf .nyc_output",
-    "test": "npx cypress run-ct && npx nyc report --check-coverage",
     "ct-dev": "rm -rf .next && npx cypress open-ct",
     "posttest": "npx nyc report --check-coverage",
     "type-check": "tsc",
