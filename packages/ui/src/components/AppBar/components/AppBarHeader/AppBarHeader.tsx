@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 
 import { SearchInput, Clock } from '@/components';

@@ -1,7 +1,9 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-import { FavouritesPage } from '@/views/PortfoliosOverview';
-import { PortfoliosOverviewLayout } from '@/views/PortfoliosOverview/shared';
+import {
+  FavouritesPage,
+  PortfoliosOverviewLayout,
+} from '@/views/PortfoliosOverview';
 
 export const getStaticProps = async ({ locale }) => ({
   props: {

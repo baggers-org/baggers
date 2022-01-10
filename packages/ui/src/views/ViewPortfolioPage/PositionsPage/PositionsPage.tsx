@@ -124,7 +124,7 @@ export const PositionsPage: BaggersPageComponent<PositionsPageProps> = () => {
           <Grid item xs={12} height={500}>
             <Paper sx={{ height: `100%` }} elevation={0}>
               <PositionsTable
-                numberOfPositions={numberOfPositions}
+                numberOfPositions={numberOfPositions || 0}
                 positions={positions}
                 density={density}
                 onRemovePosition={(pos) => removePosition(pos._id)}

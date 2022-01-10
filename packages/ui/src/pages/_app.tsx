@@ -7,18 +7,15 @@ import { ThemeProvider } from '@mui/material';
 import Head from 'next/head';
 import { appWithTranslation } from 'next-i18next';
 
-import { useRouteChangeLoading } from '@/hooks';
 import '../lib/setupAmplify';
 import createEmotionCache from '@/styles/createEmotionCache';
 import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
-import { PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { LicenseInfo } from '@mui/x-data-grid-pro';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import { GlobalStyles } from '@/styles/GlobalStyles';
 
 LicenseInfo.setLicenseKey(
   `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`,
@@ -45,7 +42,6 @@ function Baggers({
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <ThemeProvider theme={theme}>
-          <GlobalStyles />
           <SnackbarProvider maxSnack={3}>
             <CssBaseline />
             <ApolloProvider client={client}>

@@ -75,7 +75,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
               setIsEditting(false);
             }}
           >
-            <Check size="small" />
+            <Check fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
@@ -83,7 +83,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
               cancelEdit();
             }}
           >
-            <RemoveCircle size="small" />
+            <RemoveCircle fontSize="small" />
           </IconButton>
         </Stack>
       ) : (

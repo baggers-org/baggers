@@ -33,7 +33,7 @@
     ]
   },
   "dependencies": {
-    "@apollo/client": "3.1.0",
+    "@apollo/client": "latest",
     "@aws-amplify/ui-react": "1.0.6",
     "@babel/preset-env": "7.13.9",
     "@babel/preset-typescript": "7.13.0",
