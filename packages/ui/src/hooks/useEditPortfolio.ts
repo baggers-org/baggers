@@ -4,16 +4,11 @@ import {
   useRemovePositionMutation,
   useRemovePositionsMutation,
   useCreatePortfolioMutation,
+  useRemovePortfolioMutation,
 } from '@/graphql/Mutations.document.gql';
-import {
-  Portfolio,
-  Position,
-  useGetPortfolioByIdLazyQuery,
-} from '@/graphql/Queries.document.gql';
+import { MutationAddPositionArgs } from '@/graphql/Queries.document.gql';
 import { useRouter } from 'next/router';
 
-import { useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
 import { v4 as uuid } from 'uuid';
 import { useNotifications } from '@/hooks';
 
@@ -24,57 +19,56 @@ export const useEditPortfolio = (portfolioId?: string) => {
   const [removePositionsMutation] = useRemovePositionsMutation();
   const [createPortfolioMutation] = useCreatePortfolioMutation();
 
+  const [removePortfolioMutation] = useRemovePortfolioMutation();
+
   const { sendNotification } = useNotifications();
 
-  // Fetch the profile using a cache-first approach, as it will be unlikely that the profile is not already in the cache
-  const [getPortfolio, { data, loading }] = useGetPortfolioByIdLazyQuery({
-    fetchPolicy: `cache-first`,
-    returnPartialData: true,
-  });
-
-  useEffect(() => {
-    if (portfolioId) {
-      getPortfolio({
-        variables: {
-          id: portfolioId,
-        },
-      });
-    }
-  }, [portfolioId, getPortfolio]);
-
-  const portfolio = data?.getPortfolioById as Portfolio;
-
-  const { push, asPath } = useRouter();
+  const { push } = useRouter();
   const createPortfolio = async () => {
     const { data: createPortfolioData } = await createPortfolioMutation({
       variables: {
-        record: {},
+        record: {
+          name: ``,
+          description: ``,
+        },
       },
     });
     const id = createPortfolioData?.createPortfolio?.record?._id;
-    push(`${asPath}?id=${id}`);
+    push(`/portfolios/${id}/positions`);
   };
-  const addPosition = async (position: Position) => {
-    if (!position) {
-      return;
-    }
-    if (!position.symbol?._id) {
-      return;
-    }
-    if (!position.numberOfShares) {
-      return;
-    }
-    if (!position.averagePrice) {
-      return;
-    }
 
+  const removePortfolio = async () => {
+    removePortfolioMutation({
+      variables: {
+        id: portfolioId,
+      },
+      optimisticResponse: {
+        removePortfolio: {
+          recordId: portfolioId,
+          error: null,
+        },
+      },
+      update: (cache) => {
+        cache.evict({
+          id: `Portfolio:${portfolioId}`,
+        });
+      },
+    });
+    push(`/portfolios/created`);
+  };
+  const addPosition = async (
+    position: Omit<MutationAddPositionArgs['record'], 'portfolio'>,
+  ) => {
     addPositionMutation({
       variables: {
         record: {
           portfolio: portfolioId,
           symbol: position.symbol?._id,
-          numberOfShares: position.numberOfShares,
+          positionSize: position.positionSize,
           averagePrice: position.averagePrice,
+          direction: position.direction,
+          openDate: position.openDate,
+          closeDate: position.closeDate,
         },
       },
       optimisticResponse: {
@@ -95,26 +89,29 @@ export const useEditPortfolio = (portfolioId?: string) => {
           });
         }
         const addedPosition = result.data?.addPosition?.record;
+        if (!addedPosition) return;
 
         cache.modify({
-          id: cache.identify(portfolio),
+          id: `Portfolio:${portfolioId}`,
           fields: {
-            positions(existingPositions) {
-              if (addedPosition) {
-                const positionRef = { __ref: cache.identify(addedPosition) };
-
-                if (existingPositions?.items) {
-                  return {
-                    ...existingPositions,
-                    items: [...existingPositions.items, positionRef],
-                  };
-                }
-                return { items: [positionRef] };
-              }
-
-              return existingPositions;
+            totalValue: (oldVal) => oldVal + addedPosition.marketValue,
+            numberOfPositions: (oldVal) => {
+              return oldVal + 1;
             },
           },
+          broadcast: true,
+        });
+
+        cache.modify({
+          fields: {
+            getPositions: (previous, { toReference }) => {
+              return {
+                ...previous,
+                items: [...(previous?.items || []), toReference(addedPosition)],
+              };
+            },
+          },
+          broadcast: false,
         });
       },
     });
@@ -124,6 +121,41 @@ export const useEditPortfolio = (portfolioId?: string) => {
     removePositionMutation({
       variables: {
         id,
+      },
+
+      optimisticResponse: {
+        removePosition: {
+          recordId: id,
+          record: {
+            _id: id,
+            __typename: `Position`,
+          },
+          error: null,
+        },
+      },
+
+      update: (cache) => {
+        cache.modify({
+          id: `Portfolio:${portfolioId}`,
+          fields: {
+            totalValue: (oldVal, { toReference, readField }) => {
+              const marketValue = readField({
+                from: toReference(`Position:${id}`),
+                fieldName: `marketValue`,
+              }) as number;
+
+              if (!marketValue) {
+                return oldVal;
+              }
+
+              return oldVal - marketValue;
+            },
+            numberOfPositions: (oldVal) => oldVal - 1,
+          },
+        });
+        cache.evict({
+          id: `Position:${id}`,
+        });
       },
     });
   };
@@ -135,24 +167,9 @@ export const useEditPortfolio = (portfolioId?: string) => {
       },
       optimisticResponse: {
         removePositions: {
+          __typename: `RemoveManyPositionPayload`,
           numAffected: ids.length,
         },
-      },
-      update: (cache) => {
-        cache.modify({
-          id: cache.identify(portfolio),
-          fields: {
-            positions(existingPosRefs, { readField }) {
-              return existingPosRefs.items.filter((r: any) => {
-                const id = readField(`_id`, r) as string;
-                if (id) {
-                  return !ids.includes(id);
-                }
-                return true;
-              });
-            },
-          },
-        });
       },
     });
   };
@@ -163,6 +180,16 @@ export const useEditPortfolio = (portfolioId?: string) => {
         id: portfolioId,
         record: {
           description: d,
+        },
+      },
+
+      optimisticResponse: {
+        updatePortfolio: {
+          record: {
+            _id: portfolioId,
+            description: d,
+            __typename: `Portfolio`,
+          },
         },
       },
     });
@@ -190,8 +217,9 @@ export const useEditPortfolio = (portfolioId?: string) => {
       optimisticResponse: {
         updatePortfolio: {
           record: {
-            _id: `test`,
+            _id: portfolioId,
             name: n,
+            __typename: `Portfolio`,
           },
         },
       },
@@ -211,13 +239,11 @@ export const useEditPortfolio = (portfolioId?: string) => {
 
   return {
     createPortfolio,
-    portfolio:
-      portfolio && Object.keys(portfolio).length > 0 ? portfolio : undefined,
-    loadingPortfolio: loading,
-    setName: useDebouncedCallback(setName, 500),
-    setDescription: useDebouncedCallback(setDescription, 500),
+    removePortfolio,
+    setName,
+    setDescription,
     setIsPrivate,
-    setCash: useDebouncedCallback(setCash, 500),
+    setCash,
     addPosition,
     removePosition,
     removePositions,

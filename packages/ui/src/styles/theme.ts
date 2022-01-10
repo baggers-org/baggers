@@ -14,8 +14,6 @@ const theme = createTheme({
       default: `#F9F9F9`,
       paper: `#FFFFFF`,
     },
-    appBar: `#303030`,
-
     grey: {
       50: `#FAFAFA`,
       100: `#061A25`,
@@ -26,12 +24,20 @@ const theme = createTheme({
       600: `#E7E7E7`,
     },
 
+    price: {
+      profitBg: `#E6F6F2`,
+      profitFg: `#1E4620`,
+      lossBg: `#FCEAE8`,
+      lossFg: `#611A15`,
+    },
+
     action: { focus: `#2196f3` },
     success: {
-      main: `#35C32D`,
+      main: `#02A883`,
+      light: `#56DAB3`,
     },
     error: {
-      main: `#d32f2f`,
+      main: `#E3301B`,
     },
     lowEmphasis: `rgba(0,0,0,0.26)`,
     mediumEmphasis: `rgba(0,0,0,0.6)`,
@@ -40,13 +46,23 @@ const theme = createTheme({
 });
 declare module '@mui/material/styles' {
   interface Palette {
-    appBar: React.CSSProperties['color'];
+    price: {
+      profitBg: React.CSSProperties['color'];
+      profitFg: React.CSSProperties['color'];
+      lossBg: React.CSSProperties['color'];
+      lossFg: React.CSSProperties['color'];
+    };
     lowEmphasis: React.CSSProperties['color'];
     mediumEmphasis: React.CSSProperties['color'];
     highEmphasis: React.CSSProperties['color'];
   }
   interface PaletteOptions {
-    appBar: React.CSSProperties['color'];
+    price: {
+      profitBg: React.CSSProperties['color'];
+      profitFg: React.CSSProperties['color'];
+      lossBg: React.CSSProperties['color'];
+      lossFg: React.CSSProperties['color'];
+    };
     lowEmphasis: React.CSSProperties['color'];
     mediumEmphasis: React.CSSProperties['color'];
     highEmphasis: React.CSSProperties['color'];

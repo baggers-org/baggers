@@ -1,3 +1,4 @@
+export * from './useActiveTab';
 export * from './useEditPortfolio';
 export * from './useCurrentUser';
 export * from './useIsMobile';

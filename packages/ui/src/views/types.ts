@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 export type ClientAuthRouteConfig = {
   // Route to redirect to on auth fail
@@ -6,9 +6,9 @@ export type ClientAuthRouteConfig = {
 };
 export type BaggersPageStatics = {
   /**
-   * If true will not display the app navigation bar at the top
+   * Define the react component to use as the page layout
    */
-  withoutAppBar?: boolean;
+  getLayout?: (page: ReactElement) => ReactNode;
 
   /**
    * Setup this page component as a client authenticated route, meaning
@@ -18,5 +18,5 @@ export type BaggersPageStatics = {
    */
   clientAuthenticatedRouteConfig?: ClientAuthRouteConfig;
 };
-export type BaggersPageComponent<TProps> = React.FC<TProps> &
+export type BaggersPageComponent<TProps = void> = React.FC<TProps> &
   BaggersPageStatics;

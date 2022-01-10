@@ -1,8 +1,5 @@
-const calculateDailyProfitLossUsd = (
-  numberOfShares: number,
-  change: number,
-) => {
-  return numberOfShares * change;
+const calculateDailyProfitLossUsd = (positionSize: number, change: number) => {
+  return positionSize * change;
 };
 
 export default calculateDailyProfitLossUsd;

@@ -39,8 +39,6 @@ export const requireAuthenticatedResourceOwner = (next: any) => (rp: any) => {
 };
 
 export const recordRequestOwner = (next: any) => (rp: any) => {
-  console.log(rp.context);
-
   rp.args.record.owner = rp.context.identity.sub;
   return next(rp);
 };

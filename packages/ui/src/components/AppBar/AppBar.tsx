@@ -1,48 +1,83 @@
 import React from 'react';
-import { Box, Fade, Paper, Stack, Tabs } from '@mui/material';
-import {
-  Dashboard,
-  FolderOpen,
-  WaterfallChart,
-  Search,
-} from '@mui/icons-material';
+import { Box, Grid, Paper, Stack, Tabs } from '@mui/material';
+import { Dashboard, FolderOpen, WaterfallChart } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
 
-import theme from '@/styles/theme';
+import { useRouter } from 'next/router';
+import { useActiveTab, usePrefetch } from '@/hooks';
+import { useBreakpointValue } from '@/hooks/useBreakpointValue';
 import { AppBarLogo } from './components';
 import { AppBarTab } from './components/AppBarTab';
+import { AppBarHeader } from './components/AppBarHeader';
 
 export const AppBar: React.FC = ({ children }) => {
   const { t } = useTranslation();
+
+  const { push } = useRouter();
+  const activeTab = useActiveTab();
+
+  usePrefetch(`/portfolios/created`);
+  usePrefetch(`/dashboard`);
+
+  const orientation = useBreakpointValue({ xs: `horizontal`, md: `vertical` });
+
   return (
-    <Fade in>
-      <Stack direction="row">
-        <nav>
-          <Paper sx={{ background: theme.palette.appBar }} square elevation={8}>
-            <Stack height="100vh" alignItems="center" pt={3}>
-              <AppBarLogo />
-              <Box pt={6} width={theme.spacing(12)}>
-                <Tabs orientation="vertical" value={0}>
-                  <AppBarTab
-                    label={t(`dashboard`, `Dashboard`)}
-                    icon={<Dashboard />}
-                  />
-                  <AppBarTab
-                    label={t(`portfolios`, `Portfolios`)}
-                    icon={<FolderOpen />}
-                  />
-                  <AppBarTab
-                    label={t(`charts`, `Charts`)}
-                    icon={<WaterfallChart />}
-                  />
-                  <AppBarTab label={t(`search`, `Search`)} icon={<Search />} />
-                </Tabs>
-              </Box>
-            </Stack>
-          </Paper>
-        </nav>
-        <main>{children}</main>
-      </Stack>
-    </Fade>
+    <>
+      <nav>
+        <Grid container>
+          <Grid xs={0} md={1} item>
+            <Paper
+              sx={{
+                position: { xs: `fixed`, md: `relative` },
+                bottom: { xs: 0 },
+                zIndex: 999,
+                width: { xs: `100%` },
+                height: { xs: `74px`, md: `100%` },
+              }}
+              square
+              elevation={1}
+            >
+              <Stack height="100vh" alignItems="center" pt={{ xs: 0, md: 3 }}>
+                <AppBarLogo />
+                <Box
+                  width={{ xs: undefined, md: `100%` }}
+                  pt={{ xs: 0, md: 6 }}
+                >
+                  {orientation && (
+                    <Tabs orientation={orientation} value={activeTab}>
+                      <AppBarTab
+                        value="/dashboard"
+                        label={t(`dashboard`, `Dashboard`)}
+                        onClick={() => push(`/dashboard`)}
+                        icon={<Dashboard />}
+                      />
+                      <AppBarTab
+                        value="/portfolios"
+                        label={t(`portfolios`, `Portfolios`)}
+                        onClick={() => push(`/portfolios/created`)}
+                        icon={<FolderOpen />}
+                      />
+                      <AppBarTab
+                        value="/charts"
+                        label={t(`charts`, `Charts`)}
+                        onClick={() => push(`/charts`)}
+                        icon={<WaterfallChart />}
+                      />
+                    </Tabs>
+                  )}
+                </Box>
+              </Stack>
+            </Paper>
+          </Grid>
+
+          <Grid item xs container>
+            <Grid item xs={12}>
+              <AppBarHeader />
+              {children}
+            </Grid>
+          </Grid>
+        </Grid>
+      </nav>
+    </>
   );
 };

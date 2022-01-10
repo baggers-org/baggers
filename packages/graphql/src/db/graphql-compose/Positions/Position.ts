@@ -33,8 +33,6 @@ const addMutations = () => {
       .wrapResolve(onlyOwnerCanMutate)
       .wrapResolve((next: any) => (rp: any) => {
         rp.beforeRecordMutate = async (doc: PositionDocument, rp: any) => {
-          console.log(doc);
-
           if (doc.owner !== rp.context.identity.sub) {
             throw new Error(
               `You do not own this resource, you are unable to modify it`,

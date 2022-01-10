@@ -1,12 +1,16 @@
 const { i18n } = require('./next-i18next.config');
 
 module.exports = {
-  target: 'serverless',
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/portfolios',
+        destination: '/portfolios/created',
+        permanent: true,
+      },
+      {
+        source: '/portfolios',
+        destination: '/portfolios/created',
         permanent: true,
       },
     ];
