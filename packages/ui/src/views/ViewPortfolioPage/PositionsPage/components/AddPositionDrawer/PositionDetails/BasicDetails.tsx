@@ -1,11 +1,5 @@
 import { BaggersToggleButtonGroup } from '@/components/BaggersToggleButtonGroup';
-import {
-  Grid,
-  FormControl,
-  FormLabel,
-  TextField,
-  ToggleButton,
-} from '@mui/material';
+import { Grid, FormLabel, TextField, ToggleButton } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { PositionDetailsProps } from './types';
 import { useTranslatedPositionType } from './util';

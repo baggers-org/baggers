@@ -1,7 +1,4 @@
-const calculateDailyProfitLossUsd = (
-  positionSize: number,
-  change: number,
-) => {
+const calculateDailyProfitLossUsd = (positionSize: number, change: number) => {
   return positionSize * change;
 };
 

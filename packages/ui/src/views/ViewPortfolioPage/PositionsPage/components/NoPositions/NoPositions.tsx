@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Slide, Stack, Tooltip, Typography } from '@mui/material';
+import { Grid, Slide, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import AddManuallyGraphic from '../../../../../../public/svg/edit.svg';
 import LinkGraphic from '../../../../../../public/svg/link.svg';

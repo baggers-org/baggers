@@ -1,5 +1,4 @@
-import { ObjectId } from 'mongoose';
-import { IQuote, QuoteDocument } from '../mongoose/interfaces';
+import { QuoteDocument } from '../mongoose/interfaces';
 import fetchQuotes from './fetchQuotes';
 
 const batchFetchQuotes = async (symbols: Array<string>, fetchRate = 30) => {

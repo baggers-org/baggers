@@ -16,7 +16,6 @@ import { useTranslation } from 'next-i18next';
 import { BaggersToggleButtonGroup } from '@/components/BaggersToggleButtonGroup';
 import { PositionDetailsProps } from './types';
 import { PositionType } from '../types';
-import { useTranslatedPositionType } from './util';
 
 export const AdvancedDetails: React.FC<PositionDetailsProps> = ({
   addingSymbol,

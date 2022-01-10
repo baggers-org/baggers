@@ -1,14 +1,7 @@
 import { Symbol } from '@/graphql/Queries.document.gql';
 import theme from '@/styles/theme';
 import { ChevronLeft } from '@mui/icons-material';
-import {
-  Box,
-  Divider,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 
 export const DrawerHeader = ({

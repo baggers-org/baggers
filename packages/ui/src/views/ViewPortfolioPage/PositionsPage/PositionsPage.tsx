@@ -5,20 +5,11 @@ import { Button, Grid, IconButton, Paper, Tooltip } from '@mui/material';
 import { PositionsTable } from '@/components/PositionsTable';
 import {
   Position,
-  useGetPortfolioByIdQuery,
   useGetPortfolioSummaryByIdQuery,
   useGetPositionsLazyQuery,
 } from '@/graphql/Queries.document.gql';
 import { useTranslation } from 'next-i18next';
-import {
-  Add,
-  Compress,
-  Expand,
-  Link,
-  More,
-  MoreVert,
-} from '@mui/icons-material';
-import { Box } from '@mui/material/node_modules/@mui/system';
+import { Add, Compress, Expand, Link, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useEditPortfolio } from '@/hooks';
 import { PageLoadingOverlay } from '@/components';
