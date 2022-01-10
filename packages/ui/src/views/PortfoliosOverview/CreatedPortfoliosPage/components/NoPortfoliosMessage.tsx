@@ -1,4 +1,4 @@
-import { useNewPortfolio } from '@/hooks';
+import { useEditPortfolio } from '@/hooks';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import PortfolioGraphic from '../../../../../public/svg/portfolio.svg';
@@ -6,7 +6,7 @@ import PortfolioGraphic from '../../../../../public/svg/portfolio.svg';
 export const NoPortfoliosMessage: React.FC = () => {
   const { t } = useTranslation(`portfolios_overview`);
 
-  const { createNewPortfolio } = useNewPortfolio();
+  const { createPortfolio } = useEditPortfolio();
 
   return (
     <Stack textAlign="center" alignItems="center" spacing={2}>
@@ -23,7 +23,7 @@ export const NoPortfoliosMessage: React.FC = () => {
         )}
       </Typography>
       <Box maxWidth="200px">
-        <Button variant="contained" onClick={() => createNewPortfolio()}>
+        <Button variant="contained" onClick={() => createPortfolio()}>
           {t(`create_portfollio`, `Create portfolio`)}
         </Button>
       </Box>

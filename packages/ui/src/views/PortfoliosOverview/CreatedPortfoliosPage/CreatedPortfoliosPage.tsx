@@ -1,17 +1,20 @@
 import React from 'react';
 import { PortfolioCard } from '@/components/PortfolioCard';
-import { useMyPortfoliosQuery } from '@/graphql/Queries.document.gql';
+import { useMyPortfoliosSummaryQuery } from '@/graphql/Queries.document.gql';
 import { BaggersPageComponent } from '@/views/types';
 import { Grid } from '@mui/material';
 import { Portfolio } from '@/graphql/Mutations.document.gql';
+import { PageLoadingOverlay } from '@/components';
 import { CreatePortfolioCard, NoPortfoliosMessage } from './components';
 
 export const CreatedPortfoliosPage: BaggersPageComponent = () => {
-  const { data } = useMyPortfoliosQuery({
+  const { data, loading } = useMyPortfoliosSummaryQuery({
     fetchPolicy: `cache-and-network`,
   });
 
-  if (!data?.myPortfolios?.length) {
+  if (!data) return <PageLoadingOverlay />;
+
+  if (!loading && !data?.myPortfolios?.length) {
     return <NoPortfoliosMessage />;
   }
 

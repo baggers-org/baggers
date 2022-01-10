@@ -38,27 +38,21 @@ const authLink = setContext(async (_, { headers }) => {
 let apolloClient: any = null;
 export const createApolloClient = (initialState: NormalizedCacheObject) => {
   const ssrMode = typeof window === `undefined`;
+
   apolloClient = new ApolloClient({
     ssrMode,
     link: authLink.concat(httpLink),
     cache: new InMemoryCache({
       typePolicies: {
-        Portfolio: {
-          fields: {
-            name: {
-              read(name) {
-                return name || `Untitled Portfolio`;
-              },
-            },
-          },
-        },
         Query: {
           fields: {
-            getPortfolioById(_, { args, toReference }) {
-              return toReference({
-                __typename: `Portfolio`,
-                _id: args?._id,
-              });
+            getPortfolioById: {
+              read(_, { args, toReference }) {
+                return toReference({
+                  id: args?._id,
+                  __typename: `Portfolio`,
+                });
+              },
             },
           },
         },

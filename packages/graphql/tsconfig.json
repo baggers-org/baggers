@@ -10,8 +10,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "baseUrl": "./src",
+    "rootDir": "src",
     "outDir": "build",
     "target": "ES2016",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
   "exclude": ["node_modules", "**/*.test.ts"],
   "include": ["src"]

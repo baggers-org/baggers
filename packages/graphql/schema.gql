@@ -57,6 +57,7 @@ type Query {
   ): [Portfolio!]!
   getPortfolioById(_id: MongoID!): Portfolio
   searchSymbols(search: String!): [Symbol]
+  getTradingDate(from: String, direction: DIRECTION): TradingDateResponse
 }
 
 """List of items with pagination."""
@@ -75,16 +76,18 @@ type Position {
   owner: String
   portfolio: MongoID
   symbol: Symbol
-  private: Boolean
+  direction: EnumPositionDirection
   exposure: Float
   averagePrice: Float
   marketValue: Float
   costBasis: Float
   brokerFees: Float
-  numberOfShares: Float
+  positionSize: Float
   profitLossUsd: Float
   profitLossPercent: Float
   dailyProfitLossUsd: Float
+  openDate: Date
+  closeDate: Date
   _id: MongoID!
 }
 
@@ -163,6 +166,13 @@ type Quote {
   _id: MongoID!
 }
 
+enum EnumPositionDirection {
+  long
+  short
+}
+
+scalar Date
+
 type PaginationInfo {
   currentPage: Int!
   perPage: Int!
@@ -207,6 +217,7 @@ type Portfolio {
   description: String
   cash: Float
   totalValue: Float
+  numberOfPositions: Float
   positions(sort: PositionsSort, perPage: Int, page: Int): PositionPagination
   _id: MongoID!
 }
@@ -219,6 +230,7 @@ input FilterFindManyPortfolioInput {
   description: String
   cash: Float
   totalValue: Float
+  numberOfPositions: Float
   positions: [MongoID]
   _id: MongoID
 
@@ -269,6 +281,16 @@ enum SortFindManyPortfolioInput {
   OWNER_DESC
 }
 
+type TradingDateResponse {
+  date: String
+  settlementDate: String
+}
+
+enum DIRECTION {
+  next
+  last
+}
+
 type Mutation {
   """
   Create one document with mongoose defaults, setters, hooks and validation
@@ -312,19 +334,15 @@ type CreateOnePositionPayload {
 
 """"""
 input CreateOnePositionInput {
-  owner: String
   portfolio: MongoID!
   symbol: MongoID!
-  private: Boolean
-  exposure: Float
+  direction: EnumPositionDirection
   averagePrice: Float!
-  marketValue: Float
-  costBasis: Float
   brokerFees: Float
-  numberOfShares: Float!
-  profitLossUsd: Float
-  profitLossPercent: Float
-  dailyProfitLossUsd: Float
+  positionSize: Float!
+  openDate: Date
+  closeDate: Date
+  _id: MongoID
 }
 
 type RemoveByIdPositionPayload {
@@ -370,6 +388,7 @@ input CreateOnePortfolioInput {
   description: String
   cash: Float
   totalValue: Float
+  numberOfPositions: Float
 }
 
 type UpdateByIdPortfolioPayload {
@@ -392,6 +411,7 @@ input UpdateByIdPortfolioInput {
   description: String
   cash: Float
   totalValue: Float
+  numberOfPositions: Float
 }
 
 type RemoveByIdPortfolioPayload {

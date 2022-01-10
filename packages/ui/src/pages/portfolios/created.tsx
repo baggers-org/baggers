@@ -7,7 +7,10 @@ import {
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, [`common`, `portfolios`])),
+    ...(await serverSideTranslations(locale, [
+      `common`,
+      `portfolios_overview`,
+    ])),
   },
 });
 CreatedPortfoliosPage.getLayout = (page) => (

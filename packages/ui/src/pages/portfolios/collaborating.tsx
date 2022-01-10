@@ -1,11 +1,14 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 import { CollaboratingPage } from '@/views/PortfoliosOverview';
-import { PortfoliosOverviewLayout } from '@/views/PortfoliosOverview/shared';
+import { PortfoliosOverviewLayout } from '@/views/PortfoliosOverview/layout';
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, [`common`, `portfolios`])),
+    ...(await serverSideTranslations(locale, [
+      `common`,
+      `portfolios_overview`,
+    ])),
   },
 });
 CollaboratingPage.getLayout = (page) => (

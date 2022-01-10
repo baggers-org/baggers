@@ -1,10 +1,11 @@
 import theme from '@/styles/theme';
+import { ProfitLossOrNeutral } from '@/util';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/material/node_modules/@mui/system';
 import React from 'react';
 
 export type PriceTagProps = {
-  color: 'profit' | 'loss' | 'neutral';
+  color: ProfitLossOrNeutral;
 };
 export const PriceTag: React.FC<PriceTagProps> = ({ color, children }) => {
   return (

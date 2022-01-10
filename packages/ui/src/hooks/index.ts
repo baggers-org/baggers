@@ -1,7 +1,6 @@
 export * from './useActiveTab';
 export * from './useEditPortfolio';
 export * from './useCurrentUser';
-export * from './useNewPortfolio';
 export * from './useIsMobile';
 export * from './useNotifications';
 export * from './usePrefetch';

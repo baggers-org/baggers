@@ -1,4 +1,4 @@
-import { useNewPortfolio } from '@/hooks';
+import { useEditPortfolio } from '@/hooks';
 import theme from '@/styles/theme';
 import { Button, Card, CardActionArea, CardContent } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -7,7 +7,8 @@ import PortfolioGraphic from '../../../../../public/svg/portfolio.svg';
 export const CreatePortfolioCard = () => {
   const { t } = useTranslation(`portfolios_overview`);
 
-  const { createNewPortfolio } = useNewPortfolio();
+  const { createPortfolio } = useEditPortfolio();
+
   return (
     <Card
       sx={{
@@ -21,7 +22,7 @@ export const CreatePortfolioCard = () => {
         sx={{
           height: `100%`,
         }}
-        onClick={() => createNewPortfolio()}
+        onClick={() => createPortfolio()}
       >
         <CardContent
           sx={{

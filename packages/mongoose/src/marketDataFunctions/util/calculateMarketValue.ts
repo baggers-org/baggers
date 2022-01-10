@@ -1,5 +1,5 @@
-const calculateMarketValue = (numberOfShares: number, currentPrice: number) => {
-  return numberOfShares * currentPrice;
+const calculateMarketValue = (positionSize: number, currentPrice: number) => {
+  return positionSize * currentPrice;
 };
 
 export default calculateMarketValue;

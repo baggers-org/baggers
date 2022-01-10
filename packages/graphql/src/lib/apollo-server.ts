@@ -27,8 +27,6 @@ export const createHandler = async () => {
     },
     context: ({ event, context }) => {
       const claims = event?.requestContext?.authorizer?.claims;
-      console.log(claims);
-
       return {
         event,
         context,

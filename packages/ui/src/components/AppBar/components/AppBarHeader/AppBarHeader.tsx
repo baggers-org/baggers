@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Grid, InputAdornment, TextField } from '@mui/material';
-
-import theme from '@/styles/theme';
+import { Box, Grid, Typography } from '@mui/material';
 import { useTranslation } from 'next-i18next';
-import { Search } from '@mui/icons-material';
+
+import { SearchInput, Clock } from '@/components';
+import theme from '@/styles/theme';
 import { NotificationsButton } from '../NotificationsButton';
 import { ProfileButton } from '../ProfileButton';
 
@@ -21,35 +21,23 @@ export const AppBarHeader: React.FC<AppBarHeaderProps> = () => {
     >
       <Grid container>
         <Grid item sm={4}>
-          <TextField
+          <SearchInput
             placeholder={t(`search_baggers`, `Search Baggers...`)}
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Search />
-                </InputAdornment>
-              ),
-            }}
             sx={{
-              width: `300px`,
-              '& .MuiOutlinedInput-root': {
-                borderRadius: `10px`,
-                '& input': {
-                  '&::placeholder': {
-                    color: `rgba(0,0,0,0.23)`,
-                  },
-                  borderBottomColor: `red`,
-                  border: `none`,
-                },
-                '& fieldset': {
-                  borderColor: `rgba(0,0,0,0.1)`,
-                },
-              },
+              maxWidth: `400px`,
             }}
           />
         </Grid>
-        <Grid container item sm justifyContent="flex-end">
+        <Grid item sm={3} m="auto">
+          <Clock />
+        </Grid>
+        <Grid
+          container
+          item
+          sm={3}
+          maxWidth="max-content"
+          justifyContent="flex-end"
+        >
           <Grid display="flex" item alignItems="center" gap={1}>
             <NotificationsButton />
             <ProfileButton />

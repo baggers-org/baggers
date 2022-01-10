@@ -20,6 +20,7 @@ export interface IPortfolio {
   description: string;
   cash: number;
   totalValue: number;
+  numberOfPositions: number;
   positions: Array<ObjectId | PositionDocumentPopulated>;
 }
 
@@ -103,17 +104,19 @@ export interface IPosition {
   owner: string;
   portfolio: ObjectId | PortfolioDocumentPopulated;
   symbol: ObjectId | SymbolDocumentPopulated;
-  private: boolean;
+  direction: 'long' | 'short';
   exposure: number;
   averagePrice: number;
   marketValue: number;
   costBasis: number;
   brokerFees: number;
-  numberOfShares: number;
+  positionSize: number;
   profitLossUsd: number;
   profitLossPercent: number;
   dailyProfitLossUsd: number;
   dailyProfitLossPercent: number;
+  openDate?: Date;
+  closeDate?: Date;
 }
 
 export type PositionDocument = IPosition &

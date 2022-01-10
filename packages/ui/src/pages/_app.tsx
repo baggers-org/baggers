@@ -15,6 +15,14 @@ import { BaggersPageComponent } from '@/views/types';
 import { PageLoadingOverlay } from '@/components';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { LicenseInfo } from '@mui/x-data-grid-pro';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import { GlobalStyles } from '@/styles/GlobalStyles';
+
+LicenseInfo.setLicenseKey(
+  `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`,
+);
 
 const client = createApolloClient({});
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -30,22 +38,22 @@ function Baggers({
 }) {
   const getLayout = Component.getLayout || ((page) => <>{page}</>);
 
-  const isLoading = useRouteChangeLoading();
-
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Baggers</title>
       </Head>
-      <ThemeProvider theme={theme}>
-        <SnackbarProvider maxSnack={3}>
-          <CssBaseline />
-          <ApolloProvider client={client}>
-            {getLayout(<Component {...pageProps} />)}
-          </ApolloProvider>
-          {isLoading ? <PageLoadingOverlay /> : null}
-        </SnackbarProvider>
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={theme}>
+          <GlobalStyles />
+          <SnackbarProvider maxSnack={3}>
+            <CssBaseline />
+            <ApolloProvider client={client}>
+              {getLayout(<Component {...pageProps} />)}
+            </ApolloProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </LocalizationProvider>
     </CacheProvider>
   );
 }

@@ -5,7 +5,10 @@ import { PortfoliosOverviewLayout } from '@/views/PortfoliosOverview/shared';
 
 export const getStaticProps = async ({ locale }) => ({
   props: {
-    ...(await serverSideTranslations(locale, [`common`, `portfolios`])),
+    ...(await serverSideTranslations(locale, [
+      `common`,
+      `portfolios_overview`,
+    ])),
   },
 });
 FavouritesPage.getLayout = (page) => (

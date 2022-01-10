@@ -6,12 +6,17 @@ const addPosition = () => ({
   addPosition: getTypeComposer(`Position`)
     .mongooseResolvers.createOne({
       record: {
-        requiredFields: [
-          `portfolio`,
-          `symbol`,
-          `averagePrice`,
-          `numberOfShares`,
+        removeFields: [
+          `exposure`,
+          `owner`,
+          `marketValue`,
+          `costBasis`,
+          `profitLossUsd`,
+          `profitLossPercent`,
+          `dailyProfitLossUsd`,
+          `dailyProfitLossPercent`,
         ],
+        requiredFields: [`portfolio`, `symbol`, `averagePrice`, `positionSize`],
       },
     })
     .wrapResolve(recordRequestOwner)
@@ -38,7 +43,7 @@ const addPosition = () => ({
           );
         }
         // Calculate cost basis here
-        doc.costBasis = doc.numberOfShares * doc.averagePrice + doc.brokerFees;
+        doc.costBasis = doc.positionSize * doc.averagePrice + doc.brokerFees;
         return doc;
       };
 
@@ -47,14 +52,6 @@ const addPosition = () => ({
       const position: PositionDocument = payload?.record;
 
       if (position && position._id) {
-        // Add the position to the portfolio
-        await BaggersMongoose.models.Portfolio?.findByIdAndUpdate(
-          portfolio._id,
-          {
-            $push: { positions: position._id },
-          },
-        );
-
         // Get the symbol and check if it has quote data
         const positionSymbol = await BaggersMongoose.models.Symbol?.findById(
           position.symbol,
@@ -83,6 +80,17 @@ const addPosition = () => ({
             },
           };
 
+          // Add the position to the portfolio
+          await BaggersMongoose.models.Portfolio?.findByIdAndUpdate(
+            portfolio._id,
+            {
+              $push: { positions: position._id },
+              $inc: {
+                totalValue: populatedPos.marketValue,
+                numberOfPositions: 1,
+              },
+            },
+          );
           return returnVal;
         }
       }

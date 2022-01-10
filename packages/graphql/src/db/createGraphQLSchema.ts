@@ -1,5 +1,6 @@
 import { BaggersMongoose } from '@baggers/mongoose';
 import { schemaComposer } from 'graphql-compose';
+import { addHolidaysAndTradingDatesGraphQL } from './graphql-compose/Misc';
 import { addPortfolioGraphQL } from './graphql-compose/Portfolios/Portfolio';
 import { addPositionGraphQL } from './graphql-compose/Positions/Position';
 import { addQuoteGraphQL } from './graphql-compose/Quotes/Quote';
@@ -24,6 +25,7 @@ export const createGraphQLSchema = async () => {
     addPortfolioGraphQL();
     addSymbolGraphQL();
     addQuoteGraphQL();
+    addHolidaysAndTradingDatesGraphQL();
   }
   return schemaComposer.buildSchema();
 };
