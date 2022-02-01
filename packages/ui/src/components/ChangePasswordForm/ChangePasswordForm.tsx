@@ -1,5 +1,7 @@
-import { Grid } from '@mui/material';
+import { Stack } from '@mui/material';
 import { BaggersTextField } from '@/components';
+import { CheckOutlined, LockOutlined } from '@mui/icons-material';
+import { SignupPageTextField } from '@/views/SignupPage/components';
 
 export type ChangePasswordForm = {
   newPasswordLabel?: string;
@@ -14,21 +16,29 @@ export const ChangePasswordForm: React.FC<ChangePasswordForm> = ({
   onChangeNewPassword,
 }) => {
   return (
-    <Grid item container spacing={2} direction="column">
-      <Grid item>
-        <BaggersTextField
-          label={newPasswordLabel}
+    <form>
+      <Stack spacing={1} my={4}>
+        <SignupPageTextField
+          placeholder={newPasswordLabel}
+          variant="filled"
+          autoComplete="blah-password"
+          InputProps={{
+            startAdornment: <LockOutlined />,
+          }}
           secret
           onChange={(e) => onChangeNewPassword(e.target.value)}
         />
-      </Grid>
-      <Grid item>
-        <BaggersTextField
-          label={confirmPasswordLabel}
+        <SignupPageTextField
+          placeholder={confirmPasswordLabel}
           secret
+          autoComplete="confirm-password"
+          variant="filled"
+          InputProps={{
+            startAdornment: <CheckOutlined />,
+          }}
           onChange={(e) => onChangeConfirmPassword(e.target.value)}
         />
-      </Grid>
-    </Grid>
+      </Stack>
+    </form>
   );
 };

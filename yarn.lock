@@ -5886,6 +5886,7 @@ __metadata:
     "@mui/x-data-grid-pro": ^5.2.1
     "@next/bundle-analyzer": 11.0.0
     "@sls-next/serverless-component": 3.3.0
+    "@svgdotjs/svg.js": ^3.1.1
     "@svgr/webpack": 5.5.0
     "@testing-library/cypress": ^8.0.2
     "@types/jest": 26.0.23
@@ -5928,6 +5929,7 @@ __metadata:
     saslprep: 1.0.3
     use-debounce: 6.0.0
     uuid: 8.3.2
+    vivus: ^0.4.6
     webpack: 4
     webpack-dev-server: ^4.5.0
     yaml-loader: 0.6.0
@@ -10229,6 +10231,13 @@ __metadata:
     fs-extra: ^9.1.0
     webpack: ^5.51.1
   checksum: 7ce714c5073e47374f83efe6f367fb4b225e58277cb5ef6c978a10dbc5c1c6da1545573eece89f6a25a2319a8e7d111415b08a82ccdde8d56b162452ef2c7da7
+  languageName: node
+  linkType: hard
+
+"@svgdotjs/svg.js@npm:^3.1.1":
+  version: 3.1.2
+  resolution: "@svgdotjs/svg.js@npm:3.1.2"
+  checksum: ca5a941712291e8ca3aec1d3d7e7561e85cc6b20843330de012370a19dde90d8132e40faa6a22296170c1956d4d15cb8acff3c9bdd3b8375197474fae14fb15c
   languageName: node
   linkType: hard
 
@@ -30505,6 +30514,13 @@ typescript@^4.2.4:
     remove-trailing-separator: ^1.0.1
     replace-ext: ^1.0.0
   checksum: 1f663973f1362f2d074b554f79ff7673187667082373b3d3e628beb1fc2a7ff33024f10b492fbd8db421a09ea3b7b22c3d3de4a0f0e73ead7b4685af570b906f
+  languageName: node
+  linkType: hard
+
+"vivus@npm:^0.4.6":
+  version: 0.4.6
+  resolution: "vivus@npm:0.4.6"
+  checksum: a7d46259cdf8c8fb0c7903982b04d5208237e6178efd6e6a99fc7ffc0379f40e175eddb504b0035b0fa5e63ba29ba729d761f837b2a0e7572137483faa306506
   languageName: node
   linkType: hard
 

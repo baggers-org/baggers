@@ -1,5 +1,5 @@
 import { AreaChart } from '@/components';
-import theme from '@/styles/theme';
+import { useTheme } from '@mui/material';
 import { alpha } from '@mui/system';
 import { useState } from 'react';
 
@@ -25,6 +25,8 @@ export const PortfolioCardChart = () => {
   const [chartData] = useState(
     POINTS.map((point) => ({ ...point, value: Math.random() * 30 })),
   );
+
+  const theme = useTheme()
 
   return (
     <AreaChart

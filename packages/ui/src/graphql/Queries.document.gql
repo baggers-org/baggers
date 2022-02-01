@@ -36,6 +36,7 @@ fragment FullPosition on Position {
         _id
         latestPrice
         changePercent
+        change
       }
   }
 }

@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
+import { formatCurrency } from '@/util';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 
@@ -39,7 +40,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
             <Grid container>
               <Grid item container xs={12} alignItems="center" gap={2}>
                 <Typography variant="h5" color="mediumEmphasis">
-                  ${portfolio?.totalValue}
+                  {formatCurrency(portfolio?.totalValue)}
                 </Typography>
                 <PriceTag color="profit">+12%</PriceTag>
               </Grid>

@@ -10,6 +10,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     <TextField
       {...textFieldProps}
       size="small"
+      variant="outlined"
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -18,21 +19,9 @@ export const SearchInput: React.FC<SearchInputProps> = ({
         ),
       }}
       sx={{
-        width: `100%`,
-        '& .MuiOutlinedInput-root': {
+        fieldset: {
           borderRadius: `10px`,
-          '& input': {
-            '&::placeholder': {
-              color: `rgba(0,0,0,0.23)`,
-            },
-            borderBottomColor: `red`,
-            border: `none`,
-          },
-          '& fieldset': {
-            borderColor: `rgba(0,0,0,0.1)`,
-          },
         },
-        ...textFieldProps.sx,
       }}
     />
   );

@@ -36,7 +36,7 @@ export const PositionsPage: BaggersPageComponent<PositionsPageProps> = () => {
   const { t } = useTranslation(`view_portfolio`);
 
   const [density, setDensity] = useState<DataGridProProps['density']>(
-    `compact`,
+    `standard`,
   );
   const [isAddingPosition, setIsAddingPosition] = useState(false);
 
@@ -113,7 +113,7 @@ export const PositionsPage: BaggersPageComponent<PositionsPageProps> = () => {
             </Grid>
           </Grid>
           <Grid item xs={12} height={500}>
-            <Paper sx={{ height: `100%` }} elevation={0}>
+            <Paper sx={{ height: `100%` }} elevation={1}>
               <PositionsTable
                 numberOfPositions={numberOfPositions || 0}
                 positions={positions}

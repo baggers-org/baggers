@@ -1,52 +1,86 @@
-import { isProfitLossOrNeutral } from '@/util';
+import { formatCurrency, isProfitLossOrNeutral } from '@/util';
 import { Delete } from '@mui/icons-material';
-import { Skeleton } from '@mui/material';
+import { Avatar, Link, Skeleton, Stack, useTheme } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'next-i18next';
+
+import NextLink from 'next/link';
 import { PriceTag } from '..';
 import { UseTableColumnProps } from './types';
 
-const renderPriceDeltaCell = (value: number) => {
+const renderPriceDeltaCell = (
+  value: number,
+  { isPercent } = { isPercent: false },
+) => {
   if (!value) {
     return <Skeleton width="100%" />;
   }
-  return <PriceTag color={isProfitLossOrNeutral(value)}>{value}</PriceTag>;
+
+  const delta = isProfitLossOrNeutral(value);
+  let formattedValue = isPercent
+    ? `${Math.abs(value)}%`
+    : formatCurrency(value);
+
+  formattedValue = `${value > 0 ? `+` : `-`} ${formattedValue}`;
+
+  return <PriceTag color={delta}>{formattedValue}</PriceTag>;
 };
 
-const renderValueOrSkeleton = (value) => {
+const renderMonetaryValue = (value: number) => {
   if (!value) {
     return <Skeleton width="100%" />;
   }
-
-  return value;
+  return formatCurrency(value);
 };
 export const useTableColumns = ({
   onRemovePosition,
 }: UseTableColumnProps): GridColDef[] => {
   const { t } = useTranslation();
+
+  const theme = useTheme();
   return [
     {
       field: `symbol`,
       headerName: t(`instrument`, `Instrument`),
       flex: 1,
       valueGetter: ({ row }) => row?.symbol?.symbol,
-      renderCell: ({ row }) => renderValueOrSkeleton(row?.symbol?.symbol),
+      renderCell: ({ row }) =>
+        row?.symbol ? (
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Avatar
+              sx={{
+                width: 30,
+                height: 30,
+                fontSize: 14,
+              }}
+            >
+              {row?.symbol?.symbol?.slice(0, 2)}
+            </Avatar>
+            <Link sx={{ fontWeight: `bold` }}>
+              <NextLink href={`/stock/${row?.symbol?.symbol}`}>
+                {row?.symbol?.symbol}
+              </NextLink>
+            </Link>
+          </Stack>
+        ) : (
+          <Skeleton />
+        ),
     },
     {
       field: `marketValue`,
-      renderCell: ({ row }) => renderValueOrSkeleton(row?.marketValue),
+      renderCell: ({ row }) => renderMonetaryValue(row?.marketValue),
       flex: 1,
       headerName: t(`marketValue`, `Market value`),
     },
     {
       field: `costBasis`,
-      renderCell: ({ row }) => renderValueOrSkeleton(row?.costBasis),
+      renderCell: ({ row }) => renderMonetaryValue(row?.costBasis),
       flex: 1,
       headerName: t(`costBasis`, `Cost basis`),
     },
     {
       field: `averagePrice`,
-      renderCell: ({ row }) => renderValueOrSkeleton(row?.averagePrice),
+      renderCell: ({ row }) => renderMonetaryValue(row?.averagePrice),
       flex: 1,
       headerName: t(`averagePrice`, `Average price`),
     },
@@ -58,7 +92,7 @@ export const useTableColumns = ({
         if (!row.symbol?.quote) {
           return <Skeleton width="100%" />;
         }
-        return row?.symbol?.quote?.latestPrice;
+        return renderMonetaryValue(row?.symbol?.quote?.latestPrice);
       },
     },
     {
@@ -69,7 +103,9 @@ export const useTableColumns = ({
         if (!row.symbol?.quote) {
           return <Skeleton width="100%" />;
         }
-        return row?.symbol?.quote?.latestPrice;
+        return renderPriceDeltaCell(row?.symbol?.quote?.changePercent, {
+          isPercent: true,
+        });
       },
     },
     {

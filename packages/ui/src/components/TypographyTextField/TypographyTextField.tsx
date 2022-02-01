@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TextField, TextFieldProps, TypographyProps } from '@mui/material';
-
-import theme from '@/styles/theme';
+import {
+  TextField,
+  TextFieldProps,
+  TypographyProps,
+  useTheme,
+} from '@mui/material';
 
 export type TypographyTextFieldProps = {
   variant?: TypographyProps['variant'];
@@ -12,6 +15,7 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
   variant,
   ...textFieldProps
 }) => {
+  const theme = useTheme();
   const styles = theme.typography[variant || `h4`];
   const [width, setWidth] = useState(`100%`);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>();

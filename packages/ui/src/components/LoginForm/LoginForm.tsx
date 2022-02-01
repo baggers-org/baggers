@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, Box, Typography } from '@mui/material';
+import {
+  Grid,
+  Button,
+  Box,
+  Typography,
+  useTheme,
+  TextField,
+} from '@mui/material';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
-import theme from '@/styles/theme';
 import { useNotifications } from '@/hooks';
 import {
   BaggersButton,
@@ -13,6 +19,9 @@ import {
   ConfirmEmailForm,
   LoginFormWrapper,
 } from '@/components';
+import { SignupPageTextField } from '@/views/SignupPage/components';
+import { EmailOutlined, LockOutlined } from '@mui/icons-material';
+import { useTranslation } from 'next-i18next';
 
 type Props = {};
 export type LoginError = {
@@ -33,6 +42,10 @@ export const LoginForm: React.FC<Props> = () => {
 
   const { push } = useRouter();
   const { sendNotification } = useNotifications();
+
+  const theme = useTheme();
+
+  const { t } = useTranslation(`landing_page`);
 
   useEffect(() => {
     if (loginError?.message) {
@@ -146,24 +159,40 @@ export const LoginForm: React.FC<Props> = () => {
         <Grid item xs={12}>
           <BaggersTextField
             id="email"
-            variant="outlined"
+            variant="filled"
             color="primary"
             type="email"
             autoComplete="email"
-            label="Email"
+            placeholder={t(`email`, `Email`)}
+            InputProps={{
+              startAdornment: <EmailOutlined />,
+            }}
             onChange={(e) => {
               setEmail(e.target.value);
+            }}
+            sx={{
+              '.MuiFilledInput-root': {
+                color: `white`,
+              },
             }}
           />
         </Grid>
         <Grid item xs={12}>
           <BaggersTextField
             id="password"
-            variant="outlined"
-            label="Password"
+            variant="filled"
+            InputProps={{
+              startAdornment: <LockOutlined />,
+            }}
+            placeholder={t(`password`, `Password`)}
             type="password"
             autoComplete="password"
             secret
+            sx={{
+              '.MuiFilledInput-root': {
+                color: `white`,
+              },
+            }}
             onChange={(e) => {
               setPassword(e.target.value);
             }}

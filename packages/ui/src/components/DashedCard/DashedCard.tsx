@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, CardProps } from '@mui/material';
-
-import theme from '@/styles/theme';
+import { Card, CardProps, useTheme } from '@mui/material';
 
 export type DashedCardProps = CardProps;
 export const DashedCard: React.FC<DashedCardProps> = ({ children }) => {
+  const theme = useTheme();
   return (
     <Card
       sx={{

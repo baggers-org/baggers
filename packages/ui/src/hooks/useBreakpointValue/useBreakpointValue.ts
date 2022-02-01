@@ -1,11 +1,11 @@
-import theme from '@/styles/theme';
-import { Breakpoint, useMediaQuery } from '@mui/material';
+import { Breakpoint, useMediaQuery, useTheme } from '@mui/material';
 
 export const useBreakpointValue = <TValue>(
   values: {
     [key in Breakpoint]?: TValue;
   },
 ) => {
+  const theme = useTheme();
   const matches = {
     xs: useMediaQuery(theme.breakpoints.up(`xs`)),
     sm: useMediaQuery(theme.breakpoints.up(`sm`)),

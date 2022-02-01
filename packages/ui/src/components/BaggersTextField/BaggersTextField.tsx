@@ -25,12 +25,14 @@ export const BaggersTextField: React.FC<
 
   if (isMonetaryInput) {
     additionalProps.InputProps = {
+      ...(muiProps.InputProps || {}),
       startAdornment: <InputAdornment position="start">$</InputAdornment>,
     };
   }
 
   if (secret) {
     additionalProps.InputProps = {
+      ...(muiProps.InputProps || {}),
       type: showPassword ? `text` : `password`,
       endAdornment: (
         <InputAdornment position="end">

@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { Box, LinearProgress } from '@mui/material';
+import React from 'react';
+import { Box, LinearProgress, useTheme } from '@mui/material';
 import { alpha } from '@mui/system';
 
-import theme from '@/styles/theme';
-
 export const PageLoadingOverlay = () => {
+  const theme = useTheme();
   return (
     <Box
       position="absolute"

@@ -48,6 +48,7 @@
     "@mui/system": "^5.2.0",
     "@mui/x-data-grid-pro": "^5.2.1",
     "@sls-next/serverless-component": "3.3.0",
+    "@svgdotjs/svg.js": "^3.1.1",
     "@types/jest": "26.0.23",
     "@types/mongodb": "3.6.8",
     "@types/react-helmet": "6.1.0",
@@ -73,7 +74,8 @@
     "react-loading-skeleton": "2.2.0",
     "saslprep": "1.0.3",
     "use-debounce": "6.0.0",
-    "uuid": "8.3.2"
+    "uuid": "8.3.2",
+    "vivus": "^0.4.6"
   },
   "devDependencies": {
     "@commitlint/cli": "12.0.1",
