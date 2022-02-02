@@ -1,4 +1,4 @@
-import { Box, Container, Paper, useTheme } from '@mui/material';
+import { Box, Container, useTheme } from '@mui/material';
 
 import LoginForm from '@/components/LoginForm/LoginForm';
 import { usePrefetch } from '@/hooks';
