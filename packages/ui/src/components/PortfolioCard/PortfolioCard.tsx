@@ -40,7 +40,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
             <Grid container>
               <Grid item container xs={12} alignItems="center" gap={2}>
                 <Typography variant="h5" color="mediumEmphasis">
-                  {formatCurrency(portfolio?.totalValue)}
+                  {portfolio?.totalValue
+                    ? formatCurrency(portfolio?.totalValue)
+                    : null}
                 </Typography>
                 <PriceTag color="profit">+12%</PriceTag>
               </Grid>

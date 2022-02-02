@@ -8,7 +8,6 @@ import { appWithTranslation } from 'next-i18next';
 
 import '../lib/setupAmplify';
 import createEmotionCache from '@/styles/createEmotionCache';
-import theme from '@/styles/theme';
 import { BaggersPageComponent } from '@/views/types';
 import { createApolloClient } from '@/lib/ApolloClient';
 import { CacheProvider, EmotionCache } from '@emotion/react';

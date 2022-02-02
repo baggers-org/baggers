@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Grid,
-  Button,
-  Box,
-  Typography,
-  useTheme,
-  TextField,
-} from '@mui/material';
+import { Grid, Button, Box, Typography, useTheme } from '@mui/material';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
@@ -19,7 +12,6 @@ import {
   ConfirmEmailForm,
   LoginFormWrapper,
 } from '@/components';
-import { SignupPageTextField } from '@/views/SignupPage/components';
 import { EmailOutlined, LockOutlined } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
 

@@ -1,11 +1,6 @@
 import React from 'react';
 import { Box, Grid, Paper, Stack, Tabs, useTheme } from '@mui/material';
-import {
-  Dashboard,
-  FolderOpen,
-  TheatersOutlined,
-  WaterfallChart,
-} from '@mui/icons-material';
+import { Dashboard, FolderOpen, WaterfallChart } from '@mui/icons-material';
 import { useTranslation } from 'next-i18next';
 
 import { useRouter } from 'next/router';

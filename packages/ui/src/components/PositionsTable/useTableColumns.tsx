@@ -1,6 +1,6 @@
 import { formatCurrency, isProfitLossOrNeutral } from '@/util';
 import { Delete } from '@mui/icons-material';
-import { Avatar, Link, Skeleton, Stack, useTheme } from '@mui/material';
+import { Avatar, Link, Skeleton, Stack } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'next-i18next';
 
@@ -37,7 +37,6 @@ export const useTableColumns = ({
 }: UseTableColumnProps): GridColDef[] => {
   const { t } = useTranslation();
 
-  const theme = useTheme();
   return [
     {
       field: `symbol`,

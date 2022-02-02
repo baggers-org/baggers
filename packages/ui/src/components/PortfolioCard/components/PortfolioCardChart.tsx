@@ -26,7 +26,7 @@ export const PortfolioCardChart = () => {
     POINTS.map((point) => ({ ...point, value: Math.random() * 30 })),
   );
 
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <AreaChart

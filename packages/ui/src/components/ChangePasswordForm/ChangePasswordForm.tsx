@@ -1,5 +1,4 @@
 import { Stack } from '@mui/material';
-import { BaggersTextField } from '@/components';
 import { CheckOutlined, LockOutlined } from '@mui/icons-material';
 import { SignupPageTextField } from '@/views/SignupPage/components';
 

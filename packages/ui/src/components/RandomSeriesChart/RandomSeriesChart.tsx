@@ -15,8 +15,6 @@ export type RandomSeriesChartProps = {
     duration: number;
     delay: number;
   };
-
-  loop?: boolean;
 } & BoxProps;
 
 type Point = { x: number; y: number };
@@ -27,7 +25,6 @@ export const RandomSeriesChart: React.FC<RandomSeriesChartProps> = ({
   volatility = 0.2,
   color,
   animation,
-  loop,
   ...boxProps
 }) => {
   const [series, setSeries] = useState<Point[]>();

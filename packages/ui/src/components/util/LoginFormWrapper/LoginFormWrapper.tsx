@@ -1,10 +1,8 @@
-import { Box, Grid, Fade, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Fade, Typography } from '@mui/material';
 import React from 'react';
-import LogoLightTheme from '../../../../public/Logo/logo_light_50x50.svg';
 import LogoDarkTheme from '../../../../public/Logo/logo_dark_50x50.svg';
 
 export const LoginFormWrapper: React.FC = ({ children }) => {
-  const theme = useTheme();
   return (
     <Fade in>
       <Box display="flex" height="100vh">
