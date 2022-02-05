@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w & sls offline start --httpPort=5000 --noPrependStageInUrl --stage=local --skipCacheInvalidation",
+    "dev": "tsc -w & NODE_ENV='development' sls offline start --httpPort=5000 --noPrependStageInUrl --stage=local --skipCacheInvalidation",
     "offline": "sls offline start --httpPort=5000 --noPrependStageInUrl --stage=local --skipCacheInvalidation",
-    "devCache": "tsc -w & sls offline start --httpPort=5000 --noPrependStageInUrl --stage=local --skipCacheInvalidation --allowCache",
+    "devCache": "tsc -w & NODE_ENV='development' sls offline start --httpPort=5000 --noPrependStageInUrl --stage=local --skipCacheInvalidation --allowCache",
     "deploy": "sls deploy",
     "test": "jest",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\""

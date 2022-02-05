@@ -24,6 +24,10 @@ export const Portfolio = defineCollection<IPortfolio>({
       type: `Number`,
       default: 0.0,
     },
+    numberOfPositions: {
+      type: `Number`,
+      default: 0,
+    },
     positions: [{ type: Schema.Types.ObjectId, ref: `Position` }],
   },
 });
@@ -132,7 +136,7 @@ export const Position = defineCollection<IPosition>({
     owner: String,
     portfolio: { type: Schema.Types.ObjectId, ref: `Portfolio` },
     symbol: { type: Schema.Types.ObjectId, ref: `Symbol` },
-    private: { type: Schema.Types.Boolean, default: false },
+    direction: { type: String, enum: [`long`, `short`], default: `long` },
     exposure: {
       type: `Number`,
       default: 0,
@@ -153,7 +157,7 @@ export const Position = defineCollection<IPosition>({
       type: `Number`,
       default: 0,
     },
-    numberOfShares: {
+    positionSize: {
       type: `Number`,
       default: 0,
     },
@@ -168,6 +172,14 @@ export const Position = defineCollection<IPosition>({
     dailyProfitLossUsd: {
       type: `Number`,
       default: 0,
+    },
+    openDate: {
+      type: `Date`,
+      default: new Date(),
+    },
+    closeDate: {
+      type: `Date`,
+      default: new Date(),
     },
   },
 });

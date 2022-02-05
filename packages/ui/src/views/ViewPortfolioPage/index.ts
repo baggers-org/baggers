@@ -1,3 +1,2 @@
-import ViewPortfolioPage from './ViewPortfolioPage';
-
-export default ViewPortfolioPage;
+export * from './PositionsPage';
+export * from './layout';

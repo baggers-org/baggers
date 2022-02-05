@@ -63,6 +63,8 @@
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
+        // maybe risky this one, but generally i know when i need to include something
+        "react-hooks/exhaustive-deps": "off",
         "no-use-before-define": [0],
         "@typescript-eslint/no-use-before-define": [1],
         "@typescript-eslint/no-explicit-any": "off",

@@ -1,0 +1,428 @@
+type ValidationError implements ErrorInterface {
+  """Combined error message from all validators"""
+  message: String
+
+  """List of validator errors"""
+  errors: [ValidatorError!]
+}
+
+interface ErrorInterface {
+  """Generic error message"""
+  message: String
+}
+
+type ValidatorError {
+  """Validation error message"""
+  message: String
+
+  """Source of the validation error from the model path"""
+  path: String
+
+  """Field value which occurs the validation error"""
+  value: JSON
+
+  """
+  Input record idx in array which occurs the validation error. This `idx` is useful for createMany operation. For singular operations it always be 0. For *Many operations `idx` represents record index in array received from user.
+  """
+  idx: Int!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+type MongoError implements ErrorInterface {
+  """MongoDB error message"""
+  message: String
+
+  """MongoDB error code"""
+  code: Int
+}
+
+type RuntimeError implements ErrorInterface {
+  """Runtime error message"""
+  message: String
+}
+
+type Query {
+  myPositions(filter: PositionsFilter, sort: PositionsSort, perPage: Int, page: Int): PositionPagination
+  getPositions(filter: PositionsFilter, sort: PositionsSort, perPage: Int, page: Int): PositionPagination
+  myPortfolios(
+    """Filter by fields"""
+    filter: FilterFindManyPortfolioInput
+    skip: Int
+    limit: Int = 100
+    sort: SortFindManyPortfolioInput
+  ): [Portfolio!]!
+  getPortfolioById(_id: MongoID!): Portfolio
+  searchSymbols(search: String!): [Symbol]
+  getTradingDate(from: String, direction: DIRECTION): TradingDateResponse
+}
+
+"""List of items with pagination."""
+type PositionPagination {
+  """Total object count."""
+  count: Int
+
+  """Array of objects."""
+  items: [Position!]
+
+  """Information to aid in pagination."""
+  pageInfo: PaginationInfo!
+}
+
+type Position {
+  owner: String
+  portfolio: MongoID
+  symbol: Symbol
+  direction: EnumPositionDirection
+  exposure: Float
+  averagePrice: Float
+  marketValue: Float
+  costBasis: Float
+  brokerFees: Float
+  positionSize: Float
+  profitLossUsd: Float
+  profitLossPercent: Float
+  dailyProfitLossUsd: Float
+  openDate: Date
+  closeDate: Date
+  _id: MongoID!
+}
+
+"""
+The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field.
+"""
+scalar MongoID
+
+type Symbol {
+  symbol: String
+  securityName: String
+  isEtf: Boolean
+  exchange: String
+  country: String
+  quote: Quote
+  _id: MongoID!
+}
+
+type Quote {
+  symbol: MongoID
+  change: Float
+  changePercent: Float
+  latestPrice: Float
+  latestUpdate: Float
+  extendedPrice: Float
+  extendedUpdate: Float
+  volume: Float
+  companyName: String
+  primaryExchange: String
+  calculationPrice: String
+  open: Float
+  openTime: Float
+  openSource: String
+  close: Float
+  closeTime: Float
+  closeSource: String
+  high: Float
+  highTime: Float
+  highSource: String
+  low: Float
+  lowTime: Float
+  lowSource: String
+  latestSource: String
+  latestTime: String
+  latestVolume: Float
+  iexRealtimePrice: Float
+  iexRealtimeSize: Float
+  iexLastUpdated: Float
+  delayedPrice: Float
+  delayedPriceTime: Float
+  oddLotDelayedPrice: Float
+  oddLotDelayedPriceTime: Float
+  extendedChange: Float
+  extendedChangePercent: Float
+  extendedPriceTime: Float
+  previousClose: Float
+  previousVolume: Float
+  iexMarketPercent: Float
+  iexVolume: Float
+  avgTotalVolume: Float
+  iexBidPrice: Float
+  iexBidSize: Float
+  iexAskPrice: Float
+  iexAskSize: Float
+  iexOpen: Float
+  iexOpenTime: Float
+  iexClose: Float
+  iexCloseTime: Float
+  marketCap: Float
+  peRatio: Float
+  week52High: Float
+  week52Low: Float
+  ytdChange: Float
+  lastTradeTime: Float
+  isUSMarketOpen: Boolean
+  _id: MongoID!
+}
+
+enum EnumPositionDirection {
+  long
+  short
+}
+
+scalar Date
+
+type PaginationInfo {
+  currentPage: Int!
+  perPage: Int!
+  pageCount: Int
+  itemCount: Int
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+}
+
+input PositionsFilter {
+  portfolio: MongoID
+  isEtf: Boolean
+  exchange: String
+  country: String
+}
+
+enum PositionsSort {
+  COST_BASIS_ASC
+  COST_BASIS_DESC
+  MARKET_VALUE_ASC
+  MARKET_VALUE_DESC
+  PROFIT_LOSS_USD_ASC
+  PROFIT_LOSS_USD_DESC
+  SYMBOL_SYMBOL_ASC
+  SYMBOL_SYMBOL_DESC
+  SYMBOL_SECURITY_NAME_ASC
+  SYMBOL_SECURITY_NAME_DESC
+  SYMBOL_QUOTE_CHANGE_ASC
+  SYMBOL_QUOTE_CHANGE_DESC
+  SYMBOL_QUOTE_CHANGE_PERCENT_ASC
+  SYMBOL_QUOTE_CHANGE_PERCENT_DESC
+  SYMBOL_QUOTE_LATEST_PRICE_ASC
+  SYMBOL_QUOTE_LATEST_PRICE_DESC
+  SYMBOL_QUOTE_VOLUME_ASC
+  SYMBOL_QUOTE_VOLUME_DESC
+}
+
+type Portfolio {
+  owner: String
+  private: Boolean
+  name: String
+  description: String
+  cash: Float
+  totalValue: Float
+  numberOfPositions: Float
+  positions(sort: PositionsSort, perPage: Int, page: Int): PositionPagination
+  _id: MongoID!
+}
+
+""""""
+input FilterFindManyPortfolioInput {
+  owner: String
+  private: Boolean
+  name: String
+  description: String
+  cash: Float
+  totalValue: Float
+  numberOfPositions: Float
+  positions: [MongoID]
+  _id: MongoID
+
+  """List of *indexed* fields that can be filtered via operators."""
+  _operators: FilterFindManyPortfolioOperatorsInput
+  OR: [FilterFindManyPortfolioInput!]
+  AND: [FilterFindManyPortfolioInput!]
+}
+
+"""For performance reason this type contains only *indexed* fields."""
+input FilterFindManyPortfolioOperatorsInput {
+  owner: FilterFindManyPortfolioOwnerOperatorsInput
+  _id: FilterFindManyPortfolio_idOperatorsInput
+}
+
+input FilterFindManyPortfolioOwnerOperatorsInput {
+  gt: String
+  gte: String
+  lt: String
+  lte: String
+  ne: String
+  in: [String]
+  nin: [String]
+  regex: RegExpAsString
+  exists: Boolean
+}
+
+"""
+The string representation of JavaScript regexp. You may provide it with flags "/^abc.*/i" or without flags like "^abc.*". More info about RegExp characters and flags: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
+"""
+scalar RegExpAsString @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf")
+
+input FilterFindManyPortfolio_idOperatorsInput {
+  gt: MongoID
+  gte: MongoID
+  lt: MongoID
+  lte: MongoID
+  ne: MongoID
+  in: [MongoID]
+  nin: [MongoID]
+  exists: Boolean
+}
+
+enum SortFindManyPortfolioInput {
+  _ID_ASC
+  _ID_DESC
+  OWNER_ASC
+  OWNER_DESC
+}
+
+type TradingDateResponse {
+  date: String
+  settlementDate: String
+}
+
+enum DIRECTION {
+  next
+  last
+}
+
+type Mutation {
+  """
+  Create one document with mongoose defaults, setters, hooks and validation
+  """
+  addPosition(record: CreateOnePositionInput!): CreateOnePositionPayload
+
+  """
+  Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
+  """
+  removePosition(_id: MongoID!): RemoveByIdPositionPayload
+  removePositions(ids: [MongoID]): RemoveManyPositionPayload
+
+  """
+  Create one document with mongoose defaults, setters, hooks and validation
+  """
+  createPortfolio(record: CreateOnePortfolioInput!): CreateOnePortfolioPayload
+
+  """
+  Update one document: 1) Retrieve one document by findById. 2) Apply updates to mongoose document. 3) Mongoose applies defaults, setters, hooks and validation. 4) And save it.
+  """
+  updatePortfolio(_id: MongoID!, record: UpdateByIdPortfolioInput!): UpdateByIdPortfolioPayload
+
+  """
+  Remove one document: 1) Retrieve one document and remove with hooks via findByIdAndRemove. 2) Return removed document.
+  """
+  removePortfolio(_id: MongoID!): RemoveByIdPortfolioPayload
+}
+
+type CreateOnePositionPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Created document"""
+  record: Position
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input CreateOnePositionInput {
+  portfolio: MongoID!
+  symbol: MongoID!
+  direction: EnumPositionDirection
+  averagePrice: Float!
+  brokerFees: Float
+  positionSize: Float!
+  openDate: Date
+  closeDate: Date
+  _id: MongoID
+}
+
+type RemoveByIdPositionPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Removed document"""
+  record: Position
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type RemoveManyPositionPayload {
+  """Affected documents number"""
+  numAffected: Int
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+type CreateOnePortfolioPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Created document"""
+  record: Portfolio
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input CreateOnePortfolioInput {
+  private: Boolean
+  name: String
+  description: String
+  cash: Float
+  totalValue: Float
+  numberOfPositions: Float
+}
+
+type UpdateByIdPortfolioPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Updated document"""
+  record: Portfolio
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}
+
+""""""
+input UpdateByIdPortfolioInput {
+  private: Boolean
+  name: String
+  description: String
+  cash: Float
+  totalValue: Float
+  numberOfPositions: Float
+}
+
+type RemoveByIdPortfolioPayload {
+  """Document ID"""
+  recordId: MongoID
+
+  """Removed document"""
+  record: Portfolio
+
+  """
+  Error that may occur during operation. If you request this field in GraphQL query, you will receive typed error in payload; otherwise error will be provided in root `errors` field of GraphQL response.
+  """
+  error: ErrorInterface
+}

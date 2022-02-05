@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, Box, Typography } from '@mui/material';
+import { Grid, Button, Box, Typography, useTheme } from '@mui/material';
 import { Auth } from 'aws-amplify';
 import { useRouter } from 'next/router';
 
-import theme from '@/styles/theme';
 import { useNotifications } from '@/hooks';
 import {
   BaggersButton,
@@ -13,6 +12,8 @@ import {
   ConfirmEmailForm,
   LoginFormWrapper,
 } from '@/components';
+import { EmailOutlined, LockOutlined } from '@mui/icons-material';
+import { useTranslation } from 'next-i18next';
 
 type Props = {};
 export type LoginError = {
@@ -22,24 +23,21 @@ export type LoginError = {
 export const LoginForm: React.FC<Props> = () => {
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
-  const { push, prefetch } = useRouter();
-
   const [loggingIn, setLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState<LoginError | null>(null);
-
   const [forceChangePasswordForUser, setForceChangePasswordForuser] = useState(
     null,
   );
-
   const [showConfirmEmail, setShowConfirmEmail] = useState(false);
+  const [newPassword, setNewPassword] = useState<string | undefined>();
+  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
 
+  const { push } = useRouter();
   const { sendNotification } = useNotifications();
 
-  useEffect(() => {
-    prefetch(`/signup`);
-    prefetch(`/reset_password`);
-    prefetch(`/portfolios`);
-  }, []);
+  const theme = useTheme();
+
+  const { t } = useTranslation(`landing_page`);
 
   useEffect(() => {
     if (loginError?.message) {
@@ -82,9 +80,6 @@ export const LoginForm: React.FC<Props> = () => {
     }
   };
 
-  const [newPassword, setNewPassword] = useState<string | undefined>();
-  const [confirmPassword, setConfirmPassword] = useState<string | undefined>();
-
   const changePassword = async () => {
     if (!newPassword) return;
     if (newPassword !== confirmPassword) {
@@ -103,7 +98,7 @@ export const LoginForm: React.FC<Props> = () => {
           message: `Password updated!`,
           type: `success`,
         });
-        push(`/portfolios`);
+        push(`/portfolios/created`);
       }
     } catch (e) {
       sendNotification({
@@ -121,7 +116,7 @@ export const LoginForm: React.FC<Props> = () => {
       <LoginFormWrapper>
         <Grid container justifyContent="center" spacing={2}>
           <Grid item xs={12}>
-            <Box padding="20px" textAlign="center">
+            <Box padding={3} textAlign="center">
               <Typography variant="subtitle1">
                 <strong>
                   You must change your password before you can log in
@@ -133,13 +128,6 @@ export const LoginForm: React.FC<Props> = () => {
             <ChangePasswordForm
               onChangeNewPassword={setNewPassword}
               onChangeConfirmPassword={setConfirmPassword}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <BaggersTextField
-              label="Confirm Password"
-              secret
-              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -163,30 +151,46 @@ export const LoginForm: React.FC<Props> = () => {
         <Grid item xs={12}>
           <BaggersTextField
             id="email"
-            variant="outlined"
+            variant="filled"
             color="primary"
             type="email"
             autoComplete="email"
-            label="Email"
+            placeholder={t(`email`, `Email`)}
+            InputProps={{
+              startAdornment: <EmailOutlined />,
+            }}
             onChange={(e) => {
               setEmail(e.target.value);
+            }}
+            sx={{
+              '.MuiFilledInput-root': {
+                color: `white`,
+              },
             }}
           />
         </Grid>
         <Grid item xs={12}>
           <BaggersTextField
             id="password"
-            variant="outlined"
-            label="Password"
+            variant="filled"
+            InputProps={{
+              startAdornment: <LockOutlined />,
+            }}
+            placeholder={t(`password`, `Password`)}
             type="password"
             autoComplete="password"
             secret
+            sx={{
+              '.MuiFilledInput-root': {
+                color: `white`,
+              },
+            }}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
         </Grid>
-        <Grid container item spacing={2} style={{ marginTop: `20px` }}>
+        <Grid container item spacing={2} mt={1}>
           <Grid item xs={12}>
             <BaggersButton
               loading={loggingIn}

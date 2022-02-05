@@ -34,8 +34,8 @@ yarn-error.log*
 .vercel
 
 *.document.gql.d.ts*
-*.graphql.d.ts
-*.graphqls.d.ts
+*.gql.d.ts
+*.gql.d.ts
 
 built-lambda
 
@@ -66,3 +66,5 @@ amplifytools.xcconfig
 cypress/videos
 cypress/screenshots
 .nyc_output
+
+src/*.gql.d.ts

@@ -2,8 +2,6 @@ name: CI
 
 on: 
   pull_request:
-    branches:
-      - develop
 
 defaults:
   run:
@@ -53,6 +51,3 @@ jobs:
 
       - name: Lint
         run: yarn lint
-
-      - name: Test
-        run: yarn test

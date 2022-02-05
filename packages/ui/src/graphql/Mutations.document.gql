@@ -1,3 +1,13 @@
+fragment PortfolioSummary on Portfolio {
+      cash
+      private
+      owner
+      name
+      description
+      totalValue
+      numberOfPositions
+}
+
 mutation createPortfolio($record: CreateOnePortfolioInput!) {
   createPortfolio(record: $record){
     error {
@@ -5,24 +15,25 @@ mutation createPortfolio($record: CreateOnePortfolioInput!) {
     }
     record {
       _id
-      owner
-      name
-      description
+      ...PortfolioSummary
+    }
+  }
+}
+
+mutation removePortfolio($id: MongoID!){
+  removePortfolio(_id: $id){
+    recordId
+    error {
+      message
     }
   }
 }
 
 mutation updatePortfolio($id: MongoID!, $record: UpdateByIdPortfolioInput!) {
   updatePortfolio(_id: $id, record: $record){
-    error {
-      message
-    }
     record {
       _id
-      owner
-      private
-      name
-      description
+      ...PortfolioSummary
     }
   }
 }
@@ -37,9 +48,15 @@ mutation addPosition($record: CreateOnePositionInput!) {
     record {
       _id
       owner
-      numberOfShares
+      positionSize
       averagePrice
+      direction
+      openDate
+      closeDate
+      exposure
       profitLossPercent
+      dailyProfitLossUsd
+      profitLossUsd
       costBasis
       marketValue
       symbol {
@@ -57,6 +74,10 @@ mutation addPosition($record: CreateOnePositionInput!) {
 
 mutation removePosition($id: MongoID!) {
   removePosition(_id: $id) {
+    recordId
+    record {
+      _id
+    }
     error {
       message
     }

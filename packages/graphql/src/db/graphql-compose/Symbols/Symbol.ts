@@ -10,7 +10,7 @@ const addResolvers = () => {
     args: {
       search: `String!`,
     },
-    resolve: async ({ _, args }: any) => {
+    resolve: async ({ args }: any) => {
       const aggregate = await BaggersMongoose.models.Symbol?.aggregate([
         {
           $search: {

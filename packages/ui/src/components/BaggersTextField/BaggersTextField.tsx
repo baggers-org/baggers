@@ -6,7 +6,6 @@ import {
   TextFieldProps,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import Skeleton from 'react-loading-skeleton';
 
 export type BaggersTextFieldProps = {
   loading?: boolean;
@@ -14,16 +13,9 @@ export type BaggersTextFieldProps = {
   secret?: boolean;
 };
 export const BaggersTextField: React.FC<
-  TextFieldProps & BaggersTextFieldProps
-> = ({ loading, isMonetaryInput, secret, ...muiProps }) => {
+  BaggersTextFieldProps & TextFieldProps
+> = ({ isMonetaryInput, secret, ...muiProps }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  if (loading) {
-    let height = 55;
-    if (muiProps.rows && muiProps.multiline) {
-      height = Number(muiProps.rows) * 23.6;
-    }
-    return <Skeleton height={height} style={{ marginTop: `20px` }} />;
-  }
   const additionalProps: TextFieldProps = {};
 
   const defaultProps: TextFieldProps = {
@@ -33,12 +25,14 @@ export const BaggersTextField: React.FC<
 
   if (isMonetaryInput) {
     additionalProps.InputProps = {
+      ...(muiProps.InputProps || {}),
       startAdornment: <InputAdornment position="start">$</InputAdornment>,
     };
   }
 
   if (secret) {
     additionalProps.InputProps = {
+      ...(muiProps.InputProps || {}),
       type: showPassword ? `text` : `password`,
       endAdornment: (
         <InputAdornment position="end">

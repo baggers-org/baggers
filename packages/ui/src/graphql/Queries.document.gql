@@ -7,6 +7,8 @@ fragment PortfolioSummary on Portfolio {
       owner
       name
       description
+      totalValue
+      numberOfPositions
 }
 fragment SymbolSummary on Symbol {
   symbol
@@ -20,8 +22,11 @@ fragment FullPosition on Position {
   profitLossUsd
   dailyProfitLossUsd
   averagePrice
+  openDate
+  closeDate
+  direction
   costBasis
-  numberOfShares
+  positionSize
   exposure
   marketValue
   symbol {
@@ -31,6 +36,7 @@ fragment FullPosition on Position {
         _id
         latestPrice
         changePercent
+        change
       }
   }
 }
@@ -57,9 +63,6 @@ query myPortfolios {
           ...FullPosition
         }
         count
-        pageInfo {
-          ...AllPageInfo
-        }
       }
   }
 }
@@ -103,12 +106,14 @@ query getPositions($filter: PositionsFilter, $sort: PositionsSort, $perPage: Int
 
     }
     count
+    __typename
   }
 }
 
 #########################################
 # Symbols
 #########################################
+
 
 query searchSymbols($search: String!) {
   searchSymbols(search: $search) {

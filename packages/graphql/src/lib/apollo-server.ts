@@ -4,6 +4,10 @@ import { authenticate } from '../util/authenticate';
 
 export const createHandler = async () => {
   const schema = await createGraphQLSchema();
+  if (process.env.NODE_ENV === `development`) {
+    const { writeSchemaFile } = await import(`../util/writeSchemaFile`);
+    writeSchemaFile(schema);
+  }
 
   const apolloServer = new ApolloServer({
     schema,
@@ -23,8 +27,6 @@ export const createHandler = async () => {
     },
     context: ({ event, context }) => {
       const claims = event?.requestContext?.authorizer?.claims;
-      console.log(claims);
-
       return {
         event,
         context,

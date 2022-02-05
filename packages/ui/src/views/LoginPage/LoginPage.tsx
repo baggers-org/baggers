@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Container, useTheme } from '@mui/material';
 
 import LoginForm from '@/components/LoginForm/LoginForm';
 import { usePrefetch } from '@/hooks';
@@ -7,11 +7,17 @@ import { BaggersPageComponent } from '../types';
 type Props = {};
 
 export const LoginPage: BaggersPageComponent<Props> = () => {
-  usePrefetch(`/portfolios`);
+  usePrefetch(`/signup`);
+  usePrefetch(`/reset_password`);
+  usePrefetch(`/portfolios/created`);
+
+  const theme = useTheme();
+
   return (
-    <Container maxWidth="sm">
-      <LoginForm />
-      <Typography color="textSecondary">&copy; 2021 Baggers</Typography>
-    </Container>
+    <Box sx={{ background: theme.palette.gradient.main }}>
+      <Container maxWidth="sm">
+        <LoginForm />
+      </Container>
+    </Box>
   );
 };
