@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import { useTranslation } from 'next-i18next';
 
-import { SearchInput, Clock } from '@/components';
-import theme from '@/styles/theme';
+import { SearchInput, Clock, ThemeToggle } from '@/components';
 import { NotificationsButton } from '../NotificationsButton';
 import { ProfileButton } from '../ProfileButton';
 
@@ -11,6 +10,7 @@ export type AppBarHeaderProps = {};
 export const AppBarHeader: React.FC<AppBarHeaderProps> = () => {
   const { t } = useTranslation();
 
+  const theme = useTheme();
   return (
     <Box
       display={{ xs: `none`, md: `flex` }}
@@ -39,6 +39,7 @@ export const AppBarHeader: React.FC<AppBarHeaderProps> = () => {
           justifyContent="flex-end"
         >
           <Grid display="flex" item alignItems="center" gap={1}>
+            <ThemeToggle />
             <NotificationsButton />
             <ProfileButton />
           </Grid>

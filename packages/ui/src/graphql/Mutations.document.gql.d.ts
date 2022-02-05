@@ -562,7 +562,7 @@ export declare type CreatePortfolioMutationFn = Apollo.MutationFunction<CreatePo
  */
 export declare function useCreatePortfolioMutation(baseOptions?: Apollo.MutationHookOptions<CreatePortfolioMutation, CreatePortfolioMutationVariables>): Apollo.MutationTuple<CreatePortfolioMutation, Exact<{
     record: CreateOnePortfolioInput;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type CreatePortfolioMutationHookResult = ReturnType<typeof useCreatePortfolioMutation>;
 export declare type CreatePortfolioMutationResult = Apollo.MutationResult<CreatePortfolioMutation>;
 export declare type CreatePortfolioMutationOptions = Apollo.BaseMutationOptions<CreatePortfolioMutation, CreatePortfolioMutationVariables>;
@@ -587,7 +587,7 @@ export declare type RemovePortfolioMutationFn = Apollo.MutationFunction<RemovePo
  */
 export declare function useRemovePortfolioMutation(baseOptions?: Apollo.MutationHookOptions<RemovePortfolioMutation, RemovePortfolioMutationVariables>): Apollo.MutationTuple<RemovePortfolioMutation, Exact<{
     id: any;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type RemovePortfolioMutationHookResult = ReturnType<typeof useRemovePortfolioMutation>;
 export declare type RemovePortfolioMutationResult = Apollo.MutationResult<RemovePortfolioMutation>;
 export declare type RemovePortfolioMutationOptions = Apollo.BaseMutationOptions<RemovePortfolioMutation, RemovePortfolioMutationVariables>;
@@ -614,7 +614,7 @@ export declare type UpdatePortfolioMutationFn = Apollo.MutationFunction<UpdatePo
 export declare function useUpdatePortfolioMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePortfolioMutation, UpdatePortfolioMutationVariables>): Apollo.MutationTuple<UpdatePortfolioMutation, Exact<{
     id: any;
     record: UpdateByIdPortfolioInput;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type UpdatePortfolioMutationHookResult = ReturnType<typeof useUpdatePortfolioMutation>;
 export declare type UpdatePortfolioMutationResult = Apollo.MutationResult<UpdatePortfolioMutation>;
 export declare type UpdatePortfolioMutationOptions = Apollo.BaseMutationOptions<UpdatePortfolioMutation, UpdatePortfolioMutationVariables>;
@@ -639,7 +639,7 @@ export declare type AddPositionMutationFn = Apollo.MutationFunction<AddPositionM
  */
 export declare function useAddPositionMutation(baseOptions?: Apollo.MutationHookOptions<AddPositionMutation, AddPositionMutationVariables>): Apollo.MutationTuple<AddPositionMutation, Exact<{
     record: CreateOnePositionInput;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type AddPositionMutationHookResult = ReturnType<typeof useAddPositionMutation>;
 export declare type AddPositionMutationResult = Apollo.MutationResult<AddPositionMutation>;
 export declare type AddPositionMutationOptions = Apollo.BaseMutationOptions<AddPositionMutation, AddPositionMutationVariables>;
@@ -664,7 +664,7 @@ export declare type RemovePositionMutationFn = Apollo.MutationFunction<RemovePos
  */
 export declare function useRemovePositionMutation(baseOptions?: Apollo.MutationHookOptions<RemovePositionMutation, RemovePositionMutationVariables>): Apollo.MutationTuple<RemovePositionMutation, Exact<{
     id: any;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type RemovePositionMutationHookResult = ReturnType<typeof useRemovePositionMutation>;
 export declare type RemovePositionMutationResult = Apollo.MutationResult<RemovePositionMutation>;
 export declare type RemovePositionMutationOptions = Apollo.BaseMutationOptions<RemovePositionMutation, RemovePositionMutationVariables>;
@@ -689,7 +689,7 @@ export declare type RemovePositionsMutationFn = Apollo.MutationFunction<RemovePo
  */
 export declare function useRemovePositionsMutation(baseOptions?: Apollo.MutationHookOptions<RemovePositionsMutation, RemovePositionsMutationVariables>): Apollo.MutationTuple<RemovePositionsMutation, Exact<{
     ids: any;
-}>>;
+}>, Apollo.DefaultContext, Apollo.ApolloCache<any>>;
 export declare type RemovePositionsMutationHookResult = ReturnType<typeof useRemovePositionsMutation>;
 export declare type RemovePositionsMutationResult = Apollo.MutationResult<RemovePositionsMutation>;
 export declare type RemovePositionsMutationOptions = Apollo.BaseMutationOptions<RemovePositionsMutation, RemovePositionsMutationVariables>;

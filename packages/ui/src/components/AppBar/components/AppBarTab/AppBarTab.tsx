@@ -6,8 +6,9 @@ import { styled } from '@mui/material/styles';
 import { darken } from '@mui/system';
 
 const StyledTab = styled(Tab)<TabProps>(({ theme }) => ({
+  color: `#EAEAEA`,
   ':hover': {
-    background: darken(theme.palette.background.paper, 0.1),
+    background: darken(theme.palette.primary.dark, 0.1),
   },
 }));
 export const AppBarTab: React.FC<TabProps> = (props) => {

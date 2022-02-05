@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Link, Divider } from '@mui/material';
+import { Grid, Typography, Divider } from '@mui/material';
 
 import { EditableTypography, PriceTag } from '@/components';
 import { Portfolio } from '@/graphql/Queries.document.gql';
@@ -19,7 +19,7 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
 }) => {
   const { t } = useTranslation(`view_portfolio`);
 
-  const { setName, setDescription } = useEditPortfolio(portfolio?._id);
+  const { setName } = useEditPortfolio(portfolio?._id);
 
   return (
     <>
@@ -35,40 +35,18 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
       </Grid>
       <Grid item xs={12} container mt={!portfolio?.totalValue ? 2 : 0}>
         <EditableTypography
-          variant="h4"
+          variant="h2"
           onFinishEdit={(newName) => setName(newName)}
           placeholder={t(`enter_portfolio_title`, `Enter portfolio title`)}
           loading={loading}
           value={portfolio?.name}
         />
       </Grid>
-      <Grid item xs={12} mb={4} container>
-        {portfolio?.name ? (
-          <EditableTypography
-            variant="h5"
-            value={portfolio?.description}
-            loading={loading}
-            placeholder={t(
-              `enter_portfolio_description`,
-              `Enter portfolio description`,
-            )}
-            onFinishEdit={(newDescription) => setDescription(newDescription)}
-          />
-        ) : null}
-      </Grid>
-      {!isCreating ? (
-        <Grid item xs={12} mt={4} mb={2}>
-          <Typography variant="h6" fontWeight="light" display="flex" gap={1}>
-            {t(`this_portfolio_is_private`, `This portfolio is private.`)}
-            <Link>{t(`publish`, `Publish`)}</Link>
-            {t(`to_share_it_with_others`, `to share it with others.`)}
-          </Typography>
-        </Grid>
-      ) : (
+      {isCreating ? (
         <Grid item xs={12} my={5}>
           <Divider />
         </Grid>
-      )}
+      ) : null}
     </>
   );
 };

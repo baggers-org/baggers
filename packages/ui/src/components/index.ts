@@ -14,4 +14,6 @@ export * from './PageLoadingOverlay';
 export * from './PriceTag';
 export * from './SearchInput';
 export * from './TypographyTextField';
+export * from './ThemeProvider';
+export * from './ThemeToggle';
 export * from './util';

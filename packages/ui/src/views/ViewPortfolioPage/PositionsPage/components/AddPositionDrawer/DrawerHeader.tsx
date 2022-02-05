@@ -1,5 +1,4 @@
 import { Symbol } from '@/graphql/Queries.document.gql';
-import theme from '@/styles/theme';
 import { ChevronLeft } from '@mui/icons-material';
 import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'next-i18next';
@@ -19,7 +18,6 @@ export const DrawerHeader = ({
       position="fixed"
       top={0}
       zIndex={2}
-      bgcolor={theme.palette.background.paper}
       width="100%"
     >
       <Stack direction="row" mb={1}>

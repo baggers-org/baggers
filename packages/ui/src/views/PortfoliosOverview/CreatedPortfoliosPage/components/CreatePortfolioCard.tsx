@@ -1,6 +1,11 @@
 import { useEditPortfolio } from '@/hooks';
-import theme from '@/styles/theme';
-import { Button, Card, CardActionArea, CardContent } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  useTheme,
+} from '@mui/material';
 import { useTranslation } from 'next-i18next';
 import PortfolioGraphic from '../../../../../public/svg/portfolio.svg';
 
@@ -8,6 +13,8 @@ export const CreatePortfolioCard = () => {
   const { t } = useTranslation(`portfolios_overview`);
 
   const { createPortfolio } = useEditPortfolio();
+
+  const theme = useTheme();
 
   return (
     <Card

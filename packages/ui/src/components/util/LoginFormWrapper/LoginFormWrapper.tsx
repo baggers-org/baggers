@@ -1,6 +1,6 @@
 import { Box, Grid, Fade, Typography } from '@mui/material';
 import React from 'react';
-import Logo from '../../../../public/Logo/logo_light_50x50.svg';
+import LogoDarkTheme from '../../../../public/Logo/logo_dark_50x50.svg';
 
 export const LoginFormWrapper: React.FC = ({ children }) => {
   return (
@@ -14,10 +14,10 @@ export const LoginFormWrapper: React.FC = ({ children }) => {
           width="320px"
         >
           <Grid xs={12} item justifyContent="center" container>
-            <Logo />
+            <LogoDarkTheme />
           </Grid>
           <Grid item xs={12} container justifyContent="center" mb={2}>
-            <Box fontFamily="Archivo Black" fontSize="35px">
+            <Box fontFamily="Archivo Black" fontSize="35px" color="white">
               BAGGERS
             </Box>
           </Grid>

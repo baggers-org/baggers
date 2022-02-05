@@ -20,8 +20,7 @@ export const ViewPortfolioLayout: React.FC = ({ children }) => {
   useEditPortfolio(portfolioId);
 
   const portfolio = data?.getPortfolioById as Portfolio;
-  const needsToSetNameAndDescription =
-    !portfolio?.name || !portfolio?.description;
+  const needsToSetName = !portfolio?.name;
 
   const needsToAddFirstPosition = !loading && portfolio?.totalValue === 0;
 
@@ -31,14 +30,14 @@ export const ViewPortfolioLayout: React.FC = ({ children }) => {
         <PortfolioHeader
           portfolio={portfolio}
           loading={loading}
-          isCreating={needsToSetNameAndDescription || needsToAddFirstPosition}
+          isCreating={needsToSetName || needsToAddFirstPosition}
         />
-        {!needsToAddFirstPosition && !needsToSetNameAndDescription ? (
+        {!needsToAddFirstPosition && !needsToSetName ? (
           <Grid item xs={12} mb={5}>
             <ViewPortfolioTabs />
           </Grid>
         ) : null}
-        {!needsToSetNameAndDescription ? children : null}
+        {!needsToSetName ? children : null}
       </Grid>
     </Fade>
   );

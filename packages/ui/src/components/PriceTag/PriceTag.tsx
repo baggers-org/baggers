@@ -1,13 +1,12 @@
-import theme from '@/styles/theme';
-import { ProfitLossOrNeutral } from '@/util';
-import { Typography } from '@mui/material';
-import { Box } from '@mui/material/node_modules/@mui/system';
 import React from 'react';
+import { ProfitLossOrNeutral } from '@/util';
+import { Box, Typography, useTheme } from '@mui/material';
 
 export type PriceTagProps = {
   color: ProfitLossOrNeutral;
 };
 export const PriceTag: React.FC<PriceTagProps> = ({ color, children }) => {
+  const theme = useTheme();
   return (
     <Box
       bgcolor={

@@ -53,7 +53,6 @@ export const addGetPositionsResolver = () => {
     }: any) => {
       const limit = perPage || 25;
 
-      const requestOwner = context.identity ? context.identity.sub : null;
       const offset = (page ?? 0) * limit;
       const pipeline = [];
 
