@@ -19,7 +19,7 @@ export const DesktopHeader = () => {
         alignItems="center"
         color={theme.palette.getContrastText(theme.palette.background.default)}
       >
-        {theme.palette.mode === `light` && pathname !== `/login` ? (
+        {theme.palette.mode === `light` && pathname === `/login` ? (
           <LogoLightTheme />
         ) : (
           <LogoDarkTheme />
@@ -27,12 +27,9 @@ export const DesktopHeader = () => {
         <Typography
           variant="h5"
           fontFamily="Archivo Black"
-          color={pathname === `/login` ? `white` : undefined}
+          color={pathname !== `/login` ? `white` : undefined}
         >
-          <Link
-            color={theme.palette.text.primary}
-            sx={{ a: { color: theme.palette.text.primary } }}
-          >
+          <Link color="inherit" sx={{ a: { color: `inherit` } }}>
             <NextLink href="/">BAGGERS</NextLink>
           </Link>
         </Typography>

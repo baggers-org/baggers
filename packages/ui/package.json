@@ -1,7 +1,7 @@
 {
   "name": "@baggers/ui",
   "description": "Web user interface",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.10",
   "author": "Daniel Cooke <danielcooke1996@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -13,7 +13,7 @@
     "analyze": "ANALYZE=true next build",
     "dev": "next dev",
     "build": "next build",
-    "deploy": "npx serverless",
+    "deploy": "serverless",
     "generate": "graphql-let",
     "predev": "yarn generate",
     "prestart": "yarn generate",

@@ -67,7 +67,7 @@ export const LoginForm: React.FC<Props> = () => {
           return;
         }
         // TODO: return user to the page they were on
-        push(`/portfolios`);
+        push(`/portfolios/created`);
       } catch (error: any) {
         setLoggingIn(false);
 

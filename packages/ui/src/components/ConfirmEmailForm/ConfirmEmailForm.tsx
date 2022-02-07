@@ -57,7 +57,7 @@ export const ConfirmEmailForm: React.FC<ConfirmEmailFormProps> = ({
         password,
       });
 
-      push(`/portfolios`);
+      push(`/portfolios/created`);
     } catch (e: any) {
       sendNotification({
         message: e.message || `There was an error. Please try again`,

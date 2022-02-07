@@ -1,11 +1,12 @@
-const { i18n } = require('./next-i18next.config');
+const { i18n } = require(`./next-i18next.config`);
 
 module.exports = {
+  target: `serverless`,
   async redirects() {
     return [
       {
-        source: '/portfolios',
-        destination: '/portfolios/created',
+        source: `/portfolios`,
+        destination: `/portfolios/created`,
         permanent: true,
       },
     ];
@@ -16,12 +17,12 @@ module.exports = {
     config.module.rules.push({
       test: /\.document.gql$/,
       exclude: /node_modules/,
-      use: [defaultLoaders.babel, 'graphql-let/loader'],
+      use: [defaultLoaders.babel, `graphql-let/loader`],
     });
 
     config.module.rules.push({
       test: /\.svg$/,
-      use: '@svgr/webpack',
+      use: `@svgr/webpack`,
     });
     return config;
   },
