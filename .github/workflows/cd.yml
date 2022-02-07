@@ -43,7 +43,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install global dependencies
-        run: npm i -g yarn serverless @serverless/cli
+        run: npm i -g yarn serverless
 
       - name: Install lerna
         run: yarn add lerna
