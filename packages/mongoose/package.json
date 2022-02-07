@@ -1,6 +1,6 @@
 {
   "name": "@baggers/mongoose",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
