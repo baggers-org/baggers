@@ -13,7 +13,7 @@
     "analyze": "ANALYZE=true next build",
     "dev": "next dev",
     "build": "next build",
-    "deploy": "npx components-v1",
+    "deploy": "components-v1",
     "generate": "graphql-let",
     "predev": "yarn generate",
     "prestart": "yarn generate",
