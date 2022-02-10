@@ -1,10 +1,4 @@
-# Version in master 0.0.0
-# Version in develop = 1.0.0-beta-21
-# Version in feature branch = 1.0.0-beta-branch-39482
-
-name: CD
-
-# Controls when the workflow will run
+name: Deploy
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
@@ -17,18 +11,7 @@ defaults:
   run:
     shell: bash
 
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_AMPLIFY_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_AMPLIFY_SECRET_ACCESS_KEY }}
-  ATLAS_CLUSTER_URI: ${{ secrets.ATLAS_CLUSTER_URI }}
-  API_DOMAIN: ${{ secrets.API_DOMAIN }}
-  AWS_REGION: eu-west-1
-  COGNITO_IDENTITYPOOL_ID: ${{ secrets.COGNITO_IDENTITYPOOL_ID }}
-  COGNITO_USERPOOL_ID: ${{ secrets.COGNITO_USERPOOL_ID }}
-  COGNITO_USERPOOL_WEBCLIENT_ID: ${{ secrets.COGNITO_USERPOOL_WEBCLIENT_ID }}
-  WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
-  IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
-  IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -90,5 +73,14 @@ jobs:
           rm -rf packages/graphql/node_modules/@baggers/graphql
           rm -rf packages/mongoose/node_modules/@baggers/mongoose
       
-      - name: Deploy
+      - name: Deploy Backend
         run: yarn workspaces foreach -vpi run deploy
+
+      - name: Deploy UI
+      - uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
+          vercel-org-id: ${{ secrets.ORG_ID}}  #Required
+          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required 
+          working-directory: ./packages/ui

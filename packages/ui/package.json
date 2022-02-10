@@ -13,8 +13,6 @@
     "analyze": "ANALYZE=true next build",
     "dev": "next dev",
     "build": "next build",
-    "deploy": "vercel --prod",
-    "deploy:preview": "vercel",
     "generate": "graphql-let",
     "predev": "yarn generate",
     "prestart": "yarn generate",

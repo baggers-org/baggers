@@ -1,9 +1,0 @@
-name: 'Set env'
-description: 'Reads the env from github secrets and puts it into env'
-runs:
-  using: "composite"
-  env: 
-    SECRETS_JSON: ${{ toJson(secrets) }}
-  steps:
-    - run: echo "$SECRETS_JSON" >> $GITHUB_ENV
-    - run: echo "$GITHUB_ENV"
