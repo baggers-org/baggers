@@ -19,7 +19,6 @@ env:
   WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
   IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
   IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
-  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
 
 jobs:
   build:
@@ -32,7 +31,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install global dependencies
-        run: npm i -g yarn serverless
+        run: npm i -g yarn && yarn global add vercel
 
       - name: Setup env files
         run: |
@@ -51,3 +50,7 @@ jobs:
 
       - name: Lint
         run: yarn lint
+
+      - name: Deploy Preview
+        if: ${{ !contains(github.event.commits[0].message, 'chore') }}
+        run: yarn workspaces foreach -vpi run deploy:preview

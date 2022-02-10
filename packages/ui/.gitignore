@@ -39,10 +39,8 @@ yarn-error.log*
 
 built-lambda
 
-.serverless
 
 tags
-.serverless_nextjs
 
 #amplify
 amplify/\#current-cloud-backend

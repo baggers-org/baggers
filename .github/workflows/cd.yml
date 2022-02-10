@@ -29,7 +29,6 @@ env:
   WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
   IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
   IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
-  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -43,7 +42,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install global dependencies
-        run: npm i -g yarn serverless@2.28.7
+        run: npm i -g yarn && yarn global add vercel
 
       - name: Install lerna
         run: yarn add lerna
