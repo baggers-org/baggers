@@ -1,4 +1,5 @@
 name: CI
+
 on: 
   pull_request:
 
@@ -9,25 +10,29 @@ defaults:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_AMPLIFY_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_AMPLIFY_SECRET_ACCESS_KEY }}
+  AWS_REGION: eu-west-1
   ATLAS_CLUSTER_URI: ${{ secrets.ATLAS_CLUSTER_URI }}
   API_DOMAIN: ${{ secrets.API_DOMAIN }}
-  AWS_REGION: eu-west-1
   COGNITO_IDENTITYPOOL_ID: ${{ secrets.COGNITO_IDENTITYPOOL_ID }}
   COGNITO_USERPOOL_ID: ${{ secrets.COGNITO_USERPOOL_ID }}
   COGNITO_USERPOOL_WEBCLIENT_ID: ${{ secrets.COGNITO_USERPOOL_WEBCLIENT_ID }}
   WEB_ORIGIN: ${{ secrets.WEB_ORIGIN }}
   IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
   IEX_TOKEN: ${{ secrets.IEX_TOKEN }} 
-
+  SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
 
 jobs:
-  deployPreview:
+  build:
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Install global dependencies
-        run: npm i -g yarn 
+        run: npm i -g yarn serverless
 
       - name: Setup env files
         run: |
@@ -37,7 +42,7 @@ jobs:
           git update-index --assume-unchanged packages/ui/.env
 
       - name: Install workspace dependencies
-        run: yarn --immutable && yarn workspaces focus -A
+        run: yarn workspaces focus -A
 
       - name: Build
         run: yarn build
@@ -46,17 +51,3 @@ jobs:
 
       - name: Lint
         run: yarn lint
-         
-      # TODO: backend preview deployments
-      # - name: Deploy Backend
-      #   run: yarn workspaces foreach -vpi run deploy
-
-      - name: Deploy Preview
-      - uses: amondnet/vercel-action@v20
-        if: ${{ !contains(github.event.commits[0].message, 'chore') }}
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
-          github-token: ${{ secrets.GITHUB_TOKEN }} #Optional 
-          vercel-org-id: ${{ secrets.ORG_ID}}  #Required
-          vercel-project-id: ${{ secrets.PROJECT_ID}} #Required 
-          working-directory: ./packages/ui
