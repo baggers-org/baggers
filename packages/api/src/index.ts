@@ -4,6 +4,11 @@ import { ApolloServer } from 'apollo-server-express';
 import { ObjectId } from 'mongodb';
 import { connect } from 'mongoose';
 import { buildSchema } from 'type-graphql';
+import express from 'express';
+import http from 'http';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 import { ObjectIdScalar } from '@/db/object-id.scalar';
 import {
@@ -11,43 +16,37 @@ import {
   PortfolioMutations,
   SymbolQueries,
 } from '@/db/resolvers';
-
-let handler: any;
-
-let conn;
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 
 const getApolloServerHandler = async () => {
   if (!process.env.ATLAS_CLUSTER_URI)
     throw Error(`No ATLAS_CLUSTER_URI in environment`);
 
-  if (!conn) {
-    console.log(`No ATLAS connection in memory - connecting again`);
-    conn = await connect(process.env.ATLAS_CLUSTER_URI);
-  }
+  const app = express();
+  const httpServer = http.createServer(app);
 
-  if (!handler) {
-    const schema = await buildSchema({
-      resolvers: [PortfolioQueries, PortfolioMutations, SymbolQueries],
-      emitSchemaFile: process.env.NODE_ENV === `development`,
-      nullableByDefault: true,
-      scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
-    });
+  await connect(process.env.ATLAS_CLUSTER_URI);
 
-    const server = new ApolloServer({
-      schema,
-      plugins:
-        process.env.NODE_ENV === `development`
-          ? [
-              (
-                await import(`apollo-server-core`)
-              ).ApolloServerPluginLandingPageGraphQLPlayground(),
-            ]
-          : undefined,
-    });
-    await server.start();
-  }
-  return handler;
+  const schema = await buildSchema({
+    resolvers: [PortfolioQueries, PortfolioMutations, SymbolQueries],
+    emitSchemaFile: process.env.NODE_ENV === `development`,
+    scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
+  });
+
+  const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];
+
+  const server = new ApolloServer({
+    schema,
+    plugins,
+  });
+  await server.start();
+
+  server.applyMiddleware({ app });
+
+  await new Promise<void>((resolve) =>
+    httpServer.listen({ port: 4000 }, resolve),
+  );
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 };
 
-
-console.log('in here , io fucking hate vscode')
+getApolloServerHandler().catch(console.error);
