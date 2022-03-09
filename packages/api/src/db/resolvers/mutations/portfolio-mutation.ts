@@ -14,8 +14,6 @@ import {
   getTotalPositionValue,
 } from '@/db/util/math';
 import { fetchQuote } from '@/iex';
-import { GraphQLContext } from '@/db/types/GraphQLContext';
-import { AccessClaim } from '@/db/types/JWT';
 import { AuthenticationError } from 'apollo-server-express';
 import { ObjectId } from 'mongodb';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
@@ -27,7 +25,7 @@ export class PortfolioMutations {
    * @param portfolio_id The ID of the portfolio we are mutatin
    * @param access Users Access claim obtained from decoding the JWT, should come from GraphQL context
    */
-  async authenticate(portfolio_id: ObjectId, access: AccessClaim) {
+  async authenticate(portfolio_id: ObjectId, access: any) {
     const portfolio = await PortfolioModel.findById(portfolio_id);
 
     if (!portfolio) {
@@ -46,9 +44,7 @@ export class PortfolioMutations {
   @Mutation(() => CreatePortfolioPayload, {
     description: `Create a portfolio under your username`,
   })
-  async createPortfolio(
-    @Ctx() { identity }: GraphQLContext,
-  ): Promise<CreatePortfolioPayload> {
+  async createPortfolio(@Ctx() { identity }): Promise<CreatePortfolioPayload> {
     const portfolio = await PortfolioModel.create({
       owner: {
         sub: identity.sub,
@@ -66,7 +62,7 @@ export class PortfolioMutations {
   })
   async deletePortfolio(
     @Arg(`_id`, () => ObjectIdScalar) portfolioId: ObjectId,
-    @Ctx() { access }: GraphQLContext,
+    @Ctx() { access },
   ): Promise<CreatePortfolioPayload> {
     const portfolioToDelete = await this.authenticate(portfolioId, access);
     const deletedPortfolio = await portfolioToDelete?.delete();
@@ -80,7 +76,7 @@ export class PortfolioMutations {
   async portfolioSetName(
     @Arg(`_id`, () => ObjectIdScalar) id: ObjectId,
     @Arg(`name`) name: string,
-    @Ctx() { access }: GraphQLContext,
+    @Ctx() { access },
   ): Promise<UpdatePortfolioPayload> {
     const portfolio = await this.authenticate(id, access);
     portfolio.name = name;
@@ -96,7 +92,7 @@ export class PortfolioMutations {
   async addPosition(
     @Arg(`record`)
     positionInput: AddPositionInput,
-    @Ctx() { access }: GraphQLContext,
+    @Ctx() { access },
   ) {
     const {
       portfolio_id,
@@ -161,7 +157,7 @@ export class PortfolioMutations {
   async removePosition(
     @Arg(`portfolio_id`) portfolio_id: ObjectId,
     @Arg(`position_id`) position_id: ObjectId,
-    @Ctx() { access }: GraphQLContext,
+    @Ctx() { access },
   ) {
     const portfolio = await PortfolioModel.findById(portfolio_id);
     if (access.sub !== portfolio?.owner.sub) {
@@ -177,7 +173,7 @@ export class PortfolioMutations {
     const res = await PortfolioModel.findByIdAndUpdate(portfolio_id, {
       $pull: { positions: { _id: position_id } },
       $set: {
-        totalValue: getTotalPositionValue(positionsWithout),
+        totalValue: getTotalPositionValue(positionsWithout as any),
       },
     }).populate(`positions.symbol`);
 

@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { Arg, Ctx, Query, Resolver } from 'type-graphql';
 import { NotFoundError } from '@/db/errors/NotFoundError';
-import { GraphQLContext } from '@/db/types/GraphQLContext';
 import { Portfolio, PortfolioModel } from '../../entities';
 import { ObjectIdScalar } from '../../object-id.scalar';
 
@@ -25,7 +24,7 @@ export class PortfolioQueries {
   }
 
   @Query(() => [Portfolio])
-  async myPortfolios(@Ctx() { identity }: GraphQLContext) {
+  async myPortfolios(@Ctx() { identity }) {
     return PortfolioModel.find({ 'owner.sub': identity.sub }).populate(
       `positions.symbol`,
     );

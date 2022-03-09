@@ -18,7 +18,6 @@
 	  "strict": true,
 	  "strictPropertyInitialization": false,
 	  "forceConsistentCasingInFileNames": true,
-	  "noEmit": true,
 	  "noImplicitAny": false,
 	  "esModuleInterop": true,
 	  "moduleResolution": "node",
@@ -26,8 +25,10 @@
 	  "emitDecoratorMetadata": true,
 	  "experimentalDecorators": true,
 	  "isolatedModules": true,
-	  "module": "esnext",
-	  "rootDir": "src"
+	  "module": "commonjs",
+	  "rootDir": "src",
+	  "outDir": "build",
+	  "types": ["node"]
 	},
 	"exclude": [
 	  "node_modules",
