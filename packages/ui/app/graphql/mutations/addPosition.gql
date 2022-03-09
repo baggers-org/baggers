@@ -1,0 +1,8 @@
+mutation addPosition($record: AddPositionInput!) {
+  addPosition(record: $record) {
+    record {
+      _id
+      ...AllPortfolioData
+    }
+  }
+}

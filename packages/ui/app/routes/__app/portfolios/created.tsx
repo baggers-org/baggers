@@ -7,13 +7,13 @@ import {
   ActionFunction,
   redirect,
 } from '@remix-run/server-runtime';
+import { getSdk, MyPortfoliosSummaryQuery } from '~/generated/graphql';
+import { sdk } from '~/graphql/sdk.server';
 // import { SDK } from '~/sdk/sdk.server';
 
-// export const loader: LoaderFunction = async ({ request }) => {
-//   const sdk = await new SDK().login(request);
-
-//   return sdk.portfolios.findAllCreated();
-// };
+export const loader: LoaderFunction = async ({ request }) => {
+  return sdk.myPortfoliosSummary()
+};
 
 // export const action: ActionFunction = async ({ request }) => {
 //   const sdk = await new SDK().login(request);
@@ -21,14 +21,15 @@ import {
 //   return redirect(`/portfolios/${newPortfolio._id}/positions`);
 // };
 export default function CreatedPortfoliosPage() {
-  const data = useLoaderData();
+  const data = useLoaderData<MyPortfoliosSummaryQuery>();
+
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={6} md={6} lg={4} xl={3}>
         <CreatePortfolioCard />
       </Grid>
-      {data?.map((portfolio) => (
+      {data?.myPortfolios?.map((portfolio) => (
         <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={portfolio._id}>
           <PortfolioCard portfolio={portfolio} />
         </Grid>

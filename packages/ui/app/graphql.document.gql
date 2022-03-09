@@ -1,0 +1,178 @@
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    username
+    sub
+  }
+  name
+  description
+  totalValue
+}
+
+fragment PortfolioPositions on Portfolio {
+  positions {
+    ...AllPositionData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioPositions
+}
+
+fragment AllPositionData on Position {
+      _id
+      marketValue
+      isShort
+      exposure
+      averagePrice
+      marketValue
+      costBasis
+      brokerFees
+      positionSize
+      profitLossUsd
+      profitLossPercent
+      dailyProfitLossUsd
+      openDate
+      closeDate
+      symbol {
+        name
+        symbol
+        symbolType
+        exchange
+        region
+        currency
+        quote {
+          avgTotalVolume
+          calculationPrice
+          change
+          changePercent
+          companyName
+          close
+          closeSource
+          closeTime
+          currency
+          delayedPrice
+          delayedPriceTime
+          extendedPrice
+          extendedChange
+          extendedChangePercent
+          extendedPriceTime
+          high
+          highSource
+          highTime
+          iexAskPrice
+          iexAskSize
+          iexBidPrice
+          iexBidSize
+          iexClose
+          iexCloseTime
+          iexLastUpdated
+          iexOpen
+          iexOpenTime
+          iexRealtimePrice
+          iexRealtimeSize
+          iexMarketPercent
+          iexVolume
+          isUSMarketOpen
+          lastTradeTime
+          latestPrice
+          latestSource
+          latestTime
+          latestUpdate
+          latestVolume
+          low
+          lowTime
+          lowSource
+          marketCap
+          oddLotDelayedPrice
+          oddLotDelayedPriceTime
+          open
+          openSource
+          openTime
+          peRatio
+          previousClose
+          previousVolume
+          primaryExchange
+          symbol
+          week52High
+          week52Low
+          volume
+          ytdChange
+        }
+      }
+}
+
+mutation addPosition($record: AddPositionInput!) {
+  addPosition(record: $record) {
+    record {
+      _id
+      ...AllPortfolioData
+    }
+  }
+}
+
+mutation createPortfolio {
+  createPortfolio {
+    record {
+      _id
+      ...AllPortfolioData
+    }
+  }
+}
+
+mutation deletePortfolio($id: ObjectId!) {
+  deletePortfolio(_id: $id) {
+    recordId
+  }
+}
+
+mutation portfolioSetName($id: ObjectId!, $name: String!) {
+	portfolioSetName(_id: $id, name: $name) {
+		record {
+			...AllPortfolioData
+		}
+	}
+}
+
+mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
+  removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
+    record {
+      _id
+      ...AllPortfolioData
+    }
+  }
+}
+
+
+query myPortfoliosSummary {
+  myPortfolios {
+    ...PortfolioSummary
+  }
+}
+
+query portfolio($id: ObjectId!) {
+  portfolio(portfolioId: $id) {
+    _id
+    ...AllPortfolioData
+  }
+}
+
+query searchSymbols($search: String!) {
+  searchSymbols(search: $search){
+    symbol
+    _id
+    name
+    exchange
+    exchangeName
+    region
+    quote {
+      latestTime
+      latestPrice
+      currency
+    }
+  }
+}

@@ -6,9 +6,6 @@ import { connect } from 'mongoose';
 import { buildSchema } from 'type-graphql';
 import express from 'express';
 import http from 'http';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 import { ObjectIdScalar } from '@/db/object-id.scalar';
 import {

@@ -1,0 +1,5 @@
+mutation deletePortfolio($id: ObjectId!) {
+  deletePortfolio(_id: $id) {
+    recordId
+  }
+}

@@ -1,0 +1,7 @@
+mutation portfolioSetName($id: ObjectId!, $name: String!) {
+	portfolioSetName(_id: $id, name: $name) {
+		record {
+			...AllPortfolioData
+		}
+	}
+}

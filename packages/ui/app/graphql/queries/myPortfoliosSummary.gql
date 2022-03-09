@@ -1,0 +1,6 @@
+
+query myPortfoliosSummary {
+  myPortfolios {
+    ...PortfolioSummary
+  }
+}
