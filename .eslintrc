@@ -10,13 +10,13 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "eslint-config-prettier/@typescript-eslint",
-    "airbnb"
+    "eslint-config-prettier/@typescript-eslint"
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "no-use-before-define": [0],
+    "prettier/prettier":"error",
     "@typescript-eslint/no-use-before-define": [1],
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "off",

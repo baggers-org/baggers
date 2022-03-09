@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 
-import { ApolloServer } from 'apollo-server-micro';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { ApolloServer } from 'apollo-server-express';
 import { ObjectId } from 'mongodb';
 import { connect } from 'mongoose';
 import { buildSchema } from 'type-graphql';
@@ -36,9 +35,6 @@ const getApolloServerHandler = async () => {
 
     const server = new ApolloServer({
       schema,
-      context: async ({ req }: { req: NextApiRequest }) => {
-
-      },
       plugins:
         process.env.NODE_ENV === `development`
           ? [
@@ -49,15 +45,6 @@ const getApolloServerHandler = async () => {
           : undefined,
     });
     await server.start();
-
-    handler = server.createHandler({ path: `/api/graphql` });
   }
   return handler;
 };
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const apolloServerHanlder = await getApolloServerHandler();
-  return apolloServerHanlder(req, res);
-};
-
-export const config = { api: { bodyParser: false } };
