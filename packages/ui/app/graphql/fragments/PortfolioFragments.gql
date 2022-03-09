@@ -2,8 +2,7 @@ fragment PortfolioSummary on Portfolio {
   _id
   cash
   owner {
-    username
-    sub
+    ...FullUser
   }
   name
   description

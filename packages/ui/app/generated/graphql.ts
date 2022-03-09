@@ -42,6 +42,19 @@ export type CreatePortfolioPayload = {
   recordId: Scalars['ObjectId'];
 };
 
+export type FindOrCreateUserInput = {
+  displayName: Scalars['String'];
+  emails: Array<Scalars['String']>;
+  photos: Array<Scalars['String']>;
+  sub: Scalars['String'];
+};
+
+export type FindOrCreateUserPayload = {
+  __typename?: 'FindOrCreateUserPayload';
+  record: User;
+  recordId: Scalars['ObjectId'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPosition: AddPositionPayload;
@@ -49,6 +62,7 @@ export type Mutation = {
   createPortfolio: CreatePortfolioPayload;
   /** Delete the specified portfolio if you have permission to do so */
   deletePortfolio: CreatePortfolioPayload;
+  findOrCreateUser: FindOrCreateUserPayload;
   /** Set portfolio name */
   portfolioSetName: UpdatePortfolioPayload;
   removePosition: RemovePositionPayload;
@@ -62,6 +76,11 @@ export type MutationAddPositionArgs = {
 
 export type MutationDeletePortfolioArgs = {
   _id: Scalars['ObjectId'];
+};
+
+
+export type MutationFindOrCreateUserArgs = {
+  record: FindOrCreateUserInput;
 };
 
 
@@ -210,29 +229,34 @@ export type UpdatePortfolioPayload = {
 
 export type User = {
   __typename?: 'User';
+  _id: Scalars['ObjectId'];
+  displayName: Scalars['String'];
+  emails: Array<Scalars['String']>;
+  photos: Array<Scalars['String']>;
   sub: Scalars['String'];
-  username: Scalars['String'];
 };
 
-export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string } };
+export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> } };
 
 export type PortfolioPositionsFragment = { __typename?: 'Portfolio', positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> };
 
-export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> };
+export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> };
 
 export type AllPositionDataFragment = { __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } };
+
+export type FullUserFragment = { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> };
 
 export type AddPositionMutationVariables = Exact<{
   record: AddPositionInput;
 }>;
 
 
-export type AddPositionMutation = { __typename?: 'Mutation', addPosition: { __typename?: 'AddPositionPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
+export type AddPositionMutation = { __typename?: 'Mutation', addPosition: { __typename?: 'AddPositionPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
 
 export type CreatePortfolioMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CreatePortfolioMutation = { __typename?: 'Mutation', createPortfolio: { __typename?: 'CreatePortfolioPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
+export type CreatePortfolioMutation = { __typename?: 'Mutation', createPortfolio: { __typename?: 'CreatePortfolioPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
 
 export type DeletePortfolioMutationVariables = Exact<{
   id: Scalars['ObjectId'];
@@ -241,13 +265,20 @@ export type DeletePortfolioMutationVariables = Exact<{
 
 export type DeletePortfolioMutation = { __typename?: 'Mutation', deletePortfolio: { __typename?: 'CreatePortfolioPayload', recordId: any } };
 
+export type FindOrCreateUserMutationVariables = Exact<{
+  record: FindOrCreateUserInput;
+}>;
+
+
+export type FindOrCreateUserMutation = { __typename?: 'Mutation', findOrCreateUser: { __typename?: 'FindOrCreateUserPayload', record: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> } } };
+
 export type PortfolioSetNameMutationVariables = Exact<{
   id: Scalars['ObjectId'];
   name: Scalars['String'];
 }>;
 
 
-export type PortfolioSetNameMutation = { __typename?: 'Mutation', portfolioSetName: { __typename?: 'UpdatePortfolioPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
+export type PortfolioSetNameMutation = { __typename?: 'Mutation', portfolioSetName: { __typename?: 'UpdatePortfolioPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
 
 export type RemovePositionMutationVariables = Exact<{
   portfolio_id: Scalars['ObjectId'];
@@ -255,19 +286,19 @@ export type RemovePositionMutationVariables = Exact<{
 }>;
 
 
-export type RemovePositionMutation = { __typename?: 'Mutation', removePosition: { __typename?: 'RemovePositionPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
+export type RemovePositionMutation = { __typename?: 'Mutation', removePosition: { __typename?: 'RemovePositionPayload', record: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } } };
 
 export type MyPortfoliosSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPortfoliosSummaryQuery = { __typename?: 'Query', myPortfolios: Array<{ __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string } }> };
+export type MyPortfoliosSummaryQuery = { __typename?: 'Query', myPortfolios: Array<{ __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> } }> };
 
 export type PortfolioQueryVariables = Exact<{
   id: Scalars['ObjectId'];
 }>;
 
 
-export type PortfolioQuery = { __typename?: 'Query', portfolio: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', username: string, sub: string }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } };
+export type PortfolioQuery = { __typename?: 'Query', portfolio: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, totalValue: number, owner: { __typename?: 'User', _id: any, sub: string, displayName: string, emails: Array<string>, photos: Array<string> }, positions: Array<{ __typename?: 'Position', _id: any, marketValue: number, isShort: boolean, exposure: number, averagePrice: number, costBasis: number, brokerFees: number, positionSize: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, openDate?: any | null, closeDate?: any | null, symbol: { __typename?: 'Symbol', name: string, symbol: string, symbolType: string, exchange: string, region: string, currency: string, quote: { __typename?: 'Quote', avgTotalVolume: number, calculationPrice: string, change: number, changePercent: number, companyName: string, close: number, closeSource: string, closeTime: number, currency: string, delayedPrice: number, delayedPriceTime: number, extendedPrice: number, extendedChange: number, extendedChangePercent: number, extendedPriceTime: number, high: number, highSource: string, highTime: number, iexAskPrice: number, iexAskSize: number, iexBidPrice: number, iexBidSize: number, iexClose: number, iexCloseTime: number, iexLastUpdated: number, iexOpen: number, iexOpenTime: number, iexRealtimePrice: number, iexRealtimeSize: number, iexMarketPercent: number, iexVolume: number, isUSMarketOpen: boolean, lastTradeTime: number, latestPrice: number, latestSource: string, latestTime: string, latestUpdate: number, latestVolume: number, low: number, lowTime: number, lowSource: string, marketCap: number, oddLotDelayedPrice: number, oddLotDelayedPriceTime: number, open: number, openSource: string, openTime: number, peRatio: number, previousClose: number, previousVolume: number, primaryExchange: string, symbol: string, week52High: number, week52Low: number, volume: number, ytdChange: number } } }> } };
 
 export type SearchSymbolsQueryVariables = Exact<{
   search: Scalars['String'];
@@ -276,19 +307,27 @@ export type SearchSymbolsQueryVariables = Exact<{
 
 export type SearchSymbolsQuery = { __typename?: 'Query', searchSymbols: Array<{ __typename?: 'Symbol', symbol: string, _id: any, name: string, exchange: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', latestTime: string, latestPrice: number, currency: string } }> };
 
+export const FullUserFragmentDoc = gql`
+    fragment FullUser on User {
+  _id
+  sub
+  displayName
+  emails
+  photos
+}
+    `;
 export const PortfolioSummaryFragmentDoc = gql`
     fragment PortfolioSummary on Portfolio {
   _id
   cash
   owner {
-    username
-    sub
+    ...FullUser
   }
   name
   description
   totalValue
 }
-    `;
+    ${FullUserFragmentDoc}`;
 export const AllPositionDataFragmentDoc = gql`
     fragment AllPositionData on Position {
   _id
@@ -414,6 +453,16 @@ export const DeletePortfolioDocument = gql`
   }
 }
     `;
+export const FindOrCreateUserDocument = gql`
+    mutation findOrCreateUser($record: FindOrCreateUserInput!) {
+  findOrCreateUser(record: $record) {
+    record {
+      _id
+      ...FullUser
+    }
+  }
+}
+    ${FullUserFragmentDoc}`;
 export const PortfolioSetNameDocument = gql`
     mutation portfolioSetName($id: ObjectId!, $name: String!) {
   portfolioSetName(_id: $id, name: $name) {
@@ -481,6 +530,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deletePortfolio(variables: DeletePortfolioMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePortfolioMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeletePortfolioMutation>(DeletePortfolioDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePortfolio', 'mutation');
+    },
+    findOrCreateUser(variables: FindOrCreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindOrCreateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<FindOrCreateUserMutation>(FindOrCreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findOrCreateUser', 'mutation');
     },
     portfolioSetName(variables: PortfolioSetNameMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfolioSetNameMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfolioSetNameMutation>(PortfolioSetNameDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfolioSetName', 'mutation');

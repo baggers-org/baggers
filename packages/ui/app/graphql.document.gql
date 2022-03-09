@@ -4,8 +4,7 @@ fragment PortfolioSummary on Portfolio {
   _id
   cash
   owner {
-    username
-    sub
+    ...FullUser
   }
   name
   description
@@ -106,6 +105,14 @@ fragment AllPositionData on Position {
       }
 }
 
+fragment FullUser on User {
+	_id
+	sub
+	displayName
+	emails
+	photos
+}
+
 mutation addPosition($record: AddPositionInput!) {
   addPosition(record: $record) {
     record {
@@ -127,6 +134,15 @@ mutation createPortfolio {
 mutation deletePortfolio($id: ObjectId!) {
   deletePortfolio(_id: $id) {
     recordId
+  }
+}
+
+mutation findOrCreateUser($record: FindOrCreateUserInput!){
+  findOrCreateUser(record: $record) {
+    record {
+	    _id
+	    ...FullUser
+    }
   }
 }
 

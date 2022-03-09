@@ -1,5 +1,7 @@
 import { Authenticator } from 'remix-auth';
 import { Auth0Strategy } from 'remix-auth-auth0';
+import { FindOrCreateUserInput, User } from './generated/graphql';
+import { sdk } from './graphql/sdk.server';
 import { sessionStorage } from './session.server';
 
 const {
@@ -25,8 +27,20 @@ export const auth0 = {
 export const baggersApiAuthenticator = new Authenticator<User>(sessionStorage);
 
 const auth0Strategy = new Auth0Strategy(auth0, async ({ profile }) => {
-  // Get the user data from your DB or API using the tokens and profile
-    return profile;
+  const user : FindOrCreateUserInput = {
+    displayName: profile.displayName,
+    emails: profile.emails.map(e => e.value),
+    photos: profile.photos.map(e => e.value),
+    sub: profile.id
+  }
+  try {
+
+    const { findOrCreateUser } = await sdk.findOrCreateUser({ record: user})
+    return findOrCreateUser.record
+  } catch (e) {
+    console.error(e)
+    throw Error('There was an error fetching the user. ')
+  }
 });
 
 baggersApiAuthenticator.use(auth0Strategy);

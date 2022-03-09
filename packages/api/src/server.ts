@@ -14,6 +14,7 @@ import {
   SymbolQueries,
 } from '@/db/resolvers';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import { UserMutations } from './db/resolvers/mutations/user-mutations';
 
 const getApolloServerHandler = async () => {
   if (!process.env.ATLAS_CLUSTER_URI)
@@ -25,7 +26,12 @@ const getApolloServerHandler = async () => {
   await connect(process.env.ATLAS_CLUSTER_URI);
 
   const schema = await buildSchema({
-    resolvers: [PortfolioQueries, PortfolioMutations, SymbolQueries],
+    resolvers: [
+      PortfolioQueries,
+      PortfolioMutations,
+      SymbolQueries,
+      UserMutations,
+    ],
     emitSchemaFile: process.env.NODE_ENV === `development`,
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });

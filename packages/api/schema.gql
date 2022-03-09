@@ -29,6 +29,18 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+input FindOrCreateUserInput {
+  displayName: String
+  emails: [String!]
+  photos: [String!]
+  sub: String!
+}
+
+type FindOrCreateUserPayload {
+  record: User!
+  recordId: ObjectId!
+}
+
 type Mutation {
   addPosition(record: AddPositionInput!): AddPositionPayload!
 
@@ -37,6 +49,7 @@ type Mutation {
 
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
+  findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
 
   """Set portfolio name"""
   portfolioSetName(_id: ObjectId!, name: String!): UpdatePortfolioPayload!
@@ -162,6 +175,9 @@ type UpdatePortfolioPayload {
 }
 
 type User {
+  _id: ObjectId!
+  displayName: String!
+  emails: [String!]!
+  photos: [String!]!
   sub: String!
-  username: String!
 }
