@@ -1,16 +1,18 @@
 fragment AllPositionData on Position {
       _id
+      # Market data fields
       marketValue
-      direction
       exposure
-      averagePrice
-      marketValue
-      costBasis
-      brokerFees
-      positionSize
       profitLossUsd
       profitLossPercent
       dailyProfitLossUsd
+      #
+
+      direction
+      averagePrice
+      costBasis
+      brokerFees
+      positionSize
       openDate
       closeDate
       symbol {

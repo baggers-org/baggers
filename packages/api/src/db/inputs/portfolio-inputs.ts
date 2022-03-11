@@ -11,7 +11,7 @@ import { ObjectIdScalar } from '../object-id.scalar';
 @InputType()
 export class AddPositionInput implements Partial<Position> {
   @Field(() => ObjectIdScalar)
-  symbol_id: ObjectId;
+  symbol: ObjectId;
 
   @Field()
   positionSize: number;

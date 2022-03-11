@@ -6,7 +6,7 @@ export const batchFetchQuotes = async (
   symbols: Array<Symbol>,
   fetchRate = 100,
 ) => {
-  const promiseQueue: Promise<Quote & { symbol_id: ObjectId }[]>[] = [];
+  const promiseQueue: Promise<Quote & { symbol: ObjectId }[]>[] = [];
   const tForQuoteData = Date.now();
 
   for (let i = 0; i < symbols.length; i += 100) {

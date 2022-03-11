@@ -11,7 +11,7 @@ input AddPositionInput {
   openDate: DateTime
   positionSize: Float!
   positionType: PositionType!
-  symbol_id: ObjectId!
+  symbol: ObjectId!
 }
 
 type AddPositionPayload {
@@ -167,7 +167,6 @@ type Quote {
 }
 
 type RemovePositionPayload {
-  record: Portfolio!
   recordId: ObjectId!
 }
 

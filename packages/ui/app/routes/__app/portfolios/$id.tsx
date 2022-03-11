@@ -7,7 +7,12 @@ import { sdk } from '~/graphql/sdk.server';
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id } = params;
-  return sdk.portfolio({ id });
+
+  const t = Date.now();
+  const test = await sdk.portfolio({ id });
+  console.log(`Retrieved results in `, Date.now() - t);
+
+  return test;
 };
 
 export const action: ActionFunction = async ({ params, request }) => {

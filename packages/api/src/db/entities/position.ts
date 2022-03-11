@@ -1,4 +1,5 @@
 import { prop } from '@typegoose/typegoose';
+import { ObjectId } from 'mongodb';
 import { Field, ObjectType, registerEnumType } from 'type-graphql';
 import { Document } from './document';
 import { Symbol } from './symbol';
@@ -25,7 +26,7 @@ registerEnumType(PositionType, {
 export class Position extends Document {
   @Field(() => Symbol)
   @prop({ ref: () => Symbol })
-  symbol: Symbol;
+  symbol: Symbol | ObjectId;
 
   @Field(() => PositionDirection)
   @prop({ enum: PositionDirection })
@@ -33,15 +34,7 @@ export class Position extends Document {
 
   @Field()
   @prop({ default: 0.0 })
-  exposure?: number;
-
-  @Field()
-  @prop({ default: 0.0 })
   averagePrice?: number;
-
-  @Field()
-  @prop({ default: 0.0 })
-  marketValue?: number;
 
   @Field()
   @prop({ default: 0.0 })
@@ -55,18 +48,6 @@ export class Position extends Document {
   @prop()
   positionSize: number;
 
-  @Field()
-  @prop({ default: 0.0 })
-  profitLossUsd?: number;
-
-  @Field()
-  @prop({ default: 0.0 })
-  profitLossPercent?: number;
-
-  @Field()
-  @prop({ default: 0.0 })
-  dailyProfitLossUsd?: number;
-
   @Field({ nullable: true })
   @prop({ default: new Date() })
   openDate?: Date;
@@ -77,4 +58,20 @@ export class Position extends Document {
   @Field(() => PositionType)
   @prop({ enum: PositionType })
   positionType: PositionType;
+
+  // Market data fields are not stored in the DB
+  @Field()
+  exposure: number;
+
+  @Field()
+  marketValue: number;
+
+  @Field()
+  profitLossUsd: number;
+
+  @Field()
+  profitLossPercent: number;
+
+  @Field()
+  dailyProfitLossUsd: number;
 }

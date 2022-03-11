@@ -24,17 +24,19 @@ fragment AllPortfolioData on Portfolio {
 
 fragment AllPositionData on Position {
       _id
+      # Market data fields
       marketValue
-      direction
       exposure
-      averagePrice
-      marketValue
-      costBasis
-      brokerFees
-      positionSize
       profitLossUsd
       profitLossPercent
       dailyProfitLossUsd
+      #
+
+      direction
+      averagePrice
+      costBasis
+      brokerFees
+      positionSize
       openDate
       closeDate
       symbol {
@@ -144,10 +146,7 @@ mutation findOrCreateUser($record: FindOrCreateUserInput!){
 
 mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
   removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
-    record {
-      _id
-      ...AllPortfolioData
-    }
+    recordId
   }
 }
 

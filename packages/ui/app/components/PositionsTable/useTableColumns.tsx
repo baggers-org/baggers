@@ -29,6 +29,7 @@ const renderPriceDeltaCell = (
 };
 
 const renderMonetaryValue = (value: number) => {
+  
   if (!value) {
     return <Skeleton width="100%" />;
   }

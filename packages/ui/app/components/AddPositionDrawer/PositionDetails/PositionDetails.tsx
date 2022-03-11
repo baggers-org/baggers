@@ -20,7 +20,7 @@ export const PositionDetails = ({
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const [positionDetails, setPositionDetails] = useState<AddPositionInput>({
-    symbol_id: addingSymbol._id,
+    symbol: addingSymbol._id,
     direction: `long`,
     positionSize: 1,
     positionType: `shares`,

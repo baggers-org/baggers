@@ -1,10 +1,11 @@
-import { getModelForClass, prop } from '@typegoose/typegoose';
+import { getModelForClass, index, prop } from '@typegoose/typegoose';
 import { Field, ObjectType } from 'type-graphql';
 import { Document } from './document';
 import { Position } from './position';
 import { User } from './user';
 
 @ObjectType()
+@index({ owner: 1, private: 1 })
 export class Portfolio extends Document {
   @Field(() => User)
   @prop({ ref: () => User, type: () => String })

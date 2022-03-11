@@ -11,7 +11,7 @@ import {
 import { Add, Compress, Expand, Link, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
-import { useMatches } from '@remix-run/react';
+import { useMatches, useSubmit } from '@remix-run/react';
 import { PositionsTable } from '~/components';
 import { AddPositionDrawer } from '~/components/AddPositionDrawer';
 import { ActionFunction, json } from '@remix-run/server-runtime';
@@ -27,22 +27,34 @@ import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
 
 export const action: ActionFunction = async ({ request, params }) => {
-  const formData = Object.fromEntries(await request.formData());
-
-  const input: AddPositionInput = {
-    averagePrice: parseFloat(valueOrError(formData, `averagePrice`).toString()),
-    direction: formData?.direction as PositionDirection,
-    positionSize: parseFloat(valueOrError(formData, `positionSize`).toString()),
-    symbol_id: valueOrError(formData, `symbol_id`).toString(),
-    positionType: formData?.positionType?.toString() as PositionType,
-    brokerFees: parseFloat(formData?.brokerFees?.toString()),
-    openDate: new Date(formData?.openDate.toString()),
-  };
-
   if (request.method === `POST`) {
+    const formData = Object.fromEntries(await request.formData());
+
+    const input: AddPositionInput = {
+      averagePrice: parseFloat(
+        valueOrError(formData, `averagePrice`).toString(),
+      ),
+      direction: formData?.direction as PositionDirection,
+      positionSize: parseFloat(
+        valueOrError(formData, `positionSize`).toString(),
+      ),
+      symbol: valueOrError(formData, `symbol`).toString(),
+      positionType: formData?.positionType?.toString() as PositionType,
+      brokerFees: parseFloat(formData?.brokerFees?.toString()),
+      openDate: new Date(formData?.openDate.toString()),
+    };
     return sdk.addPosition({
       portfolioId: params.id,
       record: input,
+    });
+  }
+
+  if (request.method === `DELETE`) {
+    const { position_id } = Object.fromEntries(await request.formData());
+
+    return sdk.removePosition({
+      portfolio_id: params.id,
+      position_id,
     });
   }
   return json({ message: `method unsupported` }, { status: 400 });
@@ -58,6 +70,8 @@ export default function Positions() {
   const [density, setDensity] =
     useState<DataGridProProps['density']>(`standard`);
   const [isAddingPosition, setIsAddingPosition] = useState(false);
+
+  const submit = useSubmit();
 
   const handleSwitchDensity = () => {
     if (density === `compact`) {
@@ -118,7 +132,14 @@ export default function Positions() {
               <PositionsTable
                 positions={portfolio.positions}
                 density={density}
-                //     onRemovePosition={(pos) => removePosition(pos._id)}
+                onRemovePosition={(pos) =>
+                  submit(
+                    {
+                      position_id: pos._id,
+                    },
+                    { method: `delete` },
+                  )
+                }
               />
             </Paper>
           </Grid>

@@ -11,7 +11,7 @@ import {
 
 export const calculatePositionMetrics = (
   portfolio: Pick<Portfolio, 'totalValue'>,
-  position: Omit<AddPositionInput, 'symbol_id' | 'portfolio_id'>,
+  position: Omit<AddPositionInput, 'symbol' | 'portfolio_id'>,
   positionMarketData: Pick<Quote, 'latestPrice' | 'change'>,
 ) => {
   if (!positionMarketData) {

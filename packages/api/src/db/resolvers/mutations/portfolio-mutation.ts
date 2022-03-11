@@ -1,6 +1,4 @@
-import { Portfolio, PortfolioModel, Quote } from '@/db/entities';
-import { Position } from '@/db/entities/position';
-import { SymbolModel } from '@/db/entities/symbol';
+import { Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   AddPositionInput,
@@ -13,12 +11,7 @@ import {
   AddPositionPayload,
   RemovePositionPayload,
 } from '@/db/payloads/portfolio-payloads';
-import {
-  calculatePositionMetrics,
-  getTotalPositionValue,
-} from '@/db/util/math';
 import { CurrentUser } from '@/decorators/CurrentUser';
-import { fetchQuote } from '@/iex';
 import { AccessClaim } from '@/types/AccessClaim';
 import { GraphQLContext } from '@/types/GraphQLContext';
 import { ObjectId } from 'mongodb';
@@ -95,52 +88,27 @@ export class PortfolioMutations {
     input: AddPositionInput,
     @CurrentUser() user: AccessClaim,
   ) {
-    const portfolio = await PortfolioModel.findOneAndUpdate({
-      _id: id,
-      owner: user.sub,
-    }).orFail(
+    const portfolio = await PortfolioModel.findOneAndUpdate(
+      {
+        _id: id,
+        owner: user.sub,
+      },
+      {
+        $push: {
+          positions: {
+            ...input,
+            costBasis: input.averagePrice * input.positionSize,
+          },
+        },
+      },
+    ).orFail(
       () =>
         new NotFoundError(
           `Could not find a portfolio to add a position to with id ${id}`,
         ),
     );
-    const {
-      symbol_id,
-    } = input;
-    // Check if if the symbol has quote data
-    const symbol = await SymbolModel.findById(symbol_id).orFail(() => new NotFoundError(`Could not find a symbol with id ${symbol_id}`))
-
-    let quote: Quote = symbol?.quote;
-
-    if (!quote) {
-      quote = await fetchQuote(symbol.symbol);
-      // Update the symbol
-      symbol.quote = quote;
-      symbol?.save();
-    }
-
-    const newPosition: Partial<Position> = {
-      symbol,
-      ...input,
-      ...calculatePositionMetrics(portfolio, input, quote),
-    };
-
-    const res = await PortfolioModel.findByIdAndUpdate(
-      id,
-      {
-        $push: { positions: newPosition },
-        $set: {
-          totalValue: getTotalPositionValue([
-            ...portfolio?.positions,
-            newPosition,
-          ]),
-        },
-      },
-      { new: true },
-    ).populate([`owner`, `positions.symbol`]);
 
     return {
-      record: res,
       recordId: portfolio?._id,
     };
   }
@@ -151,25 +119,18 @@ export class PortfolioMutations {
     @Arg(`position_id`) position_id: ObjectId,
     @CurrentUser() user: AccessClaim,
   ) {
-    const portfolio = await PortfolioModelHelpers.findByIdIfOwner(
-      portfolio_id,
-      user.sub,
-    );
-
-    const positionsWithout = portfolio?.positions.filter(
-      (p) => !p._id.equals(position_id),
-    );
-
-    const res = await PortfolioModel.findByIdAndUpdate(portfolio_id, {
-      $
-      $pull: { positions: { _id: position_id } },
-      $set: {
-        totalValue: getTotalPositionValue(positionsWithout as any),
+    const res = await PortfolioModel.findOneAndUpdate(
+      {
+        _id: portfolio_id,
+        owner: user.sub,
       },
-    }).populate(`positions.symbol`);
+      {
+        $pull: { positions: { _id: position_id } },
+      },
+    ).orFail(() => new NotFoundError(`Could not remove the position`));
 
     return {
-      record: res,
+      recordId: res._id,
     };
   }
 }

@@ -22,5 +22,5 @@ export const fetchQuotes = async (symbols: Symbol[]) => {
 
   return quoteData
     .flatMap((quoteMap) => Object.values(quoteMap))
-    .map((d, index) => ({ ...d.quote, symbol_id: symbols[index]._id }));
+    .map((d, index) => ({ ...d.quote, symbol: symbols[index]._id }));
 };
