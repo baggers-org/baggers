@@ -4,13 +4,13 @@
 # -----------------------------------------------
 
 input AddPositionInput {
+  averagePrice: Float!
   brokerFees: Float
   closeDate: DateTime
-  costBasis: Float!
-  isShort: Boolean!
+  direction: PositionDirection!
   openDate: DateTime
-  portfolio_id: ObjectId!
   positionSize: Float!
+  positionType: PositionType!
   symbol_id: ObjectId!
 }
 
@@ -30,10 +30,10 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 input FindOrCreateUserInput {
+  _id: String!
   displayName: String
   emails: [String!]
   photos: [String!]
-  sub: String!
 }
 
 type FindOrCreateUserPayload {
@@ -42,7 +42,7 @@ type FindOrCreateUserPayload {
 }
 
 type Mutation {
-  addPosition(record: AddPositionInput!): AddPositionPayload!
+  addPosition(id: ObjectId!, record: AddPositionInput!): AddPositionPayload!
 
   """Create a portfolio under your username"""
   createPortfolio: CreatePortfolioPayload!
@@ -50,10 +50,10 @@ type Mutation {
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
   findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
-
-  """Set portfolio name"""
-  portfolioSetName(_id: ObjectId!, name: String!): UpdatePortfolioPayload!
   removePosition(portfolio_id: ObjectId!, position_id: ObjectId!): RemovePositionPayload!
+
+  """Update portfolio details"""
+  updatePortfolio(_id: ObjectId!, input: UpdatePortfolioInput!): UpdatePortfolioPayload!
 }
 
 """Mongo object id scalar type"""
@@ -77,14 +77,28 @@ type Position {
   closeDate: DateTime
   costBasis: Float!
   dailyProfitLossUsd: Float!
+  direction: PositionDirection!
   exposure: Float!
-  isShort: Boolean!
   marketValue: Float!
   openDate: DateTime
   positionSize: Float!
+  positionType: PositionType!
   profitLossPercent: Float!
   profitLossUsd: Float!
   symbol: Symbol!
+}
+
+"""Buying vs selling"""
+enum PositionDirection {
+  long
+  short
+}
+
+"""Shares, calls, puts"""
+enum PositionType {
+  calls
+  puts
+  shares
 }
 
 type Query {
@@ -94,62 +108,62 @@ type Query {
 }
 
 type Quote {
-  avgTotalVolume: Float!
-  calculationPrice: String!
-  change: Float!
-  changePercent: Float!
-  close: Float!
-  closeSource: String!
-  closeTime: Float!
-  companyName: String!
-  currency: String!
-  delayedPrice: Float!
-  delayedPriceTime: Float!
-  extendedChange: Float!
-  extendedChangePercent: Float!
-  extendedPrice: Float!
-  extendedPriceTime: Float!
-  high: Float!
-  highSource: String!
-  highTime: Float!
-  iexAskPrice: Float!
-  iexAskSize: Float!
-  iexBidPrice: Float!
-  iexBidSize: Float!
-  iexClose: Float!
-  iexCloseTime: Float!
-  iexLastUpdated: Float!
-  iexMarketPercent: Float!
-  iexOpen: Float!
-  iexOpenTime: Float!
-  iexRealtimePrice: Float!
-  iexRealtimeSize: Float!
-  iexVolume: Float!
-  isUSMarketOpen: Boolean!
-  lastTradeTime: Float!
-  latestPrice: Float!
-  latestSource: String!
-  latestTime: String!
-  latestUpdate: Float!
-  latestVolume: Float!
-  low: Float!
-  lowSource: String!
-  lowTime: Float!
-  marketCap: Float!
-  oddLotDelayedPrice: Float!
-  oddLotDelayedPriceTime: Float!
-  open: Float!
-  openSource: String!
-  openTime: Float!
-  peRatio: Float!
-  previousClose: Float!
-  previousVolume: Float!
-  primaryExchange: String!
-  symbol: String!
-  volume: Float!
-  week52High: Float!
-  week52Low: Float!
-  ytdChange: Float!
+  avgTotalVolume: Float
+  calculationPrice: String
+  change: Float
+  changePercent: Float
+  close: Float
+  closeSource: String
+  closeTime: Float
+  companyName: String
+  currency: String
+  delayedPrice: Float
+  delayedPriceTime: Float
+  extendedChange: Float
+  extendedChangePercent: Float
+  extendedPrice: Float
+  extendedPriceTime: Float
+  high: Float
+  highSource: String
+  highTime: Float
+  iexAskPrice: Float
+  iexAskSize: Float
+  iexBidPrice: Float
+  iexBidSize: Float
+  iexClose: Float
+  iexCloseTime: Float
+  iexLastUpdated: Float
+  iexMarketPercent: Float
+  iexOpen: Float
+  iexOpenTime: Float
+  iexRealtimePrice: Float
+  iexRealtimeSize: Float
+  iexVolume: Float
+  isUSMarketOpen: Boolean
+  lastTradeTime: Float
+  latestPrice: Float
+  latestSource: String
+  latestTime: String
+  latestUpdate: Float
+  latestVolume: Float
+  low: Float
+  lowSource: String
+  lowTime: Float
+  marketCap: Float
+  oddLotDelayedPrice: Float
+  oddLotDelayedPriceTime: Float
+  open: Float
+  openSource: String
+  openTime: Float
+  peRatio: Float
+  previousClose: Float
+  previousVolume: Float
+  primaryExchange: String
+  symbol: String
+  volume: Float
+  week52High: Float
+  week52Low: Float
+  ytdChange: Float
 }
 
 type RemovePositionPayload {
@@ -169,15 +183,21 @@ type Symbol {
   symbolType: String!
 }
 
+input UpdatePortfolioInput {
+  cash: Float
+  description: String
+  name: String
+  private: Boolean
+}
+
 type UpdatePortfolioPayload {
   record: Portfolio!
   recordId: ObjectId!
 }
 
 type User {
-  _id: ObjectId!
+  _id: String!
   displayName: String!
-  emails: [String!]!
+  emails: [String!]
   photos: [String!]!
-  sub: String!
 }

@@ -4,7 +4,7 @@ import { User } from '../entities';
 @InputType()
 export class FindOrCreateUserInput implements Partial<User> {
   @Field()
-  declare sub: string;
+  declare _id: string;
 
   @Field({ nullable: true })
   displayName?: string;

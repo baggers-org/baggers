@@ -6,4 +6,6 @@ import { BasePayload } from './base-payload';
 export class FindOrCreateUserPayload extends BasePayload<User> {
   @Field(() => User)
   declare record: User;
+
+  declare recordId: string;
 }

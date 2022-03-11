@@ -7,8 +7,8 @@ import { User } from './user';
 @ObjectType()
 export class Portfolio extends Document {
   @Field(() => User)
-  @prop({ _id: false })
-  owner: User;
+  @prop({ ref: () => User, type: () => String })
+  owner: User | string;
 
   @Field()
   @prop({ default: true })
@@ -34,4 +34,5 @@ export class Portfolio extends Document {
   @prop({ type: Position, default: [] })
   positions: Position[];
 }
+
 export const PortfolioModel = getModelForClass(Portfolio);

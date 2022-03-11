@@ -25,7 +25,7 @@ fragment AllPortfolioData on Portfolio {
 fragment AllPositionData on Position {
       _id
       marketValue
-      isShort
+      direction
       exposure
       averagePrice
       marketValue
@@ -107,18 +107,14 @@ fragment AllPositionData on Position {
 
 fragment FullUser on User {
 	_id
-	sub
 	displayName
 	emails
 	photos
 }
 
-mutation addPosition($record: AddPositionInput!) {
-  addPosition(record: $record) {
-    record {
-      _id
-      ...AllPortfolioData
-    }
+mutation addPosition($record: AddPositionInput!, $portfolioId: ObjectId!) {
+  addPosition(id: $portfolioId, record: $record) {
+    recordId
   }
 }
 
@@ -146,19 +142,19 @@ mutation findOrCreateUser($record: FindOrCreateUserInput!){
   }
 }
 
-mutation portfolioSetName($id: ObjectId!, $name: String!) {
-	portfolioSetName(_id: $id, name: $name) {
-		record {
-			...AllPortfolioData
-		}
-	}
-}
-
 mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
   removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
     record {
       _id
       ...AllPortfolioData
+    }
+  }
+}
+
+mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
+  updatePortfolio(input: $input, _id: $id) {
+    record {
+      _id
     }
   }
 }
@@ -185,10 +181,11 @@ query searchSymbols($search: String!) {
     exchange
     exchangeName
     region
+    symbolType
+    currency
     quote {
       latestTime
       latestPrice
-      currency
     }
   }
 }

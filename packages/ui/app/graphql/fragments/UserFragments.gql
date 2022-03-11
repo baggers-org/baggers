@@ -1,6 +1,5 @@
 fragment FullUser on User {
 	_id
-	sub
 	displayName
 	emails
 	photos

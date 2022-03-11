@@ -6,7 +6,7 @@ import { SearchInput } from '~/components/SearchInput';
 import { BaggersToggleButtonGroup } from '~/components/BaggersToggleButtonGroup';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Symbol } from '~/sdk/types';
+import { SearchSymbolsQuery, Symbol } from '~/generated/graphql';
 
 export interface SearchPositionsProps {
   onClickResult?: (position: Symbol) => void;
@@ -18,9 +18,16 @@ export const SearchSymbols: React.FC<SearchPositionsProps> = ({
 }) => {
   const { t } = useTranslation(`view_portfolio`);
 
-  const [results, setResults] = useState();
+  const [results, setResults] = useState<Symbol[]>();
+
   const searchDebounce = useDebouncedCallback(async (term: string) => {
-    setResults(await (await fetch(`/api/symbols/${term}`)).json());
+    setResults(
+      (
+        (await (
+          await fetch(`/api/symbols/${term}`)
+        ).json()) as SearchSymbolsQuery
+      )?.searchSymbols,
+    );
   }, 100);
 
   return (

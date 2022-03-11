@@ -17,18 +17,15 @@
     "SharedArrayBuffer": "readonly"
   },
   "plugins": [
-    "@typescript-eslint/eslint-plugin",
     "import",
     "jsx-a11y",
     "react",
     "react-hooks",
-    "prettier"
   ],
   "extends": [
     "airbnb",
     "eslint-config-prettier",
-    "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "../../.eslintrc"
   ],
   "rules": {
     "arrow-body-style": "off",

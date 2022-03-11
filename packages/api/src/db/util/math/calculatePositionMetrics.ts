@@ -8,7 +8,6 @@ import {
   calculateDailyProfitLossUsd,
   calculateExposure,
 } from '../position-util';
-import { valueOrError } from '../valueOrError';
 
 export const calculatePositionMetrics = (
   portfolio: Pick<Portfolio, 'totalValue'>,
@@ -20,9 +19,8 @@ export const calculatePositionMetrics = (
   }
   const { latestPrice, change } = positionMarketData;
 
-  const size = valueOrError(position, `positionSize`);
-  const costBasis = valueOrError(position, `costBasis`);
-  const averagePrice = roundTo2Decimal(costBasis / size);
+  const size = roundTo2Decimal(position.positionSize);
+  const costBasis = roundTo2Decimal(size * position.averagePrice);
   const marketValue = roundTo2Decimal(calculateMarketValue(size, latestPrice));
 
   // Add this new positions value to the total portfolio value, as it will be required for the calculation
@@ -44,7 +42,6 @@ export const calculatePositionMetrics = (
 
   return {
     marketValue,
-    averagePrice,
     profitLossUsd,
     profitLossPercent,
     dailyProfitLossUsd,

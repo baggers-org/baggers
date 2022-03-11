@@ -17,26 +17,42 @@ import { AddPositionDrawer } from '~/components/AddPositionDrawer';
 import { ActionFunction, json } from '@remix-run/server-runtime';
 import { NoPositions } from '~/components/NoPositions';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
+import {
+  AddPositionInput,
+  PortfolioQuery,
+  PositionDirection,
+  PositionType,
+} from '~/generated/graphql';
+import { sdk } from '~/graphql/sdk.server';
+import { valueOrError } from '~/util/valueOrError';
 
+export const action: ActionFunction = async ({ request, params }) => {
+  const formData = Object.fromEntries(await request.formData());
 
-// export const action: ActionFunction = async ({ request, params }) => {
-//   const sdk = await new SDK().login(request);
-//   const mutations = await sdk.portfolios.mutate(params.id);
+  const input: AddPositionInput = {
+    averagePrice: parseFloat(valueOrError(formData, `averagePrice`).toString()),
+    direction: formData?.direction as PositionDirection,
+    positionSize: parseFloat(valueOrError(formData, `positionSize`).toString()),
+    symbol_id: valueOrError(formData, `symbol_id`).toString(),
+    positionType: formData?.positionType?.toString() as PositionType,
+    brokerFees: parseFloat(formData?.brokerFees?.toString()),
+    openDate: new Date(formData?.openDate.toString()),
+  };
 
-//   const input = Object.fromEntries(await request.formData());
-//   console.log(input);
-
-//   if (request.method === `POST`) {
-//     return mutations.addPosition(input as unknown as AddPositionInput);
-//   }
-//   return json({ message: `method unsupported` }, { status: 400 });
-// };
+  if (request.method === `POST`) {
+    return sdk.addPosition({
+      portfolioId: params.id,
+      record: input,
+    });
+  }
+  return json({ message: `method unsupported` }, { status: 400 });
+};
 export default function Positions() {
   const { t } = useTranslation(`view_portfolio`);
 
-  const portfolio = useMatches().find(
+  const { portfolio } = useMatches().find(
     (m) => m.id === `routes/__app/portfolios/$id`,
-  )?.data as Portfolio;
+  )?.data as PortfolioQuery;
   const { positions } = portfolio;
 
   const [density, setDensity] =

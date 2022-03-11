@@ -1,17 +1,35 @@
 import { prop } from '@typegoose/typegoose';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType, registerEnumType } from 'type-graphql';
 import { Document } from './document';
 import { Symbol } from './symbol';
 
+export enum PositionDirection {
+  long = `long`,
+  short = `short`,
+}
+export enum PositionType {
+  shares = `shares`,
+  puts = `puts`,
+  calls = `calls`,
+}
+
+registerEnumType(PositionDirection, {
+  name: `PositionDirection`,
+  description: `Buying vs selling`,
+});
+registerEnumType(PositionType, {
+  name: `PositionType`,
+  description: `Shares, calls, puts`,
+});
 @ObjectType()
 export class Position extends Document {
   @Field(() => Symbol)
   @prop({ ref: () => Symbol })
   symbol: Symbol;
 
-  @Field()
-  @prop({ default: false })
-  isShort?: boolean;
+  @Field(() => PositionDirection)
+  @prop({ enum: PositionDirection })
+  direction?: PositionDirection;
 
   @Field()
   @prop({ default: 0.0 })
@@ -55,4 +73,8 @@ export class Position extends Document {
 
   @Field({ nullable: true })
   closeDate?: Date;
+
+  @Field(() => PositionType)
+  @prop({ enum: PositionType })
+  positionType: PositionType;
 }

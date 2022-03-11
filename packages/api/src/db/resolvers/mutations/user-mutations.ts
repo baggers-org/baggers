@@ -9,10 +9,8 @@ export class UserMutations {
   async findOrCreateUser(
     @Arg(`record`) record: FindOrCreateUserInput,
   ): Promise<FindOrCreateUserPayload> {
-    console.log(record);
-
     const user = await UserModel.findOneAndUpdate(
-      { sub: record.sub },
+      { _id: record._id },
       {
         $set: record,
       },

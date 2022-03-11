@@ -1,7 +1,11 @@
 import { Portfolio, PortfolioModel, Quote } from '@/db/entities';
 import { Position } from '@/db/entities/position';
 import { SymbolModel } from '@/db/entities/symbol';
-import { AddPositionInput } from '@/db/inputs/portfolio-inputs';
+import { NotFoundError } from '@/db/errors/NotFoundError';
+import {
+  AddPositionInput,
+  UpdatePortfolioInput,
+} from '@/db/inputs/portfolio-inputs';
 import { ObjectIdScalar } from '@/db/object-id.scalar';
 import {
   CreatePortfolioPayload,
@@ -13,46 +17,29 @@ import {
   calculatePositionMetrics,
   getTotalPositionValue,
 } from '@/db/util/math';
+import { CurrentUser } from '@/decorators/CurrentUser';
 import { fetchQuote } from '@/iex';
-import { AuthenticationError } from 'apollo-server-express';
+import { AccessClaim } from '@/types/AccessClaim';
+import { GraphQLContext } from '@/types/GraphQLContext';
 import { ObjectId } from 'mongodb';
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 
 @Resolver(() => Portfolio)
 export class PortfolioMutations {
-  /**
-   * Authenticate the user and ensure the portfolio exists, will be used by every method
-   * @param portfolio_id The ID of the portfolio we are mutatin
-   * @param access Users Access claim obtained from decoding the JWT, should come from GraphQL context
-   */
-  async authenticate(portfolio_id: ObjectId, access: any) {
-    const portfolio = await PortfolioModel.findById(portfolio_id);
-
-    if (!portfolio) {
-      throw new AuthenticationError(`This portfolio does not exist`);
-    }
-
-    if (portfolio?.owner.sub !== access.sub) {
-      throw new AuthenticationError(
-        `You do not have permission to add a position to this portfolio`,
-      );
-    }
-
-    return portfolio;
-  }
-
+  @Authorized()
   @Mutation(() => CreatePortfolioPayload, {
     description: `Create a portfolio under your username`,
   })
-  async createPortfolio(@Ctx() { identity }): Promise<CreatePortfolioPayload> {
+  async createPortfolio(
+    @Ctx() { user }: GraphQLContext,
+  ): Promise<CreatePortfolioPayload> {
     const portfolio = await PortfolioModel.create({
       owner: {
-        sub: identity.sub,
-        username: identity.preferred_username,
+        _id: user.sub,
       },
     });
     return {
-      record: portfolio,
+      record: await portfolio.populate(`owner`),
       recordId: portfolio._id,
     };
   }
@@ -61,26 +48,39 @@ export class PortfolioMutations {
     description: `Delete the specified portfolio if you have permission to do so`,
   })
   async deletePortfolio(
-    @Arg(`_id`, () => ObjectIdScalar) portfolioId: ObjectId,
-    @Ctx() { access },
+    @Arg(`_id`, () => ObjectIdScalar) id: ObjectId,
+    @CurrentUser() user: AccessClaim,
   ): Promise<CreatePortfolioPayload> {
-    const portfolioToDelete = await this.authenticate(portfolioId, access);
-    const deletedPortfolio = await portfolioToDelete?.delete();
+    const portfolio = await PortfolioModel.findOneAndDelete({
+      _id: id,
+      owner: user.sub,
+    }).orFail(
+      () =>
+        new NotFoundError(`Could not find a portfolio to delete with id ${id}`),
+    );
     return {
-      record: deletedPortfolio,
-      recordId: deletedPortfolio._id,
+      record: portfolio,
+      recordId: portfolio._id,
     };
   }
 
-  @Mutation(() => UpdatePortfolioPayload, { description: `Set portfolio name` })
-  async portfolioSetName(
+  @Mutation(() => UpdatePortfolioPayload, {
+    description: `Update portfolio details`,
+  })
+  async updatePortfolio(
     @Arg(`_id`, () => ObjectIdScalar) id: ObjectId,
-    @Arg(`name`) name: string,
-    @Ctx() { access },
+    @Arg(`input`) input: UpdatePortfolioInput,
+    @CurrentUser() user: AccessClaim,
   ): Promise<UpdatePortfolioPayload> {
-    const portfolio = await this.authenticate(id, access);
-    portfolio.name = name;
-    portfolio.save();
+    const portfolio = await PortfolioModel.findOneAndUpdate(
+      { _id: id, owner: user.sub },
+      { $set: input },
+    ).orFail(
+      () =>
+        new NotFoundError(
+          `Could not find a portfolio to update with id ${id} `,
+        ),
+    );
 
     return {
       record: portfolio,
@@ -90,28 +90,25 @@ export class PortfolioMutations {
 
   @Mutation(() => AddPositionPayload)
   async addPosition(
+    @Arg(`id`) id: ObjectId,
     @Arg(`record`)
-    positionInput: AddPositionInput,
-    @Ctx() { access },
+    input: AddPositionInput,
+    @CurrentUser() user: AccessClaim,
   ) {
+    const portfolio = await PortfolioModel.findOneAndUpdate({
+      _id: id,
+      owner: user.sub,
+    }).orFail(
+      () =>
+        new NotFoundError(
+          `Could not find a portfolio to add a position to with id ${id}`,
+        ),
+    );
     const {
-      portfolio_id,
       symbol_id,
-      costBasis,
-      positionSize,
-      brokerFees,
-      openDate,
-      closeDate,
-      isShort,
-    } = positionInput;
-    const portfolio = await this.authenticate(portfolio_id, access);
-
+    } = input;
     // Check if if the symbol has quote data
-    const symbol = await SymbolModel.findById(symbol_id);
-
-    if (!symbol) {
-      throw Error(`The symbol does not exist`);
-    }
+    const symbol = await SymbolModel.findById(symbol_id).orFail(() => new NotFoundError(`Could not find a symbol with id ${symbol_id}`))
 
     let quote: Quote = symbol?.quote;
 
@@ -124,17 +121,12 @@ export class PortfolioMutations {
 
     const newPosition: Partial<Position> = {
       symbol,
-      costBasis,
-      positionSize,
-      brokerFees,
-      openDate,
-      closeDate,
-      isShort,
-      ...calculatePositionMetrics(portfolio, positionInput, quote),
+      ...input,
+      ...calculatePositionMetrics(portfolio, input, quote),
     };
 
     const res = await PortfolioModel.findByIdAndUpdate(
-      portfolio_id,
+      id,
       {
         $push: { positions: newPosition },
         $set: {
@@ -145,7 +137,7 @@ export class PortfolioMutations {
         },
       },
       { new: true },
-    ).populate(`positions.symbol`);
+    ).populate([`owner`, `positions.symbol`]);
 
     return {
       record: res,
@@ -157,20 +149,19 @@ export class PortfolioMutations {
   async removePosition(
     @Arg(`portfolio_id`) portfolio_id: ObjectId,
     @Arg(`position_id`) position_id: ObjectId,
-    @Ctx() { access },
+    @CurrentUser() user: AccessClaim,
   ) {
-    const portfolio = await PortfolioModel.findById(portfolio_id);
-    if (access.sub !== portfolio?.owner.sub) {
-      throw new AuthenticationError(
-        `You do not have permission to remove this position`,
-      );
-    }
+    const portfolio = await PortfolioModelHelpers.findByIdIfOwner(
+      portfolio_id,
+      user.sub,
+    );
 
     const positionsWithout = portfolio?.positions.filter(
       (p) => !p._id.equals(position_id),
     );
 
     const res = await PortfolioModel.findByIdAndUpdate(portfolio_id, {
+      $
       $pull: { positions: { _id: position_id } },
       $set: {
         totalValue: getTotalPositionValue(positionsWithout as any),

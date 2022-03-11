@@ -5,12 +5,12 @@ import { ObjectIdScalar } from '../object-id.scalar';
 @ObjectType()
 export class BasePayload<T> implements Payload<T> {
   @Field(() => ObjectIdScalar)
-  recordId: ObjectId;
+  recordId: ObjectId | string;
 
   record: T;
 }
 
 interface Payload<T> {
-  recordId: ObjectId;
+  recordId: ObjectId | string;
   record: T;
 }

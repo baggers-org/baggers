@@ -2,22 +2,25 @@ import { Grid } from '@mui/material';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { LoaderFunction, ActionFunction } from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
+import { PortfolioQuery } from '~/generated/graphql';
+import { sdk } from '~/graphql/sdk.server';
 
-// export const loader: LoaderFunction = async ({ request, params }) => {
-//   const sdk = await new SDK().login(request, { allowUnauthenticated: true });
-//   return sdk.portfolios.findById(params.id);
-// };
+export const loader: LoaderFunction = async ({ params }) => {
+  const { id } = params;
+  return sdk.portfolio({ id });
+};
 
-// export const action: ActionFunction = async ({ params, request }) => {
-//   const entries = Object.fromEntries(await request.formData());
-//   const sdk = await new SDK().login(request);
-
-//   const mutations = await sdk.portfolios.mutate(params.id);
-//   return mutations.updatePortfolio(entries);
-// };
+export const action: ActionFunction = async ({ params, request }) => {
+  return sdk.updatePortfolio({
+    id: params.id,
+    input: {
+      ...Object.fromEntries(await request.formData()),
+    },
+  });
+};
 
 export default function PortfoloLayout() {
-  const portfolio = useLoaderData();
+  const { portfolio } = useLoaderData<PortfolioQuery>();
 
   const needsToSetName = !portfolio?.name;
 

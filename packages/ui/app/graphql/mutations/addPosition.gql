@@ -1,8 +1,5 @@
-mutation addPosition($record: AddPositionInput!) {
-  addPosition(record: $record) {
-    record {
-      _id
-      ...AllPortfolioData
-    }
+mutation addPosition($record: AddPositionInput!, $portfolioId: ObjectId!) {
+  addPosition(id: $portfolioId, record: $record) {
+    recordId
   }
 }

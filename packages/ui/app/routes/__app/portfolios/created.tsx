@@ -1,28 +1,28 @@
-import React from 'react';
 import { Grid } from '@mui/material';
 import { CreatePortfolioCard, PortfolioCard } from '~/components';
 import { useLoaderData } from '@remix-run/react';
 import {
-  LoaderFunction,
   ActionFunction,
+  LoaderFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import { getSdk, MyPortfoliosSummaryQuery } from '~/generated/graphql';
+import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
 import { sdk } from '~/graphql/sdk.server';
-// import { SDK } from '~/sdk/sdk.server';
+import { authenticated } from '~/policy.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return sdk.myPortfoliosSummary()
+  return authenticated(request, () => {
+    return sdk.myPortfoliosSummary();
+  });
 };
 
-// export const action: ActionFunction = async ({ request }) => {
-//   const sdk = await new SDK().login(request);
-//   const newPortfolio = await sdk.portfolios.create();
-//   return redirect(`/portfolios/${newPortfolio._id}/positions`);
-// };
+export const action: ActionFunction = async () => {
+  const { createPortfolio } = await sdk.createPortfolio();
+
+  return redirect(`/portfolios/${createPortfolio.record._id}/positions`);
+};
 export default function CreatedPortfoliosPage() {
   const data = useLoaderData<MyPortfoliosSummaryQuery>();
-
 
   return (
     <Grid container spacing={3}>

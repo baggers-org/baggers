@@ -1,7 +1,7 @@
 fragment AllPositionData on Position {
       _id
       marketValue
-      isShort
+      direction
       exposure
       averagePrice
       marketValue

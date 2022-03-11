@@ -1,20 +1,20 @@
-import { getModelForClass, index, prop } from '@typegoose/typegoose';
-import { Field, ObjectType } from 'type-graphql';
-import { Document } from './document';
+import { Owner } from '@/middleware/Owner';
+import { getModelForClass, prop } from '@typegoose/typegoose';
+import { Field, ObjectType, UseMiddleware } from 'type-graphql';
 
 @ObjectType()
-@index({ sub: 1 })
-export class User extends Document {
+export class User {
   @Field()
   @prop()
-  sub: string;
+  _id: string;
 
   @Field()
   @prop()
   displayName: string;
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   @prop({ type: () => [String] })
+  @UseMiddleware(Owner(({ context, root }) => root._id === context.user.sub))
   emails: [string];
 
   @Field(() => [String])

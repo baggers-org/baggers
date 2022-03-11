@@ -38,11 +38,9 @@ export const DesktopHeader = () => {
       <Stack direction="row" ml="auto" spacing={2} alignItems="center">
         <ThemeToggle />
 
-        <Link sx={{ color: `white`, a: { color: `white` } }}>
-          <Form action="/auth/auth0" method="post">
-            <Button type="submit">{t(`login`, `Login`)}</Button>
-          </Form>
-        </Link>
+        <Form action="/auth/auth0" method="post">
+          <Button type="submit">{t(`login`, `Login`)}</Button>
+        </Form>
       </Stack>
     </>
   );
