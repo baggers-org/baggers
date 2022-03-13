@@ -4,9 +4,6 @@
   "private": true,
   "description": "Baggers monorepo",
   "main": "null",
-  "scripts": {
-    "postinstall": "cp -r package-lock.json packages/ui cp package-lock.json packages/api"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/dan-cooke/baggers.git"

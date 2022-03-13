@@ -1,6 +1,6 @@
 # fly.toml file generated for baggers on 2022-03-03T12:23:26Z
 
-app = "baggers"
+app = "baggers-staging"
 
 kill_signal = "SIGINT"
 kill_timeout = 5

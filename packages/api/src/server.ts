@@ -18,7 +18,7 @@ import { UserMutations } from './db/resolvers/mutations/user-mutations';
 import jwt from 'express-jwt';
 import jwks from 'jwks-rsa';
 import { GraphQLContext } from './types/GraphQLContext';
-import { authChecker } from './util/AuthChecker';
+import { authChecker } from './util/authChecker';
 
 const getApolloServerHandler = async () => {
   const { ATLAS_CLUSTER_URI, AUTH0_DOMAIN, AUTH0_API_AUDIENCE } = process.env;

@@ -1,6 +1,0 @@
-fragment FullUser on User {
-	_id
-	displayName
-	emails
-	photos
-}

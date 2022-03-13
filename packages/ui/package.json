@@ -12,7 +12,8 @@
     "predev": "nodemon --watch src/graphql -e .gql scripts/mergeGraphQLDocuments.js & yarn generate",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --config codegen.yml",
+    "env:staging": "cat .env.staging | flyctl -a baggers-staging secrets import"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
