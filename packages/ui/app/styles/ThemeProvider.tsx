@@ -45,9 +45,6 @@ export const ThemeProvider: React.FC<{ defaultMode?: Mode}> = ({ children, defau
     [mode]
   );
 
-  console.log(mode === 'light', mode, theme);
-  
-
   return (
     <ColorModeContext.Provider value={contextValue}>
       <MuiTP theme={theme}>{children}</MuiTP>

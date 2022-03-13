@@ -23,7 +23,7 @@ export class PortfolioQueries {
   ) {
     const res = await PortfolioModel.aggregate([
       // Find the specific portfolio, based on user and portfolio privacy
-      matchPortfolioById(portfolioId, user.sub),
+      matchPortfolioById(portfolioId, user?.sub),
       // Populate positions with market data
       ...populatePositionData(),
       // Work out the various position metrics using the latest market data
@@ -48,6 +48,6 @@ export class PortfolioQueries {
   @Query(() => [Portfolio])
   @Authorized()
   async myPortfolios(@CurrentUser() user: AccessClaim) {
-    return PortfolioModel.find({ owner: user.sub }).populate(`owner`);
+    return PortfolioModel.find({ owner: user?.sub }).populate(`owner`);
   }
 }

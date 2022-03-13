@@ -8,6 +8,7 @@ import createEmotionServer from '@emotion/server/create-instance';
 
 import { createEmotionCache, DARK_THEME, GlobalStyles, ThemeProvider } from '~/styles';
 import { RemixServer } from '@remix-run/react';
+import { EntryContext } from '@remix-run/server-runtime';
 
 export default async function handleRequest(
   request: Request,
