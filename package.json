@@ -5,11 +5,7 @@
   "description": "Baggers monorepo",
   "main": "null",
   "scripts": {
-    "dev": "FORCE_COLOR=1 yarn workspaces foreach run dev",
-    "test": "FORCE_COLOR=1 yarn workspaces foreach -vApi run test",
-    "lint": "FORCE_COLOR=1 yarn workspaces foreach -v run lint",
-    "lint:ts-package": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
-    "build": "FORCE_COLOR=1 yarn workspaces foreach -vtApi run build"
+    "postinstall": "cp -r package-lock.json packages/ui cp package-lock.json packages/api"
   },
   "repository": {
     "type": "git",
@@ -38,9 +34,5 @@
     "packages": [
       "packages/**"
     ]
-  },
-  "resolutions": {
-    "@lerna/package": "patch:@lerna/package@npm:4.0.0#.yarn-patches/@lerna/package.patch",
-    "@lerna/package-graph": "patch:@lerna/package-graph@npm:4.0.0#.yarn-patches/@lerna/package-graph.patch"
   }
 }

@@ -1,0 +1,8 @@
+mutation findOrCreateUser($record: FindOrCreateUserInput!){
+  findOrCreateUser(record: $record) {
+    record {
+	    _id
+	    ...FullUser
+    }
+  }
+}

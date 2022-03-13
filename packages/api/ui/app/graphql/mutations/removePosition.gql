@@ -1,0 +1,5 @@
+mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
+  removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
+    recordId
+  }
+}

@@ -13,8 +13,8 @@ export const ColorModeContext = createContext({
 
 const STORAGE_KEY = `baggers_theme`;
 
-export const ThemeProvider: React.FC = ({ children, themeCookie }) => {
-  const [mode, setMode] = useState<Mode>(`light`);
+export const ThemeProvider: React.FC<{ defaultMode?: Mode}> = ({ children, defaultMode = 'dark' }) => {
+  const [mode, setMode] = useState<Mode>(defaultMode);
 
   const contextValue = useMemo(
     () => ({
@@ -27,18 +27,16 @@ export const ThemeProvider: React.FC = ({ children, themeCookie }) => {
   );
 
   useEffect(() => {
-    if (typeof window !== `undefined`) {
-      const storageValue = window.localStorage.getItem(STORAGE_KEY);
-      setMode((storageValue as Mode) || `light`);
+    if (typeof window !== 'undefined') {
+      setMode(document.cookie?.match(/baggers_theme=(\w*)/)?.[1] as Mode || 'dark')
     } else {
-      themeCook
-
+      setMode(defaultMode)
     }
-  }, []);
+  }, [defaultMode]);
 
   useEffect(() => {
     if (typeof window !== `undefined` && mode) {
-      window.localStorage.setItem(STORAGE_KEY, mode as Mode);
+      document.cookie = `${STORAGE_KEY}=${mode}`;
     }
   }, [mode]);
 
@@ -46,6 +44,9 @@ export const ThemeProvider: React.FC = ({ children, themeCookie }) => {
     () => createTheme(mode === `light` ? LIGHT_THEME : DARK_THEME),
     [mode]
   );
+
+  console.log(mode === 'light', mode, theme);
+  
 
   return (
     <ColorModeContext.Provider value={contextValue}>

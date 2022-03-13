@@ -1,0 +1,21 @@
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  totalValue
+}
+
+fragment PortfolioPositions on Portfolio {
+  positions {
+    ...AllPositionData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioPositions
+}

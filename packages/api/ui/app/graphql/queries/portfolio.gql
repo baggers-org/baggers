@@ -1,0 +1,6 @@
+query portfolio($id: ObjectId!) {
+  portfolio(portfolioId: $id) {
+    _id
+    ...AllPortfolioData
+  }
+}
