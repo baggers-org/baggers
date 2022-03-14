@@ -2,13 +2,18 @@ import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 import { Button, Collapse, Divider, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AddPositionInput, Symbol } from '~/sdk/types';
+import { useFetcher } from '@remix-run/react';
+import {
+  AddPositionInput,
+  PositionDirection,
+  PositionType,
+  Symbol,
+} from '~/generated/graphql';
 import { BasicDetails } from './BasicDetails';
 import { BasicSummary } from './BasicSummary';
 import { AdvancedDetails } from './AdvancedDetails';
 import { AdvancedSummary } from './AdvancedSummary';
 import { useOpenPrice } from '../useOpenPrice';
-import { useFetcher } from '@remix-run/react';
 
 export const PositionDetails = ({
   addingSymbol,
@@ -21,13 +26,13 @@ export const PositionDetails = ({
 
   const [positionDetails, setPositionDetails] = useState<AddPositionInput>({
     symbol: addingSymbol._id,
-    direction: `long`,
+    direction: PositionDirection.Long,
     positionSize: 1,
-    positionType: `shares`,
+    positionType: PositionType.Shares,
     openDate: new Date(),
     brokerFees: 0,
     // Default to market price
-    averagePrice: addingSymbol.quote.latestPrice,
+    averagePrice: addingSymbol.quote.latestPrice || 0,
   });
 
   const { t } = useTranslation(`view_portfolio`);
@@ -42,12 +47,12 @@ export const PositionDetails = ({
   useEffect(() => {
     setPositionDetails((p) => ({
       ...p,
-      averagePrice: openPrice || addingSymbol.quote.latestPrice,
+      averagePrice: openPrice || addingSymbol.quote.latestPrice || 0,
     }));
   }, [openPrice]);
 
   const handleSubmit = () => {
-    submit(positionDetails, { method: `post` });
+    submit(positionDetails as any, { method: `post` });
   };
 
   useEffect(() => {

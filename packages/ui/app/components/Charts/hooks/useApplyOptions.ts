@@ -1,10 +1,10 @@
-import { IChartApi } from "lightweight-charts";
-import { useEffect } from "react";
-import { BaseChartProps } from "../types";
+import { IChartApi } from 'lightweight-charts';
+import { useEffect } from 'react';
+import { BaseChartProps } from '../types';
 
 export const useApplyOptions = (
   chart: IChartApi | null,
-  { options }: BaseChartProps
+  { options }: BaseChartProps,
 ) => {
   useEffect(() => {
     if (chart) {

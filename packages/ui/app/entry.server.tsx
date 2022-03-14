@@ -3,10 +3,15 @@ import { renderToString } from 'react-dom/server';
 import { initReactI18next } from 'react-i18next';
 import { RemixI18NextProvider } from 'remix-i18next';
 import { CacheProvider } from '@emotion/react';
-import { createTheme, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 import createEmotionServer from '@emotion/server/create-instance';
 
-import { createEmotionCache, DARK_THEME, GlobalStyles, ThemeProvider } from '~/styles';
+import {
+  createEmotionCache,
+  GlobalStyles,
+  Mode,
+  ThemeProvider,
+} from '~/styles';
 import { RemixServer } from '@remix-run/react';
 import { EntryContext } from '@remix-run/server-runtime';
 
@@ -27,11 +32,12 @@ export default async function handleRequest(
   const cache = createEmotionCache();
   const { extractCriticalToChunks } = createEmotionServer(cache);
 
-  const theme = request.headers.get('cookie')?.match(/baggers_theme=(\w*)/)?.[1];
-  
+  const theme = request.headers
+    .get(`cookie`)
+    ?.match(/baggers_theme=(\w*)/)?.[1] as Mode;
 
   const MuiRemixServer = () => (
-      <CacheProvider value={cache}>
+    <CacheProvider value={cache}>
       <ThemeProvider defaultMode={theme}>
         <RemixI18NextProvider i18n={i18next}>
           <GlobalStyles />
@@ -40,7 +46,7 @@ export default async function handleRequest(
           <RemixServer context={remixContext} url={request.url} />
         </RemixI18NextProvider>
       </ThemeProvider>
-      </CacheProvider>
+    </CacheProvider>
   );
 
   // Render the component to a string.

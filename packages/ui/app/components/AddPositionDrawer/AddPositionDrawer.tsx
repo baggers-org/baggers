@@ -1,6 +1,7 @@
+import React, { useState } from 'react';
+
 import { Drawer, Grid } from '@mui/material';
-import { useState } from 'react';
-import { Symbol } from '~/sdk/types';
+import { Symbol } from '~/generated/graphql';
 import { DrawerHeader } from './DrawerHeader';
 import { SearchSymbols } from './SearchSymbols';
 import { PositionDetails } from './PositionDetails';

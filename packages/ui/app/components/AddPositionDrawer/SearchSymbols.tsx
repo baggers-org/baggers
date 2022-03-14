@@ -22,11 +22,9 @@ export const SearchSymbols: React.FC<SearchPositionsProps> = ({
 
   const searchDebounce = useDebouncedCallback(async (term: string) => {
     setResults(
-      (
-        (await (
-          await fetch(`/api/symbols/${term}`)
-        ).json()) as SearchSymbolsQuery
-      )?.searchSymbols,
+      ((await (
+        await fetch(`/api/symbols/${term}`)
+      ).json()) as SearchSymbolsQuery)?.searchSymbols,
     );
   }, 100);
 
@@ -70,7 +68,7 @@ export const SearchSymbols: React.FC<SearchPositionsProps> = ({
                 ]}
                 getRowId={(row) => row._id}
                 rows={results as any}
-                onRowClick={({ row }) => onClickResult(row)}
+                onRowClick={({ row }) => onClickResult?.(row as Symbol)}
               />
             </Box>
           )}

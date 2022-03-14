@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Box, Container } from "@mui/material";
-import { AppBar } from "~/components/AppBar";
+import * as React from 'react';
+import { Box, Container } from '@mui/material';
+import { AppBar } from '~/components/AppBar';
 
 export const AppLayout: React.FC = ({ children }) => {
   return (

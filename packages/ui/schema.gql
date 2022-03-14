@@ -7,6 +7,7 @@ input AddPositionInput {
   averagePrice: Float!
   brokerFees: Float
   closeDate: DateTime
+  currency: String
   direction: PositionDirection!
   openDate: DateTime
   positionSize: Float!
@@ -76,6 +77,7 @@ type Position {
   brokerFees: Float!
   closeDate: DateTime
   costBasis: Float!
+  currency: String!
   dailyProfitLossUsd: Float!
   direction: PositionDirection!
   exposure: Float!

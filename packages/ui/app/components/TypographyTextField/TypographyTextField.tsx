@@ -1,23 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import {
   TextField,
   TextFieldProps,
   TypographyProps,
   useTheme,
-} from "@mui/material";
+} from '@mui/material';
+import { Typography } from '@mui/material/styles/createTypography';
 
 export type TypographyTextFieldProps = {
-  variant?: TypographyProps["variant"];
-} & Omit<TextFieldProps, "variant">;
+  variant?: Omit<TypographyProps['variant'], 'inherit'>;
+} & Omit<TextFieldProps, 'variant'>;
 
 let canvas: HTMLCanvasElement;
 export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
-  variant,
+  variant = `h4`,
   ...textFieldProps
 }) => {
   const theme = useTheme();
-  const styles = theme.typography[variant || `h4`];
-  const [width, setWidth] = useState(`100%`);
+  const styles = theme.typography[variant as keyof Typography] as Record<
+    string,
+    unknown
+  >;
+
+  const [width, setWidth] = useState<string | number>(`100%`);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>();
 
   function getTextWidth(el: HTMLInputElement | HTMLTextAreaElement) {
@@ -26,6 +31,7 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
       canvas = document.createElement(`canvas`);
     }
     const context = canvas.getContext(`2d`);
+    if (!context) return 0;
     // get the full font style property
     const font = window.getComputedStyle(el, null).getPropertyValue(`font`);
 
@@ -48,7 +54,7 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
     }
   }, [inputRef.current]);
 
-  const onChange: TextFieldProps["onChange"] = (e) => {
+  const onChange: TextFieldProps['onChange'] = (e) => {
     resizeInput();
     textFieldProps?.onChange?.(e);
   };

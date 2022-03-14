@@ -1,1 +1,1 @@
-export * from "./AppBarLogo";
+export * from './AppBarLogo';

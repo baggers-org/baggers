@@ -9,7 +9,7 @@ import {
   HistogramSeriesOptions,
   CandlestickSeriesOptions,
   AreaSeriesOptions,
-} from "lightweight-charts";
+} from 'lightweight-charts';
 
 export interface BaseChartProps {
   options: DeepPartial<ChartOptions>;

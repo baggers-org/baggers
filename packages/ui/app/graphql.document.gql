@@ -8,6 +8,7 @@ fragment PortfolioSummary on Portfolio {
   }
   name
   description
+  private
   totalValue
 }
 
@@ -37,6 +38,7 @@ fragment AllPositionData on Position {
       costBasis
       brokerFees
       positionSize
+      positionType
       openDate
       closeDate
       symbol {

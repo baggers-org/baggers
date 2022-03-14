@@ -7,7 +7,6 @@ import {
   CardActionArea,
   CardContent,
   Grid,
-  Grow,
   Link,
   Skeleton,
   Typography,
@@ -15,12 +14,12 @@ import {
 import { formatCurrency } from '~/util';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
-import { Portfolio } from '~/sdk/types';
+import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 
 export type PortfolioCardProps = {
-  portfolio: Portfolio;
+  portfolio: MyPortfoliosSummaryQuery['myPortfolios'][0];
 };
 export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
   const { t } = useTranslation(`portfolios_overview`);

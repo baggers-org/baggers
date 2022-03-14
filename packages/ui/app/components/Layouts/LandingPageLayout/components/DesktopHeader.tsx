@@ -1,4 +1,4 @@
-import { Stack, Typography, Link, useTheme, Button } from '@mui/material';
+import { Stack, Typography, useTheme, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Form, useLocation, useNavigate } from '@remix-run/react';
 import { ThemeToggle } from '~/components/ThemeToggle';

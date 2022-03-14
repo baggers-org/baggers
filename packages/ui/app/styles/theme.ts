@@ -1,4 +1,6 @@
-import { ThemeOptions } from "@mui/material";
+import React from 'react';
+
+import { ThemeOptions } from '@mui/material';
 
 export const SHARED_THEME: ThemeOptions = {
   components: {
@@ -110,37 +112,37 @@ export const LIGHT_THEME: ThemeOptions = {
     highEmphasis: `rgba(0,0,0,0.87)`,
   },
 };
-declare module "@mui/material/styles" {
+declare module '@mui/material/styles' {
   interface Palette {
     gradient: {
       main: string;
     };
     price: {
-      neutralBg: React.CSSProperties["color"];
-      neutralFg: React.CSSProperties["color"];
-      profitBg: React.CSSProperties["color"];
-      profitFg: React.CSSProperties["color"];
-      lossBg: React.CSSProperties["color"];
-      lossFg: React.CSSProperties["color"];
+      neutralBg: React.CSSProperties['color'];
+      neutralFg: React.CSSProperties['color'];
+      profitBg: React.CSSProperties['color'];
+      profitFg: React.CSSProperties['color'];
+      lossBg: React.CSSProperties['color'];
+      lossFg: React.CSSProperties['color'];
     };
-    lowEmphasis: React.CSSProperties["color"];
-    mediumEmphasis: React.CSSProperties["color"];
-    highEmphasis: React.CSSProperties["color"];
+    lowEmphasis: React.CSSProperties['color'];
+    mediumEmphasis: React.CSSProperties['color'];
+    highEmphasis: React.CSSProperties['color'];
   }
   interface PaletteOptions {
     gradient: {
       main: string;
     };
     price?: {
-      neutralBg: React.CSSProperties["color"];
-      neutralFg: React.CSSProperties["color"];
-      profitBg: React.CSSProperties["color"];
-      profitFg: React.CSSProperties["color"];
-      lossBg: React.CSSProperties["color"];
-      lossFg: React.CSSProperties["color"];
+      neutralBg: React.CSSProperties['color'];
+      neutralFg: React.CSSProperties['color'];
+      profitBg: React.CSSProperties['color'];
+      profitFg: React.CSSProperties['color'];
+      lossBg: React.CSSProperties['color'];
+      lossFg: React.CSSProperties['color'];
     };
-    lowEmphasis?: React.CSSProperties["color"];
-    mediumEmphasis?: React.CSSProperties["color"];
-    highEmphasis?: React.CSSProperties["color"];
+    lowEmphasis?: React.CSSProperties['color'];
+    mediumEmphasis?: React.CSSProperties['color'];
+    highEmphasis?: React.CSSProperties['color'];
   }
 }

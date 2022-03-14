@@ -1,8 +1,8 @@
-import { Settings } from "@mui/icons-material";
-import { Tab, Tabs } from "@mui/material";
-import { useLocation, useNavigate } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
-import { useIdParam } from "~/hooks";
+import { Settings } from '@mui/icons-material';
+import { Tab, Tabs } from '@mui/material';
+import { useLocation, useNavigate } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
+import { useIdParam } from '~/hooks';
 
 export const PortfolioTabs = () => {
   const { t } = useTranslation(`view_portfolio`);

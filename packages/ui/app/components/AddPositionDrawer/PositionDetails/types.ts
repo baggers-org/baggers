@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { AddPositionInput, Symbol } from '~/sdk/types';
+import { AddPositionInput, Symbol } from '~/generated/graphql';
 
 export interface PositionDetailsProps {
   addingSymbol: Symbol;

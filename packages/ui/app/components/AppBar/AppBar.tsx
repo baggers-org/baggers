@@ -17,8 +17,10 @@ export const AppBar: React.FC = ({ children }) => {
 
   const theme = useTheme();
 
-  const orientation = useBreakpointValue({ xs: `horizontal`, md: `vertical` });
-
+  const orientation = useBreakpointValue<'horizontal' | 'vertical'>({
+    xs: `horizontal`,
+    md: `vertical`,
+  });
 
   return (
     <nav>
@@ -39,7 +41,7 @@ export const AppBar: React.FC = ({ children }) => {
             <Stack height="100vh" alignItems="center" pt={{ xs: 0, md: 3 }}>
               <AppBarLogo />
               <Box width={{ xs: undefined, md: `100%` }} pt={{ xs: 0, md: 6 }}>
-                <Tabs orientation={orientation} value={activeTab}>
+                <Tabs orientation={orientation || `vertical`} value={activeTab}>
                   <AppBarTab
                     value="/dashboard"
                     label={t(`dashboard`, `Dashboard`)}

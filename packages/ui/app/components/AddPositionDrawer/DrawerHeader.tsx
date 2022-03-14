@@ -1,7 +1,7 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { Box, Divider, IconButton, Stack, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Symbol } from '~/sdk/types';
+import { Symbol } from '~/generated/graphql';
 
 export const DrawerHeader = ({
   addingSymbol,

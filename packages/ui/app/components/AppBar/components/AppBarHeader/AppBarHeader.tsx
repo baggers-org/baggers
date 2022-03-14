@@ -1,10 +1,10 @@
-import React from "react";
-import { Box, Grid, useTheme } from "@mui/material";
+import React from 'react';
+import { Box, Grid, useTheme } from '@mui/material';
 
-import { SearchInput, Clock, ThemeToggle } from "~/components";
-import { useTranslation } from "react-i18next";
-import { NotificationsButton } from "../NotificationsButton";
-import { ProfileButton } from "../ProfileButton";
+import { SearchInput, Clock, ThemeToggle } from '~/components';
+import { useTranslation } from 'react-i18next';
+import { NotificationsButton } from '../NotificationsButton';
+import { ProfileButton } from '../ProfileButton';
 
 export type AppBarHeaderProps = {};
 export const AppBarHeader: React.FC<AppBarHeaderProps> = () => {

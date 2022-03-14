@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
-import { IChartApi, createChart } from "lightweight-charts";
-import { BaseChartProps } from "../types";
+import { useEffect, useRef, useState } from 'react';
+import { IChartApi, createChart } from 'lightweight-charts';
+import { BaseChartProps } from '../types';
 
 export const useSetupChart = (props: BaseChartProps) => {
   const chartContainerRef = useRef<HTMLDivElement>(null);

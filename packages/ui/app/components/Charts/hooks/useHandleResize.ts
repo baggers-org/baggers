@@ -1,13 +1,13 @@
-import { IChartApi } from "lightweight-charts";
-import { useEffect } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { IChartApi } from 'lightweight-charts';
+import { useEffect } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
-import { ChartProps } from "../types";
+import { ChartProps } from '../types';
 
 export const useHandleResize = (
   container: HTMLDivElement | null,
   chart: IChartApi | null,
-  props: ChartProps
+  props: ChartProps,
 ) => {
   const handleResize = useDebouncedCallback(() => {
     if (chart && container) {

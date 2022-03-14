@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { PositionType } from '~/sdk/types';
+import { PositionType } from '~/generated/graphql';
 
 export const useTranslatedPositionType = (
   positionType: PositionType,

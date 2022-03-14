@@ -7,7 +7,6 @@ export const authChecker: AuthChecker<GraphQLContext> = (
   { context },
   roles,
 ) => {
-
   if (!context.user) {
     throw new AuthenticationError(
       `You are not authenticated to perform this action`,

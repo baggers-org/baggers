@@ -1,14 +1,18 @@
-import { useTheme } from "@mui/material";
-import { alpha } from "@mui/system";
-import { useState } from "react";
-import loadable from "@loadable/component";
+import { useTheme } from '@mui/material';
+import { alpha } from '@mui/system';
+import { useState } from 'react';
+
+// eslint-disable-next-line
+// @ts-expect-error
+import loadable from '@loadable/component';
 
 const AreaChart = loadable.lib(async () => {
   if (typeof window !== `undefined`) {
     return import(`~/components/Charts/AreaChart`);
   }
-});
 
+  return <div />;
+});
 
 const POINTS = [
   { time: `2018-12-22`, value: 32.51 },
@@ -30,14 +34,14 @@ const POINTS = [
 ];
 export const PortfolioCardChart = () => {
   const [chartData] = useState(
-    POINTS.map((point) => ({ ...point, value: Math.random() * 30 }))
+    POINTS.map((point) => ({ ...point, value: Math.random() * 30 })),
   );
 
   const theme = useTheme();
 
   return (
     <AreaChart>
-      {({ default: Area }) => (
+      {({ default: Area }: { default: any }) => (
         <Area
           fitContent
           options={{

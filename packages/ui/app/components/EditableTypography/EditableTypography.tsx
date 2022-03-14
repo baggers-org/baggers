@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Edit, RemoveCircle } from '@mui/icons-material';
-import {
-  Typography,
-  IconButton,
-  Stack,
-  Skeleton,
-  Box,
-  CircularProgress,
-} from '@mui/material';
+import { Typography, IconButton, Stack, Box } from '@mui/material';
 import { TypographyTextField, TypographyTextFieldProps } from '~/components';
 
 export type EditableTypographyProps = TypographyTextFieldProps & {
@@ -59,7 +52,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
       {!isEditting && (
         <Typography
           maxWidth="100%"
-          variant={variant}
+          variant={variant as any}
           sx={{
             wordBreak: `break-all`,
             opacity: isSubmitting ? 0.2 : 1,

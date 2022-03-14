@@ -10,10 +10,12 @@
     "deploy": "fly deploy --remote-only",
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
     "predev": "nodemon --watch src/graphql -e .gql scripts/mergeGraphQLDocuments.js & yarn generate",
+    "lint": "eslint app",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build",
     "generate": "graphql-codegen --config codegen.yml",
-    "env:staging": "cat .env.staging | flyctl -a baggers-staging secrets import"
+    "env:staging": "cat .env.staging | flyctl -a baggers-staging secrets import",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
@@ -58,6 +60,7 @@
     "@remix-run/dev": "^1.1.3",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
+    "@types/vivus": "^0.4.4",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
     "eslint": "^8.8.0",

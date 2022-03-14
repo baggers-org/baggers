@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { Tab, TabProps } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { darken } from "@mui/system";
-import { useBreakpointValue } from "~/hooks/useBreakpointValue";
+import { Tab, TabProps } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { darken } from '@mui/system';
+import { useBreakpointValue } from '~/hooks/useBreakpointValue';
 
 const StyledTab = styled(Tab)<TabProps>(({ theme }) => ({
   color: `#EAEAEA`,
-  ":hover": {
+  ':hover': {
     background: darken(theme.palette.primary.dark, 0.1),
   },
 }));

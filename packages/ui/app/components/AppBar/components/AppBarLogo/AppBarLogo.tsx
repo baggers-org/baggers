@@ -1,7 +1,7 @@
-import React from "react";
-import { Stack, Typography } from "@mui/material";
+import React from 'react';
+import { Stack, Typography } from '@mui/material';
 
-import Logo from "../../../../../public/svg/logo_dark_50x50.svg";
+import Logo from '../../../../../public/svg/logo_dark_50x50.svg';
 
 export type AppBarLogoProps = {};
 export const AppBarLogo: React.FC<AppBarLogoProps> = () => {

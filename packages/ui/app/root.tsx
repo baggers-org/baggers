@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import {
   Links,
   LiveReload,
@@ -7,14 +7,14 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-} from "@remix-run/react";
-import { withEmotionCache } from "@emotion/react";
+} from '@remix-run/react';
+import { withEmotionCache } from '@emotion/react';
 import {
   unstable_useEnhancedEffect as useEnhancedEffect,
   useTheme,
-} from "@mui/material";
-import { LicenseInfo } from "@mui/x-data-grid-pro";
-import ClientStyleContext from "./styles/ClientStyleContext";
+} from '@mui/material';
+import { LicenseInfo } from '@mui/x-data-grid-pro';
+import ClientStyleContext from './styles/ClientStyleContext';
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -22,7 +22,7 @@ interface DocumentProps {
 }
 
 LicenseInfo.setLicenseKey(
-  `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`
+  `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`,
 );
 
 const Document = withEmotionCache(
@@ -83,7 +83,7 @@ const Document = withEmotionCache(
         </body>
       </html>
     );
-  }
+  },
 );
 
 // https://remix.run/api/conventions#default-export

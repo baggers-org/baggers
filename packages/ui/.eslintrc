@@ -4,6 +4,7 @@
     "node": true,
     "es6": true
   },
+  "ignorePatterns": ["app/generated/graphql.ts"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -14,6 +15,8 @@
   },
   "globals": {
     "Atomics": "readonly",
+    "React": true,
+    "JSX": true,
     "SharedArrayBuffer": "readonly"
   },
   "plugins": [
@@ -25,7 +28,6 @@
   "extends": [
     "airbnb",
     "eslint-config-prettier",
-    "../../.eslintrc"
   ],
   "rules": {
     "arrow-body-style": "off",

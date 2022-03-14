@@ -33,6 +33,9 @@ export class AddPositionInput implements Partial<Position> {
 
   @Field({ nullable: true })
   closeDate?: Date;
+
+  @Field({ nullable: true })
+  currency?: string;
 }
 
 @InputType()

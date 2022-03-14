@@ -41,6 +41,10 @@ export class Position extends Document {
   costBasis: number;
 
   @Field()
+  @prop({ default: `USD` })
+  currency?: string;
+
+  @Field()
   @prop({ default: 0.0 })
   brokerFees?: number;
 

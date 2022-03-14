@@ -1,1 +1,1 @@
-export * from "./AppBarTab";
+export * from './AppBarTab';

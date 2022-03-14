@@ -1,4 +1,4 @@
-import { CardContent, Typography, Button, CardActionArea } from '@mui/material';
+import { CardContent, Typography, CardActionArea } from '@mui/material';
 import { DashedCard } from '~/components/DashedCard';
 
 export interface AddFirstPositionCardProps {

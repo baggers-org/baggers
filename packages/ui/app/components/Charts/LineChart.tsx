@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
-import { useChart } from "./hooks/useChart";
-import { LineChartProps } from "./types";
+import React, { useEffect } from 'react';
+import { useChart } from './hooks/useChart';
+import { LineChartProps } from './types';
 
 const LineChart: React.FC<LineChartProps> = (props) => {
   const { chart, chartContainerRef, setSeries } = useChart(props);
 
   useEffect(() => {
     if (chart) {
+      // eslint-disable-next-line
       setSeries(chart.addLineSeries(props.seriesOptions));
     }
   }, [chart]);

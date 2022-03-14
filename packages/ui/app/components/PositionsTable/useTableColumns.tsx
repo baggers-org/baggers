@@ -1,16 +1,16 @@
-import { Delete } from "@mui/icons-material";
-import { Avatar, Link, Skeleton, Stack } from "@mui/material";
-import { GridActionsCellItem, GridColDef } from "@mui/x-data-grid-pro";
+import { Delete } from '@mui/icons-material';
+import { Avatar, Link, Skeleton, Stack } from '@mui/material';
+import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
-import { Link as RemixLink } from "@remix-run/react";
-import { useTranslation } from "react-i18next";
-import { formatCurrency, isProfitLossOrNeutral } from "~/util";
-import { PriceTag } from "..";
-import { UseTableColumnProps } from "./types";
+import { Link as RemixLink } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
+import { formatCurrency, isProfitLossOrNeutral } from '~/util';
+import { PriceTag } from '..';
+import { UseTableColumnProps } from './types';
 
 const renderPriceDeltaCell = (
   value: number,
-  { isPercent } = { isPercent: false }
+  { isPercent } = { isPercent: false },
 ) => {
   if (value !== 0 && !value) {
     return <Skeleton width="100%" />;
@@ -29,7 +29,6 @@ const renderPriceDeltaCell = (
 };
 
 const renderMonetaryValue = (value: number) => {
-  
   if (!value) {
     return <Skeleton width="100%" />;
   }

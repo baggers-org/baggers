@@ -6,6 +6,7 @@ fragment PortfolioSummary on Portfolio {
   }
   name
   description
+  private
   totalValue
 }
 

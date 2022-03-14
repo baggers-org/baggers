@@ -1,9 +1,9 @@
-import { ThemeProvider as MuiTP, createTheme } from "@mui/material";
+import { ThemeProvider as MuiTP, createTheme } from '@mui/material';
 
-import { createContext, useEffect, useMemo, useState } from "react";
-import { DARK_THEME, LIGHT_THEME } from "~/styles/theme";
+import { createContext, useEffect, useMemo, useState } from 'react';
+import { DARK_THEME, LIGHT_THEME } from '~/styles/theme';
 
-type Mode = "light" | "dark";
+export type Mode = 'light' | 'dark';
 export const ColorModeContext = createContext({
   toggleColorMode: () => {
     //
@@ -13,7 +13,10 @@ export const ColorModeContext = createContext({
 
 const STORAGE_KEY = `baggers_theme`;
 
-export const ThemeProvider: React.FC<{ defaultMode?: Mode}> = ({ children, defaultMode = 'dark' }) => {
+export const ThemeProvider: React.FC<{ defaultMode?: Mode }> = ({
+  children,
+  defaultMode = `dark`,
+}) => {
   const [mode, setMode] = useState<Mode>(defaultMode);
 
   const contextValue = useMemo(
@@ -23,14 +26,16 @@ export const ThemeProvider: React.FC<{ defaultMode?: Mode}> = ({ children, defau
       },
       mode,
     }),
-    [mode]
+    [mode],
   );
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setMode(document.cookie?.match(/baggers_theme=(\w*)/)?.[1] as Mode || 'dark')
+    if (typeof window !== `undefined`) {
+      setMode(
+        (document.cookie?.match(/baggers_theme=(\w*)/)?.[1] as Mode) || `dark`,
+      );
     } else {
-      setMode(defaultMode)
+      setMode(defaultMode);
     }
   }, [defaultMode]);
 
@@ -42,7 +47,7 @@ export const ThemeProvider: React.FC<{ defaultMode?: Mode}> = ({ children, defau
 
   const theme = useMemo(
     () => createTheme(mode === `light` ? LIGHT_THEME : DARK_THEME),
-    [mode]
+    [mode],
   );
 
   return (

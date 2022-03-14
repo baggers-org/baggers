@@ -21,7 +21,7 @@ export const AdvancedSummary: React.FC<PositionDetailsProps> = ({
           <strong style={{ opacity: loadingOpenPrice ? 0.2 : 1 }}>
             {formatCurrency(
               positionDetails.averagePrice,
-              positionDetails?.currency,
+              positionDetails?.currency || `USD`,
             )}
           </strong>
           {` `}

@@ -1,4 +1,4 @@
-import { useLocation } from "@remix-run/react";
+import { useLocation } from '@remix-run/react';
 
 export const useActiveTab = () => {
   const { pathname } = useLocation();

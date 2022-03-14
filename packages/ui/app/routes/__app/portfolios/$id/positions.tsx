@@ -19,7 +19,9 @@ import { NoPositions } from '~/components/NoPositions';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
 import {
   AddPositionInput,
+  Portfolio,
   PortfolioQuery,
+  Position,
   PositionDirection,
   PositionType,
 } from '~/generated/graphql';
@@ -65,10 +67,11 @@ export default function Positions() {
   const { portfolio } = useMatches().find(
     (m) => m.id === `routes/__app/portfolios/$id`,
   )?.data as PortfolioQuery;
-  const { positions } = portfolio;
+  const { positions } = portfolio as Portfolio;
 
-  const [density, setDensity] =
-    useState<DataGridProProps['density']>(`standard`);
+  const [density, setDensity] = useState<DataGridProProps['density']>(
+    `standard`,
+  );
   const [isAddingPosition, setIsAddingPosition] = useState(false);
 
   const submit = useSubmit();
@@ -130,7 +133,7 @@ export default function Positions() {
           <Grid item xs={12} height={500}>
             <Paper sx={{ height: `100%` }} elevation={1}>
               <PositionsTable
-                positions={portfolio.positions}
+                positions={portfolio.positions as Position[]}
                 density={density}
                 onRemovePosition={(pos) =>
                   submit(

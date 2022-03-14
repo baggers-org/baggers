@@ -1,10 +1,10 @@
-import React from "react";
-import { Box, Button, Grid, Slide, Typography, useTheme } from "@mui/material";
+import React from 'react';
+import { Box, Button, Grid, Slide, Typography, useTheme } from '@mui/material';
 
-import { alpha } from "@mui/system";
-import { RandomSeriesChart } from "~/components";
-import { useTranslation } from "react-i18next";
-import { Link } from "@remix-run/react";
+import { alpha } from '@mui/system';
+import { RandomSeriesChart } from '~/components';
+import { useTranslation } from 'react-i18next';
+import { Link } from '@remix-run/react';
 
 export const CallToAction: React.FC = () => {
   const { t } = useTranslation(`landing_page`);
@@ -70,7 +70,7 @@ export const CallToAction: React.FC = () => {
           <Typography variant="h4" color="white" mt={5}>
             {t(
               `cta_description`,
-              `Track your investments across thousands of brokers.`
+              `Track your investments across thousands of brokers.`,
             )}
           </Typography>
         </Grid>

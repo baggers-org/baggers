@@ -1,5 +1,6 @@
 import { createCookieSessionStorage } from '@remix-run/server-runtime';
 
+if (!process.env.SESSION_SECRET) throw new Error(`No SESSION_SECRET in env`);
 // export the whole sessionStorage object
 export const sessionStorage = createCookieSessionStorage({
   cookie: {

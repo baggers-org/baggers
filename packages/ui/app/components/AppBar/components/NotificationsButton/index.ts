@@ -1,1 +1,1 @@
-export * from "./NotificationsButton";
+export * from './NotificationsButton';

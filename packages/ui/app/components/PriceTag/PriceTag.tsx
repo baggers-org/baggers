@@ -1,6 +1,6 @@
-import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
-import { ProfitLossOrNeutral } from "~/util";
+import React from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
+import { ProfitLossOrNeutral } from '~/util';
 
 export type PriceTagProps = {
   color: ProfitLossOrNeutral;

@@ -1,2 +1,2 @@
-export * from "./format";
-export * from "./isProfitLossOrNeutral";
+export * from './format';
+export * from './isProfitLossOrNeutral';

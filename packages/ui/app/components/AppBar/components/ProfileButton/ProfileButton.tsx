@@ -17,7 +17,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   const matches = useMatches();
 
   const user = matches.find((m) => m.id === `routes/__app`)?.data;
-  
+
   const profilePhoto = user?.photos?.[0];
 
   const { t } = useTranslation(`common`);
@@ -65,9 +65,12 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
         anchorOrigin={{ horizontal: `right`, vertical: `bottom` }}
       >
         <MenuItem>
-          <Avatar src={`url(${user?.photos?.[0].value})`} imgProps={{
-            referrerPolicy: 'no-referrer'
-          }}/>
+          <Avatar
+            src={`url(${user?.photos?.[0].value})`}
+            imgProps={{
+              referrerPolicy: `no-referrer`,
+            }}
+          />
           {` `}
           {t(`profile`, `Profile`)}
         </MenuItem>

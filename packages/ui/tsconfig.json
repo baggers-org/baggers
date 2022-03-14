@@ -1,14 +1,18 @@
 {
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "app/generated"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
     "esModuleInterop": true,
+    "module": "esnext",
     "jsx": "react-jsx",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
     "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "target": "ES2019",

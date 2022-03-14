@@ -1,5 +1,5 @@
-import { useParams } from "@remix-run/react";
-import { useMemo } from "react";
+import { useParams } from '@remix-run/react';
+import { useMemo } from 'react';
 
 export const useIdParam = (): string | undefined => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import { GlobalStyles as MuiGlobals, useTheme } from "@mui/material";
+import { GlobalStyles as MuiGlobals, useTheme } from '@mui/material';
 
 export function GlobalStyles() {
   const theme = useTheme();

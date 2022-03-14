@@ -1,4 +1,4 @@
-import { LoaderFunction } from 'remix';
+import { LoaderFunction } from '@remix-run/server-runtime';
 import { sdk } from '~/graphql/sdk.server';
 
 export const loader: LoaderFunction = ({ params }) => {

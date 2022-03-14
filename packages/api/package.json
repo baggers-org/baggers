@@ -7,9 +7,10 @@
     "build": "node scripts/build.js",
     "start": "node build/index.js",
     "dev": "nodemon -w src --ext .ts --exec \"yarn build && node -r dotenv/config build/index.js\" ",
-    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "env:staging": "cat .env.staging | flyctl -a baggers-api-staging secrets import"
+    "env:staging": "cat .env.staging | flyctl -a baggers-api-staging secrets import",
+    "typecheck": "tsc --noEmit"
   },
   "author": "",
   "license": "ISC",
