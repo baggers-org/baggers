@@ -1,0 +1,40 @@
+{
+  "name": "@baggers/api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "start": "node build/index.js",
+    "dev": "nodemon -w src --ext .ts --exec \"yarn build && node -r dotenv/config build/index.js\" ",
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "env:staging": "cat .env.staging | flyctl -a baggers-api-staging secrets import",
+    "typecheck": "tsc --noEmit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "9.7.0",
+    "apollo-server-core": "3.6.3",
+    "apollo-server-express": "3.6.3",
+    "class-validator": "^0.13.2",
+    "express": "^4.17.3",
+    "express-jwt": "^6.1.1",
+    "graphql": "15.3.0",
+    "jwks-rsa": "^2.0.5",
+    "mongodb": "4.4.1",
+    "mongoose": "^6.2.4",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "1.1.1"
+  },
+  "devDependencies": {
+    "@anatine/esbuild-decorators": "^0.2.18",
+    "@types/node": "^17.0.21",
+    "dotenv": "^16.0.0",
+    "esbuild": "0.12.28",
+    "nodemon": "^2.0.15",
+    "tsconfig-paths": "^3.13.0",
+    "typescript": "^4.6.2"
+  }
+}

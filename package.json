@@ -4,13 +4,6 @@
   "private": true,
   "description": "Baggers monorepo",
   "main": "null",
-  "scripts": {
-    "dev": "FORCE_COLOR=1 yarn workspaces foreach run dev",
-    "test": "FORCE_COLOR=1 yarn workspaces foreach -vApi run test",
-    "lint": "FORCE_COLOR=1 yarn workspaces foreach -v run lint",
-    "lint:ts-package": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js)\"",
-    "build": "FORCE_COLOR=1 yarn workspaces foreach -vtApi run build"
-  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/dan-cooke/baggers.git"
@@ -21,6 +14,10 @@
     "url": "https://github.com/baggers-ltd/baggers/issues"
   },
   "homepage": "https://github.com/baggers-ltd/baggers#readme",
+  "scripts": {
+    "lint": "lerna exec -- npm run lint",
+    "typecheck": "lerna exec -- npm run typecheck"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
@@ -38,9 +35,5 @@
     "packages": [
       "packages/**"
     ]
-  },
-  "resolutions": {
-    "@lerna/package": "patch:@lerna/package@npm:4.0.0#.yarn-patches/@lerna/package.patch",
-    "@lerna/package-graph": "patch:@lerna/package-graph@npm:4.0.0#.yarn-patches/@lerna/package-graph.patch"
   }
 }

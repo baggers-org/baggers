@@ -1,25 +1,28 @@
 {
-  "extends": "../../tsconfig.json",
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "app/generated"],
   "compilerOptions": {
-    "baseUrl": "./src",
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "target": "ES2019",
+    "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "~/*": ["./app/*"]
     },
-    "incremental": true,
-    "types": ["cypress", "@testing-library/cypress"]
-  },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "svg.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.resolvers.ts",
-    "./cypress/support/index.d.ts",
-    "./src/styles/theme.d.ts"
-  ]
+
+    // Remix takes care of building everything in `remix build`.
+    "noEmit": true
+  }
 }

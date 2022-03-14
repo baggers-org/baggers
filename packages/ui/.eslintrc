@@ -1,8 +1,11 @@
 {
   "env": {
     "browser": true,
+    "node": true,
     "es6": true
   },
+  "ignorePatterns": ["app/generated/graphql.ts"],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -12,10 +15,20 @@
   },
   "globals": {
     "Atomics": "readonly",
+    "React": true,
+    "JSX": true,
     "SharedArrayBuffer": "readonly"
   },
-  "plugins": ["import", "jsx-a11y", "react", "react-hooks", "prettier"],
-  "extends": ["airbnb", "eslint-config-prettier", "prettier/react"],
+  "plugins": [
+    "import",
+    "jsx-a11y",
+    "react",
+    "react-hooks",
+  ],
+  "extends": [
+    "airbnb",
+    "eslint-config-prettier",
+  ],
   "rules": {
     "arrow-body-style": "off",
     "prettier/prettier": "error",
@@ -25,6 +38,10 @@
     "react/jsx-filename-extension": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
+    "class-methods-use-this": "off",
+    "max-classes-per-file":"off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow":"error",
     "react/jsx-props-no-spreading": "off",
     "react/no-unused-prop-types": "off",
     "react/react-in-jsx-scope": "off",
@@ -50,36 +67,24 @@
         "aspects": ["invalidHref", "preferButton"]
       }
     ],
-  },
-  "overrides": [
-    {
-      "files": "**/*.+(ts|tsx)",
-      "parser": "@typescript-eslint/parser",
-      "plugins": ["@typescript-eslint/eslint-plugin"],
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "eslint-config-prettier/@typescript-eslint"
-      ],
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        // maybe risky this one, but generally i know when i need to include something
-        "react-hooks/exhaustive-deps": "off",
-        "no-use-before-define": [0],
-        "@typescript-eslint/no-use-before-define": [1],
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/ban-types": "off",
-        "@typescript-eslint/quotes": [
-          2,
-          "backtick",
-          {
-            "avoidEscape": true
-          }
-        ]
+    "react/function-component-definition":"off",
+
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-use-before-define": [0],
+    "@typescript-eslint/no-use-before-define": [1],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/quotes": [
+      2,
+      "backtick",
+      {
+        "avoidEscape": true
       }
-    }
-  ],
+    ]
+  },
   "settings": {
     "import/resolver": {
       "typescript": {

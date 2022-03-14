@@ -1,70 +1,9 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+node_modules
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# vercel
-.vercel
-
-*.document.gql.d.ts*
-*.gql.d.ts
-*.gql.d.ts
-
-built-lambda
-
-.serverless
+/.cache
+/server/build
+/public/build
+.env*
 
 tags
-.serverless_nextjs
-
-#amplify
-amplify/\#current-cloud-backend
-amplify/.config/local-*
-amplify/logs
-amplify/mock-data
-amplify/backend/amplify-meta.json
-amplify/backend/awscloudformation
-amplify/backend/.temp
-build/
-dist/
-node_modules/
-aws-exports.js
-awsconfiguration.json
-amplifyconfiguration.json
-amplify-build-config.json
-amplify-gradle-config.json
-amplifytools.xcconfig
-.secret-*
-
-cypress/videos
-cypress/screenshots
-.nyc_output
-
-src/*.gql.d.ts
+build
