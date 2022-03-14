@@ -42,6 +42,10 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
+input LinkBrokerInput {
+  public_token: String!
+}
+
 type Mutation {
   addPosition(id: ObjectId!, record: AddPositionInput!): AddPositionPayload!
 
@@ -51,6 +55,8 @@ type Mutation {
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
   findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
+  portfolioCreateLinkToken(portfolio_id: ObjectId!): PlaidCreateLinkTokenResponse!
+  portfolioLinkBroker(input: LinkBrokerInput!, portfolio_id: ObjectId!): PortfolioLinkBrokerPayload!
   removePosition(portfolio_id: ObjectId!, position_id: ObjectId!): RemovePositionPayload!
 
   """Update portfolio details"""
@@ -60,15 +66,33 @@ type Mutation {
 """Mongo object id scalar type"""
 scalar ObjectId
 
+type PlaidCreateLinkTokenResponse {
+  expiration: String!
+  link_token: String!
+  request_id: String!
+}
+
+type PlaidItem {
+  access_token: String
+  isLinked: Boolean
+  item_id: String
+}
+
 type Portfolio {
   _id: ObjectId!
   cash: Float!
   description: String!
   name: String!
   owner: User!
+  plaid: PlaidItem
   positions: [Position!]!
   private: Boolean!
   totalValue: Float!
+}
+
+type PortfolioLinkBrokerPayload {
+  record: Portfolio!
+  recordId: ObjectId!
 }
 
 type Position {

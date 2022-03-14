@@ -1,0 +1,5 @@
+mutation portfolioLinkBroker($input: LinkBrokerInput!, $portfolioId: ObjectId!) {
+  portfolioLinkBroker(input: $input, portfolio_id: $portfolioId) {
+    recordId
+  }
+}

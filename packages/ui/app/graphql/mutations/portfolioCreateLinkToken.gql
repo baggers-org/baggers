@@ -1,0 +1,7 @@
+mutation portfolioCreateLinkToken($portfolioId: ObjectId!) {
+  portfolioCreateLinkToken(portfolio_id: $portfolioId) {
+    link_token
+    expiration
+    request_id
+  }
+}

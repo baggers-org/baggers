@@ -3,6 +3,8 @@ import { Arg, Authorized, Query, Resolver } from 'type-graphql';
 import { Portfolio, PortfolioModel } from '../../entities';
 import { ObjectIdScalar } from '../../object-id.scalar';
 import { CurrentUser } from '@/decorators/CurrentUser';
+import { plaidClient } from '@/plaid/plaid';
+import { Products, CountryCode, LinkTokenCreateResponse } from 'plaid';
 import { AccessClaim } from '@/types/AccessClaim';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
@@ -13,6 +15,7 @@ import {
   populatePositionData,
 } from '@/db/helpers';
 import { calculatePositionExposure } from '@/db/helpers/aggregation/portfolios/calculatePositionExposure';
+import { PlaidCreateLinkTokenResponse } from '@/db/payloads/plaid-payloads';
 
 @Resolver(() => Portfolio)
 export class PortfolioQueries {
@@ -50,4 +53,5 @@ export class PortfolioQueries {
   async myPortfolios(@CurrentUser() user: AccessClaim) {
     return PortfolioModel.find({ owner: user?.sub }).populate(`owner`);
   }
+
 }

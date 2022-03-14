@@ -19,4 +19,10 @@ fragment PortfolioPositions on Portfolio {
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioPositions
+
+  plaid {
+    access_token
+    item_id
+    isLinked
+  }
 }

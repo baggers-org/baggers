@@ -2,20 +2,25 @@ import { Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   AddPositionInput,
+  LinkBrokerInput,
   UpdatePortfolioInput,
 } from '@/db/inputs/portfolio-inputs';
 import { ObjectIdScalar } from '@/db/object-id.scalar';
+import { PlaidCreateLinkTokenResponse } from '@/db/payloads/plaid-payloads';
 import {
   CreatePortfolioPayload,
   UpdatePortfolioPayload,
   AddPositionPayload,
   RemovePositionPayload,
+  PortfolioLinkBrokerPayload,
 } from '@/db/payloads/portfolio-payloads';
 import { CurrentUser } from '@/decorators/CurrentUser';
+import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';
 import { GraphQLContext } from '@/types/GraphQLContext';
 import { ObjectId } from 'mongodb';
-import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Products, CountryCode } from 'plaid';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 
 @Resolver(() => Portfolio)
 export class PortfolioMutations {
@@ -78,6 +83,70 @@ export class PortfolioMutations {
     return {
       record: portfolio,
       recordId: portfolio?._id,
+    };
+  }
+
+  @Authorized()
+  @Mutation(() => PlaidCreateLinkTokenResponse)
+  async portfolioCreateLinkToken(
+    @Arg(`portfolio_id`, () => ObjectIdScalar) portfolioId: ObjectId,
+    @CurrentUser() user: AccessClaim,
+  ): Promise<PlaidCreateLinkTokenResponse> {
+    PortfolioModel.find({ _id: portfolioId, owner: user.sub }).orFail(
+      () =>
+        new NotFoundError(
+          `Could not find a portfolio that you own with the id ${portfolioId}`,
+        ),
+    );
+    const plaidRequest = {
+      user: {
+        client_user_id: user.sub,
+      },
+      client_name: `Baggers`,
+      products: [Products.Investments],
+      language: `en`,
+      country_codes: [CountryCode.Us],
+    };
+
+    const { data } = await plaidClient.linkTokenCreate(plaidRequest);
+
+    return data;
+  }
+
+  @Authorized()
+  @Mutation(() => PortfolioLinkBrokerPayload)
+  async portfolioLinkBroker(
+    @Arg(`portfolio_id`, () => ObjectIdScalar) portfolioId: ObjectId,
+    @Arg(`input`) input: LinkBrokerInput,
+    @CurrentUser() user: AccessClaim,
+  ): Promise<PortfolioLinkBrokerPayload> {
+    const { data } = await plaidClient.itemPublicTokenExchange({
+      public_token: input.public_token,
+    });
+    const { access_token, item_id } = data;
+
+    const portfolio = await PortfolioModel.findOneAndUpdate(
+      {
+        _id: portfolioId,
+        owner: user.sub,
+      },
+      {
+        $set: {
+          plaid: {
+            access_token,
+            item_id,
+            isLinked: true,
+          },
+        },
+      },
+    ).orFail(
+      () =>
+        new NotFoundError(`Could not find a portfolio with id ${portfolioId}`),
+    );
+
+    return {
+      record: portfolio,
+      recordId: portfolio._id,
     };
   }
 

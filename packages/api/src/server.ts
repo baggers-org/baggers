@@ -55,10 +55,9 @@ const getApolloServerHandler = async () => {
       UserMutations,
     ],
     authChecker: authChecker,
+    authMode: `null`,
     emitSchemaFile:
-      process.env.NODE_ENV === `development`
-        ? `../../ui/schema.gql`
-        : undefined,
+      process.env.NODE_ENV === `development` ? `../ui/schema.gql` : undefined,
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });
 

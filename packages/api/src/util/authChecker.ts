@@ -16,9 +16,7 @@ export const authChecker: AuthChecker<GraphQLContext> = (
   if (roles) {
     const userRoles = context.user[`https://baggers.app/role`];
     if (!roles.every((role) => userRoles.includes(role))) {
-      throw new AuthenticationError(
-        `You are not authenticated to perform this action`,
-      );
+      return false;
     }
   }
 

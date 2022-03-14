@@ -23,6 +23,7 @@
     "express-jwt": "^6.1.1",
     "graphql": "15.3.0",
     "jwks-rsa": "^2.0.5",
+    "plaid": "^10.0.0",
     "mongodb": "4.4.1",
     "mongoose": "^6.2.4",
     "reflect-metadata": "^0.1.13",

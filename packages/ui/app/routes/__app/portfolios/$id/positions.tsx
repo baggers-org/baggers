@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Button,
@@ -11,10 +11,14 @@ import {
 import { Add, Compress, Expand, Link, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
-import { useMatches, useSubmit } from '@remix-run/react';
+import { useFetcher, useMatches, useSubmit } from '@remix-run/react';
 import { PositionsTable } from '~/components';
 import { AddPositionDrawer } from '~/components/AddPositionDrawer';
-import { ActionFunction, json } from '@remix-run/server-runtime';
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+} from '@remix-run/server-runtime';
 import { NoPositions } from '~/components/NoPositions';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
 import {
@@ -27,6 +31,8 @@ import {
 } from '~/generated/graphql';
 import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
+import { usePlaidLink } from 'react-plaid-link';
+import { useBrokerLink } from '~/hooks';
 
 export const action: ActionFunction = async ({ request, params }) => {
   if (request.method === `POST`) {
@@ -76,6 +82,8 @@ export default function Positions() {
 
   const submit = useSubmit();
 
+  const { openLink } = useBrokerLink(portfolio._id);
+
   const handleSwitchDensity = () => {
     if (density === `compact`) {
       setDensity(`standard`);
@@ -84,6 +92,8 @@ export default function Positions() {
 
     setDensity(`compact`);
   };
+
+  console.log(portfolio);
 
   return (
     <Grid container>
@@ -110,16 +120,18 @@ export default function Positions() {
               >
                 {t(`add_position`, `Add position`)}
               </Button>
-              <Tooltip title="Coming soon">
-                <Button
-                  disableElevation
-                  size="small"
-                  variant="outlined"
-                  endIcon={<Link />}
-                >
-                  {t(`link_broker`, `Link broker`)}
-                </Button>
-              </Tooltip>
+              <Button
+                disableElevation
+                size="small"
+                variant="outlined"
+                color={portfolio?.plaid?.isLinked ? `error` : `success`}
+                endIcon={<Link />}
+                onClick={() => openLink()}
+              >
+                {portfolio?.plaid?.isLinked
+                  ? t(`unlink_broker`, `Unlink broker`)
+                  : t(`link_broker`, `Link broker`)}
+              </Button>
             </Grid>
             <Grid item>
               <IconButton size="small" onClick={handleSwitchDensity}>

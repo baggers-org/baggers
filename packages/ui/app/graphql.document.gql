@@ -1,5 +1,7 @@
 
 
+
+
 fragment PortfolioSummary on Portfolio {
   _id
   cash
@@ -21,6 +23,12 @@ fragment PortfolioPositions on Portfolio {
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioPositions
+
+  plaid {
+    access_token
+    item_id
+    isLinked
+  }
 }
 
 fragment AllPositionData on Position {
@@ -143,6 +151,20 @@ mutation findOrCreateUser($record: FindOrCreateUserInput!){
 	    _id
 	    ...FullUser
     }
+  }
+}
+
+mutation portfolioCreateLinkToken($portfolioId: ObjectId!) {
+  portfolioCreateLinkToken(portfolio_id: $portfolioId) {
+    link_token
+    expiration
+    request_id
+  }
+}
+
+mutation portfolioLinkBroker($input: LinkBrokerInput!, $portfolioId: ObjectId!) {
+  portfolioLinkBroker(input: $input, portfolio_id: $portfolioId) {
+    recordId
   }
 }
 

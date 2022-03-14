@@ -1,6 +1,8 @@
 import { ObjectId } from 'mongodb';
 import { Field, InputType } from 'type-graphql';
 import { Portfolio } from '../entities';
+import { Broker, BrokerInput } from '../entities/broker';
+import { PlaidItem } from '../entities/plaid';
 import {
   Position,
   PositionDirection,
@@ -51,4 +53,10 @@ export class UpdatePortfolioInput implements Partial<Portfolio> {
 
   @Field({ nullable: true })
   private?: boolean;
+}
+
+@InputType()
+export class LinkBrokerInput {
+  @Field()
+  public_token: string;
 }
