@@ -5,7 +5,7 @@ on:
     
 
 jobs:
-  build:
+  test:
     name: Test
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
@@ -19,7 +19,7 @@ jobs:
          run: npm run lint
   deploy:
     name: "Deploy to preview"
-    needs: Test
+    needs: test
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     environment: "Preview"
