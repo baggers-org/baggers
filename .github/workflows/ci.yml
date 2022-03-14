@@ -31,11 +31,11 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           FLY_PROJECT_PATH: packages/ui
         with:
-          args: "deploy --c fly.staging.toml"
+          args: "deploy -c fly.staging.toml"
       - name: "Deploy API"
         uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           FLY_PROJECT_PATH: packages/api
         with:
-          args: "deploy --c fly.staging.toml"
+          args: "deploy -c fly.staging.toml"
