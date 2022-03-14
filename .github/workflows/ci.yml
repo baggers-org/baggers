@@ -1,0 +1,40 @@
+name: Unit Tests
+
+on:
+  pull_request:
+    
+
+jobs:
+  build:
+    name: Build
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+       - uses: actions/checkout@v2
+       - name: Install
+         run: npm ci
+       - name: "Typecheck"
+         run: npm run typecheck 
+       - name: "Lint"
+         run: npm run lint
+  deploy:
+    name: "Deploy to preview"
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    environment: "Preview"
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Deploy ui"
+        uses: superfly/flyctl-actions@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_PROJECT_PATH: packages/ui
+        with:
+          args: "deploy"
+      - name: "Deploy API"
+        uses: superfly/flyctl-actions@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          FLY_PROJECT_PATH: packages/api
+        with:
+          args: "deploy"
