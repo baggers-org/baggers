@@ -1,5 +1,5 @@
-mutation portfolioCreateLinkToken($portfolioId: ObjectId!) {
-  portfolioCreateLinkToken(portfolio_id: $portfolioId) {
+mutation plaidCreateLinkToken {
+  plaidCreateLinkToken {
     link_token
     expiration
     request_id

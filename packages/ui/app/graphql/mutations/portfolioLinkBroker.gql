@@ -1,5 +1,5 @@
-mutation portfolioLinkBroker($input: LinkBrokerInput!, $portfolioId: ObjectId!) {
-  portfolioLinkBroker(input: $input, portfolio_id: $portfolioId) {
-    recordId
+mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
+  plaidImportPortfolios(input: $input) {
+    ok
   }
 }

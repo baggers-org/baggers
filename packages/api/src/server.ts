@@ -19,6 +19,7 @@ import jwt from 'express-jwt';
 import jwks from 'jwks-rsa';
 import { GraphQLContext } from './types/GraphQLContext';
 import { authChecker } from './util/authChecker';
+import { PlaidMutations } from './db/resolvers/mutations/plaid-mutations';
 
 const getApolloServerHandler = async () => {
   const { ATLAS_CLUSTER_URI, AUTH0_DOMAIN, AUTH0_API_AUDIENCE } = process.env;
@@ -51,6 +52,7 @@ const getApolloServerHandler = async () => {
     resolvers: [
       PortfolioQueries,
       PortfolioMutations,
+      PlaidMutations,
       SymbolQueries,
       UserMutations,
     ],

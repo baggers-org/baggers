@@ -16,4 +16,9 @@ export class PlaidItem {
   @Field({ nullable: true })
   @prop()
   isLinked: boolean;
+
+  @Field({ nullable: true })
+  @prop()
+  @Authorized(`CRON`)
+  linkedAccountId?: string;
 }

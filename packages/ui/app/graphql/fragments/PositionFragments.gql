@@ -15,14 +15,17 @@ fragment AllPositionData on Position {
       positionSize
       positionType
       openDate
+      currency
       closeDate
       symbol {
+        _id
         name
         symbol
         symbolType
         exchange
-        region
         currency
+        exchangeName
+        region
         quote {
           avgTotalVolume
           calculationPrice

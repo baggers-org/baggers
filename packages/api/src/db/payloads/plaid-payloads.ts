@@ -10,3 +10,9 @@ export class PlaidCreateLinkTokenResponse implements LinkTokenCreateResponse {
   @Field()
   expiration: string;
 }
+
+@ObjectType()
+export class PlaidImportPortfolioPayload {
+  @Field()
+  ok: boolean;
+}

@@ -48,14 +48,17 @@ fragment AllPositionData on Position {
       positionSize
       positionType
       openDate
+      currency
       closeDate
       symbol {
+        _id
         name
         symbol
         symbolType
         exchange
-        region
         currency
+        exchangeName
+        region
         quote {
           avgTotalVolume
           calculationPrice
@@ -154,17 +157,17 @@ mutation findOrCreateUser($record: FindOrCreateUserInput!){
   }
 }
 
-mutation portfolioCreateLinkToken($portfolioId: ObjectId!) {
-  portfolioCreateLinkToken(portfolio_id: $portfolioId) {
+mutation plaidCreateLinkToken {
+  plaidCreateLinkToken {
     link_token
     expiration
     request_id
   }
 }
 
-mutation portfolioLinkBroker($input: LinkBrokerInput!, $portfolioId: ObjectId!) {
-  portfolioLinkBroker(input: $input, portfolio_id: $portfolioId) {
-    recordId
+mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
+  plaidImportPortfolios(input: $input) {
+    ok
   }
 }
 

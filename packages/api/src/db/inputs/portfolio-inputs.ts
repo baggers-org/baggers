@@ -55,8 +55,3 @@ export class UpdatePortfolioInput implements Partial<Portfolio> {
   private?: boolean;
 }
 
-@InputType()
-export class LinkBrokerInput {
-  @Field()
-  public_token: string;
-}

@@ -42,10 +42,6 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
-input LinkBrokerInput {
-  public_token: String!
-}
-
 type Mutation {
   addPosition(id: ObjectId!, record: AddPositionInput!): AddPositionPayload!
 
@@ -55,8 +51,10 @@ type Mutation {
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
   findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
-  portfolioCreateLinkToken(portfolio_id: ObjectId!): PlaidCreateLinkTokenResponse!
-  portfolioLinkBroker(input: LinkBrokerInput!, portfolio_id: ObjectId!): PortfolioLinkBrokerPayload!
+  plaidCreateLinkToken: PlaidCreateLinkTokenResponse!
+
+  """Uses the public_token from the link process to import portfolios"""
+  plaidImportPortfolios(input: PlaidImportPortfoliosInput!): PlaidImportPortfolioPayload!
   removePosition(portfolio_id: ObjectId!, position_id: ObjectId!): RemovePositionPayload!
 
   """Update portfolio details"""
@@ -72,10 +70,19 @@ type PlaidCreateLinkTokenResponse {
   request_id: String!
 }
 
+type PlaidImportPortfolioPayload {
+  ok: Boolean!
+}
+
+input PlaidImportPortfoliosInput {
+  public_token: String!
+}
+
 type PlaidItem {
   access_token: String
   isLinked: Boolean
   item_id: String
+  linkedAccountId: String
 }
 
 type Portfolio {
@@ -88,11 +95,6 @@ type Portfolio {
   positions: [Position!]!
   private: Boolean!
   totalValue: Float!
-}
-
-type PortfolioLinkBrokerPayload {
-  record: Portfolio!
-  recordId: ObjectId!
 }
 
 type Position {

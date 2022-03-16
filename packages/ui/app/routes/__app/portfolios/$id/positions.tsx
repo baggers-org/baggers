@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-  Button,
-  Grid,
-  IconButton,
-  Paper,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { Add, Compress, Expand, Link, MoreVert } from '@mui/icons-material';
+import { Grid, IconButton, Paper, Typography } from '@mui/material';
+import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
-import { useFetcher, useMatches, useSubmit } from '@remix-run/react';
+import { useMatches, useSubmit } from '@remix-run/react';
 import { PositionsTable } from '~/components';
 import { AddPositionDrawer } from '~/components/AddPositionDrawer';
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-} from '@remix-run/server-runtime';
+import { ActionFunction, json } from '@remix-run/server-runtime';
 import { NoPositions } from '~/components/NoPositions';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
 import {
@@ -31,8 +20,8 @@ import {
 } from '~/generated/graphql';
 import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
-import { usePlaidLink } from 'react-plaid-link';
-import { useBrokerLink } from '~/hooks';
+import { useImportPortfolios } from '~/hooks';
+import { PositionsToolbar } from '~/components/PositionsToolbar';
 
 export const action: ActionFunction = async ({ request, params }) => {
   if (request.method === `POST`) {
@@ -82,7 +71,7 @@ export default function Positions() {
 
   const submit = useSubmit();
 
-  const { openLink } = useBrokerLink(portfolio._id);
+  const { openLink, syncWithBroker } = useImportPortfolios(portfolio._id);
 
   const handleSwitchDensity = () => {
     if (density === `compact`) {
@@ -92,8 +81,6 @@ export default function Positions() {
 
     setDensity(`compact`);
   };
-
-  console.log(portfolio);
 
   return (
     <Grid container>
@@ -111,28 +98,13 @@ export default function Positions() {
             mb={3}
             justifyContent="space-between"
           >
-            <Grid item container maxWidth="max-content" gap={3}>
-              <Button
-                variant="contained"
-                size="small"
-                endIcon={<Add />}
-                onClick={() => setIsAddingPosition(true)}
-              >
-                {t(`add_position`, `Add position`)}
-              </Button>
-              <Button
-                disableElevation
-                size="small"
-                variant="outlined"
-                color={portfolio?.plaid?.isLinked ? `error` : `success`}
-                endIcon={<Link />}
-                onClick={() => openLink()}
-              >
-                {portfolio?.plaid?.isLinked
-                  ? t(`unlink_broker`, `Unlink broker`)
-                  : t(`link_broker`, `Link broker`)}
-              </Button>
-            </Grid>
+            <PositionsToolbar
+              onAddPosition={() => setIsAddingPosition(true)}
+              onLinkBroker={() => openLink()}
+              portfolio={portfolio}
+              onSyncPositions={() => syncWithBroker()}
+            />
+
             <Grid item>
               <IconButton size="small" onClick={handleSwitchDensity}>
                 {density === `compact` ? <Expand /> : <Compress />}
