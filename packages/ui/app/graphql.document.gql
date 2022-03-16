@@ -1,37 +1,6 @@
 
 
-
-
-fragment PortfolioSummary on Portfolio {
-  _id
-  cash
-  owner {
-    ...FullUser
-  }
-  name
-  description
-  private
-  totalValue
-}
-
-fragment PortfolioPositions on Portfolio {
-  positions {
-    ...AllPositionData
-  }
-}
-
-fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
-  ...PortfolioPositions
-
-  plaid {
-    access_token
-    item_id
-    isLinked
-  }
-}
-
-fragment AllPositionData on Position {
+fragment AllHoldingData on Holding {
       _id
       # Market data fields
       marketValue
@@ -45,8 +14,8 @@ fragment AllPositionData on Position {
       averagePrice
       costBasis
       brokerFees
-      positionSize
-      positionType
+      holdingSize
+      holdingType
       openDate
       currency
       closeDate
@@ -120,6 +89,37 @@ fragment AllPositionData on Position {
       }
 }
 
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+}
+
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+
+  plaid {
+    access_token
+    item_id
+    isLinked
+  }
+}
+
 fragment FullUser on User {
 	_id
 	displayName
@@ -127,8 +127,8 @@ fragment FullUser on User {
 	photos
 }
 
-mutation addPosition($record: AddPositionInput!, $portfolioId: ObjectId!) {
-  addPosition(id: $portfolioId, record: $record) {
+mutation addHolding($record: AddHoldingInput!, $portfolioId: ObjectId!) {
+  addHolding(id: $portfolioId, record: $record) {
     recordId
   }
 }
@@ -171,8 +171,8 @@ mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
   }
 }
 
-mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
-  removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
+mutation removeHolding($portfolio_id: ObjectId!, $holding_id: ObjectId!) {
+  removeHolding(portfolio_id: $portfolio_id, holding_id: $holding_id) {
     recordId
   }
 }

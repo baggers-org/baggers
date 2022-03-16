@@ -9,12 +9,12 @@ import { AccessClaim } from '@/types/AccessClaim';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   calculatePortfolioValue,
-  calculatePositionMetrics,
+  calculateHoldingMetrics,
   matchPortfolioById,
   populateOwner,
-  populatePositionData,
+  populateHoldingData,
 } from '@/db/helpers';
-import { calculatePositionExposure } from '@/db/helpers/aggregation/portfolios/calculatePositionExposure';
+import { calculateHoldingExposure } from '@/db/helpers/aggregation/portfolios/calculateHoldingExposure';
 import { PlaidCreateLinkTokenResponse } from '@/db/payloads/plaid-payloads';
 
 @Resolver(() => Portfolio)
@@ -27,14 +27,14 @@ export class PortfolioQueries {
     const res = await PortfolioModel.aggregate([
       // Find the specific portfolio, based on user and portfolio privacy
       matchPortfolioById(portfolioId, user?.sub),
-      // Populate positions with market data
-      ...populatePositionData(),
-      // Work out the various position metrics using the latest market data
-      ...calculatePositionMetrics(),
+      // Populate holdings with market data
+      ...populateHoldingData(),
+      // Work out the various holding metrics using the latest market data
+      ...calculateHoldingMetrics(),
       // Now we have market value etc. work out the total portfolio value
       calculatePortfolioValue(),
-      // Finally work out the exposure of every position
-      calculatePositionExposure(),
+      // Finally work out the exposure of every holding
+      calculateHoldingExposure(),
       // Add owner data
       ...populateOwner(),
     ]);

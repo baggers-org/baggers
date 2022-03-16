@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async () => {
   const { createPortfolio } = await sdk.createPortfolio();
 
-  return redirect(`/portfolios/${createPortfolio.record._id}/positions`);
+  return redirect(`/portfolios/${createPortfolio.record._id}/holdings`);
 };
 export default function CreatedPortfoliosPage() {
   const data = useLoaderData<MyPortfoliosSummaryQuery>();

@@ -3,19 +3,19 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-input AddPositionInput {
+input AddHoldingInput {
   averagePrice: Float!
   brokerFees: Float
   closeDate: DateTime
   currency: String
-  direction: PositionDirection!
+  direction: HoldingDirection!
+  holdingSize: Float!
+  holdingType: HoldingType!
   openDate: DateTime
-  positionSize: Float!
-  positionType: PositionType!
   symbol: ObjectId!
 }
 
-type AddPositionPayload {
+type AddHoldingPayload {
   record: Portfolio!
   recordId: ObjectId!
 }
@@ -42,8 +42,40 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
+type Holding {
+  _id: ObjectId!
+  averagePrice: Float!
+  brokerFees: Float!
+  closeDate: DateTime
+  costBasis: Float!
+  currency: String!
+  dailyProfitLossUsd: Float!
+  direction: HoldingDirection!
+  exposure: Float!
+  holdingSize: Float!
+  holdingType: HoldingType!
+  marketValue: Float!
+  openDate: DateTime
+  profitLossPercent: Float!
+  profitLossUsd: Float!
+  symbol: Symbol!
+}
+
+"""Buying vs selling"""
+enum HoldingDirection {
+  long
+  short
+}
+
+"""Shares, calls, puts"""
+enum HoldingType {
+  calls
+  puts
+  shares
+}
+
 type Mutation {
-  addPosition(id: ObjectId!, record: AddPositionInput!): AddPositionPayload!
+  addHolding(id: ObjectId!, record: AddHoldingInput!): AddHoldingPayload!
 
   """Create a portfolio under your username"""
   createPortfolio: CreatePortfolioPayload!
@@ -55,7 +87,7 @@ type Mutation {
 
   """Uses the public_token from the link process to import portfolios"""
   plaidImportPortfolios(input: PlaidImportPortfoliosInput!): PlaidImportPortfolioPayload!
-  removePosition(portfolio_id: ObjectId!, position_id: ObjectId!): RemovePositionPayload!
+  removeHolding(holding_id: ObjectId!, portfolio_id: ObjectId!): RemoveHoldingPayload!
 
   """Update portfolio details"""
   updatePortfolio(_id: ObjectId!, input: UpdatePortfolioInput!): UpdatePortfolioPayload!
@@ -89,44 +121,12 @@ type Portfolio {
   _id: ObjectId!
   cash: Float!
   description: String!
+  holdings: [Holding!]!
   name: String!
   owner: User!
   plaid: PlaidItem
-  positions: [Position!]!
   private: Boolean!
   totalValue: Float!
-}
-
-type Position {
-  _id: ObjectId!
-  averagePrice: Float!
-  brokerFees: Float!
-  closeDate: DateTime
-  costBasis: Float!
-  currency: String!
-  dailyProfitLossUsd: Float!
-  direction: PositionDirection!
-  exposure: Float!
-  marketValue: Float!
-  openDate: DateTime
-  positionSize: Float!
-  positionType: PositionType!
-  profitLossPercent: Float!
-  profitLossUsd: Float!
-  symbol: Symbol!
-}
-
-"""Buying vs selling"""
-enum PositionDirection {
-  long
-  short
-}
-
-"""Shares, calls, puts"""
-enum PositionType {
-  calls
-  puts
-  shares
 }
 
 type Query {
@@ -194,7 +194,7 @@ type Quote {
   ytdChange: Float
 }
 
-type RemovePositionPayload {
+type RemoveHoldingPayload {
   recordId: ObjectId!
 }
 

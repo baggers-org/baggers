@@ -2,7 +2,7 @@ import { getModelForClass, index, prop } from '@typegoose/typegoose';
 import { Field, ObjectType } from 'type-graphql';
 import { Document } from './document';
 import { PlaidItem } from './plaid';
-import { Position } from './position';
+import { Holding } from './holding';
 import { User } from './user';
 
 @ObjectType()
@@ -32,9 +32,9 @@ export class Portfolio extends Document {
   @prop({ default: 0 })
   totalValue: number;
 
-  @Field(() => [Position])
-  @prop({ type: Position, default: [] })
-  positions: Position[];
+  @Field(() => [Holding])
+  @prop({ type: Holding, default: [] })
+  holdings: Holding[];
 
   @Field({ nullable: true })
   @prop({ type: PlaidItem })

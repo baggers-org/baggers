@@ -10,7 +10,7 @@ import {
   flattenHoldings,
   flattenTransactions,
   mapPlaidDataToPortfolios,
-} from '@/db/util/plaid';
+} from '@/db/util/plaid-util';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';

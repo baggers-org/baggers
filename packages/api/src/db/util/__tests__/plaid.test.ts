@@ -1,4 +1,4 @@
-import { mapPlaidDataToPortfolios } from '../plaid';
+import { mapPlaidDataToPortfolios } from '../plaid-util';
 import { mockHoldings, mockTransactions } from './plaid.mocks';
 
 describe(`Plaid Util Functions`, () => {

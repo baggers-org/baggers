@@ -5,11 +5,11 @@ export const getAllOwnedSymbols = async () => {
   const symbols: Symbol[] = [];
   const cursor = await PortfolioModel?.aggregate([
     {
-      $unwind: `$positions`,
+      $unwind: `$holdings`,
     },
     {
       $group: {
-        _id: `$positions.symbol`,
+        _id: `$holdings.symbol`,
       },
     },
     {
@@ -33,7 +33,7 @@ export const getAllOwnedSymbols = async () => {
     },
   ]).exec();
 
-  await cursor?.forEach((position: any) => symbols.push(position));
+  await cursor?.forEach((holding: any) => symbols.push(holding));
 
   return symbols;
 };

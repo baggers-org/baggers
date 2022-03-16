@@ -1,7 +1,7 @@
-export const calculatePortfolioValue = (positionsField = `positions`) => ({
+export const calculatePortfolioValue = (holdingsField = `holdings`) => ({
   $addFields: {
     totalValue: {
-      $sum: `$${positionsField}.marketValue`,
+      $sum: `$${holdingsField}.marketValue`,
     },
   },
 });

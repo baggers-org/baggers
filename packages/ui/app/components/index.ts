@@ -5,7 +5,7 @@ export * from './PriceTag';
 export * from './CreatePortfolioCard';
 
 export * from './EditableTypography';
-export * from './PositionsTable';
+export * from './HoldingsTable';
 export * from './Clock';
 export * from './SearchInput';
 export * from './ThemeToggle';

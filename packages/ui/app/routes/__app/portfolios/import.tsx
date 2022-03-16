@@ -8,8 +8,6 @@ import { sdk } from '~/graphql/sdk.server';
 
 export const action: ActionFunction = async ({ request }) => {
   const { public_token } = Object.fromEntries(await request.formData());
-  console.log(`in action`, public_token);
-
   return sdk.plaidImportPortfolios({
     input: { public_token: public_token.toString() },
   });

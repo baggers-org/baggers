@@ -33,7 +33,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
   return (
     <Card variant="outlined">
       <CardActionArea
-        onClick={() => navigate(`/portfolios/${portfolio._id}/positions`)}
+        onClick={() => navigate(`/portfolios/${portfolio._id}/holdings`)}
       >
         <CardContent sx={{ pb: 0, px: 5 }}>
           <Grid container>

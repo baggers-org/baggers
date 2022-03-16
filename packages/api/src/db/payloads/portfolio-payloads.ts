@@ -11,13 +11,13 @@ export class CreatePortfolioPayload extends BasePayload<Portfolio> {
 }
 
 @ObjectType()
-export class AddPositionPayload extends BasePayload<Portfolio> {
+export class AddHoldingPayload extends BasePayload<Portfolio> {
   @Field(() => Portfolio)
   declare record: Portfolio;
 }
 
 @ObjectType()
-export class RemovePositionPayload extends BasePayload<Portfolio> {
+export class RemoveHoldingPayload extends BasePayload<Portfolio> {
   @Field(() => ObjectIdScalar)
   declare recordId: string | ObjectId;
 }

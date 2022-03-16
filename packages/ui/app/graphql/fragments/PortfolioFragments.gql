@@ -10,15 +10,15 @@ fragment PortfolioSummary on Portfolio {
   totalValue
 }
 
-fragment PortfolioPositions on Portfolio {
-  positions {
-    ...AllPositionData
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
   }
 }
 
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
-  ...PortfolioPositions
+  ...PortfolioHoldings
 
   plaid {
     access_token

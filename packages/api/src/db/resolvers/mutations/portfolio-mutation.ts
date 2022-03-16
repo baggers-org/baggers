@@ -1,7 +1,7 @@
 import { Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
-  AddPositionInput,
+  AddHoldingInput,
   LinkBrokerInput,
   UpdatePortfolioInput,
 } from '@/db/inputs/portfolio-inputs';
@@ -11,11 +11,11 @@ import { PlaidCreateLinkTokenResponse } from '@/db/payloads/plaid-payloads';
 import {
   CreatePortfolioPayload,
   UpdatePortfolioPayload,
-  AddPositionPayload,
-  RemovePositionPayload,
+  AddHoldingPayload,
+  RemoveHoldingPayload,
   PortfolioLinkBrokerPayload,
 } from '@/db/payloads/portfolio-payloads';
-import { flattenHoldings, flattenTransactions } from '@/db/util/plaid';
+import { flattenHoldings, flattenTransactions } from '@/db/util/plaid-util';
 import { format } from 'date-fns';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { plaidClient } from '@/plaid/plaid';
@@ -90,11 +90,11 @@ export class PortfolioMutations {
     };
   }
 
-  @Mutation(() => AddPositionPayload)
-  async addPosition(
+  @Mutation(() => AddHoldingPayload)
+  async addHolding(
     @Arg(`id`) id: ObjectId,
     @Arg(`record`)
-    input: AddPositionInput,
+    input: AddHoldingInput,
     @CurrentUser() user: AccessClaim,
   ) {
     const portfolio = await PortfolioModel.findOneAndUpdate(
@@ -104,16 +104,16 @@ export class PortfolioMutations {
       },
       {
         $push: {
-          positions: {
+          holdings: {
             ...input,
-            costBasis: input.averagePrice * input.positionSize,
+            costBasis: input.averagePrice * input.holdingSize,
           },
         },
       },
     ).orFail(
       () =>
         new NotFoundError(
-          `Could not find a portfolio to add a position to with id ${id}`,
+          `Could not find a portfolio to add a holding to with id ${id}`,
         ),
     );
 
@@ -122,10 +122,10 @@ export class PortfolioMutations {
     };
   }
 
-  @Mutation(() => RemovePositionPayload)
-  async removePosition(
+  @Mutation(() => RemoveHoldingPayload)
+  async removeHolding(
     @Arg(`portfolio_id`) portfolio_id: ObjectId,
-    @Arg(`position_id`) position_id: ObjectId,
+    @Arg(`holding_id`) holding_id: ObjectId,
     @CurrentUser() user: AccessClaim,
   ) {
     const res = await PortfolioModel.findOneAndUpdate(
@@ -134,9 +134,9 @@ export class PortfolioMutations {
         owner: user.sub,
       },
       {
-        $pull: { positions: { _id: position_id } },
+        $pull: { holdings: { _id: holding_id } },
       },
-    ).orFail(() => new NotFoundError(`Could not remove the position`));
+    ).orFail(() => new NotFoundError(`Could not remove the holding`));
 
     return {
       recordId: res._id,
