@@ -1,4 +1,5 @@
 import { Quote } from '@/db/entities';
+import fetch from 'node-fetch';
 
 export const fetchQuote = async (symbol: string): Promise<Quote> => {
   const r = await fetch(

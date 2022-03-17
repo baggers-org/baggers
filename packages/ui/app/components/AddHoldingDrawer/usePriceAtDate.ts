@@ -2,7 +2,7 @@ import { useFetcher } from '@remix-run/react';
 import { isToday, format } from 'date-fns';
 import { useEffect, useState } from 'react';
 
-export const useOpenPrice = (openDate: Date, symbol: string) => {
+export const usePriceAtDate = (openDate: Date, symbol: string) => {
   const openPriceFetcher = useFetcher();
 
   const [openPrice, setOpenPrice] = useState();

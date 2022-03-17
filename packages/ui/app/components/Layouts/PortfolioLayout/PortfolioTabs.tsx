@@ -20,9 +20,9 @@ export const PortfolioTabs = () => {
   return (
     <Tabs value={activeTab}>
       <Tab
-        value="/holdings"
-        label={t(`holdings`, `Holdings`)}
-        onClick={() => jumpToTab(`/holdings`)}
+        value="/positions"
+        label={t(`positions`, `Positions`)}
+        onClick={() => jumpToTab(`/positions`)}
       />
       <Tab
         value="/performance"

@@ -13,6 +13,18 @@ export class Symbol extends Document {
 
   @Field()
   @prop()
+  iexId: string;
+
+  @Field()
+  @prop()
+  figi: string;
+
+  @Field()
+  @prop()
+  cik: string;
+
+  @Field()
+  @prop()
   name: string;
 
   @Field()

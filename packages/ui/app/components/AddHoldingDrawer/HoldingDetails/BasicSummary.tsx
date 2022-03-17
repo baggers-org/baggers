@@ -8,16 +8,16 @@ export const BasicSummary: React.FC<HoldingDetailsProps> = ({
   addingSymbol,
   addingHolding: holdingDetails,
 }) => {
-  const { holdingSize, direction, holdingType } = holdingDetails;
+  const { quantity, direction, holdingType } = holdingDetails;
   const { t } = useTranslation(`view_portfolio`);
   return (
     <Grid container px={6}>
       <Grid item xs={12} mt={2}>
         <Typography fontWeight={200}>
-          {`${t(`adding`, `Adding`)} `} {holdingSize}
+          {`${t(`adding`, `Adding`)} `} {quantity}
           {` `}
           <strong>
-            {useTranslatedHoldingType(holdingType || `shares`, holdingSize)}
+            {useTranslatedHoldingType(holdingType || `shares`, quantity)}
             {` `}
             {direction === `short` ? t(`short`, `short`) : t(`long`, `long`)}
             {` of `}

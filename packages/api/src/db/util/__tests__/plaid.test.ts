@@ -13,24 +13,42 @@ describe(`Plaid Util Functions`, () => {
       expect(result[0]).toMatchInlineSnapshot(`
         Object {
           "cash": 0,
+          "holdings": Array [],
           "name": "Plaid IRA",
           "plaid": Object {
             "isLinked": true,
-            "linkedAccountId": "JqMLm4rJwpF6gMPJwBqdh9ZjjPvvpDcb7kDK1",
+            "linkedAccountId": "joK1zG7xdosewdGDod6Pf6WwJRjEopfvgNn4W",
           },
           "private": true,
+          "transactions": Array [],
         }
       `);
 
-      expect(result[1]).toMatchInlineSnapshot(`
-        Object {
-          "cash": 0,
-          "name": "Plaid 401k",
-          "plaid": Object {
-            "isLinked": true,
-            "linkedAccountId": "k67E4xKvMlhmleEa4pg9hlwGGNnnEeixPolGm",
+      expect(result[1].holdings).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "costBasis": 1.5,
+            "holdingType": "shares",
+            "quantity": 1,
           },
-          "private": true,
+          Object {
+            "costBasis": 30,
+            "holdingType": "shares",
+            "quantity": 213,
+          },
+        ]
+      `);
+
+      expect(result[1].transactions).toHaveLength(24);
+      expect(result[1].transactions[0]).toMatchInlineSnapshot(`
+        Object {
+          "currency": "USD",
+          "date": 2022-03-16T00:00:00.000Z,
+          "name": "BUY Achillion Pharmaceuticals Inc.",
+          "price": 2.16,
+          "quantity": 0.520877874205698,
+          "subType": "buy",
+          "type": "buy",
         }
       `);
     });

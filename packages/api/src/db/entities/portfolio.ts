@@ -4,6 +4,7 @@ import { Document } from './document';
 import { PlaidItem } from './plaid';
 import { Holding } from './holding';
 import { User } from './user';
+import { Transaction } from './transaction';
 
 @ObjectType()
 @index({ owner: 1, private: 1 })
@@ -35,6 +36,10 @@ export class Portfolio extends Document {
   @Field(() => [Holding])
   @prop({ type: Holding, default: [] })
   holdings: Holding[];
+
+  @Field(() => [Transaction])
+  @prop({ type: Transaction, default: [] })
+  transactions: Transaction[];
 
   @Field({ nullable: true })
   @prop({ type: PlaidItem })

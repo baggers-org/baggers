@@ -3,6 +3,7 @@ import { Grid, Button, Tooltip, IconButton } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Portfolio } from '~/generated/graphql';
+import { MissingSecuritiesError } from '../MissingSecuritiesError';
 
 export type HoldingsToolbarProps = {
   portfolio: Portfolio;
@@ -21,33 +22,17 @@ export const HoldingsToolbar: React.FC<HoldingsToolbarProps> = ({
   const { t } = useTranslation(`portfolios`);
 
   const isLinked = portfolio?.plaid?.isLinked;
-  const AddHoldingButton = (
-    <Button
-      disabled={!!isLinked}
-      variant="contained"
-      size="small"
-      endIcon={<Add />}
-      onClick={() => onAddHolding()}
-    >
-      {t(`add_holding`, `Add holding`)}
-    </Button>
-  );
   return (
     <Grid item container maxWidth="max-content" gap={3}>
-      {isLinked ? (
-        <Tooltip
-          title={
-            t(
-              `unlink_broker_tooltip`,
-              `Unlink broker to add manual holdings`,
-            ) || `Unlink broker to add manual holdings`
-          }
-        >
-          <span>{AddHoldingButton}</span>
-        </Tooltip>
-      ) : (
-        AddHoldingButton
-      )}
+      <Button
+        disabled={!!isLinked}
+        variant="contained"
+        size="small"
+        endIcon={<Add />}
+        onClick={() => onAddHolding()}
+      >
+        {t(`add_holding`, `Add holding`)}
+      </Button>
       <Button
         disableElevation
         size="small"
@@ -60,17 +45,6 @@ export const HoldingsToolbar: React.FC<HoldingsToolbarProps> = ({
           ? t(`unlink_broker`, `Unlink broker`)
           : t(`link_broker`, `Link broker`)}
       </Button>
-      <Tooltip
-        title={`${t(`sync_tooltip`, `Sync with broker. Last synced:`)} today`}
-      >
-        <IconButton
-          variant="text"
-          color="primary"
-          onClick={() => onSyncHoldings()}
-        >
-          <Sync />
-        </IconButton>
-      </Tooltip>
     </Grid>
   );
 };

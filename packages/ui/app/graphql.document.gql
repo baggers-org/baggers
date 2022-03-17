@@ -10,15 +10,12 @@ fragment AllHoldingData on Holding {
       dailyProfitLossUsd
       #
 
-      direction
       averagePrice
       costBasis
       brokerFees
-      holdingSize
+      quantity
       holdingType
-      openDate
       currency
-      closeDate
       symbol {
         _id
         name
@@ -114,9 +111,16 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioHoldings
 
   plaid {
-    access_token
-    item_id
     isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
   }
 }
 
@@ -131,6 +135,15 @@ mutation addHolding($record: AddHoldingInput!, $portfolioId: ObjectId!) {
   addHolding(id: $portfolioId, record: $record) {
     recordId
   }
+}
+
+mutation clearImportError($portfolioId: ObjectId!) {
+	clearImportError(portfolio_id: $portfolioId) {
+		record {
+			_id
+		}
+
+	}
 }
 
 mutation createPortfolio {

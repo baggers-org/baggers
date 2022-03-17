@@ -1,13 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { Field, InputType } from 'type-graphql';
 import { Portfolio } from '../entities';
-import { Broker, BrokerInput } from '../entities/broker';
-import { PlaidItem } from '../entities/plaid';
-import {
-  Holding,
-  HoldingDirection,
-  HoldingType,
-} from '../entities/holding';
+import { Holding, HoldingDirection, HoldingType } from '../entities/holding';
 import { ObjectIdScalar } from '../object-id.scalar';
 
 @InputType()
@@ -16,7 +10,7 @@ export class AddHoldingInput implements Partial<Holding> {
   symbol: ObjectId;
 
   @Field()
-  holdingSize: number;
+  quantity: number;
 
   @Field()
   averagePrice: number;
@@ -29,12 +23,6 @@ export class AddHoldingInput implements Partial<Holding> {
 
   @Field(() => HoldingDirection)
   direction?: HoldingDirection;
-
-  @Field({ nullable: true })
-  openDate?: Date;
-
-  @Field({ nullable: true })
-  closeDate?: Date;
 
   @Field({ nullable: true })
   currency?: string;
@@ -54,4 +42,3 @@ export class UpdatePortfolioInput implements Partial<Portfolio> {
   @Field({ nullable: true })
   private?: boolean;
 }
-

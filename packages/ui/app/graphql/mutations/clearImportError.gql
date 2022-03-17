@@ -1,0 +1,8 @@
+mutation clearImportError($portfolioId: ObjectId!) {
+	clearImportError(portfolio_id: $portfolioId) {
+		record {
+			_id
+		}
+
+	}
+}

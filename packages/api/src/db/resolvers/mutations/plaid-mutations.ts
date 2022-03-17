@@ -1,16 +1,10 @@
 import { PortfolioModel } from '@/db/entities';
-import { NotFoundError } from '@/db/errors/NotFoundError';
 import { PlaidImportPortfoliosInput } from '@/db/inputs/plaid-inputs';
-import { ObjectIdScalar } from '@/db/object-id.scalar';
 import {
   PlaidCreateLinkTokenResponse,
   PlaidImportPortfolioPayload,
 } from '@/db/payloads/plaid-payloads';
-import {
-  flattenHoldings,
-  flattenTransactions,
-  mapPlaidDataToPortfolios,
-} from '@/db/util/plaid-util';
+import { mapPlaidDataToPortfolios } from '@/db/util/plaid-util';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';
@@ -51,7 +45,7 @@ export class PlaidMutations {
     const { data } = await plaidClient.itemPublicTokenExchange({
       public_token: input.public_token,
     });
-    const { access_token, item_id } = data;
+    const { access_token } = data;
 
     const { data: holdings } = await plaidClient.investmentsHoldingsGet({
       access_token,
@@ -64,7 +58,11 @@ export class PlaidMutations {
       },
     );
 
-    const portfolios = mapPlaidDataToPortfolios(holdings, transactions);
+    const portfolios = (await mapPlaidDataToPortfolios(holdings, transactions))
+      .filter((p) => p.holdings.length && p.transactions.length)
+      .map((p) => ({ ...p, owner: user.sub }));
+
+    await PortfolioModel.insertMany(portfolios);
 
     return {
       ok: true,

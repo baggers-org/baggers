@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { Grid, IconButton, Paper, Typography } from '@mui/material';
+import {
+  Alert,
+  AlertTitle,
+  Grid,
+  IconButton,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +28,8 @@ import {
 import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
+import { pluralOrNot } from '~/util/pluralOrNot';
+import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
 
 export const action: ActionFunction = async ({ request, params }) => {
   if (request.method === `POST`) {
@@ -31,7 +40,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         valueOrError(formData, `averagePrice`).toString(),
       ),
       direction: formData?.direction as HoldingDirection,
-      holdingSize: parseFloat(valueOrError(formData, `holdingSize`).toString()),
+      quantity: parseFloat(valueOrError(formData, `quantity`).toString()),
       symbol: valueOrError(formData, `symbol`).toString(),
       holdingType: formData?.holdingType?.toString() as HoldingType,
       brokerFees: parseFloat(formData?.brokerFees?.toString()),
@@ -79,6 +88,7 @@ export default function Holdings() {
 
   return (
     <Grid container>
+      <MissingSecuritiesError portfolio={portfolio} />
       {holdings?.length === 0 ? (
         <NoHoldings
           onAddHoldingManuallyClick={() => setIsAddingHolding(true)}
@@ -107,6 +117,7 @@ export default function Holdings() {
               </IconButton>
             </Grid>
           </Grid>
+
           <Grid item xs={12} height={500}>
             <Paper sx={{ height: `100%` }} elevation={1}>
               <HoldingsTable

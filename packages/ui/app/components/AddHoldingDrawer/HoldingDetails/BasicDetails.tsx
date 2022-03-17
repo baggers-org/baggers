@@ -28,14 +28,14 @@ export const BasicDetails = ({
         <Grid item xs={12} sm={6}>
           <TextField
             type="number"
-            name="holdingSize"
+            name="quantity"
             margin="normal"
-            value={holdingDetails?.holdingSize}
+            value={holdingDetails?.quantity}
             label={t(`number_of_shares`, `Number of shares`)}
             onChange={(e) =>
               setHoldingDetails((p) => ({
                 ...p,
-                holdingSize: parseFloat(e.target.value),
+                quantity: parseFloat(e.target.value),
               }))
             }
           />

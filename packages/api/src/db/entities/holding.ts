@@ -28,10 +28,6 @@ export class Holding extends Document {
   @prop({ ref: () => Symbol })
   symbol: Symbol | ObjectId;
 
-  @Field(() => HoldingDirection)
-  @prop({ enum: HoldingDirection })
-  direction?: HoldingDirection;
-
   @Field()
   @prop({ default: 0.0 })
   averagePrice?: number;
@@ -50,14 +46,7 @@ export class Holding extends Document {
 
   @Field()
   @prop()
-  holdingSize: number;
-
-  @Field({ nullable: true })
-  @prop({ default: new Date() })
-  openDate?: Date;
-
-  @Field({ nullable: true })
-  closeDate?: Date;
+  quantity: number;
 
   @Field(() => HoldingType)
   @prop({ enum: HoldingType })

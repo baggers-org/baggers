@@ -21,8 +21,15 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioHoldings
 
   plaid {
-    access_token
-    item_id
     isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
   }
 }

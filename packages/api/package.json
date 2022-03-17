@@ -8,7 +8,6 @@
     "start": "node build/index.js",
     "dev": "nodemon -w src --ext .ts --exec \"yarn build && node -r dotenv/config build/index.js\" ",
     "lint": "eslint src",
-    "test": "jest",
     "env:staging": "cat .env.staging | flyctl -a baggers-api-staging secrets import",
     "typecheck": "tsc --noEmit"
   },
@@ -26,6 +25,7 @@
     "jwks-rsa": "^2.0.5",
     "mongodb": "4.4.1",
     "mongoose": "^6.2.4",
+    "node-fetch": "^3.2.3",
     "plaid": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "1.1.1"

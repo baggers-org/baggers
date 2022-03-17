@@ -10,7 +10,7 @@ export const calculateHoldingMetrics = (
 ): PipelineStage[] => [
   addFieldToHolding(holdingsField, {
     marketValue: {
-      $multiply: [`$$pos.symbol.quote.latestPrice`, `$$pos.holdingSize`],
+      $multiply: [`$$pos.symbol.quote.latestPrice`, `$$pos.quantity`],
     },
   }),
   addFieldToHolding(holdingsField, {
@@ -30,7 +30,7 @@ export const calculateHoldingMetrics = (
   }),
   addFieldToHolding(holdingsField, {
     dailyProfitLossUsd: {
-      $multiply: [`$$pos.holdingSize`, `$$pos.symbol.quote.change`],
+      $multiply: [`$$pos.quantity`, `$$pos.symbol.quote.change`],
     },
   }),
 ];

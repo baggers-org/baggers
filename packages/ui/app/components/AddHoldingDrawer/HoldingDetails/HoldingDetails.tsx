@@ -13,7 +13,7 @@ import { BasicDetails } from './BasicDetails';
 import { BasicSummary } from './BasicSummary';
 import { AdvancedDetails } from './AdvancedDetails';
 import { AdvancedSummary } from './AdvancedSummary';
-import { useOpenPrice } from '../useOpenPrice';
+import { usePriceAtDate } from '../usePriceAtDate';
 
 export const HoldingDetails = ({
   addingSymbol,
@@ -27,7 +27,7 @@ export const HoldingDetails = ({
   const [holdingDetails, setHoldingDetails] = useState<AddHoldingInput>({
     symbol: addingSymbol._id,
     direction: HoldingDirection.Long,
-    holdingSize: 1,
+    quantity: 1,
     holdingType: HoldingType.Shares,
     openDate: new Date(),
     brokerFees: 0,
@@ -37,7 +37,7 @@ export const HoldingDetails = ({
 
   const { t } = useTranslation(`view_portfolio`);
 
-  const { openPrice, loading: loadingOpenPrice } = useOpenPrice(
+  const { openPrice, loading: loadingOpenPrice } = usePriceAtDate(
     holdingDetails.openDate,
     addingSymbol.symbol,
   );

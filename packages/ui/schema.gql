@@ -6,16 +6,19 @@
 input AddHoldingInput {
   averagePrice: Float!
   brokerFees: Float
-  closeDate: DateTime
   currency: String
   direction: HoldingDirection!
-  holdingSize: Float!
   holdingType: HoldingType!
-  openDate: DateTime
+  quantity: Float!
   symbol: ObjectId!
 }
 
 type AddHoldingPayload {
+  record: Portfolio!
+  recordId: ObjectId!
+}
+
+type ClearImportError {
   record: Portfolio!
   recordId: ObjectId!
 }
@@ -46,18 +49,15 @@ type Holding {
   _id: ObjectId!
   averagePrice: Float!
   brokerFees: Float!
-  closeDate: DateTime
   costBasis: Float!
   currency: String!
   dailyProfitLossUsd: Float!
-  direction: HoldingDirection!
   exposure: Float!
-  holdingSize: Float!
   holdingType: HoldingType!
   marketValue: Float!
-  openDate: DateTime
   profitLossPercent: Float!
   profitLossUsd: Float!
+  quantity: Float!
   symbol: Symbol!
 }
 
@@ -74,8 +74,16 @@ enum HoldingType {
   shares
 }
 
+type MissingSymbol {
+  exchange: String!
+  figi: String!
+  name: String!
+  symbol: String!
+}
+
 type Mutation {
   addHolding(id: ObjectId!, record: AddHoldingInput!): AddHoldingPayload!
+  clearImportError(portfolio_id: ObjectId!): ClearImportError!
 
   """Create a portfolio under your username"""
   createPortfolio: CreatePortfolioPayload!
@@ -115,6 +123,12 @@ type PlaidItem {
   isLinked: Boolean
   item_id: String
   linkedAccountId: String
+  missingSecuritiesError: PlaidMissingSecuritiesError
+}
+
+type PlaidMissingSecuritiesError {
+  message: String!
+  missingSymbols: [MissingSymbol!]
 }
 
 type Portfolio {
@@ -127,6 +141,7 @@ type Portfolio {
   plaid: PlaidItem
   private: Boolean!
   totalValue: Float!
+  transactions: [Transaction!]!
 }
 
 type Query {
@@ -200,14 +215,84 @@ type RemoveHoldingPayload {
 
 type Symbol {
   _id: ObjectId!
+  cik: String!
   currency: String!
   exchange: String!
   exchangeName: String!
+  figi: String!
+  iexId: String!
   name: String!
   quote: Quote!
   region: String!
   symbol: String!
   symbolType: String!
+}
+
+type Transaction {
+  currency: String!
+  date: DateTime!
+  name: String!
+  price: Float!
+  quantity: Float!
+  subType: TransactionSubtype!
+  type: TransactionType!
+}
+
+enum TransactionSubtype {
+  AccountFee
+  Adjustment
+  Assignment
+  Buy
+  BuyToCover
+  Contribution
+  Deposit
+  Distribution
+  Dividend
+  DividendReinvestment
+  Exercise
+  Expire
+  FundFee
+  Interest
+  InterestReceivable
+  InterestReinvestment
+  LegalFee
+  LoanPayment
+  LongTermCapitalGain
+  LongTermCapitalGainReinvestment
+  ManagementFee
+  MarginExpense
+  Merger
+  MiscellaneousFee
+  NonQualifiedDividend
+  NonResidentTax
+  PendingCredit
+  PendingDebit
+  QualifiedDividend
+  Rebalance
+  ReturnOfPrincipal
+  Sell
+  SellShort
+  ShortTermCapitalGain
+  ShortTermCapitalGainReinvestment
+  SpinOff
+  Split
+  StockDistribution
+  Tax
+  TaxWithheld
+  Transfer
+  TransferFee
+  TrustFee
+  UnqualifiedGain
+  Withdrawal
+}
+
+enum TransactionType {
+  Buy
+  Cancel
+  Cash
+  Fee
+  Sell
+  Transfer
 }
 
 input UpdatePortfolioInput {

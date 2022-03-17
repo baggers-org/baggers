@@ -24,12 +24,12 @@ export default function PortfoloLayout() {
 
   const needsToSetName = !portfolio?.name;
 
-  const needsToAddFirstHolding = portfolio?.totalValue === 0;
+  const needsToAddFirstPosition = portfolio?.totalValue === 0;
 
   return (
     <Grid container>
       <PortfolioHeader portfolio={portfolio as Portfolio} />
-      {!needsToAddFirstHolding && !needsToSetName ? (
+      {!needsToAddFirstPosition && !needsToSetName ? (
         <Grid item xs={12} mb={5}>
           <PortfolioTabs />
         </Grid>

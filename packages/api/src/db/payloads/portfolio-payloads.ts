@@ -27,3 +27,9 @@ export class UpdatePortfolioPayload extends BasePayload<Portfolio> {
   @Field(() => Portfolio)
   declare record: Portfolio;
 }
+
+@ObjectType()
+export class ClearImportError extends BasePayload<Portfolio> {
+  @Field(() => Portfolio)
+  declare record: Portfolio;
+}

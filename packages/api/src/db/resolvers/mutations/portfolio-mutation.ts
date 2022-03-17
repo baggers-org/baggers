@@ -2,28 +2,20 @@ import { Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   AddHoldingInput,
-  LinkBrokerInput,
   UpdatePortfolioInput,
 } from '@/db/inputs/portfolio-inputs';
 import { ObjectIdScalar } from '@/db/object-id.scalar';
-import { BasePayload } from '@/db/payloads/base-payload';
-import { PlaidCreateLinkTokenResponse } from '@/db/payloads/plaid-payloads';
 import {
   CreatePortfolioPayload,
   UpdatePortfolioPayload,
   AddHoldingPayload,
   RemoveHoldingPayload,
-  PortfolioLinkBrokerPayload,
+  ClearImportError,
 } from '@/db/payloads/portfolio-payloads';
-import { flattenHoldings, flattenTransactions } from '@/db/util/plaid-util';
-import { format } from 'date-fns';
 import { CurrentUser } from '@/decorators/CurrentUser';
-import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';
 import { GraphQLContext } from '@/types/GraphQLContext';
-import { ApolloError } from 'apollo-server-core';
 import { ObjectId } from 'mongodb';
-import { Products, CountryCode } from 'plaid';
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 
 @Resolver(() => Portfolio)
@@ -106,7 +98,7 @@ export class PortfolioMutations {
         $push: {
           holdings: {
             ...input,
-            costBasis: input.averagePrice * input.holdingSize,
+            costBasis: input.averagePrice * input.quantity,
           },
         },
       },
@@ -140,6 +132,26 @@ export class PortfolioMutations {
 
     return {
       recordId: res._id,
+    };
+  }
+
+  @Mutation(() => ClearImportError)
+  async clearImportError(
+    @Arg(`portfolio_id`) portfolio_id: ObjectId,
+    @CurrentUser() user: AccessClaim,
+  ) {
+    const res = await PortfolioModel.findOneAndUpdate(
+      {
+        _id: portfolio_id,
+        owner: user.sub,
+      },
+      {
+        $set: { 'plaid.missingSecuritiesError': null },
+      },
+    ).orFail(() => new NotFoundError(`Could not remove the holding`));
+
+    return {
+      record: res,
     };
   }
 }
