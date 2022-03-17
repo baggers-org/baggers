@@ -8,7 +8,7 @@
     "start": "node build/index.js",
     "dev": "nodemon -w src --ext .ts --exec \"yarn build && node -r dotenv/config build/index.js\" ",
     "lint": "eslint src",
-    "env:staging": "cat .env.staging | flyctl -a baggers-api-staging secrets import",
+    "env:staging": "cat .env.staging | flyctl -c fly.staging.toml  secrets import",
     "typecheck": "tsc --noEmit"
   },
   "author": "",
