@@ -1,5 +1,4 @@
 import { Grid, Link, Typography } from '@mui/material';
-import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { HoldingDetailsProps } from './types';
@@ -28,7 +27,7 @@ export const AdvancedSummary: React.FC<HoldingDetailsProps> = ({
           {t(`on_the`, `on the`)}
           {` `}
           <strong>
-            {format(holdingDetails.openDate, `do LLL Y`)} at market close
+            {/* {format(holdingDetails.openDate, `do LLL Y`)} at market close */}
           </strong>
           <Typography color="mediumEmphasis" fontWeight="light" fontSize="14px">
             {t(`not_quite_right`, `Not quite right?`)}

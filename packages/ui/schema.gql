@@ -215,12 +215,12 @@ type RemoveHoldingPayload {
 
 type Symbol {
   _id: ObjectId!
-  cik: String!
+  cik: String
   currency: String!
   exchange: String!
   exchangeName: String!
-  figi: String!
-  iexId: String!
+  figi: String
+  iexId: String
   name: String!
   quote: Quote!
   region: String!

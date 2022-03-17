@@ -10,6 +10,11 @@ fragment PortfolioSummary on Portfolio {
   totalValue
 }
 
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
 fragment PortfolioHoldings on Portfolio {
   holdings {
     ...AllHoldingData
@@ -19,7 +24,7 @@ fragment PortfolioHoldings on Portfolio {
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioHoldings
-
+  ...PortfolioTransactions
   plaid {
     isLinked
     missingSecuritiesError {

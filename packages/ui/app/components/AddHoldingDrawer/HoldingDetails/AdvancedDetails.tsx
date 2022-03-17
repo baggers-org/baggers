@@ -74,7 +74,7 @@ export const AdvancedDetails: React.FC<HoldingDetailsProps> = ({
       </Grid>
       <Grid item xs={12} md={6} mt={2}>
         <DatePicker
-          value={holdingDetails?.openDate}
+          value={new Date()}
           disabled={loadingOpenPrice}
           label={t(`open_date`, `Open date`)}
           onChange={(newDate) =>
@@ -115,7 +115,7 @@ export const AdvancedDetails: React.FC<HoldingDetailsProps> = ({
             <Grid item xs={12} md={6} mt={2}>
               <DatePicker
                 label={t(`close_date`, `Close date`)}
-                value={holdingDetails?.closeDate}
+                value={new Date()}
                 renderInput={(params) => <TextField {...params} fullWidth />}
                 onChange={(newDate) =>
                   setHoldingDetails((p) => ({ ...p, closeDate: newDate }))

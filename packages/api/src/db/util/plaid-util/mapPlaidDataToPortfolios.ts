@@ -15,6 +15,6 @@ export const mapPlaidDataToPortfolios = async (
     getBasicPortfolios(holdings)
       .map((portfolio) => addPlaidTransactions(portfolio, transcations))
       .filter((p) => p.transactions.length)
-      .map(async (portfolio) => addPlaidHoldings(portfolio, holdings)),
+      .map(async (portfolio) => addPlaidHoldings(portfolio, holdings)) as any,
   );
 };

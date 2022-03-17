@@ -1,15 +1,16 @@
 import { SymbolModel } from '@/db/entities';
+import { batchFetchQuotes } from '@/iex';
 
 export const loader = async () => {
   const symbols = await SymbolModel.find();
 
-  // const quotes = await batchFetchQuotes(symbols);
+  const quotes = await batchFetchQuotes(symbols);
 
   const writeResult = await SymbolModel.bulkWrite(
-    [].map((q) => ({
+    quotes.map((q) => ({
       updateOne: {
         // Update
-        filter: { _id: q.symbol_id },
+        filter: { _id: (q as any).symbol_id },
         update: {
           $set: {
             quote: q,

@@ -11,15 +11,15 @@ export class Symbol extends Document {
   @prop()
   symbol: string;
 
-  @Field()
+  @Field({ nullable: true })
   @prop()
   iexId: string;
 
-  @Field()
+  @Field({ nullable: true })
   @prop()
   figi: string;
 
-  @Field()
+  @Field({ nullable: true })
   @prop()
   cik: string;
 

@@ -29,7 +29,6 @@ export const HoldingDetails = ({
     direction: HoldingDirection.Long,
     quantity: 1,
     holdingType: HoldingType.Shares,
-    openDate: new Date(),
     brokerFees: 0,
     // Default to market price
     averagePrice: addingSymbol.quote.latestPrice || 0,
@@ -38,7 +37,7 @@ export const HoldingDetails = ({
   const { t } = useTranslation(`view_portfolio`);
 
   const { openPrice, loading: loadingOpenPrice } = usePriceAtDate(
-    holdingDetails.openDate,
+    new Date(),
     addingSymbol.symbol,
   );
 

@@ -100,6 +100,11 @@ fragment PortfolioSummary on Portfolio {
   totalValue
 }
 
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
 fragment PortfolioHoldings on Portfolio {
   holdings {
     ...AllHoldingData
@@ -109,7 +114,7 @@ fragment PortfolioHoldings on Portfolio {
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioHoldings
-
+  ...PortfolioTransactions
   plaid {
     isLinked
     missingSecuritiesError {
@@ -122,6 +127,16 @@ fragment AllPortfolioData on Portfolio {
       }
     }
   }
+}
+
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  quantity
+  price
+  type
+  subType
 }
 
 fragment FullUser on User {
@@ -221,6 +236,9 @@ query searchSymbols($search: String!) {
     exchangeName
     region
     symbolType
+    iexId
+    figi
+    cik
     currency
     quote {
       latestTime

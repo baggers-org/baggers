@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import {
-  Alert,
-  AlertTitle,
-  Grid,
-  IconButton,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Grid, IconButton, Paper, Typography } from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
@@ -28,7 +21,6 @@ import {
 import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
-import { pluralOrNot } from '~/util/pluralOrNot';
 import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -44,7 +36,6 @@ export const action: ActionFunction = async ({ request, params }) => {
       symbol: valueOrError(formData, `symbol`).toString(),
       holdingType: formData?.holdingType?.toString() as HoldingType,
       brokerFees: parseFloat(formData?.brokerFees?.toString()),
-      openDate: new Date(formData?.openDate.toString()),
     };
     return sdk.addHolding({
       portfolioId: params.id,
@@ -63,8 +54,6 @@ export const action: ActionFunction = async ({ request, params }) => {
   return json({ message: `method unsupported` }, { status: 400 });
 };
 export default function Holdings() {
-  const { t } = useTranslation(`view_portfolio`);
-
   const { portfolio } = useMatches().find(
     (m) => m.id === `routes/__app/portfolios/$id`,
   )?.data as PortfolioQuery;

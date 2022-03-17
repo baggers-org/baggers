@@ -4,7 +4,8 @@
   "description": "A fresh new Architect project!",
   "scripts": {
     "start": "npx sandbox",
-    "dev": "node scripts/build.js && node -r dotenv/config build/index.js"
+    "dev": "node scripts/build.js && node -r dotenv/config build/index.js",
+    "typecheck": "echo 'not here yet'"
   },
   "devDependencies": {
     "@architect/architect": "^10.1.0",

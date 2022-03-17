@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, AlertTitle, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 import { EditableTypography, PriceTag } from '~/components';
 import { useTranslation } from 'react-i18next';
