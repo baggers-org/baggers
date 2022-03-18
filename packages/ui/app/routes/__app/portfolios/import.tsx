@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ request }) => {
   throw Error(`There was an error importing your portfolios. Please try again`);
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   return sdk.plaidCreateLinkToken();
 };
 export default function ImportPortfolios() {

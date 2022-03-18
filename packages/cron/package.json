@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npx sandbox",
     "dev": "node scripts/build.js && node -r dotenv/config build/index.js",
+    "lint": "eslint src",
     "typecheck": "echo 'not here yet'"
   },
   "devDependencies": {

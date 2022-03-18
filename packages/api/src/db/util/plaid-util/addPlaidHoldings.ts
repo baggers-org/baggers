@@ -1,8 +1,5 @@
-import { Holding, Portfolio, SymbolModel } from '@/db/entities';
-import {
-  MissingSymbol,
-  PlaidMissingSecuritiesError,
-} from '@/db/entities/plaid';
+import { Portfolio, SymbolModel } from '@/db/entities';
+import { PlaidMissingSecuritiesError } from '@/db/entities/plaid';
 import { mapToFigi } from '@/open-figi/open-figi';
 import { InvestmentsHoldingsGetResponse } from 'plaid';
 import { equityOnly } from './equityOnly';
@@ -47,8 +44,6 @@ export const addPlaidHoldings = async (
     ...h,
     figi: figis[index]?.figi || null,
   }));
-
-  console.log(`Holdings with figi`, withFigi);
 
   const holdingsWithoutFigiData = withFigi.filter((h) => h.figi);
   const holdingsWithFigiData = withFigi.filter((h) => !!h.figi);
@@ -104,8 +99,6 @@ export const addPlaidHoldings = async (
       symbol: symbols.find((s) => s.figi === h.figi),
     }))
     .filter((h) => !!h.symbol);
-
-  console.log(holdingsWithSymbolData);
 
   return {
     ...portfolio,
