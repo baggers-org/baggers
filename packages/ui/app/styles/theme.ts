@@ -28,6 +28,9 @@ export const SHARED_THEME: ThemeOptions = {
     gradient: {
       main: `linear-gradient(#121212, #002171)`,
     },
+    primary: {
+      main: `#3c1bc0`,
+    },
     price: {
       neutralBg: `#eaeaea`,
       neutralFg: `#121212`,
@@ -43,12 +46,16 @@ export const DARK_THEME: ThemeOptions = {
   palette: {
     ...SHARED_THEME.palette,
     mode: `dark`,
+    primary: {
+      main: `#ce93d8`,
+      contrastText: `#000000`,
+    },
     gradient: {
       main: `linear-gradient(#121212, #232323)`,
     },
     secondary: {
-      main: `#fff59d`,
-      contrastText: `#121212`,
+      main: `#90caf9`,
+      contrastText: `#000000`,
     },
 
     price: {
@@ -69,12 +76,12 @@ export const LIGHT_THEME: ThemeOptions = {
       main: `linear-gradient(#04223A ,#0069C0)`,
     },
     primary: {
-      main: `#2196F3`,
+      main: `#d500f9`,
       contrastText: `#FFFFFF`,
     },
     secondary: {
-      main: `#FFEB3B`,
-      contrastText: `#121212`,
+      main: `#00b8d4`,
+      contrastText: `#00000`,
     },
     background: {
       default: `#F9F9F9`,

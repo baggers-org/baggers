@@ -75,9 +75,9 @@ enum HoldingType {
 }
 
 type MissingSymbol {
-  exchange: String!
-  figi: String!
-  name: String!
+  exchange: String
+  figi: String
+  name: String
   symbol: String!
 }
 
@@ -119,9 +119,7 @@ input PlaidImportPortfoliosInput {
 }
 
 type PlaidItem {
-  access_token: String
   isLinked: Boolean
-  item_id: String
   linkedAccountId: String
   missingSecuritiesError: PlaidMissingSecuritiesError
 }
@@ -133,15 +131,28 @@ type PlaidMissingSecuritiesError {
 
 type Portfolio {
   _id: ObjectId!
+  analysis: PortfolioAnalysis!
   cash: Float!
   description: String!
   holdings: [Holding!]!
   name: String!
   owner: User!
+  performance: PortfolioPerformance!
   plaid: PlaidItem
   private: Boolean!
   totalValue: Float!
   transactions: [Transaction!]!
+}
+
+type PortfolioAnalysis {
+  top5Holdings: [Holding!]!
+}
+
+type PortfolioPerformance {
+  dailyReturnDollars: Float!
+  dailyReturnPercent: Float!
+  ytdReturnDollars: Float!
+  ytdReturnPercent: Float!
 }
 
 type Query {

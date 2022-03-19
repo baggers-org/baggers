@@ -3,9 +3,10 @@ import { addFieldToHolding } from './addFieldToHolding';
 
 export const calculateHoldingExposure = (
   holdingsField = `$holdings`,
-): PipelineStage =>
+): PipelineStage[] => [
   addFieldToHolding(holdingsField, {
     exposure: {
       $divide: [`$$pos.marketValue`, `$totalValue`],
     },
-  });
+  }),
+];

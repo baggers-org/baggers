@@ -11,10 +11,19 @@ export const mapPlaidDataToPortfolios = async (
   holdings: InvestmentsHoldingsGetResponse,
   transcations: InvestmentsTransactionsGetResponse,
 ): Promise<Omit<Portfolio, 'owner' | 'totalValue'>[]> => {
-  return Promise.all(
-    getBasicPortfolios(holdings)
-      .map((portfolio) => addPlaidTransactions(portfolio, transcations))
-      .filter((p) => p.transactions.length)
-      .map(async (portfolio) => addPlaidHoldings(portfolio, holdings)) as any,
+  const portfolios = getBasicPortfolios(holdings);
+
+  const portfoliosWithTransactions = portfolios.map((portfolio) =>
+    addPlaidTransactions(portfolio, transcations),
   );
+
+  const portfolioWithHoldings = await Promise.all(
+    portfoliosWithTransactions.map(async (portfolio) =>
+      addPlaidHoldings(portfolio, holdings),
+    ),
+  );
+
+  console.log(portfolioWithHoldings);
+
+  return portfolioWithHoldings;
 };

@@ -7,6 +7,22 @@ import { User } from './user';
 import { Transaction } from './transaction';
 
 @ObjectType()
+export class PortfolioAnalysis {
+  @Field(() => [Holding])
+  top5Holdings: [Holding]
+}
+@ObjectType()
+export class PortfolioPerformance {
+  @Field()
+  ytdReturnPercent: number;
+  @Field()
+  ytdReturnDollars: number;
+  @Field()
+  dailyReturnPercent: number;
+  @Field()
+  dailyReturnDollars: number;
+}
+@ObjectType()
 @index({ owner: 1, private: 1 })
 export class Portfolio extends Document {
   @Field(() => User)
@@ -29,10 +45,6 @@ export class Portfolio extends Document {
   @prop({ default: 0 })
   cash: number;
 
-  @Field()
-  @prop({ default: 0 })
-  totalValue: number;
-
   @Field(() => [Holding])
   @prop({ type: Holding, default: [] })
   holdings: Holding[];
@@ -44,6 +56,16 @@ export class Portfolio extends Document {
   @Field({ nullable: true })
   @prop({ type: PlaidItem })
   plaid?: PlaidItem;
+
+  // Market value fields
+  @Field()
+  totalValue: number;
+
+  @Field(() => PortfolioAnalysis)
+  analysis: PortfolioAnalysis;
+
+  @Field(() => PortfolioPerformance)
+  performance: PortfolioPerformance;
 }
 
 export const PortfolioModel = getModelForClass(Portfolio);

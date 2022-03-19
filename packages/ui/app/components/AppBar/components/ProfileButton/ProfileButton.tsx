@@ -10,14 +10,12 @@ import {
 } from '@mui/material';
 import { KeyboardArrowDownRounded, Logout } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
-import { Form, useMatches } from '@remix-run/react';
+import { Form } from '@remix-run/react';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export type ProfileButtonProps = {};
 export const ProfileButton: React.FC<ProfileButtonProps> = () => {
-  const matches = useMatches();
-
-  const user = matches.find((m) => m.id === `routes/__app`)?.data;
-
+  const user = useCurrentUser();
   const profilePhoto = user?.photos?.[0];
 
   const { t } = useTranslation(`common`);

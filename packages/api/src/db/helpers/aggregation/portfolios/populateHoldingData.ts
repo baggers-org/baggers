@@ -1,14 +1,15 @@
 import { PipelineStage } from 'mongoose';
+import { calculateHoldingMetrics } from './calculateHoldingMetrics';
 
 export const populateHoldingData = (
-  holdingsField = `$holdings`,
+  holdingsField = '$holdings',
 ): PipelineStage[] => [
   {
     $lookup: {
-      from: `symbols`,
-      localField: `holdings.symbol`,
-      foreignField: `_id`,
-      as: `marketData`,
+      from: 'symbols',
+      localField: 'holdings.symbol',
+      foreignField: '_id',
+      as: 'marketData',
     },
   },
   {
@@ -19,17 +20,17 @@ export const populateHoldingData = (
           initialValue: [],
           in: {
             $concatArrays: [
-              `$$value`,
+              '$$value',
               [
                 {
                   $mergeObjects: [
-                    `$$this`,
+                    '$$this',
                     {
                       symbol: {
                         $arrayElemAt: [
-                          `$marketData`,
+                          '$marketData',
                           {
-                            $indexOfArray: [`$marketData._id`, `$$this.symbol`],
+                            $indexOfArray: ['$marketData._id', '$$this.symbol'],
                           },
                         ],
                       },
@@ -44,6 +45,8 @@ export const populateHoldingData = (
     },
   },
   {
-    $unset: `marketData`,
+    $unset: 'marketData',
   },
+
+  ...calculateHoldingMetrics(),
 ];

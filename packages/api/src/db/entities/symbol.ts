@@ -6,6 +6,7 @@ import { Quote } from './quote';
 @ObjectType()
 // TODO: compare performance for this index
 @index({ symbol: 1, exchange: 1 })
+@index({ figi: 1, symbol: 1 })
 export class Symbol extends Document {
   @Field()
   @prop()

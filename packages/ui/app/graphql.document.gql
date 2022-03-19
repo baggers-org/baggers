@@ -88,6 +88,19 @@ fragment AllHoldingData on Holding {
 
 
 
+fragment PortfolioAnalysis on Portfolio {
+  analysis {
+    top5Holdings {
+      marketValue
+      exposure
+      symbol {
+        name
+        symbol
+      }
+    }
+  }
+
+}
 fragment PortfolioSummary on Portfolio {
   _id
   cash
@@ -98,6 +111,12 @@ fragment PortfolioSummary on Portfolio {
   description
   private
   totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
 }
 
 fragment PortfolioTransactions on Portfolio {
@@ -165,7 +184,6 @@ mutation createPortfolio {
   createPortfolio {
     record {
       _id
-      ...AllPortfolioData
     }
   }
 }
@@ -217,6 +235,7 @@ mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
 query myPortfoliosSummary {
   myPortfolios {
     ...PortfolioSummary
+    ...PortfolioAnalysis
   }
 }
 

@@ -1,22 +1,22 @@
 import { prop } from '@typegoose/typegoose';
-import { Authorized, Field, InputType, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 
 abstract class PlaidImportError extends Error {}
 
 @ObjectType()
 export class MissingSymbol {
-  @Field()
+  @Field({ nullable: true })
   @prop()
   name?: string;
-  @Field()
+  @Field({ nullable: true })
   @prop()
   figi?: string;
-  @Field()
+  @Field({ nullable: true })
   @prop()
   exchange?: string;
   @Field()
   @prop()
-  symbol?: string;
+  symbol: string;
 }
 @ObjectType()
 export class PlaidMissingSecuritiesError extends PlaidImportError {
@@ -40,14 +40,10 @@ export class PlaidInput {
 }
 @ObjectType()
 export class PlaidItem {
-  @Field({ nullable: true })
   @prop()
-  @Authorized(`CRON`)
   access_token?: string;
 
-  @Field({ nullable: true })
   @prop()
-  @Authorized(`CRON`)
   item_id?: string;
 
   @Field({ nullable: true })
@@ -56,7 +52,6 @@ export class PlaidItem {
 
   @Field({ nullable: true })
   @prop()
-  @Authorized(`CRON`)
   linkedAccountId?: string;
 
   @Field(() => PlaidMissingSecuritiesError, { nullable: true })

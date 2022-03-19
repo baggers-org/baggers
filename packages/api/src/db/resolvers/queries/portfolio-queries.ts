@@ -5,14 +5,12 @@ import { ObjectIdScalar } from '../../object-id.scalar';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { AccessClaim } from '@/types/AccessClaim';
 import { NotFoundError } from '@/db/errors/NotFoundError';
+import { withHoldingData, withPerformance } from '@/db/helpers';
+import { analysePortfolio } from '@/db/helpers/aggregation/portfolios/analysePortfolio';
 import {
-  calculatePortfolioValue,
-  calculateHoldingMetrics,
   matchPortfolioById,
   populateOwner,
-  populateHoldingData,
-} from '@/db/helpers';
-import { calculateHoldingExposure } from '@/db/helpers/aggregation/portfolios/calculateHoldingExposure';
+} from '@/db/helpers/aggregation/portfolios';
 
 @Resolver(() => Portfolio)
 export class PortfolioQueries {
@@ -24,15 +22,8 @@ export class PortfolioQueries {
     const res = await PortfolioModel.aggregate([
       // Find the specific portfolio, based on user and portfolio privacy
       matchPortfolioById(portfolioId, user?.sub),
-      // Populate holdings with market data
-      ...populateHoldingData(),
-      // Work out the various holding metrics using the latest market data
-      ...calculateHoldingMetrics(),
-      // Now we have market value etc. work out the total portfolio value
-      calculatePortfolioValue(),
-      // Finally work out the exposure of every holding
-      calculateHoldingExposure(),
-      // Add owner data
+      ...withHoldingData,
+      ...withPerformance,
       ...populateOwner(),
     ]);
 
@@ -48,6 +39,16 @@ export class PortfolioQueries {
   @Query(() => [Portfolio])
   @Authorized()
   async myPortfolios(@CurrentUser() user: AccessClaim) {
-    return PortfolioModel.find({ owner: user?.sub }).populate(`owner`);
+    const res = await PortfolioModel.aggregate([
+      {
+        $match: { owner: user.sub },
+      },
+      ...withHoldingData,
+      ...analysePortfolio,
+      ...withPerformance,
+      ...populateOwner(),
+    ]);
+
+    return res;
   }
 }

@@ -2,5 +2,6 @@
 query myPortfoliosSummary {
   myPortfolios {
     ...PortfolioSummary
+    ...PortfolioAnalysis
   }
 }

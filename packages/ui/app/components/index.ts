@@ -1,4 +1,5 @@
 export * from './CallToAction';
+export * from './BaggersSelect';
 export * from './Layouts';
 export * from './PortfolioCard';
 export * from './PriceTag';
