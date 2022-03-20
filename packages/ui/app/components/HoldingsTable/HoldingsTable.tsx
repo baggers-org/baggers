@@ -10,6 +10,9 @@ export const HoldingsTable: React.FC<
     <DataGridPro
       rows={holdings || []}
       checkboxSelection
+      initialState={{
+        sorting: { sortModel: [{ field: `marketValue`, sort: `desc` }] },
+      }}
       density={density}
       columns={useTableColumns({ ...tableColumnProps })}
       getRowId={(row) => row._id}

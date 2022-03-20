@@ -1,12 +1,13 @@
-import { Divider, Stack, Tab, Tabs, Typography } from '@mui/material';
-import { useLocation } from '@remix-run/react';
+import { Stack, Typography, Tabs, Tab, useTheme } from '@mui/material';
+import { Outlet, useLocation } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 
-export const PortfoliosLayout: React.FC = ({ children }) => {
+export default function PortfoliosLayout() {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const activeTab = `/${pathname.split(`/`).pop()}`;
 
+  const theme = useTheme();
   return (
     <Stack spacing={5}>
       <Stack direction="row">
@@ -15,7 +16,10 @@ export const PortfoliosLayout: React.FC = ({ children }) => {
         </Typography>
         <Tabs value={activeTab} sx={{ ml: `auto`, maxHeight: `50px` }}>
           <Tab value="/discover" label={t(`discover`, `Discover`)} />
-          <Tab value="/created" label={t(`created`, `Created`)} />
+          <Tab
+            value="/created"
+            label={t(`created`, `Created`)}
+          />
           <Tab value="/favourites" label={t(`favourites`, `Favourites`)} />
           <Tab
             value="/collaborating"
@@ -23,7 +27,7 @@ export const PortfoliosLayout: React.FC = ({ children }) => {
           />
         </Tabs>
       </Stack>
-      {children}
+      <Outlet />
     </Stack>
   );
-};
+}

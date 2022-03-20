@@ -1,28 +1,34 @@
 import React from 'react';
-import { Favorite, ModeComment, RemoveRedEye } from '@mui/icons-material';
+import {
+  Favorite,
+  ModeComment,
+  Public,
+  PublicOff,
+  RemoveRedEye,
+} from '@mui/icons-material';
 import {
   Avatar,
-  Badge,
   Box,
   Card,
   CardActionArea,
   CardContent,
-  Chip,
-  Grid,
+  CardMedia,
+  Divider,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Skeleton,
+  Stack,
   Typography,
 } from '@mui/material';
 import { formatCurrency } from '~/util';
 import { useTranslation } from 'react-i18next';
-import { useMatches, useNavigate } from '@remix-run/react';
+import { useNavigate } from '@remix-run/react';
 import { Portfolio } from '~/generated/graphql';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
+import { PortfolioTags } from '../PortfolioTags';
 
 export type PortfolioCardProps = {
   portfolio: Portfolio;
@@ -32,84 +38,111 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
 
   const navigate = useNavigate();
 
-  if (!portfolio) {
-    return <Skeleton />;
-  }
-
   const user = useCurrentUser();
-  console.log(portfolio.analysis.top5Holdings);
 
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ height: `100%` }}>
       <CardActionArea
         onClick={() => navigate(`/portfolios/${portfolio._id}/holdings`)}
       >
-        <CardContent sx={{ pb: 0, px: 5 }}>
-          <Grid container>
-            <Grid item container xs={12} alignItems="center" gap={2}>
-              <Typography variant="h5" color="mediumEmphasis">
-                {formatCurrency(portfolio?.totalValue || 0)}
-              </Typography>
-              <PriceTag color="profit">
-                {portfolio?.performance?.dailyReturnPercent}%
-              </PriceTag>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h4">{portfolio.name}</Typography>
-            </Grid>
-            <Grid item container alignItems="center" xs={12} mt={2}>
-              <Avatar src={user?.photos?.[0]} />
-              <Typography variant="body2" color="secondary" ml={2}>
-                by You
-              </Typography>
-            </Grid>
-            {!portfolio?.private ? (
-              <Grid
-                container
-                item
-                xs={12}
-                mt={4}
-                justifyItems="center"
-                justifyContent="space-between"
-                alignContent="center"
-                color="mediumEmphasis"
-              >
-                <RemoveRedEye />
-                <Typography>1,232,023</Typography>
-                <Favorite />
-                <Typography>2391</Typography>
-                <ModeComment />
-                <Typography>109</Typography>
-              </Grid>
-            ) : null}
-
-            <Grid container mt={2} gap={2}>
-              <Chip label="Dividend" />
-            </Grid>
-            <Grid xs={12}>
-              <Typography>Top 5 Holdings</Typography>
-              <List>
-                {portfolio?.analysis?.top5Holdings.map((holding) => (
-                  <ListItem>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-                    <ListItemText>
-                      {holding.symbol.name}
-                      {` `}
-                      {(holding.exposure * 100).toFixed(2)}%
-                    </ListItemText>
-                  </ListItem>
-                ))}
-              </List>
-            </Grid>
-            <Grid xs={12}>
-              <Box height={150} mx={-8}>
-                <PortfolioCardChart />
+        <CardMedia>
+          <Stack textAlign="center" p={3}>
+            <Stack
+              direction="row"
+              justifyContent="center"
+              position="relative"
+              alignItems="flex-start"
+              height={100}
+            >
+              <Box width="32px" position="absolute" top={0} left={0}>
+                {portfolio?.private ? <PublicOff /> : <Public />}
               </Box>
-            </Grid>
-          </Grid>
+              <Typography variant="h4" ml="auto" mr="auto" textAlign="center">
+                {portfolio.name}
+              </Typography>
+              <Box position="absolute" width="32px" height="32px" right={0}>
+                <Avatar src={user?.photos?.[0]} />
+              </Box>
+            </Stack>
+          </Stack>
+          <Box height={100} ml={-1} top={0} width="100%" zIndex={0}>
+            <PortfolioCardChart />
+          </Box>
+        </CardMedia>
+        <CardContent sx={{ pb: 0, px: 5 }}>
+          <Stack
+            alignItems="center"
+            justifyContent="space-between"
+            width="100%"
+            mb={2}
+          >
+            <Stack
+              display="flex"
+              width="100%"
+              direction="row"
+              justifyContent="space-between"
+              justifyItems="center"
+              textAlign="center"
+              mb={1}
+            >
+              <PriceTag
+                value={portfolio?.performance?.dailyReturnPercent}
+                label="Today"
+                isPercent
+              />
+              <PriceTag
+                value={portfolio?.performance?.ytdReturnPercent}
+                label="YTD"
+                isPercent
+              />
+              <PriceTag
+                value={portfolio?.performance?.ytdReturnPercent}
+                label="All time"
+                isPercent
+              />
+            </Stack>
+            <Typography variant="h4" color="mediumEmphasis" my={1}>
+              {formatCurrency(portfolio?.totalValue || 0)}
+            </Typography>
+          </Stack>
+          <Divider sx={{ my: 2 }} />
+          <PortfolioTags portfolio={portfolio} />
+          <Divider sx={{ my: 2 }} />
+          <Typography variant="subtitle2">
+            {t(`top_holdings`, `Top Holdings`)}
+          </Typography>
+          <List>
+            {portfolio?.analysis?.top5Holdings.slice(0, 2).map((holding) => (
+              <ListItem>
+                <ListItemAvatar>
+                  <Avatar />
+                </ListItemAvatar>
+                <ListItemText>
+                  {holding.symbol.name}
+                  {` `}
+                  {(holding.exposure * 100).toFixed(2)}%
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
         </CardContent>
+
+        {!portfolio?.private ? (
+          <Stack direction="row" justifyContent="space-between" p={4}>
+            <Stack>
+              <RemoveRedEye />
+              <Typography>1,232,023</Typography>
+            </Stack>
+            <Stack>
+              <Favorite />
+              <Typography>2391</Typography>
+            </Stack>
+            <Stack>
+              <ModeComment />
+              <Typography>109</Typography>
+            </Stack>
+          </Stack>
+        ) : null}
       </CardActionArea>
     </Card>
   );

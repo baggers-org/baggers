@@ -33,7 +33,6 @@ export const AppBar: React.FC = ({ children }) => {
               zIndex: 999,
               width: { xs: `100%` },
               height: { xs: `74px`, md: `100%` },
-              background: theme.palette.gradient?.main,
             }}
             square
             elevation={1}

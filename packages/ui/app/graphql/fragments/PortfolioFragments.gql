@@ -27,6 +27,10 @@ fragment PortfolioSummary on Portfolio {
     dailyReturnPercent
     dailyReturnDollars
   }
+
+  plaid {
+    isLinked
+  }
 }
 
 fragment PortfolioTransactions on Portfolio {

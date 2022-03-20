@@ -55,7 +55,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 export default function Holdings() {
   const { portfolio } = useMatches().find(
-    (m) => m.id === `routes/__app/portfolios/$id`,
+    (m) => m.id === `routes/__app/portfolios.$id`,
   )?.data as PortfolioQuery;
   const { holdings } = portfolio as Portfolio;
 
@@ -75,6 +75,9 @@ export default function Holdings() {
     setDensity(`compact`);
   };
 
+
+  console.log(portfolio.holdings);
+  
   return (
     <Grid container>
       <MissingSecuritiesError portfolio={portfolio} />
@@ -108,20 +111,18 @@ export default function Holdings() {
           </Grid>
 
           <Grid item xs={12} height={500}>
-            <Paper sx={{ height: `100%` }} elevation={1}>
-              <HoldingsTable
-                holdings={portfolio.holdings as Holding[]}
-                density={density}
-                onRemoveHolding={(pos) =>
-                  submit(
-                    {
-                      holding_id: pos._id,
-                    },
-                    { method: `delete` },
-                  )
-                }
-              />
-            </Paper>
+            <HoldingsTable
+              holdings={portfolio.holdings as Holding[]}
+              density={density}
+              onRemoveHolding={(pos) =>
+                submit(
+                  {
+                    holding_id: pos._id,
+                  },
+                  { method: `delete` },
+                )
+              }
+            />
           </Grid>
         </>
       )}

@@ -8,32 +8,6 @@ import { formatCurrency, isProfitLossOrNeutral } from '~/util';
 import { PriceTag } from '..';
 import { UseTableColumnProps } from './types';
 
-const renderPriceDeltaCell = (
-  value: number,
-  { isPercent } = { isPercent: false },
-) => {
-  if (value !== 0 && !value) {
-    return <Skeleton width="100%" />;
-  }
-
-  const delta = isProfitLossOrNeutral(value);
-  let formattedValue = isPercent
-    ? `${Math.abs(value).toFixed(2)}%`
-    : formatCurrency(value);
-
-  if (value !== 0) {
-    formattedValue = `${value > 0 ? `+` : `-`} ${formattedValue}`;
-  }
-
-  return <PriceTag color={delta}>{formattedValue}</PriceTag>;
-};
-
-const renderMonetaryValue = (value: number) => {
-  if (!value) {
-    return <Skeleton width="100%" />;
-  }
-  return formatCurrency(value);
-};
 export const useTableColumns = ({
   onRemoveHolding,
 }: UseTableColumnProps): GridColDef[] => {
@@ -69,19 +43,19 @@ export const useTableColumns = ({
     },
     {
       field: `marketValue`,
-      renderCell: ({ row }) => renderMonetaryValue(row?.marketValue),
+      renderCell: ({ row }) => formatCurrency(row?.marketValue),
       flex: 1,
       headerName: t(`marketValue`, `Market value`),
     },
     {
       field: `costBasis`,
-      renderCell: ({ row }) => renderMonetaryValue(row?.costBasis),
+      renderCell: ({ row }) => formatCurrency(row?.costBasis),
       flex: 1,
       headerName: t(`costBasis`, `Cost basis`),
     },
     {
       field: `averagePrice`,
-      renderCell: ({ row }) => renderMonetaryValue(row?.averagePrice),
+      renderCell: ({ row }) => formatCurrency(row?.averagePrice),
       flex: 1,
       headerName: t(`averagePrice`, `Average price`),
     },
@@ -91,10 +65,7 @@ export const useTableColumns = ({
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
-        if (!row.symbol?.quote) {
-          return <Skeleton width="100%" />;
-        }
-        return renderMonetaryValue(row?.symbol?.quote?.latestPrice);
+        return formatCurrency(row?.symbol?.quote?.latestPrice);
       },
     },
     {
@@ -103,12 +74,9 @@ export const useTableColumns = ({
       headerName: `${t(`change`, `Change`)} %`,
       flex: 1,
       renderCell: ({ row }) => {
-        if (!row.symbol?.quote) {
-          return <Skeleton width="100%" />;
-        }
-        return renderPriceDeltaCell(row.symbol.quote.changePercent * 100, {
-          isPercent: true,
-        });
+        return (
+          <PriceTag value={row.symbol.quote.changePercent * 100} isPercent />
+        );
       },
     },
     {
@@ -116,20 +84,21 @@ export const useTableColumns = ({
       headerName: `${t(`profit_loss`, `Profit/Loss`)} %`,
       flex: 1,
       valueGetter: ({ row }) => row?.profitLossPercent,
-      renderCell: ({ row }) =>
-        renderPriceDeltaCell(row?.profitLossPercent, { isPercent: true }),
+      renderCell: ({ row }) => (
+        <PriceTag value={row.profitLossPercent} isPercent />
+      ),
     },
     {
       field: `profitLossUsd`,
       flex: 1,
       headerName: `${t(`profit_loss`, `Profit/Loss`)}`,
-      renderCell: ({ row }) => renderPriceDeltaCell(row?.profitLossUsd),
+      renderCell: ({ row }) => <PriceTag value={row.profitLossUsd} />,
     },
     {
       field: `dailyProfitLossUsd`,
       flex: 1,
       headerName: `${t(`profit_loss`, `Daily P/L`)}`,
-      renderCell: ({ row }) => renderPriceDeltaCell(row?.dailyProfitLossUsd),
+      renderCell: ({ row }) => <PriceTag value={row.dailyProfitLossUsd} />,
     },
     {
       field: `actions`,

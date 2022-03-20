@@ -6,7 +6,7 @@ export function GlobalStyles() {
     <MuiGlobals
       styles={{
         a: {
-          color: theme.palette.secondary.main,
+          color: theme.palette.primary.main
         },
       }}
     />

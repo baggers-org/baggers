@@ -80,9 +80,9 @@ export const PortfolioCardChart = () => {
             },
           }}
           seriesOptions={{
-            lineColor: theme.palette[color].main,
-            topColor: alpha(theme.palette[color].main, 0.2),
-            bottomColor: alpha(theme.palette[color].main, 0.02),
+            lineColor: alpha(theme.palette[color].main, 0.8),
+            topColor: alpha(theme.palette[color].main, 0.4),
+            bottomColor: alpha(theme.palette[color].main, 0.002),
             crosshairMarkerVisible: false,
           }}
           data={chartData}

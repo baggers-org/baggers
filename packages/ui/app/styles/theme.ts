@@ -4,6 +4,11 @@ import { ThemeOptions } from '@mui/material';
 
 export const SHARED_THEME: ThemeOptions = {
   components: {
+    MuiButton: {
+      defaultProps: {
+        color: `primary`,
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -11,6 +16,14 @@ export const SHARED_THEME: ThemeOptions = {
             marginRight: `20px`,
           },
         },
+      },
+    },
+
+    MuiPaper: {
+      styleOverrides: {
+        outlined: ({ theme }) => ({
+          backgroundColor: theme.palette.background.default,
+        }),
       },
     },
   },
@@ -47,15 +60,28 @@ export const DARK_THEME: ThemeOptions = {
     ...SHARED_THEME.palette,
     mode: `dark`,
     primary: {
-      main: `#ce93d8`,
+      main: `#6874E8`,
+      contrastText: `#FFFFFF`,
+    },
+    secondary: {
+      main: `#ECA72C`,
       contrastText: `#000000`,
+    },
+    background: {
+      default: `#121212`,
+      paper: `#121212`,
+    },
+    text: {
+      primary: `#F2F4F3`,
     },
     gradient: {
       main: `linear-gradient(#121212, #232323)`,
     },
-    secondary: {
-      main: `#90caf9`,
-      contrastText: `#000000`,
+    error: {
+      main: `#EA4848`,
+    },
+    success: {
+      main: `#7EFF47`,
     },
 
     price: {
@@ -76,16 +102,23 @@ export const LIGHT_THEME: ThemeOptions = {
       main: `linear-gradient(#04223A ,#0069C0)`,
     },
     primary: {
-      main: `#d500f9`,
+      main: `#5666FB`,
       contrastText: `#FFFFFF`,
     },
     secondary: {
-      main: `#00b8d4`,
-      contrastText: `#00000`,
+      main: `#FBAA1D`,
+      contrastText: `#000000`,
+    },
+    text: {
+      primary: `#1C1C1C`,
     },
     background: {
-      default: `#F9F9F9`,
-      paper: `#FFFFFF`,
+      paper: `#F2F4F3`,
+      default: `#FFFFFF`,
+    },
+    warning: {
+      main: `#FFD23F`,
+      contrastText: `#000000`,
     },
     grey: {
       50: `#FAFAFA`,
@@ -96,11 +129,10 @@ export const LIGHT_THEME: ThemeOptions = {
       500: `#F9F9F9`,
       600: `#E7E7E7`,
     },
-
     price: {
       neutralBg: `#eaeaea`,
       neutralFg: `#121212`,
-      profitBg: `#e0f2f1`,
+      profitBg: ``,
       profitFg: `#004d40`,
       lossBg: `#ffebee`,
       lossFg: `#611A15`,
@@ -108,11 +140,10 @@ export const LIGHT_THEME: ThemeOptions = {
 
     action: { focus: `#2196f3` },
     success: {
-      main: `#02A883`,
-      light: `#56DAB3`,
+      main: `#3BB273`,
     },
     error: {
-      main: `#E3301B`,
+      main: `#E15554`,
     },
     lowEmphasis: `rgba(0,0,0,0.26)`,
     mediumEmphasis: `rgba(0,0,0,0.6)`,

@@ -402,7 +402,7 @@ export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketV
 
 export type PortfolioAnalysisFragment = { __typename?: 'Portfolio', analysis: { __typename?: 'PortfolioAnalysis', top5Holdings: Array<{ __typename?: 'Holding', marketValue: number, exposure: number, symbol: { __typename?: 'Symbol', name: string, symbol: string } }> } };
 
-export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number } };
+export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null } | null };
 
 export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> };
 
@@ -479,7 +479,7 @@ export type UpdatePortfolioMutation = { __typename?: 'Mutation', updatePortfolio
 export type MyPortfoliosSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPortfoliosSummaryQuery = { __typename?: 'Query', myPortfolios: Array<{ __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, analysis: { __typename?: 'PortfolioAnalysis', top5Holdings: Array<{ __typename?: 'Holding', marketValue: number, exposure: number, symbol: { __typename?: 'Symbol', name: string, symbol: string } }> } }> };
+export type MyPortfoliosSummaryQuery = { __typename?: 'Query', myPortfolios: Array<{ __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null } | null, analysis: { __typename?: 'PortfolioAnalysis', top5Holdings: Array<{ __typename?: 'Holding', marketValue: number, exposure: number, symbol: { __typename?: 'Symbol', name: string, symbol: string } }> } }> };
 
 export type PortfolioQueryVariables = Exact<{
   id: Scalars['ObjectId'];
@@ -533,6 +533,9 @@ export const PortfolioSummaryFragmentDoc = gql`
     ytdReturnDollars
     dailyReturnPercent
     dailyReturnDollars
+  }
+  plaid {
+    isLinked
   }
 }
     ${FullUserFragmentDoc}`;
