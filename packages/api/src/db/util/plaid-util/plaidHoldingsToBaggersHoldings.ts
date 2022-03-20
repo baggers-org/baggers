@@ -74,27 +74,6 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
     };
   });
 
-  console.log(
-    JSON.stringify({
-      $or: [
-        {
-          symbol: {
-            $in: securityMap
-              .filter((s) => s.lookupSymbol)
-              .map((s) => s.lookupSymbol),
-          },
-        },
-        {
-          figi: {
-            $in: securityMap
-              .filter((s) => s.lookupFigis?.length)
-              .flatMap((s) => s.lookupFigis),
-          },
-        },
-      ],
-    }),
-  );
-
   const symbols = await SymbolModel.find({
     $or: [
       {
@@ -134,9 +113,11 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
   });
 
   return {
-    holdings: securityMap.map((s) => s.baggersHolding),
+    holdings: securityMap
+      .filter((s) => s.baggersHolding.symbol)
+      .map((s) => s.baggersHolding),
     missing: securityMap
-      .filter((s) => !s.baggersHolding)
+      .filter((s) => !s.baggersHolding.symbol)
       .map((s) => s.plaidHolding),
   };
 };

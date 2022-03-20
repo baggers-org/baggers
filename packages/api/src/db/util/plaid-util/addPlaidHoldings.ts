@@ -1,4 +1,5 @@
-import { Portfolio } from '@/db/entities';
+import { Holding, Portfolio } from '@/db/entities';
+import { PlaidMissingSecuritiesError } from '@/db/entities/plaid';
 import { InvestmentsHoldingsGetResponse } from 'plaid';
 import { equityOnly } from './equityOnly';
 import { flattenHoldings } from './flatten';
@@ -32,8 +33,24 @@ export const addPlaidHoldings = async (
     portfolioHoldings.map((h) => h.plaidHolding),
   );
 
+  let missingSecuritiesError;
+  if (missing?.length) {
+    missingSecuritiesError = new PlaidMissingSecuritiesError(
+      `There was an error importing the following securities`,
+      missing.map((m) => ({
+        symbol: m.security?.ticker_symbol || 'UNKNOWN',
+        name: m.security?.name || undefined,
+      })),
+    );
+  }
+
   return {
     ...portfolio,
-    holdings,
+    holdings: holdings as Holding[],
+    plaid: {
+      ...(portfolio.plaid || {}),
+      isLinked: true,
+      missingSecuritiesError,
+    },
   };
 };

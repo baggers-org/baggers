@@ -63,8 +63,6 @@ export class PlaidMutations {
       .filter((p) => p.holdings.length && p.transactions.length)
       .map((p) => ({ ...p, owner: user.sub }));
 
-    console.log(portfolios);
-
     await PortfolioModel.insertMany(portfolios);
 
     return {
