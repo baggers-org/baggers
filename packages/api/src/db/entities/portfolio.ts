@@ -7,11 +7,6 @@ import { User } from './user';
 import { Transaction } from './transaction';
 
 @ObjectType()
-export class PortfolioAnalysis {
-  @Field(() => [Holding])
-  top5Holdings: [Holding]
-}
-@ObjectType()
 export class PortfolioPerformance {
   @Field()
   ytdReturnPercent: number;
@@ -60,9 +55,6 @@ export class Portfolio extends Document {
   // Market value fields
   @Field()
   totalValue: number;
-
-  @Field(() => PortfolioAnalysis)
-  analysis: PortfolioAnalysis;
 
   @Field(() => PortfolioPerformance)
   performance: PortfolioPerformance;

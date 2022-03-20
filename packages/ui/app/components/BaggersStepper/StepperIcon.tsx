@@ -1,20 +1,20 @@
 import { Check } from '@mui/icons-material';
-import { styled } from '@mui/material';
+import { CircularProgress, styled } from '@mui/material';
 
 const IconRoot = styled(`div`)(({ theme, ownerState }) => ({
-  color: theme.palette.mode === `dark` ? theme.palette.grey[700] : `#eaeaf0`,
+  color: theme.palette.grey[700],
   display: `flex`,
   height: 22,
   alignItems: `center`,
   ...(ownerState.active && {
-    color: `#784af4`,
+    color: theme.palette.primary.main,
   }),
   '& .BaggersStepIcon-completedIcon': {
-    color: `#784af4`,
+    color: theme.palette.primary.main,
     zIndex: 1,
     fontSize: 18,
   },
-  '& .BaggersStepIcon-circle': {
+  'div.BaggersStepIcon-circle': {
     width: 8,
     height: 8,
     borderRadius: `50%`,
@@ -27,11 +27,11 @@ export function BaggersStepIcon(props) {
 
   return (
     <IconRoot ownerState={{ active }} className={className}>
-      {completed ? (
-        <Check className=".BaggersStepIcon-completedIcon" />
-      ) : (
+      {completed && <Check className=".BaggersStepIcon-completedIcon" />}
+      {active && <CircularProgress size={32} />}
+      {!active || !completed ? (
         <div className=".BaggersStepIcon-circle" />
-      )}
+      ) : null}
     </IconRoot>
   );
 }

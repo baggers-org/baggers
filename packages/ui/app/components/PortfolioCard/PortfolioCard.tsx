@@ -29,6 +29,7 @@ import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 import { PortfolioTags } from '../PortfolioTags';
+import { NoDataChart } from './components/NoDataChart';
 
 export type PortfolioCardProps = {
   portfolio: Portfolio;
@@ -66,7 +67,11 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
             </Stack>
           </Stack>
           <Box height={100} ml={-1} top={0} width="100%" zIndex={0}>
-            <PortfolioCardChart />
+            {portfolio?.holdings?.length ? (
+              <PortfolioCardChart />
+            ) : (
+              <NoDataChart />
+            )}
           </Box>
         </CardMedia>
         <CardContent sx={{ pb: 0, px: 5 }}>
@@ -76,55 +81,65 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
             width="100%"
             mb={2}
           >
-            <Stack
-              display="flex"
-              width="100%"
-              direction="row"
-              justifyContent="space-between"
-              justifyItems="center"
-              textAlign="center"
-              mb={1}
-            >
-              <PriceTag
-                value={portfolio?.performance?.dailyReturnPercent}
-                label="Today"
-                isPercent
-              />
-              <PriceTag
-                value={portfolio?.performance?.ytdReturnPercent}
-                label="YTD"
-                isPercent
-              />
-              <PriceTag
-                value={portfolio?.performance?.ytdReturnPercent}
-                label="All time"
-                isPercent
-              />
-            </Stack>
+            {portfolio?.holdings?.length ? (
+              <Stack
+                display="flex"
+                width="100%"
+                direction="row"
+                justifyContent="space-between"
+                justifyItems="center"
+                textAlign="center"
+                mb={1}
+              >
+                <PriceTag
+                  value={portfolio?.performance?.dailyReturnPercent}
+                  label="Today"
+                  isPercent
+                />
+                <PriceTag
+                  value={portfolio?.performance?.ytdReturnPercent}
+                  label="YTD"
+                  isPercent
+                />
+                <PriceTag
+                  value={portfolio?.performance?.ytdReturnPercent}
+                  label="All time"
+                  isPercent
+                />
+              </Stack>
+            ) : (
+              <Typography variant="caption">
+                {t(`no_holdings`, `This portfolio has no holdings.`)}
+              </Typography>
+            )}
             <Typography variant="h4" color="mediumEmphasis" my={1}>
               {formatCurrency(portfolio?.totalValue || 0)}
             </Typography>
           </Stack>
-          <Divider sx={{ my: 2 }} />
-          <PortfolioTags portfolio={portfolio} />
-          <Divider sx={{ my: 2 }} />
-          <Typography variant="subtitle2">
-            {t(`top_holdings`, `Top Holdings`)}
-          </Typography>
-          <List>
-            {portfolio?.analysis?.top5Holdings.slice(0, 2).map((holding) => (
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar />
-                </ListItemAvatar>
-                <ListItemText>
-                  {holding.symbol.name}
-                  {` `}
-                  {(holding.exposure * 100).toFixed(2)}%
-                </ListItemText>
-              </ListItem>
-            ))}
-          </List>
+          {portfolio.holdings.length ? (
+            <>
+              <Divider sx={{ my: 2 }} />
+              <PortfolioTags portfolio={portfolio} />
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="subtitle2">
+                {t(`top_holdings`, `Top Holdings`)}
+              </Typography>
+              <List>
+                {portfolio?.holdings?.slice(0, 2).map((holding) => (
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar />
+                    </ListItemAvatar>
+                    <ListItemText>
+                      {holding.symbol.symbol}
+                      {` `}
+                      {(holding.exposure * 100).toFixed(2)}%
+                    </ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </>
+          ) : null}
         </CardContent>
 
         {!portfolio?.private ? (

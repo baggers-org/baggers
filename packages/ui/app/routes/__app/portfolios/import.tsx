@@ -49,19 +49,28 @@ export default function ImportPortfolios() {
 
   useEffect(() => {
     if (ready) {
-      setStep(1);
       open();
     }
   }, [ready]);
 
   return (
-    <BaggersStepper
-      steps={[
-        `Connecting to plaid`,
-        `Enter credentials`,
-        `Importing portfolios`,
-      ]}
-      activeStep={step}
-    />
+    <Box
+      position="relative"
+      display="flex"
+      width="100%"
+      height="50vh"
+      alignItems="center"
+    >
+      <Box width="100%">
+        <BaggersStepper
+          steps={[
+            `Connecting to plaid`,
+            `Enter credentials`,
+            `Importing portfolios`,
+          ]}
+          activeStep={step}
+        />
+      </Box>
+    </Box>
   );
 }

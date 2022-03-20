@@ -131,7 +131,6 @@ type PlaidMissingSecuritiesError {
 
 type Portfolio {
   _id: ObjectId!
-  analysis: PortfolioAnalysis!
   cash: Float!
   description: String!
   holdings: [Holding!]!
@@ -142,10 +141,6 @@ type Portfolio {
   private: Boolean!
   totalValue: Float!
   transactions: [Transaction!]!
-}
-
-type PortfolioAnalysis {
-  top5Holdings: [Holding!]!
 }
 
 type PortfolioPerformance {

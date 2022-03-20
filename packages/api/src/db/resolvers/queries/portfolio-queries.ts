@@ -6,11 +6,11 @@ import { CurrentUser } from '@/decorators/CurrentUser';
 import { AccessClaim } from '@/types/AccessClaim';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import { withHoldingData, withPerformance } from '@/db/helpers';
-import { analysePortfolio } from '@/db/helpers/aggregation/portfolios/analysePortfolio';
 import {
   matchPortfolioById,
   populateOwner,
 } from '@/db/helpers/aggregation/portfolios';
+import { sortHoldingsByMarketValue } from '@/db/helpers/aggregation/portfolios/sortHoldingsByMarketValue';
 
 @Resolver(() => Portfolio)
 export class PortfolioQueries {
@@ -44,10 +44,10 @@ export class PortfolioQueries {
         $match: { owner: user.sub },
       },
       ...withHoldingData,
-      ...analysePortfolio,
       ...withPerformance,
       ...populateOwner(),
-    ]);
+      ...sortHoldingsByMarketValue,
+    ]).sort({ totalValue: -1 });
 
     return res;
   }

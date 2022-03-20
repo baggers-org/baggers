@@ -8,12 +8,12 @@ export const BaggersConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: `#784af4`,
+      borderColor: theme.palette.primary.main,
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: `#784af4`,
+      borderColor: theme.palette.primary.main,
     },
   },
   [`& .${stepConnectorClasses.line}`]: {

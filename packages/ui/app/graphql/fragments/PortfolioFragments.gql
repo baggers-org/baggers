@@ -1,16 +1,3 @@
-fragment PortfolioAnalysis on Portfolio {
-  analysis {
-    top5Holdings {
-      marketValue
-      exposure
-      symbol {
-        name
-        symbol
-      }
-    }
-  }
-
-}
 fragment PortfolioSummary on Portfolio {
   _id
   cash
