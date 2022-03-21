@@ -17,8 +17,8 @@ jobs:
          run: npm run typecheck 
        - name: "Lint"
          run: npm run lint
-  deploy:
-    name: "Deploy to preview"
+  deployUi:
+    name: "Deploy UI to preview"
     needs: test
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
@@ -32,6 +32,14 @@ jobs:
           FLY_PROJECT_PATH: packages/ui
         with:
           args: "deploy -c fly.staging.toml"
+  deployApi:
+    name: "Deploy API to preview"
+    needs: test
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    environment: "Preview"
+    steps:
+      - uses: actions/checkout@v2
       - name: "Deploy API"
         uses: superfly/flyctl-actions@master
         env:

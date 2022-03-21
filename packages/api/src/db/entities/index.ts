@@ -1,6 +1,6 @@
 export * from './document';
 export * from './portfolio';
 export * from './quote';
-export * from './position';
+export * from './holding';
 export * from './symbol';
 export * from './user';

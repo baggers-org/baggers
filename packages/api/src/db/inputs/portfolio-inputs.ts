@@ -1,20 +1,16 @@
 import { ObjectId } from 'mongodb';
 import { Field, InputType } from 'type-graphql';
 import { Portfolio } from '../entities';
-import {
-  Position,
-  PositionDirection,
-  PositionType,
-} from '../entities/position';
+import { Holding, HoldingDirection, HoldingType } from '../entities/holding';
 import { ObjectIdScalar } from '../object-id.scalar';
 
 @InputType()
-export class AddPositionInput implements Partial<Position> {
+export class AddHoldingInput implements Partial<Holding> {
   @Field(() => ObjectIdScalar)
   symbol: ObjectId;
 
   @Field()
-  positionSize: number;
+  quantity: number;
 
   @Field()
   averagePrice: number;
@@ -22,17 +18,11 @@ export class AddPositionInput implements Partial<Position> {
   @Field({ nullable: true })
   brokerFees?: number;
 
-  @Field(() => PositionType)
-  positionType?: PositionType;
+  @Field(() => HoldingType)
+  holdingType?: HoldingType;
 
-  @Field(() => PositionDirection)
-  direction?: PositionDirection;
-
-  @Field({ nullable: true })
-  openDate?: Date;
-
-  @Field({ nullable: true })
-  closeDate?: Date;
+  @Field(() => HoldingDirection)
+  direction?: HoldingDirection;
 
   @Field({ nullable: true })
   currency?: string;

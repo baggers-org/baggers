@@ -14,21 +14,22 @@ const {
   AUTH0_CLIENT_SECRET,
   AUTH0_DOMAIN,
   AUTH0_CALLBACK_URL,
-  AUTH0_API_AUDIENCE,
+  API_URI,
 } = process.env;
 
 if (!AUTH0_DOMAIN) throw new Error(`Missing Auth0 domain.`);
 if (!AUTH0_CLIENT_ID) throw new Error(`Missing Auth0 client id.`);
 if (!AUTH0_CLIENT_SECRET) throw new Error(`Missing Auth0 client secret.`);
 if (!AUTH0_CALLBACK_URL) throw new Error(`Missing Auth0 redirect uri.`);
-if (!AUTH0_API_AUDIENCE) throw new Error(`Missing Auth0 audience.`);
+if (!API_URI) throw new Error(`Missing API_URI.`);
 
 export const auth0 = {
   clientID: AUTH0_CLIENT_ID,
   clientSecret: AUTH0_CLIENT_SECRET,
   domain: AUTH0_DOMAIN,
   callbackURL: AUTH0_CALLBACK_URL,
-  audience: AUTH0_API_AUDIENCE,
+  // Frontned will only ever communicate with the db via the GraphQL endpoint
+  audience: `${API_URI}/graphql`,
 };
 
 // This authenticator will be used for

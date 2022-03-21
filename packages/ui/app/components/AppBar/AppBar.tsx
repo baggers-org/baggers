@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Paper, Stack, Tabs, useTheme } from '@mui/material';
+import { Box, Grid, Paper, Stack, Tabs } from '@mui/material';
 import { Dashboard, FolderOpen, WaterfallChart } from '@mui/icons-material';
 
 import { useActiveTab, useBreakpointValue } from '~/hooks';
@@ -14,8 +14,6 @@ export const AppBar: React.FC = ({ children }) => {
 
   const navigate = useNavigate();
   const activeTab = useActiveTab();
-
-  const theme = useTheme();
 
   const orientation = useBreakpointValue<'horizontal' | 'vertical'>({
     xs: `horizontal`,
@@ -33,7 +31,6 @@ export const AppBar: React.FC = ({ children }) => {
               zIndex: 999,
               width: { xs: `100%` },
               height: { xs: `74px`, md: `100%` },
-              background: theme.palette.gradient?.main,
             }}
             square
             elevation={1}

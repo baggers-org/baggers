@@ -1,5 +1,5 @@
-export * from './populatePositionData';
+export * from './populateHoldingData';
 export * from './matchPortfolioById';
 export * from './calculatePortfolioValue';
 export * from './populateOwner';
-export * from './calculatePositionMetrics';
+export * from './calculateHoldingMetrics';

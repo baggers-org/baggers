@@ -1,1 +1,1 @@
-export * from './portfolios';
+export * from './portfolio-aggregators';

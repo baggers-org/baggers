@@ -1,45 +1,41 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
-import { ProfitLossOrNeutral } from '~/util';
+import { Stack, Typography, useTheme } from '@mui/material';
+import { formatCurrency, isProfitLossOrNeutral } from '~/util';
 
 export type PriceTagProps = {
-  color: ProfitLossOrNeutral;
+  value: number;
+  label?: string;
+  isPercent?: boolean;
 };
-export const PriceTag: React.FC<PriceTagProps> = ({ color, children }) => {
+export const PriceTag: React.FC<PriceTagProps> = ({
+  value,
+  isPercent,
+  label,
+}) => {
   const theme = useTheme();
 
   const getColor = () => {
-    if (color === `profit`) {
-      return {
-        bgcolor: theme.palette.price.profitBg,
-        color: theme.palette.price.profitFg,
-      };
+    const delta = isProfitLossOrNeutral(value);
+
+    if (delta === `profit`) {
+      return theme.palette.success.main;
     }
-    if (color === `loss`) {
-      return {
-        bgcolor: theme.palette.price.lossBg,
-        color: theme.palette.price.lossFg,
-      };
+    if (delta === `loss`) {
+      return theme.palette.error.main;
     }
 
-    return {
-      bgcolor: theme.palette.price.neutralBg,
-      color: theme.palette.price.neutralFg,
-    };
+    return theme.palette.text.primary;
   };
+
+  const formattedValue = isPercent
+    ? `${value.toFixed(2)}%`
+    : formatCurrency(value);
   return (
-    <Box
-      {...getColor()}
-      borderRadius="4px"
-      py={0}
-      maxHeight="20px"
-      display="flex"
-      alignItems="center"
-      px={2}
-    >
-      <Typography variant="button" fontWeight="bold">
-        {children}
+    <Stack>
+      {label}
+      <Typography variant="subtitle1" color={getColor()}>
+        {value > 0 ? `+${formattedValue}` : formattedValue}
       </Typography>
-    </Box>
+    </Stack>
   );
 };

@@ -3,19 +3,22 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-input AddPositionInput {
+input AddHoldingInput {
   averagePrice: Float!
   brokerFees: Float
-  closeDate: DateTime
   currency: String
-  direction: PositionDirection!
-  openDate: DateTime
-  positionSize: Float!
-  positionType: PositionType!
+  direction: HoldingDirection!
+  holdingType: HoldingType!
+  quantity: Float!
   symbol: ObjectId!
 }
 
-type AddPositionPayload {
+type AddHoldingPayload {
+  record: Portfolio!
+  recordId: ObjectId!
+}
+
+type ClearImportError {
   record: Portfolio!
   recordId: ObjectId!
 }
@@ -42,8 +45,45 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
+type Holding {
+  _id: ObjectId!
+  averagePrice: Float!
+  brokerFees: Float!
+  costBasis: Float!
+  currency: String!
+  dailyProfitLossUsd: Float!
+  exposure: Float!
+  holdingType: HoldingType!
+  marketValue: Float!
+  profitLossPercent: Float!
+  profitLossUsd: Float!
+  quantity: Float!
+  symbol: Symbol!
+}
+
+"""Buying vs selling"""
+enum HoldingDirection {
+  long
+  short
+}
+
+"""Shares, calls, puts"""
+enum HoldingType {
+  calls
+  puts
+  shares
+}
+
+type MissingSymbol {
+  exchange: String
+  figi: String
+  name: String
+  symbol: String!
+}
+
 type Mutation {
-  addPosition(id: ObjectId!, record: AddPositionInput!): AddPositionPayload!
+  addHolding(id: ObjectId!, record: AddHoldingInput!): AddHoldingPayload!
+  clearImportError(portfolio_id: ObjectId!): ClearImportError!
 
   """Create a portfolio under your username"""
   createPortfolio: CreatePortfolioPayload!
@@ -51,7 +91,11 @@ type Mutation {
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
   findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
-  removePosition(portfolio_id: ObjectId!, position_id: ObjectId!): RemovePositionPayload!
+  plaidCreateLinkToken: PlaidCreateLinkTokenResponse!
+
+  """Uses the public_token from the link process to import portfolios"""
+  plaidImportPortfolios(input: PlaidImportPortfoliosInput!): PlaidImportPortfolioPayload!
+  removeHolding(holding_id: ObjectId!, portfolio_id: ObjectId!): RemoveHoldingPayload!
 
   """Update portfolio details"""
   updatePortfolio(_id: ObjectId!, input: UpdatePortfolioInput!): UpdatePortfolioPayload!
@@ -60,47 +104,50 @@ type Mutation {
 """Mongo object id scalar type"""
 scalar ObjectId
 
+type PlaidCreateLinkTokenResponse {
+  expiration: String!
+  link_token: String!
+  request_id: String!
+}
+
+type PlaidImportPortfolioPayload {
+  ok: Boolean!
+}
+
+input PlaidImportPortfoliosInput {
+  public_token: String!
+}
+
+type PlaidItem {
+  isLinked: Boolean
+  linkedAccountId: String
+  missingSecuritiesError: PlaidMissingSecuritiesError
+}
+
+type PlaidMissingSecuritiesError {
+  message: String!
+  missingSymbols: [MissingSymbol!]
+}
+
 type Portfolio {
   _id: ObjectId!
   cash: Float!
   description: String!
+  holdings: [Holding!]!
   name: String!
   owner: User!
-  positions: [Position!]!
+  performance: PortfolioPerformance!
+  plaid: PlaidItem
   private: Boolean!
   totalValue: Float!
+  transactions: [Transaction!]!
 }
 
-type Position {
-  _id: ObjectId!
-  averagePrice: Float!
-  brokerFees: Float!
-  closeDate: DateTime
-  costBasis: Float!
-  currency: String!
-  dailyProfitLossUsd: Float!
-  direction: PositionDirection!
-  exposure: Float!
-  marketValue: Float!
-  openDate: DateTime
-  positionSize: Float!
-  positionType: PositionType!
-  profitLossPercent: Float!
-  profitLossUsd: Float!
-  symbol: Symbol!
-}
-
-"""Buying vs selling"""
-enum PositionDirection {
-  long
-  short
-}
-
-"""Shares, calls, puts"""
-enum PositionType {
-  calls
-  puts
-  shares
+type PortfolioPerformance {
+  dailyReturnDollars: Float!
+  dailyReturnPercent: Float!
+  ytdReturnDollars: Float!
+  ytdReturnPercent: Float!
 }
 
 type Query {
@@ -168,20 +215,90 @@ type Quote {
   ytdChange: Float
 }
 
-type RemovePositionPayload {
+type RemoveHoldingPayload {
   recordId: ObjectId!
 }
 
 type Symbol {
   _id: ObjectId!
+  cik: String
   currency: String!
   exchange: String!
   exchangeName: String!
+  figi: String
+  iexId: String
   name: String!
   quote: Quote!
   region: String!
   symbol: String!
   symbolType: String!
+}
+
+type Transaction {
+  currency: String!
+  date: DateTime!
+  name: String!
+  price: Float!
+  quantity: Float!
+  subType: TransactionSubtype!
+  type: TransactionType!
+}
+
+enum TransactionSubtype {
+  AccountFee
+  Adjustment
+  Assignment
+  Buy
+  BuyToCover
+  Contribution
+  Deposit
+  Distribution
+  Dividend
+  DividendReinvestment
+  Exercise
+  Expire
+  FundFee
+  Interest
+  InterestReceivable
+  InterestReinvestment
+  LegalFee
+  LoanPayment
+  LongTermCapitalGain
+  LongTermCapitalGainReinvestment
+  ManagementFee
+  MarginExpense
+  Merger
+  MiscellaneousFee
+  NonQualifiedDividend
+  NonResidentTax
+  PendingCredit
+  PendingDebit
+  QualifiedDividend
+  Rebalance
+  ReturnOfPrincipal
+  Sell
+  SellShort
+  ShortTermCapitalGain
+  ShortTermCapitalGainReinvestment
+  SpinOff
+  Split
+  StockDistribution
+  Tax
+  TaxWithheld
+  Transfer
+  TransferFee
+  TrustFee
+  UnqualifiedGain
+  Withdrawal
+}
+
+enum TransactionType {
+  Buy
+  Cancel
+  Cash
+  Fee
+  Sell
+  Transfer
 }
 
 input UpdatePortfolioInput {

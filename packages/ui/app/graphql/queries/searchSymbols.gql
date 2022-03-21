@@ -7,6 +7,9 @@ query searchSymbols($search: String!) {
     exchangeName
     region
     symbolType
+    iexId
+    figi
+    cik
     currency
     quote {
       latestTime

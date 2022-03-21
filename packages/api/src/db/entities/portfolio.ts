@@ -1,9 +1,22 @@
 import { getModelForClass, index, prop } from '@typegoose/typegoose';
 import { Field, ObjectType } from 'type-graphql';
 import { Document } from './document';
-import { Position } from './position';
+import { PlaidItem } from './plaid';
+import { Holding } from './holding';
 import { User } from './user';
+import { Transaction } from './transaction';
 
+@ObjectType()
+export class PortfolioPerformance {
+  @Field()
+  ytdReturnPercent: number;
+  @Field()
+  ytdReturnDollars: number;
+  @Field()
+  dailyReturnPercent: number;
+  @Field()
+  dailyReturnDollars: number;
+}
 @ObjectType()
 @index({ owner: 1, private: 1 })
 export class Portfolio extends Document {
@@ -27,13 +40,24 @@ export class Portfolio extends Document {
   @prop({ default: 0 })
   cash: number;
 
+  @Field(() => [Holding])
+  @prop({ type: Holding, default: [] })
+  holdings: Holding[];
+
+  @Field(() => [Transaction])
+  @prop({ type: Transaction, default: [] })
+  transactions: Transaction[];
+
+  @Field({ nullable: true })
+  @prop({ type: PlaidItem })
+  plaid?: PlaidItem;
+
+  // Market value fields
   @Field()
-  @prop({ default: 0 })
   totalValue: number;
 
-  @Field(() => [Position])
-  @prop({ type: Position, default: [] })
-  positions: Position[];
+  @Field(() => PortfolioPerformance)
+  performance?: PortfolioPerformance;
 }
 
 export const PortfolioModel = getModelForClass(Portfolio);

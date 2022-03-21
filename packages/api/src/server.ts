@@ -15,50 +15,36 @@ import {
 } from '@/db/resolvers';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { UserMutations } from './db/resolvers/mutations/user-mutations';
-import jwt from 'express-jwt';
-import jwks from 'jwks-rsa';
 import { GraphQLContext } from './types/GraphQLContext';
 import { authChecker } from './util/authChecker';
+import { PlaidMutations } from './db/resolvers/mutations/plaid-mutations';
+import { cronApp } from './cron';
+import { jwtCheck } from './jwtCheck';
 
 const getApolloServerHandler = async () => {
-  const { ATLAS_CLUSTER_URI, AUTH0_DOMAIN, AUTH0_API_AUDIENCE } = process.env;
-  if (!ATLAS_CLUSTER_URI) throw Error(`No ATLAS_CLUSTER_URI in environment`);
-  if (!AUTH0_DOMAIN) throw Error(`No AUTH0_DOMAIN in environment`);
-  if (!AUTH0_API_AUDIENCE) throw Error(`No AUTH0_API_AUDIENCE in environment`);
-
   const app = express();
 
-  const jwtCheck = jwt({
-    secret: jwks.expressJwtSecret({
-      cache: true,
-      rateLimit: true,
-      jwksRequestsPerMinute: 5,
-      jwksUri: `https://${AUTH0_DOMAIN}/.well-known/jwks.json`,
-    }),
-    audience: AUTH0_API_AUDIENCE,
-    issuer: `https://${AUTH0_DOMAIN}/`,
-    algorithms: [`RS256`],
-    credentialsRequired: false,
-  });
-
-  app.use(jwtCheck);
+  app.use(`/graphql`, jwtCheck());
+  app.use(`/cron`, cronApp);
 
   const httpServer = http.createServer(app);
 
+  const { ATLAS_CLUSTER_URI } = process.env;
+  if (!ATLAS_CLUSTER_URI) throw Error(`No ATLAS_CLUSTER_URI in environment`);
   await connect(ATLAS_CLUSTER_URI);
 
   const schema = await buildSchema({
     resolvers: [
       PortfolioQueries,
       PortfolioMutations,
+      PlaidMutations,
       SymbolQueries,
       UserMutations,
     ],
     authChecker: authChecker,
+    authMode: `null`,
     emitSchemaFile:
-      process.env.NODE_ENV === `development`
-        ? `../../ui/schema.gql`
-        : undefined,
+      process.env.NODE_ENV === `development` ? `../ui/schema.gql` : undefined,
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });
 

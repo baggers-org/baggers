@@ -36,6 +36,7 @@ export const PortfolioCardChart = () => {
   const [chartData] = useState(
     POINTS.map((point) => ({ ...point, value: Math.random() * 30 })),
   );
+  const [color] = useState(Math.random() > 0.5 ? `success` : `error`);
 
   const theme = useTheme();
 
@@ -79,8 +80,15 @@ export const PortfolioCardChart = () => {
             },
           }}
           seriesOptions={{
-            lineColor: alpha(theme.palette.success.light, 0.4),
-            bottomColor: alpha(`rgba(86,218,179,0.2)`, 0.03),
+            // eslint-disable-next-line
+            // @ts-ignore
+            lineColor: alpha(theme.palette[color].main, 0.8),
+            // eslint-disable-next-line
+            // @ts-ignore
+            topColor: alpha(theme.palette[color].main, 0.4),
+            // eslint-disable-next-line
+            // @ts-ignore
+            bottomColor: alpha(theme.palette[color].main, 0.002),
             crosshairMarkerVisible: false,
           }}
           data={chartData}

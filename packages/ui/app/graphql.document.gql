@@ -1,29 +1,6 @@
 
 
-fragment PortfolioSummary on Portfolio {
-  _id
-  cash
-  owner {
-    ...FullUser
-  }
-  name
-  description
-  private
-  totalValue
-}
-
-fragment PortfolioPositions on Portfolio {
-  positions {
-    ...AllPositionData
-  }
-}
-
-fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
-  ...PortfolioPositions
-}
-
-fragment AllPositionData on Position {
+fragment AllHoldingData on Holding {
       _id
       # Market data fields
       marketValue
@@ -33,21 +10,21 @@ fragment AllPositionData on Position {
       dailyProfitLossUsd
       #
 
-      direction
       averagePrice
       costBasis
       brokerFees
-      positionSize
-      positionType
-      openDate
-      closeDate
+      quantity
+      holdingType
+      currency
       symbol {
+        _id
         name
         symbol
         symbolType
         exchange
-        region
         currency
+        exchangeName
+        region
         quote {
           avgTotalVolume
           calculationPrice
@@ -109,6 +86,69 @@ fragment AllPositionData on Position {
       }
 }
 
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
+
+  plaid {
+    isLinked
+  }
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  plaid {
+    isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
+  }
+}
+
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  quantity
+  price
+  type
+  subType
+}
+
 fragment FullUser on User {
 	_id
 	displayName
@@ -116,17 +156,25 @@ fragment FullUser on User {
 	photos
 }
 
-mutation addPosition($record: AddPositionInput!, $portfolioId: ObjectId!) {
-  addPosition(id: $portfolioId, record: $record) {
+mutation addHolding($record: AddHoldingInput!, $portfolioId: ObjectId!) {
+  addHolding(id: $portfolioId, record: $record) {
     recordId
   }
+}
+
+mutation clearImportError($portfolioId: ObjectId!) {
+	clearImportError(portfolio_id: $portfolioId) {
+		record {
+			_id
+		}
+
+	}
 }
 
 mutation createPortfolio {
   createPortfolio {
     record {
       _id
-      ...AllPortfolioData
     }
   }
 }
@@ -146,8 +194,22 @@ mutation findOrCreateUser($record: FindOrCreateUserInput!){
   }
 }
 
-mutation removePosition($portfolio_id: ObjectId!, $position_id: ObjectId!) {
-  removePosition(portfolio_id: $portfolio_id, position_id: $position_id) {
+mutation plaidCreateLinkToken {
+  plaidCreateLinkToken {
+    link_token
+    expiration
+    request_id
+  }
+}
+
+mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
+  plaidImportPortfolios(input: $input) {
+    ok
+  }
+}
+
+mutation removeHolding($portfolio_id: ObjectId!, $holding_id: ObjectId!) {
+  removeHolding(portfolio_id: $portfolio_id, holding_id: $holding_id) {
     recordId
   }
 }
@@ -164,6 +226,13 @@ mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
 query myPortfoliosSummary {
   myPortfolios {
     ...PortfolioSummary
+    holdings {
+      exposure
+      symbol {
+        symbol
+        name
+      }
+    }
   }
 }
 
@@ -183,6 +252,9 @@ query searchSymbols($search: String!) {
     exchangeName
     region
     symbolType
+    iexId
+    figi
+    cik
     currency
     quote {
       latestTime

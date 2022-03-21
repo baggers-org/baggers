@@ -11,4 +11,10 @@ export const useSeriesUpdates = <TSeries extends SeriesType>(
       series.setData(props.data);
     }
   }, [series, props.data]);
+
+  useEffect(() => {
+    if (props.seriesOptions) {
+      series?.applyOptions(props.seriesOptions);
+    }
+  }, [props.seriesOptions]);
 };

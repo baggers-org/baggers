@@ -8,15 +8,43 @@ fragment PortfolioSummary on Portfolio {
   description
   private
   totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
+
+  plaid {
+    isLinked
+  }
 }
 
-fragment PortfolioPositions on Portfolio {
-  positions {
-    ...AllPositionData
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
   }
 }
 
 fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
-  ...PortfolioPositions
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  plaid {
+    isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
+  }
 }
