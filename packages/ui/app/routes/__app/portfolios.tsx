@@ -1,4 +1,4 @@
-import { Stack, Typography, Tabs, Tab, useTheme } from '@mui/material';
+import { Stack, Typography, Tabs, Tab } from '@mui/material';
 import { Outlet, useLocation } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +7,6 @@ export default function PortfoliosLayout() {
   const { pathname } = useLocation();
   const activeTab = `/${pathname.split(`/`).pop()}`;
 
-  const theme = useTheme();
   return (
     <Stack spacing={5}>
       <Stack direction="row">
@@ -16,10 +15,7 @@ export default function PortfoliosLayout() {
         </Typography>
         <Tabs value={activeTab} sx={{ ml: `auto`, maxHeight: `50px` }}>
           <Tab value="/discover" label={t(`discover`, `Discover`)} />
-          <Tab
-            value="/created"
-            label={t(`created`, `Created`)}
-          />
+          <Tab value="/created" label={t(`created`, `Created`)} />
           <Tab value="/favourites" label={t(`favourites`, `Favourites`)} />
           <Tab
             value="/collaborating"

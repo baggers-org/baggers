@@ -6,7 +6,6 @@ import {
   redirect,
 } from '@remix-run/server-runtime';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { usePlaidLink } from 'react-plaid-link';
 import { BaggersStepper } from '~/components/BaggersStepper/BaggersStepper';
 import { PlaidCreateLinkTokenMutation } from '~/generated/graphql';
@@ -33,7 +32,6 @@ export default function ImportPortfolios() {
     plaidCreateLinkToken: { link_token },
   } = useLoaderData<PlaidCreateLinkTokenMutation>();
 
-  const { t } = useTranslation();
   const submit = useSubmit();
   const [step, setStep] = useState(0);
   const { open, ready } = usePlaidLink({

@@ -4,7 +4,7 @@ import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
 import { Link as RemixLink } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
-import { formatCurrency, isProfitLossOrNeutral } from '~/util';
+import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { UseTableColumnProps } from './types';
 

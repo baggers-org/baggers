@@ -1,7 +1,6 @@
 import { FormControl, InputLabel, Select, SelectProps } from '@mui/material';
 
-export type BaggersSelectProps = {
-} & SelectProps;
+export type BaggersSelectProps = {} & SelectProps;
 export const BaggersSelect: React.FC<BaggersSelectProps> = ({
   id,
   children,

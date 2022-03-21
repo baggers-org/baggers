@@ -1,7 +1,7 @@
 import React from 'react';
-import { Grid, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
-import { EditableTypography, PriceTag } from '~/components';
+import { EditableTypography } from '~/components';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { Portfolio } from '~/generated/graphql';
