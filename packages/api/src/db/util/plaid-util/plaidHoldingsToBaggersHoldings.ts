@@ -5,10 +5,6 @@ import { FlatHolding } from './types';
 type PlaidHolding = FlatHolding;
 type PlaidSecurity = FlatHolding['security'];
 
-type OpenFigiInput = {
-  idType: string;
-  idValue: string;
-};
 const getOpenFigiInput = (security: PlaidSecurity) => {
   if (!security) return null;
   const { isin, cusip, sedol } = security;

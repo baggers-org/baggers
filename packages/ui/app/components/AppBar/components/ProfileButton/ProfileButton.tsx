@@ -64,7 +64,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
       >
         <MenuItem>
           <Avatar
-            src={`url(${user?.photos?.[0].value})`}
+            src={profilePhoto}
             imgProps={{
               referrerPolicy: `no-referrer`,
             }}

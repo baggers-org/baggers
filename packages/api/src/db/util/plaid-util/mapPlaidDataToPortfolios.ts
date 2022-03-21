@@ -10,7 +10,7 @@ import { getBasicPortfolios } from './getBasicPortfolios';
 export const mapPlaidDataToPortfolios = async (
   holdings: InvestmentsHoldingsGetResponse,
   transcations: InvestmentsTransactionsGetResponse,
-): Promise<Omit<Portfolio, 'owner' | 'totalValue'>[]> => {
+): Promise<Portfolio[]> => {
   const portfolios = getBasicPortfolios(holdings);
 
   const portfoliosWithTransactions = portfolios.map((portfolio) =>
@@ -23,7 +23,5 @@ export const mapPlaidDataToPortfolios = async (
     ),
   );
 
-  console.log(portfolioWithHoldings);
-
-  return portfolioWithHoldings;
+  return portfolioWithHoldings as Portfolio[];
 };

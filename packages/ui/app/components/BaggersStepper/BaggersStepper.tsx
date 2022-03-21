@@ -6,7 +6,10 @@ export interface BaggersStepperProps {
   steps: string[];
   activeStep: number;
 }
-export const BaggersStepper = ({ activeStep, steps }) => {
+export const BaggersStepper: React.FC<BaggersStepperProps> = ({
+  activeStep,
+  steps,
+}) => {
   return (
     <Stepper
       activeStep={activeStep}

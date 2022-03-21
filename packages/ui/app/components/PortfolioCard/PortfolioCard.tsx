@@ -24,7 +24,7 @@ import {
 import { formatCurrency } from '~/util';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
-import { Portfolio } from '~/generated/graphql';
+import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
@@ -32,7 +32,7 @@ import { PortfolioTags } from '../PortfolioTags';
 import { NoDataChart } from './components/NoDataChart';
 
 export type PortfolioCardProps = {
-  portfolio: Portfolio;
+  portfolio: MyPortfoliosSummaryQuery['myPortfolios'][number];
 };
 export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
   const { t } = useTranslation(`portfolios_overview`);

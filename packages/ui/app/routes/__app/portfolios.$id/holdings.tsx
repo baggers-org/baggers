@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Grid, IconButton, Paper, Typography } from '@mui/material';
+import { Grid, IconButton, Typography } from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
@@ -75,9 +75,6 @@ export default function Holdings() {
     setDensity(`compact`);
   };
 
-
-  console.log(portfolio.holdings);
-  
   return (
     <Grid container>
       <MissingSecuritiesError portfolio={portfolio} />

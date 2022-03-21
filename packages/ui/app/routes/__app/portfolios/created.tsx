@@ -1,19 +1,5 @@
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  Divider,
-  Grid,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from '@mui/material';
-import {
-  BaggersSelect,
-  CreatePortfolioCard,
-  PortfolioCard,
-} from '~/components';
+import { Button, Grid, MenuItem, Stack } from '@mui/material';
+import { BaggersSelect, PortfolioCard } from '~/components';
 import { Form, useLoaderData, useNavigate } from '@remix-run/react';
 import {
   ActionFunction,
@@ -23,16 +9,9 @@ import {
 import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
 import { sdk } from '~/graphql/sdk.server';
 import { authenticated } from '~/policy.server';
-import { ImportPortfoliosCard } from '~/components/ImportPortfoliosCard';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@mui/system';
-import {
-  Create,
-  DriveFolderUpload,
-  DriveFolderUploadOutlined,
-  FileUpload,
-} from '@mui/icons-material';
-import { PortfoliosLayout } from '~/components/Layouts/PortfoliosLayout';
+import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 
 export const loader: LoaderFunction = async ({ request }) => {
   return authenticated(request, () => {

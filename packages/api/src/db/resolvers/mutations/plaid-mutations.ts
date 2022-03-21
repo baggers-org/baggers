@@ -9,7 +9,6 @@ import { CurrentUser } from '@/decorators/CurrentUser';
 import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';
 import { format } from 'date-fns';
-import { writeFileSync } from 'fs';
 import { Products, CountryCode } from 'plaid';
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 

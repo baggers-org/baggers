@@ -80,8 +80,14 @@ export const PortfolioCardChart = () => {
             },
           }}
           seriesOptions={{
+            // eslint-disable-next-line
+            // @ts-ignore
             lineColor: alpha(theme.palette[color].main, 0.8),
+            // eslint-disable-next-line
+            // @ts-ignore
             topColor: alpha(theme.palette[color].main, 0.4),
+            // eslint-disable-next-line
+            // @ts-ignore
             bottomColor: alpha(theme.palette[color].main, 0.002),
             crosshairMarkerVisible: false,
           }}

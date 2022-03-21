@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Portfolio } from '~/generated/graphql';
 
 export interface PortfolioTagsProps {
-  portfolio: Portfolio;
+  portfolio: Partial<Omit<Portfolio, 'holdings'>>;
 }
 export const PortfolioTags: React.FC<PortfolioTagsProps> = ({ portfolio }) => {
   const { t } = useTranslation();

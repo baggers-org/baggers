@@ -57,7 +57,7 @@ export class Portfolio extends Document {
   totalValue: number;
 
   @Field(() => PortfolioPerformance)
-  performance: PortfolioPerformance;
+  performance?: PortfolioPerformance;
 }
 
 export const PortfolioModel = getModelForClass(Portfolio);

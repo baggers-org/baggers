@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { useLoaderData, useSubmit } from '@remix-run/react';
 import {
   ActionFunction,
@@ -9,11 +9,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePlaidLink } from 'react-plaid-link';
 import { BaggersStepper } from '~/components/BaggersStepper/BaggersStepper';
-import { CentredPaper } from '~/components/Layouts/CentredPaper';
-import { LoadingLogo } from '~/components/LoadingLogo/LoadingLogo';
 import { PlaidCreateLinkTokenMutation } from '~/generated/graphql';
 import { sdk } from '~/graphql/sdk.server';
-import { Loading } from '~/components/Loading';
 
 export const action: ActionFunction = async ({ request }) => {
   const { public_token } = Object.fromEntries(await request.formData());
