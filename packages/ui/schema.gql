@@ -118,7 +118,14 @@ input PlaidImportPortfoliosInput {
   public_token: String!
 }
 
+type PlaidInstitution {
+  logo: String
+  name: String!
+  url: String
+}
+
 type PlaidItem {
+  institution: PlaidInstitution
   isLinked: Boolean
   linkedAccountId: String
   missingSecuritiesError: PlaidMissingSecuritiesError

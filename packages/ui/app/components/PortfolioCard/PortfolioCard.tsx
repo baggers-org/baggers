@@ -58,7 +58,13 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
               <Box width="32px" position="absolute" top={0} left={0}>
                 {portfolio?.private ? <PublicOff /> : <Public />}
               </Box>
-              <Typography variant="h4" ml="auto" mr="auto" textAlign="center">
+              <Typography
+                variant="h4"
+                ml="auto"
+                mr="auto"
+                textAlign="center"
+                maxWidth="200px"
+              >
                 {portfolio.name}
               </Typography>
               <Box position="absolute" width="32px" height="32px" right={0}>

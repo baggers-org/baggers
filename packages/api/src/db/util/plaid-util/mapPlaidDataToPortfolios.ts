@@ -11,7 +11,7 @@ export const mapPlaidDataToPortfolios = async (
   holdings: InvestmentsHoldingsGetResponse,
   transcations: InvestmentsTransactionsGetResponse,
 ): Promise<Portfolio[]> => {
-  const portfolios = getBasicPortfolios(holdings);
+  const portfolios = await getBasicPortfolios(holdings);
 
   const portfoliosWithTransactions = portfolios.map((portfolio) =>
     addPlaidTransactions(portfolio, transcations),

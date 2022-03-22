@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: "Production"
     steps:
+      - uses: actions/checkout@v2
       - name: "Deploy API"
         uses: superfly/flyctl-actions@master
         env:

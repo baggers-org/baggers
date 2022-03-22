@@ -45,7 +45,7 @@ export class PlaidMutations {
     const { data } = await plaidClient.itemPublicTokenExchange({
       public_token: input.public_token,
     });
-    const { access_token } = data;
+    const { access_token, item_id, request_id } = data;
 
     const { data: holdings } = await plaidClient.investmentsHoldingsGet({
       access_token,
@@ -59,8 +59,12 @@ export class PlaidMutations {
     );
 
     const portfolios = (await mapPlaidDataToPortfolios(holdings, transactions))
-      .filter((p) => p.holdings.length && p.transactions.length)
-      .map((p) => ({ ...p, owner: user.sub }));
+      .filter((p) => p.holdings.length)
+      .map((p) => ({
+        ...p,
+        owner: user.sub,
+        plaid: { ...p.plaid, access_token, item_id, request_id },
+      }));
 
     await PortfolioModel.insertMany(portfolios);
 
