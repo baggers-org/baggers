@@ -79,5 +79,5 @@ export class PlaidItem {
 
   @Field(() => PlaidInstitution, { nullable: true })
   @prop({ type: PlaidInstitution })
-  institution: PlaidInstitution;
+  institution?: PlaidInstitution;
 }
