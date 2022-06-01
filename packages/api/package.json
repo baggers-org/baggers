@@ -9,6 +9,7 @@
     "dev": "nodemon -w src --ext .ts --exec \"yarn build && node -r dotenv/config build/index.js\" ",
     "lint": "eslint src",
     "env:staging": "cat .env.staging | flyctl -c fly.staging.toml  secrets import",
+    "env:prod": "cat .env.production | flyctl secrets import",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },

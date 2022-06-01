@@ -15,6 +15,7 @@
     "start": "cross-env NODE_ENV=production remix-serve build",
     "generate": "graphql-codegen --config codegen.yml",
     "env:staging": "cat .env.staging | flyctl -c fly.staging.toml secrets import",
+    "env:prod": "cat .env.production | flyctl secrets import",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
