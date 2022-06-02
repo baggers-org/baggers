@@ -1,5 +1,3 @@
-import { log } from './logger';
-
 export const cronFetch = async (
   endpoint: string,
   options: RequestInit = {},
@@ -27,12 +25,9 @@ export const cronFetch = async (
     }),
   });
 
-
   if (res.ok) {
     const { access_token: accessToken } = (await res.json()) as any;
 
-    console.log(API_URI, endpoint);
-    
     return fetch(`${API_URI}/cron${endpoint}`, {
       headers: {
         authorization: `Bearer ${accessToken}`,
