@@ -1,4 +1,3 @@
-import fetch, { RequestInit } from 'node-fetch';
 import { log } from './logger';
 
 export const cronFetch = async (
@@ -28,11 +27,12 @@ export const cronFetch = async (
     }),
   });
 
+
   if (res.ok) {
     const { access_token: accessToken } = (await res.json()) as any;
 
-    log(`Updating symbols`);
-
+    console.log(API_URI, endpoint);
+    
     return fetch(`${API_URI}/cron${endpoint}`, {
       headers: {
         authorization: `Bearer ${accessToken}`,

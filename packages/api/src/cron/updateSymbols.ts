@@ -1,5 +1,4 @@
 import { Symbol, SymbolModel } from '@/db/entities';
-import { response } from 'express';
 import fetch from 'node-fetch';
 
 export const updateSymbols = async () => {
@@ -42,7 +41,5 @@ export const updateSymbols = async () => {
     })),
   );
 
-  console.log(writeResult);
-
-  return response.sendStatus(200);
+  return writeResult;
 };
