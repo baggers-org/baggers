@@ -88,3 +88,22 @@ themer.setDarkColors({
 const { light, dark } = themer.build();
 
 export { light, dark };
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    gradient: {
+      main: string;
+    };
+    lowEmphasis: React.CSSProperties['color'];
+    mediumEmphasis: React.CSSProperties['color'];
+    highEmphasis: React.CSSProperties['color'];
+  }
+  interface PaletteOptions {
+    gradient: {
+      main: string;
+    };
+    lowEmphasis?: React.CSSProperties['color'];
+    mediumEmphasis?: React.CSSProperties['color'];
+    highEmphasis?: React.CSSProperties['color'];
+  }
+}
