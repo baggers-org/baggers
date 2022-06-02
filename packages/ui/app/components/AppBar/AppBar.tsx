@@ -1,75 +1,95 @@
-import React from 'react';
-import { Box, Grid, Paper, Stack, Tabs } from '@mui/material';
-import { Dashboard, FolderOpen, WaterfallChart } from '@mui/icons-material';
-
-import { useActiveTab, useBreakpointValue } from '~/hooks';
-import { useTranslation } from 'react-i18next';
+import {
+  AppBar as MuiAppBar,
+  Box,
+  Fade,
+  ToggleButton,
+  ToggleButtonGroup,
+  Toolbar,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { useNavigate } from '@remix-run/react';
-import { AppBarLogo } from './components';
-import { AppBarTab } from './components/AppBarTab';
-import { AppBarHeader } from './components/AppBarHeader';
+import { useActiveTab } from '~/hooks';
+import Logo from '../../../public/svg/logo_white_small.svg';
+import { ProfileButton } from '../ProfileButton';
+import { MobileMenu } from './components/MobileMenu';
+import { useMenuOptions } from './useMenuOptions';
 
-export const AppBar: React.FC = ({ children }) => {
-  const { t } = useTranslation();
-
+export const AppBar = () => {
+  const options = useMenuOptions();
+  const tab = useActiveTab();
+  const theme = useTheme();
   const navigate = useNavigate();
-  const activeTab = useActiveTab();
-
-  const orientation = useBreakpointValue<'horizontal' | 'vertical'>({
-    xs: `horizontal`,
-    md: `vertical`,
-  });
 
   return (
-    <nav>
-      <Grid container>
-        <Grid xs={0} md={1} item>
-          <Paper
+    <MuiAppBar>
+      <Toolbar>
+        <Box
+          flexGrow={1}
+          justifyContent="start"
+          display={{ xs: `flex`, md: `none` }}
+        >
+          <MobileMenu />
+        </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent={{ xs: `center`, md: `start` }}
+          flexGrow={1}
+        >
+          <Logo />
+          <Typography fontFamily="Archivo Black" fontSize="24px" ml={1}>
+            BAGGERS
+          </Typography>
+        </Box>
+        <Box display={{ xs: `none`, md: `flex` }}>
+          <ToggleButtonGroup
+            exclusive
+            value={tab}
+            color={theme.palette.mode === `dark` ? `primary` : undefined}
             sx={{
-              position: { xs: `fixed`, md: `relative` },
-              bottom: { xs: 0 },
-              zIndex: 999,
-              width: { xs: `100%` },
-              height: { xs: `74px`, md: `100%` },
-            }}
-            square
-            elevation={1}
-          >
-            <Stack height="100vh" alignItems="center" pt={{ xs: 0, md: 3 }}>
-              <AppBarLogo />
-              <Box width={{ xs: undefined, md: `100%` }} pt={{ xs: 0, md: 6 }}>
-                <Tabs orientation={orientation || `vertical`} value={activeTab}>
-                  <AppBarTab
-                    value="/dashboard"
-                    label={t(`dashboard`, `Dashboard`)}
-                    onClick={() => navigate(`/dashboard`)}
-                    icon={<Dashboard />}
-                  />
-                  <AppBarTab
-                    value="/portfolios"
-                    label={t(`portfolios`, `Portfolios`)}
-                    onClick={() => navigate(`/portfolios/created`)}
-                    icon={<FolderOpen />}
-                  />
-                  <AppBarTab
-                    value="/charts"
-                    label={t(`charts`, `Charts`)}
-                    onClick={() => navigate(`/charts`)}
-                    icon={<WaterfallChart />}
-                  />
-                </Tabs>
-              </Box>
-            </Stack>
-          </Paper>
-        </Grid>
+              border: `none`,
+              '.MuiToggleButtonGroup-grouped:not(:last-of-type)': {
+                borderTopRightRadius: 3,
+                borderBottomRightRadius: 3,
+              },
+              '.MuiToggleButtonGroup-grouped:last-of-type': {
+                borderTopLeftRadius: 3,
+                borderBottomLeftRadius: 3,
+              },
 
-        <Grid item xs container>
-          <Grid item xs={12}>
-            <AppBarHeader />
-            {children}
-          </Grid>
-        </Grid>
-      </Grid>
-    </nav>
+              '.MuiToggleButton-root': {
+                borderRadius: `3 !important`,
+                border: `none`,
+                mr: 2,
+              },
+            }}
+          >
+            {options.map((option) => (
+              <ToggleButton
+                value={option.href}
+                onClick={() => navigate(option.href)}
+                sx={
+                  theme.palette.mode === `light`
+                    ? {
+                        color: `#fafafa`,
+                        '&.Mui-selected': {
+                          color: `#fafafa`,
+                          backgroundColor: `rgba(240,240,240,0.2)`,
+                        },
+                      }
+                    : undefined
+                }
+              >
+                {option.label}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </Box>
+        <Box flexGrow={1} display="flex" justifyContent="end">
+          <ProfileButton />
+        </Box>
+      </Toolbar>
+    </MuiAppBar>
   );
 };

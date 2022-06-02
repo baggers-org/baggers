@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Avatar,
   Button,
   Divider,
+  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
-  Stack,
+  useTheme,
 } from '@mui/material';
-import { KeyboardArrowDownRounded, Logout } from '@mui/icons-material';
+import {
+  Brightness4Outlined,
+  DarkModeOutlined,
+  KeyboardArrowDownRounded,
+  Logout,
+} from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { Form } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
+import { ColorModeContext } from '~/styles';
 
 export type ProfileButtonProps = {};
 export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   const user = useCurrentUser();
+  const theme = useTheme();
   const profilePhoto = user?.photos?.[0];
+  const { toggleColorMode } = useContext(ColorModeContext);
 
   const { t } = useTranslation(`common`);
 
@@ -25,21 +34,29 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  if (!user) {
+    return (
+      <Form method="post" action="/auth/auth0">
+        <Button
+          type="submit"
+          color={theme.palette.mode === `light` ? `secondary` : `primary`}
+        >
+          {t(`login`, `Login`)}
+        </Button>
+      </Form>
+    );
+  }
+
   return (
     <>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        <Button
-          startIcon={<Avatar src={profilePhoto} />}
-          endIcon={<KeyboardArrowDownRounded />}
-          onClick={handleClick}
-        >
-          {user?.displayName}
-        </Button>
-      </Stack>
+      <IconButton onClick={handleClick}>
+        <Avatar />
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -70,12 +87,22 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
             }}
           />
           {` `}
-          {t(`profile`, `Profile`)}
+          {user.displayName}
         </MenuItem>
         <MenuItem>
           <Avatar /> {t(`account`, `Account`)}
         </MenuItem>
         <Divider />
+        <MenuItem onClick={toggleColorMode}>
+          {theme.palette.mode === `dark` ? (
+            <Brightness4Outlined />
+          ) : (
+            <DarkModeOutlined />
+          )}
+          {theme.palette.mode === `dark`
+            ? t(`switch_to_light_theme`, `Switch to light theme`)
+            : t(`switch_to_dark_theme`, `Switch to dark theme`)}
+        </MenuItem>
         <Form action="/auth/auth0/logout" method="post">
           <Button type="submit">
             <ListItemIcon>

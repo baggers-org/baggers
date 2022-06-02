@@ -1,64 +1,77 @@
 import {
-  Divider,
-  Drawer,
+  LoginOutlined,
+  Brightness4Outlined,
+  DarkModeOutlined,
+  Menu,
+} from '@mui/icons-material';
+import {
   IconButton,
+  Drawer,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Stack,
-  Typography,
+  Divider,
   useTheme,
 } from '@mui/material';
-import {
-  Brightness4Outlined,
-  DarkModeOutlined,
-  LoginOutlined,
-  Menu,
-} from '@mui/icons-material';
-
+import { useNavigate } from '@remix-run/react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { ColorModeContext } from '~/styles';
-import { useNavigate } from '@remix-run/react';
-import Logo from '../../../../../public/svg/logo_dark_50x50.svg';
+import { useMenuOptions } from '../useMenuOptions';
 
-export const MobileHeader = () => {
-  const theme = useTheme();
-
-  const { t } = useTranslation(`landing_page`);
+export const MobileMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { toggleColorMode } = useContext(ColorModeContext);
+
+  const user = useCurrentUser();
+
+  const options = useMenuOptions();
+
+  const theme = useTheme();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        <Logo />
-        <Typography variant="h6" color="white" fontFamily="Archivo Black">
-          BAGGERS
-        </Typography>
-      </Stack>
       <IconButton
-        sx={{ ml: `auto`, color: `white` }}
+        sx={{
+          color: `white`,
+        }}
         onClick={() => setIsMenuOpen((o) => !o)}
       >
         <Menu />
       </IconButton>
       <Drawer
         open={isMenuOpen}
-        anchor="right"
+        anchor="top"
         onClose={() => setIsMenuOpen(false)}
       >
         <List>
+          {options.map((option) => (
+            <ListItemButton onClick={() => navigate(option.href)}>
+              <ListItemText>{option.label}</ListItemText>
+            </ListItemButton>
+          ))}
           <ListItemButton>
             <ListItemIcon>
               <LoginOutlined />
             </ListItemIcon>
             <ListItemText
-              primary={t(`login_to_baggers`, `Login to Baggers`)}
-              onClick={() => navigate(`/login`)}
+              primary={
+                !user
+                  ? t(`login_to_baggers`, `Login to Baggers`)
+                  : t(`logout`, `Logout`)
+              }
+              onClick={() => {
+                if (!user) {
+                  navigate(`/auth/auth0`);
+                } else {
+                  navigate(`/auth/auth0/logout`);
+                }
+              }}
             />
           </ListItemButton>
           <Divider />

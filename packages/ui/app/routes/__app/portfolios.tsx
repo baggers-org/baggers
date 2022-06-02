@@ -13,7 +13,14 @@ export default function PortfoliosLayout() {
         <Typography variant="h2">
           {t(`created_portfolios`, `Your portfolios`)}
         </Typography>
-        <Tabs value={activeTab} sx={{ ml: `auto`, maxHeight: `50px` }}>
+        <Tabs
+          value={activeTab}
+          sx={{
+            ml: `auto`,
+            maxHeight: `50px`,
+            display: { xs: `none`, md: `flex` },
+          }}
+        >
           <Tab value="/discover" label={t(`discover`, `Discover`)} />
           <Tab value="/created" label={t(`created`, `Created`)} />
           <Tab value="/favourites" label={t(`favourites`, `Favourites`)} />
