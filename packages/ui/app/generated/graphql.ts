@@ -169,8 +169,16 @@ export type PlaidImportPortfoliosInput = {
   public_token: Scalars['String'];
 };
 
+export type PlaidInstitution = {
+  __typename?: 'PlaidInstitution';
+  logo?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  url?: Maybe<Scalars['String']>;
+};
+
 export type PlaidItem = {
   __typename?: 'PlaidItem';
+  institution?: Maybe<PlaidInstitution>;
   isLinked?: Maybe<Scalars['Boolean']>;
   linkedAccountId?: Maybe<Scalars['String']>;
   missingSecuritiesError?: Maybe<PlaidMissingSecuritiesError>;

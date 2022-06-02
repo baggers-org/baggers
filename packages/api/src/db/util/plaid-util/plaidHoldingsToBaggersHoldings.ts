@@ -49,8 +49,6 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
   });
   const openFigiResults = (await openFigiResponse.json()) as OpenFigiResponse;
 
-  console.log(openFigiResults);
-
   securityMap = securityMap.map((mapping, index) => ({
     ...mapping,
     figiResult: openFigiResults[index],

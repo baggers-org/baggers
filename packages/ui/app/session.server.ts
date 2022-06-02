@@ -1,4 +1,4 @@
-import { createCookieSessionStorage } from '@remix-run/server-runtime';
+import { createCookieSessionStorage } from '@remix-run/node';
 
 if (!process.env.SESSION_SECRET) throw new Error(`No SESSION_SECRET in env`);
 // export the whole sessionStorage object

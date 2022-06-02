@@ -9,29 +9,31 @@ import { CurrentUser } from '@/decorators/CurrentUser';
 import { plaidClient } from '@/plaid/plaid';
 import { AccessClaim } from '@/types/AccessClaim';
 import { format } from 'date-fns';
-import { Products, CountryCode } from 'plaid';
 import { Arg, Authorized, Mutation, Resolver } from 'type-graphql';
 
 @Resolver()
 export class PlaidMutations {
   @Authorized()
   @Mutation(() => PlaidCreateLinkTokenResponse)
-  async plaidCreateLinkToken(
-    @CurrentUser() user: AccessClaim,
-  ): Promise<PlaidCreateLinkTokenResponse> {
-    const plaidRequest = {
-      user: {
-        client_user_id: user.sub,
-      },
-      client_name: `Baggers`,
-      products: [Products.Investments],
-      language: `en`,
-      country_codes: [CountryCode.Us],
+  async plaidCreateLinkToken(): Promise<PlaidCreateLinkTokenResponse> {
+    // TODO: uncomment when we can go to production
+    // const plaidRequest = {
+    //   user: {
+    //     client_user_id: user.sub,
+    //   },
+    //   client_name: `Baggers`,
+    //   products: [Products.Investments],
+    //   language: `en`,
+    //   country_codes: [CountryCode.Us],
+    // };
+
+    // const { data } = await plaidClient.linkTokenCreate(plaidRequest);
+
+    return {
+      link_token: 'link-development-b3800118-c0b9-4da2-93f3-b10f41819e2d',
+      expiration: new Date().toISOString(),
+      request_id: 'development-token',
     };
-
-    const { data } = await plaidClient.linkTokenCreate(plaidRequest);
-
-    return data;
   }
 
   @Authorized()
@@ -45,7 +47,7 @@ export class PlaidMutations {
     const { data } = await plaidClient.itemPublicTokenExchange({
       public_token: input.public_token,
     });
-    const { access_token } = data;
+    const { access_token, item_id, request_id } = data;
 
     const { data: holdings } = await plaidClient.investmentsHoldingsGet({
       access_token,
@@ -59,8 +61,12 @@ export class PlaidMutations {
     );
 
     const portfolios = (await mapPlaidDataToPortfolios(holdings, transactions))
-      .filter((p) => p.holdings.length && p.transactions.length)
-      .map((p) => ({ ...p, owner: user.sub }));
+      .filter((p) => p.holdings.length)
+      .map((p) => ({
+        ...p,
+        owner: user.sub,
+        plaid: { ...p.plaid, access_token, item_id, request_id },
+      }));
 
     await PortfolioModel.insertMany(portfolios);
 

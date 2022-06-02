@@ -18,6 +18,22 @@ export class MissingSymbol {
   @prop()
   symbol: string;
 }
+
+@ObjectType()
+export class PlaidInstitution {
+  @Field()
+  @prop()
+  name: string;
+
+  @Field({ nullable: true })
+  @prop()
+  logo?: string;
+
+  @Field({ nullable: true })
+  @prop()
+  url?: string;
+}
+
 @ObjectType()
 export class PlaidMissingSecuritiesError extends PlaidImportError {
   @Field()
@@ -46,6 +62,9 @@ export class PlaidItem {
   @prop()
   item_id?: string;
 
+  @prop()
+  request_id?: string;
+
   @Field({ nullable: true })
   @prop()
   isLinked: boolean;
@@ -57,4 +76,8 @@ export class PlaidItem {
   @Field(() => PlaidMissingSecuritiesError, { nullable: true })
   @prop({ type: PlaidMissingSecuritiesError })
   missingSecuritiesError?: PlaidMissingSecuritiesError;
+
+  @Field(() => PlaidInstitution, { nullable: true })
+  @prop({ type: PlaidInstitution })
+  institution?: PlaidInstitution;
 }
