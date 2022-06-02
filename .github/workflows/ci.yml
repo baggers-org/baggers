@@ -12,11 +12,11 @@ jobs:
     steps:
        - uses: actions/checkout@v2
        - name: Install
-         run: npm ci
+         run: yarn
        - name: "Typecheck"
-         run: npm run typecheck 
+         run: yarn typecheck
        - name: "Lint"
-         run: npm run lint
+         run: yarn lint
   deployUi:
     name: "Deploy UI to preview"
     needs: test
