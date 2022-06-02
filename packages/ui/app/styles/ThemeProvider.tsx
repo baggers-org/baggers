@@ -1,7 +1,7 @@
 import { ThemeProvider as MuiTP, createTheme } from '@mui/material';
 
 import { createContext, useEffect, useMemo, useState } from 'react';
-import { DARK_THEME, LIGHT_THEME } from '~/styles/theme';
+import { dark, light } from './theme';
 
 export type Mode = 'light' | 'dark';
 export const ColorModeContext = createContext({
@@ -45,10 +45,9 @@ export const ThemeProvider: React.FC<{ defaultMode?: Mode }> = ({
     }
   }, [mode]);
 
-  const theme = useMemo(
-    () => createTheme(mode === `light` ? LIGHT_THEME : DARK_THEME),
-    [mode],
-  );
+  const theme = useMemo(() => createTheme(mode === `light` ? light : dark), [
+    mode,
+  ]);
 
   return (
     <ColorModeContext.Provider value={contextValue}>
