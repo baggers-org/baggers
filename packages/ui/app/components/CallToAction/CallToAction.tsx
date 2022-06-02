@@ -4,7 +4,7 @@ import { Box, Button, Grid, Slide, Typography, useTheme } from '@mui/material';
 import { alpha } from '@mui/system';
 import { RandomSeriesChart } from '~/components';
 import { useTranslation } from 'react-i18next';
-import { Link } from '@remix-run/react';
+import { Form, Link } from '@remix-run/react';
 
 export const CallToAction: React.FC = () => {
   const { t } = useTranslation(`landing_page`);
@@ -75,11 +75,16 @@ export const CallToAction: React.FC = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <Link to="/signup">
-            <Button variant="contained" color="secondary" sx={{ mt: 5 }}>
+          <Form action="/auth/auth0" method="post">
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ mt: 5 }}
+              type="submit"
+            >
               {t(`join_now`, `Join now`)}
             </Button>
-          </Link>
+          </Form>
         </Grid>
       </Grid>
     </>
