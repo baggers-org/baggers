@@ -1,3 +1,9 @@
-import { scheduled } from './scheduled/update-symbols';
+import { updateQuotes } from './scheduled/update-quotes';
+import { updateSymbols } from './scheduled/update-symbols';
 
-scheduled();
+const run = async () => {
+  await updateSymbols();
+  await updateQuotes();
+};
+
+run();

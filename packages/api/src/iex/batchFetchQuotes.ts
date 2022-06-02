@@ -15,7 +15,6 @@ export const batchFetchQuotes = async (
       new Promise((resolve, reject) => {
         fetchQuotes(batch)
           .then((newQuotes) => {
-            console.log(`Fetched quotes successfully`);
             resolve(newQuotes as any);
           })
           .catch((err) => {

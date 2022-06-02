@@ -1,4 +1,5 @@
 import { Quote, Symbol } from '@/db/entities';
+import fetch from 'node-fetch';
 
 export const fetchQuotes = async (symbols: Symbol[]) => {
   const quoteData: Quote[] = [];
@@ -9,12 +10,10 @@ export const fetchQuotes = async (symbols: Symbol[]) => {
     symbols.map((s) => s.symbol).join(`,`),
   )}&types=quote&token=${process.env.IEX_TOKEN}`;
 
-  console.log(`Fetching quotes `, url);
-
   const res = await fetch(url);
 
   if (res.ok) {
-    quoteData.push(await res.json());
+    quoteData.push((await res.json()) as any);
   } else {
     console.log(res);
     throw new Error(await res.text());
