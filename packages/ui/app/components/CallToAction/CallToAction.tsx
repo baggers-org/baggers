@@ -1,65 +1,42 @@
-import React from 'react';
-import { Box, Button, Grid, Slide, Typography, useTheme } from '@mui/material';
+import React, { useMemo } from 'react';
+import { Box, Button, Grid, Typography, useTheme } from '@mui/material';
 
-import { alpha } from '@mui/system';
-import { RandomSeriesChart } from '~/components';
 import { useTranslation } from 'react-i18next';
-import { Form, Link } from '@remix-run/react';
+import { Form } from '@remix-run/react';
+import { RandomSeriesChart } from '../RandomSeriesChart/RandomSeriesChart';
+import { RandomLine } from '../RandomSeriesChart/components/RandomLine';
 
 export const CallToAction: React.FC = () => {
   const { t } = useTranslation(`landing_page`);
 
   const theme = useTheme();
+
+  const gradient = useMemo(() => {
+    if (theme.palette.mode === `light`) {
+      return `linear-gradient(${theme.palette.background.paper},${theme.palette.background.default} )`;
+    }
+    return `linear-gradient(#121212, #232323)`;
+  }, [theme]);
   return (
     <>
-      <Slide in>
-        <Box
-          width="100%"
-          height={{ xs: `70vh` }}
-          position="absolute"
-          zIndex={-1}
-          sx={{ background: theme.palette?.gradient?.main }}
-        />
-      </Slide>
+      <Box
+        width="100%"
+        height={{ xs: `70vh` }}
+        position="absolute"
+        zIndex={-1}
+        sx={{ background: gradient }}
+      />
 
-      <Box zIndex={-1}>
-        <RandomSeriesChart
-          position="absolute"
-          top={0}
-          zIndex={-1}
-          height={200}
-          width="100%"
-          id="chart1"
-          sx={{ mask: `#background` }}
-          numberOfPoints={200}
-          animation={{
-            duration: 1000,
-            delay: 0,
-          }}
-          color={alpha(theme.palette.primary.main, 0.2)}
-        />
-
-        <RandomSeriesChart
-          position="absolute"
-          zIndex={-1}
-          top={200}
-          height={200}
-          width="100%"
-          id="chart3"
-          numberOfPoints={200}
-          animation={{
-            duration: 1000,
-            delay: 200,
-          }}
-          color={alpha(theme.palette.primary.main, 0.37)}
-        />
+      <Box position="absolute" width="100%" height={300}>
+        <RandomSeriesChart>
+          <RandomLine lineWidth={1} volatility={0.2} numberOfPoints={120} />
+        </RandomSeriesChart>
       </Box>
       <Grid px={{ xs: 2, md: 10 }} textAlign={{ xs: `center`, md: `left` }}>
         <Grid item xs={12} lg={9} xl={7}>
           <Typography
             variant="h1"
             fontWeight="600"
-            color="white"
             pt={{ xs: 15, md: 20 }}
             fontSize={{ xs: 50, md: 72 }}
           >
@@ -67,7 +44,7 @@ export const CallToAction: React.FC = () => {
           </Typography>
         </Grid>
         <Grid item md={5}>
-          <Typography variant="h4" color="white" mt={5}>
+          <Typography variant="h4" mt={5}>
             {t(
               `cta_description`,
               `Track your investments across thousands of brokers.`,

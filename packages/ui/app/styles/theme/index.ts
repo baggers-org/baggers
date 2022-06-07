@@ -1,6 +1,7 @@
 import { ThemeBuilder } from 'material-themer';
 
 const themer = new ThemeBuilder({
+  shadows: [`0px 2px 6px #0000000A`, `0px 2px 6px #0000000A`],
   typography: {
     fontFamily: `Poppins`,
     h1: {

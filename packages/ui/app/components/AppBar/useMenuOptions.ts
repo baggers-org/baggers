@@ -8,16 +8,13 @@ export interface MenuOption {
 
 export const useMenuOptions = (): MenuOption[] => {
   const { t } = useTranslation();
+
   const user = useCurrentUser();
 
   const defaultOptions: MenuOption[] = [
     {
-      label: t(`home`, `Home`),
+      label: user ? t(`dashboard`, `Dashboard`) : t(`home`, `Home`),
       href: `/`,
-    },
-    {
-      label: t(`news`, `News`),
-      href: `/news`,
     },
     {
       label: t(`charts`, `Charts`),
@@ -25,7 +22,7 @@ export const useMenuOptions = (): MenuOption[] => {
     },
     {
       label: t(`portfolios`, `Portfolios`),
-      href: user ? `/portfolios/created` : `/portfolios/discover`,
+      href: `/portfolios/created`,
     },
   ];
 

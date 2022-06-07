@@ -55,7 +55,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   return (
     <>
       <IconButton onClick={handleClick}>
-        <Avatar />
+        <Avatar src={profilePhoto} />
       </IconButton>
       <Menu
         anchorEl={anchorEl}
