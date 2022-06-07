@@ -1,13 +1,19 @@
-import * as React from 'react';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/system';
+import { useLocation } from '@remix-run/react';
+import React from 'react';
+
 import { AppBar } from '~/components/AppBar';
+import { Footer } from '~/components/Footer';
 
 export const AppLayout: React.FC = ({ children }) => {
+  const { pathname } = useLocation();
   return (
-    <AppBar>
-      <Box mt={{ xs: 2, md: 4 }} mb={10} px={6}>
-        <Container maxWidth="xl">{children}</Container>
+    <>
+      <AppBar />
+      <Box sx={{ mt: pathname === `/` ? 0 : 16, minHeight: `100vh`, mb: 32 }}>
+        <main>{children}</main>
       </Box>
-    </AppBar>
+      <Footer />
+    </>
   );
 };

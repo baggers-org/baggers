@@ -35,7 +35,11 @@ export default function CreatedPortfoliosPage() {
     <>
       <Stack direction="row">
         <Form method="post">
-          <Stack direction="row" spacing={3}>
+          <Stack
+            direction="row"
+            spacing={3}
+            sx={{ display: { xs: `none`, md: `flex` } }}
+          >
             <Button variant="contained" type="submit" endIcon={<Create />}>
               {t(`create_portfolio`, `Create portfolio`)}
             </Button>
@@ -51,7 +55,7 @@ export default function CreatedPortfoliosPage() {
             </Button>
           </Stack>
         </Form>
-        <Box ml="auto" width="200px">
+        <Box ml="auto" width={{ xs: `100%`, md: `200px` }}>
           <BaggersSelect
             label={t(`show`, `Show`)}
             id="show-portfolios-filter"
@@ -64,18 +68,9 @@ export default function CreatedPortfoliosPage() {
           </BaggersSelect>
         </Box>
       </Stack>
-      <Grid container gap={3} pl={0}>
+      <Grid container gap={3}>
         {data?.myPortfolios?.map((portfolio) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={4}
-            xl={3}
-            key={portfolio._id}
-            p={0}
-          >
+          <Grid item xs={12} sm={6} lg={4} xl={3} key={portfolio._id}>
             <PortfolioCard portfolio={portfolio} />
           </Grid>
         ))}

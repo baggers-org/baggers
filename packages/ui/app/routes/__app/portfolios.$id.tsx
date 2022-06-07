@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { LoaderFunction, ActionFunction } from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
@@ -27,14 +27,16 @@ export default function PortfoloLayout() {
   const needsToAddFirstPosition = portfolio?.totalValue === 0;
 
   return (
-    <Grid container>
-      <PortfolioHeader portfolio={portfolio as Portfolio} />
-      {!needsToAddFirstPosition && !needsToSetName ? (
-        <Grid item xs={12} mb={5}>
-          <PortfolioTabs />
-        </Grid>
-      ) : null}
-      {!needsToSetName ? <Outlet /> : null}
-    </Grid>
+    <Container maxWidth="xl">
+      <Grid container>
+        <PortfolioHeader portfolio={portfolio as Portfolio} />
+        {!needsToAddFirstPosition && !needsToSetName ? (
+          <Grid item xs={12} mb={5}>
+            <PortfolioTabs />
+          </Grid>
+        ) : null}
+        {!needsToSetName ? <Outlet /> : null}
+      </Grid>
+    </Container>
   );
 }
