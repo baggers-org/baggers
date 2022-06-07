@@ -5,7 +5,7 @@ export type MarketsCardProps = {};
 export const MarketsCard: React.FC<MarketsCardProps> = () => {
   return (
     <Paper sx={{ p: 3 }}>
-      <Typography variant='h6'>Markets</Typography>
+      <Typography variant="h6">Markets</Typography>
     </Paper>
   );
 };

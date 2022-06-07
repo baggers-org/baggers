@@ -1,14 +1,13 @@
 import {
   AppBar as MuiAppBar,
   Box,
-  Fade,
   ToggleButton,
   ToggleButtonGroup,
   Toolbar,
   Typography,
   useTheme,
 } from '@mui/material';
-import { useNavigate } from '@remix-run/react';
+import { useLocation, useNavigate } from '@remix-run/react';
 import { useActiveTab } from '~/hooks';
 import Logo from '../../../public/svg/logo_white_small.svg';
 import { ProfileButton } from '../ProfileButton';
@@ -20,9 +19,15 @@ export const AppBar = () => {
   const tab = useActiveTab();
   const theme = useTheme();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
-    <MuiAppBar>
+    <MuiAppBar
+      sx={{
+        background: pathname === `/` ? `transparent` : undefined,
+        position: pathname === `/` ? `absolute` : undefined,
+      }}
+    >
       <Toolbar>
         <Box
           flexGrow={1}

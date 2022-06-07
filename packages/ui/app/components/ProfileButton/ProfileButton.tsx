@@ -12,7 +12,6 @@ import {
 import {
   Brightness4Outlined,
   DarkModeOutlined,
-  KeyboardArrowDownRounded,
   Logout,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -42,10 +41,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   if (!user) {
     return (
       <Form method="post" action="/auth/auth0">
-        <Button
-          type="submit"
-          color={theme.palette.mode === `light` ? `secondary` : `primary`}
-        >
+        <Button type="submit" variant="outlined" color="secondary">
           {t(`login`, `Login`)}
         </Button>
       </Form>

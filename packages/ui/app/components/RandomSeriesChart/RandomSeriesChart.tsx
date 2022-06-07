@@ -1,6 +1,5 @@
 import { Box } from '@mui/system';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useUniqueId } from '~/hooks/useUniqueId';
+import React, { Children, useEffect, useMemo, useRef, useState } from 'react';
 import { RandomSeriesContext } from './context';
 
 export interface SeriesChartProps {
@@ -12,7 +11,6 @@ export const RandomSeriesChart: React.FC<SeriesChartProps> = ({
   width = `100%`,
   children,
 }) => {
-  const id = useUniqueId();
   const [size, setSize] = useState<
     | {
         width: number;
@@ -21,10 +19,6 @@ export const RandomSeriesChart: React.FC<SeriesChartProps> = ({
     | undefined
   >();
 
-  const [
-    canvasContext,
-    setCanvasContext,
-  ] = useState<CanvasRenderingContext2D>();
   const containerRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
@@ -36,38 +30,24 @@ export const RandomSeriesChart: React.FC<SeriesChartProps> = ({
     }
   }, [containerRef]);
 
-  // Setup the canvas + context for child components
-  useEffect(() => {
-    if (!id || !size) return;
-
-    const canvas = document.getElementById(id) as HTMLCanvasElement;
-    if (!canvas) return;
-    const ctx = canvas.getContext(`2d`);
-    if (!ctx) return;
-
-    // Set actual size in memory (scaled to account for extra pixel density).
-    const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-    canvas.width = size.width * scale;
-    canvas.height = size.height * scale;
-
-    // Normalize coordinate system to use css pixels.
-    ctx.scale(scale, scale);
-    setCanvasContext(ctx);
-  }, [id, size]);
-
   const ContextValue = useMemo(
     () => ({
-      ctx: canvasContext,
       size,
     }),
-    [canvasContext, size],
+    [size],
   );
-
   return (
     <Box sx={{ height, width }} ref={containerRef}>
-      <canvas id={id} height={size?.height} width={size?.width} />;
       <RandomSeriesContext.Provider value={ContextValue}>
-        {children}
+        {Children.map(children, (child, index) => {
+          if (React.isValidElement(child)) {
+            return React.cloneElement(child, {
+              ...child.props,
+              id: `random-chart_${index}`,
+            });
+          }
+          return null;
+        })}
       </RandomSeriesContext.Provider>
     </Box>
   );

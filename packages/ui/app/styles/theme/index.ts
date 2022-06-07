@@ -1,7 +1,33 @@
 import { ThemeBuilder } from 'material-themer';
 
 const themer = new ThemeBuilder({
-  shadows: [`0px 2px 6px #0000000A`, `0px 2px 6px #0000000A`],
+  shadows: [
+    `none`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+    `0px 2px 6px #0000000A`,
+  ],
   typography: {
     fontFamily: `Poppins`,
     h1: {
@@ -41,10 +67,11 @@ themer.setLightColors({
     50: `#FAFAFA`,
     100: `#061A25`,
     200: `#D1D9DF`,
-    300: `#F8F8F8`,
+    300: `#C9CAD9`,
     400: `#D9D9D9`,
     500: `#F9F9F9`,
     600: `#E7E7E7`,
+    900: `#0E131F`,
   },
   action: { focus: `#2196f3` },
   success: {
