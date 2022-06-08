@@ -72,7 +72,7 @@ export const AppBar = () => {
           >
             {options.map((option) => (
               <ToggleButton
-                value={option.href}
+                value={option.value}
                 onClick={() => navigate(option.href)}
                 sx={
                   theme.palette.mode === `light`
