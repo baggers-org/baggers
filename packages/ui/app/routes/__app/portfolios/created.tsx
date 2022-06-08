@@ -7,22 +7,24 @@ import {
   redirect,
 } from '@remix-run/server-runtime';
 import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
-import { sdk } from '~/graphql/sdk.server';
-import { authenticated } from '~/policy.server';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@mui/system';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
+import { authenticatedSdk } from '~/graphql/sdk.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  return authenticated(request, () => {
-    return sdk.myPortfoliosSummary();
-  });
+  const sdk = await authenticatedSdk(request);
+  return sdk.myPortfoliosSummary();
 };
 
-export const action: ActionFunction = async () => {
+export const action: ActionFunction = async ({ request }) => {
+  const headers = new Headers();
+  const sdk = await authenticatedSdk(request, headers);
   const { createPortfolio } = await sdk.createPortfolio();
 
-  return redirect(`/portfolios/${createPortfolio.record._id}/holdings`);
+  return redirect(`/portfolios/${createPortfolio.record._id}/holdings`, {
+    headers,
+  });
 };
 export default function CreatedPortfoliosPage() {
   const data = useLoaderData<MyPortfoliosSummaryQuery>();

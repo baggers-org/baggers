@@ -1,5 +1,8 @@
 import { json, LoaderFunction } from '@remix-run/server-runtime';
 
+// TODO: this is a vulnerable route - don't like that its public and
+// hitting IEX with our token. Malicious user could ramp up our bill
+// massively
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { symbol } = params;
 

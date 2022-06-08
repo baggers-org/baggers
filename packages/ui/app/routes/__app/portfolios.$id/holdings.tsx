@@ -18,12 +18,14 @@ import {
   HoldingDirection,
   HoldingType,
 } from '~/generated/graphql';
-import { sdk } from '~/graphql/sdk.server';
 import { valueOrError } from '~/util/valueOrError';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
+import { authenticatedSdk } from '~/graphql/sdk.server';
 
 export const action: ActionFunction = async ({ request, params }) => {
+  const headers = new Headers();
+  const sdk = await authenticatedSdk(request, headers);
   if (request.method === `POST`) {
     const formData = Object.fromEntries(await request.formData());
 
@@ -37,21 +39,25 @@ export const action: ActionFunction = async ({ request, params }) => {
       holdingType: formData?.holdingType?.toString() as HoldingType,
       brokerFees: parseFloat(formData?.brokerFees?.toString()),
     };
-    return sdk.addHolding({
+    const response = sdk.addHolding({
       portfolioId: params.id,
       record: input,
     });
+
+    return json(response, { headers });
   }
 
   if (request.method === `DELETE`) {
     const { holding_id } = Object.fromEntries(await request.formData());
 
-    return sdk.removeHolding({
+    const response = sdk.removeHolding({
       portfolio_id: params.id,
       holding_id,
     });
+
+    return json(response, { headers });
   }
-  return json({ message: `method unsupported` }, { status: 400 });
+  return json({ message: `method unsupported` }, { status: 400, headers });
 };
 export default function Holdings() {
   const { portfolio } = useMatches().find(
