@@ -52,11 +52,7 @@ WORKDIR /app
 
 COPY --from=production-deps /app/node_modules /app/node_modules
 
-# Uncomment if using Prisma
-# COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
-
 COPY --from=build /app/build /app/build
-COPY --from=build /app/public /app/public
 ADD . .
 
 CMD ["yarn", "start"]
