@@ -42,17 +42,27 @@ export default function CreatedPortfoliosPage() {
             spacing={3}
             sx={{ display: { xs: `none`, md: `flex` } }}
           >
-            <Button variant="contained" type="submit" endIcon={<Create />}>
+            <Button
+              variant="contained"
+              color="warning"
+              type="submit"
+              endIcon={<Create />}
+            >
               {t(`create_portfolio`, `Create portfolio`)}
             </Button>
             <Button
               variant="contained"
+              color="warning"
               onClick={() => navigate(`/portfolios/import`)}
               endIcon={<DriveFolderUpload />}
             >
               {t(`import_from_broker`, `Import From Broker`)}
             </Button>
-            <Button variant="contained" endIcon={<FileUpload />}>
+            <Button
+              variant="contained"
+              color="warning"
+              endIcon={<FileUpload />}
+            >
               {t(`upload_csv`, `Upload CSV`)}
             </Button>
           </Stack>
@@ -70,7 +80,7 @@ export default function CreatedPortfoliosPage() {
           </BaggersSelect>
         </Box>
       </Stack>
-      <Grid container gap={3}>
+      <Grid container spacing={3} ml="-24px !important">
         {data?.myPortfolios?.map((portfolio) => (
           <Grid item xs={12} sm={6} lg={4} xl={3} key={portfolio._id}>
             <PortfolioCard portfolio={portfolio} />
