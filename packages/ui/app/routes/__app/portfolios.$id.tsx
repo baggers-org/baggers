@@ -1,22 +1,31 @@
 import { Container, Grid } from '@mui/material';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { LoaderFunction, ActionFunction } from '@remix-run/server-runtime';
+import {
+  LoaderFunction,
+  ActionFunction,
+  json,
+} from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
 import { Portfolio, PortfolioQuery } from '~/generated/graphql';
-import { sdk } from '~/graphql/sdk.server';
+import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   const { id } = params;
+  const sdk = await unauthenticatedSdk(request);
+
   return sdk.portfolio({ id });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
-  return sdk.updatePortfolio({
+  const headers = new Headers();
+  const sdk = await authenticatedSdk(request, headers);
+  const response = sdk.updatePortfolio({
     id: params.id,
     input: {
       ...Object.fromEntries(await request.formData()),
     },
   });
+  return json(response, { headers });
 };
 
 export default function PortfoloLayout() {

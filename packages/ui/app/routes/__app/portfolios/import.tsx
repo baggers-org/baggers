@@ -9,22 +9,25 @@ import { useEffect, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
 import { BaggersStepper } from '~/components/BaggersStepper/BaggersStepper';
 import { PlaidCreateLinkTokenMutation } from '~/generated/graphql';
-import { sdk } from '~/graphql/sdk.server';
+import { authenticatedSdk } from '~/graphql/sdk.server';
 
 export const action: ActionFunction = async ({ request }) => {
+  const headers = new Headers();
+  const sdk = await authenticatedSdk(request, headers);
   const { public_token } = Object.fromEntries(await request.formData());
   const { plaidImportPortfolios } = await sdk.plaidImportPortfolios({
     input: { public_token: public_token.toString() },
   });
 
   if (plaidImportPortfolios.ok) {
-    return redirect(`/portfolios/created`);
+    return redirect(`/portfolios/created`, { headers });
   }
 
   throw Error(`There was an error importing your portfolios. Please try again`);
 };
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const sdk = await authenticatedSdk(request);
   return sdk.plaidCreateLinkToken();
 };
 export default function ImportPortfolios() {

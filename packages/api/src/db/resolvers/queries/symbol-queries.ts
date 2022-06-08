@@ -5,8 +5,6 @@ import { Symbol, SymbolModel } from '../../entities/symbol';
 export class SymbolQueries {
   @Query(() => [Symbol])
   async searchSymbols(@Arg(`search`) search: string) {
-    console.log(search);
-
     return SymbolModel?.aggregate([
       {
         $search: {
