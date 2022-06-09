@@ -1898,6 +1898,7 @@ __metadata:
     "@remix-run/react": ^1.1.3
     "@remix-run/serve": ^1.2.3
     "@remix-run/server-runtime": ^1.2.3
+    "@remix-validated-form/with-zod": ^2.0.1
     "@svgdotjs/svg.js": ^3.1.2
     "@types/react": ^17.0.24
     "@types/react-dom": ^17.0.9
@@ -1931,9 +1932,12 @@ __metadata:
     remix-auth: ^3.2.1
     remix-auth-auth0: 1.3.2
     remix-i18next: ^2.2.0
+    remix-validated-form: ^4.5.0
     typescript: ^4.1.2
     use-debounce: ^7.0.1
     vivus: ^0.4.6
+    zod: ^3.17.3
+    zod-form-data: ^1.2.0
   languageName: unknown
   linkType: soft
 
@@ -4761,6 +4765,16 @@ __metadata:
   dependencies:
     web-streams-polyfill: ^3.1.1
   checksum: 61a76b9e4ddb364fa5faa8cf28484f39800bd9259d4c2b96c235bd436e539d8bb00d433fcf79730d7bdf103255473fe0ccfde5d3c20a152f738c5bb102b26377
+  languageName: node
+  linkType: hard
+
+"@remix-validated-form/with-zod@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@remix-validated-form/with-zod@npm:2.0.1"
+  peerDependencies:
+    remix-validated-form: ^4.x
+    zod: ^3.11.x
+  checksum: 5c2c1a411bb957962b5d94d296bcab7dadf01669f9dea7e9a6db65b6ead961075d4e62a5cbe3ce8ae4cf47fd234575fefe34d584e0f67cb2009356b797780bff
   languageName: node
   linkType: hard
 
@@ -12238,6 +12252,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^9.0.12":
+  version: 9.0.14
+  resolution: "immer@npm:9.0.14"
+  checksum: 17f1365c06d653e672a4f609f08e7203e9ab4b4284818332d6ca9b3f3577a0e3c0066ca7933b636fbae560df79a4b3fde70ed717ce3c6e95c39bf3d5861d5be9
+  languageName: node
+  linkType: hard
+
 "immutable@npm:~3.7.6":
   version: 3.7.6
   resolution: "immutable@npm:3.7.6"
@@ -18360,6 +18381,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"remix-validated-form@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "remix-validated-form@npm:4.5.0"
+  dependencies:
+    immer: ^9.0.12
+    lodash: ^4.17.21
+    tiny-invariant: ^1.2.0
+    zustand: ^4.0.0-rc.1
+  peerDependencies:
+    "@remix-run/react": 1.x
+    "@remix-run/server-runtime": 1.x
+    react: ^17.0.2 || ^18.0.0
+  checksum: c9c5234797b0b2161751aee571f5d9f79ce7a2d878e80109947c031b47c94b67c363cc83095b128a4bcf4c1536175bb73dc3e2737390b8f87bb1a2ee9a747070
+  languageName: node
+  linkType: hard
+
 "remove-trailing-separator@npm:^1.0.1":
   version: 1.1.0
   resolution: "remove-trailing-separator@npm:1.1.0"
@@ -20088,6 +20125,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tiny-invariant@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "tiny-invariant@npm:1.2.0"
+  checksum: e09a718a7c4a499ba592cdac61f015d87427a0867ca07f50c11fd9b623f90cdba18937b515d4a5e4f43dac92370498d7bdaee0d0e7a377a61095e02c4a92eade
+  languageName: node
+  linkType: hard
+
 "title-case@npm:^3.0.3":
   version: 3.0.3
   resolution: "title-case@npm:3.0.3"
@@ -20980,6 +21024,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:1.1.0":
+  version: 1.1.0
+  resolution: "use-sync-external-store@npm:1.1.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 8993a0b642f91d7fcdbb02b7b3ac984bd3af4769686f38291fe7fcfe73dfb73d6c64d20dfb7e5e7fbf5a6da8f5392d6f8e5b00c243a04975595946e82c02b883
+  languageName: node
+  linkType: hard
+
 "use@npm:^3.1.0":
   version: 3.1.1
   resolution: "use@npm:3.1.1"
@@ -21855,6 +21908,39 @@ __metadata:
     insync: 2.1.1
     yazl: 2.5.1
   checksum: 2dc3c66705be0b7921254247b4765cc6a97f6124c3b75f7aa0b8e9a0d2c5166999839dec454f2364aed031466664267283a3125a85506178f65734571c8b46ed
+  languageName: node
+  linkType: hard
+
+"zod-form-data@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "zod-form-data@npm:1.2.0"
+  peerDependencies:
+    zod: ^3.11.x
+  checksum: 1163f172ae572b405beb028336242f3f18ceb4b1f0c9d2eee3e3308ed7200ee026c21de0f35d50af1add4b52d5494bff477c48259c3ed5f65193f5fb21bd258f
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.17.3":
+  version: 3.17.3
+  resolution: "zod@npm:3.17.3"
+  checksum: f74b5d8a307cbed734e7a4a7f57a0c6b0a2d5062adee25e86eceaa1bec606621d6861804130f53342dec2d6e77fe9365f3a5118d55c81688f69f3de5fd3e59af
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.0.0-rc.1":
+  version: 4.0.0-rc.1
+  resolution: "zustand@npm:4.0.0-rc.1"
+  dependencies:
+    use-sync-external-store: 1.1.0
+  peerDependencies:
+    immer: ">=9.0"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: c88ae96286229b3c463cf7989c860fcde8ec9cf885eb50a0e0eaf9642388d407a854e5e07b9f80676454732bf15e1c7645201cff21fd9feacd5df8bbd62fcd46
   languageName: node
   linkType: hard
 

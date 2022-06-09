@@ -1,3 +1,5 @@
+import { log } from './logger';
+
 export const cronFetch = async (
   endpoint: string,
   options: RequestInit = {},
@@ -13,6 +15,8 @@ export const cronFetch = async (
   if (!AUTH0_CLIENT_ID) throw new Error(`AUTH0_CLIENT_ID not set`);
   if (!AUTH0_CLIENT_SECRET) throw new Error(`AUTH0_CLIENT_SECRET not set`);
   if (!API_URI) throw new Error(`API_URI not set`);
+
+  log('Fetching from ', API_URI);
 
   const res = await fetch(`https://${AUTH0_DOMAIN}/oauth/token`, {
     method: `post`,
