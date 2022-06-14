@@ -15,8 +15,6 @@ import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
 import { Portfolio, PortfolioQuery, Holding } from '~/generated/graphql';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
-import { AddHoldingWarning } from '~/components/AddHoldingWarning';
-import { useAppStore } from '~/hooks/useAppStore';
 
 export default function Holdings() {
   const { portfolio } = useMatches().find(
@@ -32,8 +30,6 @@ export default function Holdings() {
 
   const submit = useSubmit();
   const navigate = useNavigate();
-  const onboarding = useAppStore()?.onboarding;
-
 
   const handleSwitchDensity = () => {
     if (density === `compact`) {

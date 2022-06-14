@@ -16,7 +16,6 @@ export const PortfolioTabs = () => {
   const activeTab = `/${
     pathname.split(`/portfolios/${portfolioId}/`).pop()?.split(`/`)[0]
   }`;
-  console.log(activeTab);
 
   const jumpToTab = (tab: string) =>
     navigate(`/portfolios/${portfolioId}${tab}`);

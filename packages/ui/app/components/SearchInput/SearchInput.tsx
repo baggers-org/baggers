@@ -1,18 +1,27 @@
 import React from 'react';
 import { Search } from '@mui/icons-material';
-import { TextField, InputAdornment, TextFieldProps } from '@mui/material';
+import {
+  TextField,
+  InputAdornment,
+  TextFieldProps,
+  CircularProgress,
+} from '@mui/material';
 
-export type SearchInputProps = TextFieldProps;
+export type SearchInputProps = {
+  loading?: boolean;
+} & TextFieldProps;
 export const SearchInput: React.FC<SearchInputProps> = ({
+  loading,
   ...textFieldProps
 }) => {
   return (
     <TextField
-      {...textFieldProps}
       size="small"
       variant="outlined"
       InputProps={{
-        endAdornment: (
+        endAdornment: loading ? (
+          <CircularProgress />
+        ) : (
           <InputAdornment position="end">
             <Search />
           </InputAdornment>
@@ -23,6 +32,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
           borderRadius: `10px`,
         },
       }}
+      {...textFieldProps}
     />
   );
 };

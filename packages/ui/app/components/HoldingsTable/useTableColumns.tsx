@@ -6,6 +6,7 @@ import { Link as RemixLink } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
+import { SymbolLogo } from '../SymbolLogo';
 import { UseTableColumnProps } from './types';
 
 export const useTableColumns = ({
@@ -20,26 +21,7 @@ export const useTableColumns = ({
       flex: 1,
       valueGetter: ({ row }) => row?.symbol?.symbol,
       renderCell: ({ row }) =>
-        row?.symbol ? (
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar
-              sx={{
-                width: 30,
-                height: 30,
-                fontSize: 14,
-              }}
-            >
-              {row?.symbol?.symbol?.slice(0, 2)}
-            </Avatar>
-            <Link sx={{ fontWeight: `bold` }}>
-              <RemixLink to={`/stock/${row?.symbol?.symbol}`}>
-                {row?.symbol?.symbol}
-              </RemixLink>
-            </Link>
-          </Stack>
-        ) : (
-          <Skeleton />
-        ),
+        row?.symbol ? <SymbolLogo symbol={row.symbol} /> : <Skeleton />,
     },
     {
       field: `marketValue`,
