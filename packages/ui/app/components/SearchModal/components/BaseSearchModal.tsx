@@ -62,19 +62,18 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
           outline: `none`,
         }}
       >
-        <Paper sx={{ px: 2, pt: 2, pb: 7 }}>
+        <Paper sx={{ px: 2, pt: 2, pb: 7, borderRadius: 2 }}>
           <Stack
             direction="row"
-            justifyContent="center"
+            justifyContent={{ xs: `center`, md: `left` }}
             alignItems="center"
             mb={2}
           >
             <Typography
-              variant="h5"
+              variant="h6"
               mb={2}
-              justifySelf="center"
               marginBottom={0}
-              marginLeft={{ xs: `auto`, md: `0` }}
+              marginLeft={{ xs: `auto`, md: 1 }}
             >
               {title}
             </Typography>
