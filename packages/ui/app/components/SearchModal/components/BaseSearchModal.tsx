@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useFetcher } from '@remix-run/react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebouncedCallback } from 'use-debounce';
 import { SearchInput } from '../../SearchInput';
@@ -40,6 +41,12 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
   const title = modalTitle || t(`search_tickers`, `Search tickers`);
 
   const fetcher = useFetcher();
+
+  useEffect(() => {
+    if (modalProps.defaultValue) {
+      search(modalProps.defaultValue);
+    }
+  }, [modalProps.defaultValue]);
 
   const search = useDebouncedCallback(async (term) => {
     if (term) {
@@ -79,10 +86,10 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
             </Typography>
             <IconButton
               sx={{
-                display: { xs: `flex`, md: `none` },
                 justifySelf: `end`,
                 marginLeft: `auto`,
               }}
+              onClick={(e: any) => modalProps?.onClose?.(e, `backdropClick`)}
             >
               <Close />
             </IconButton>
@@ -96,6 +103,7 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
               autoComplete="off"
               disabled={fetcher.state === `loading`}
               fullWidth
+              defaultValue={modalProps?.defaultValue}
               autoFocus
               onChange={(e) => {
                 search(e.target.value);

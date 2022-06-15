@@ -1,12 +1,15 @@
 import { Typography } from '@mui/material';
-import { useNavigate } from '@remix-run/react';
-import { ActionFunction, json } from '@remix-run/server-runtime';
+import { useLoaderData, useNavigate } from '@remix-run/react';
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+} from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { validationError } from 'remix-validated-form';
 import { AddHoldingWarning } from '~/components/AddHoldingWarning';
 import { SymbolSearchModal } from '~/components/SearchModal';
-import { Symbol } from '~/generated/graphql';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
@@ -27,25 +30,32 @@ export const action: ActionFunction = async ({ request, params }) => {
   return json(response, { headers });
 };
 
-export default function AddHolding() {
+export const loader: LoaderFunction = ({ request }) => {
+  const url = new URL(request.url);
+
+  const search = url.searchParams.get(`search`);
+
+  return { defaultSearch: search };
+};
+
+export default function AddHoldingSearch() {
   const [isTickerSearchOpen, setIsTickerSearchOpen] = useState(true);
-  const [addSymbol, setAddSymbol] = useState<Symbol | undefined>();
   const { t } = useTranslation(`holdings`);
   const navigate = useNavigate();
   const id = useIdParam();
 
+  const { defaultSearch } = useLoaderData();
+
   return (
     <>
-      {addSymbol ? (
-        <Typography variant="h6" color='textSecondary'>{t(`add_holding`, `Add holding`)}</Typography>
-      ) : null}
       <AddHoldingWarning />
       <SymbolSearchModal
+        defaultValue={defaultSearch}
         open={isTickerSearchOpen}
         onResultSelect={(symbol) => {
           if (symbol) {
-            setAddSymbol(symbol);
             setIsTickerSearchOpen(false);
+            navigate(`/portfolios/${id}/holdings/add/${symbol._id}`);
           }
         }}
         modalTitle={t(`add_a_holding_in`, `Add a holding in`)}

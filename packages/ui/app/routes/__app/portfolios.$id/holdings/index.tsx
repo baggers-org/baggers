@@ -1,27 +1,21 @@
 import React, { useState } from 'react';
 
-import { Grid, IconButton, Typography } from '@mui/material';
+import { Grid, IconButton, Paper, Typography } from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
-import {
-  useMatches,
-  useNavigate,
-  useParams,
-  useSubmit,
-} from '@remix-run/react';
+import { useNavigate, useParams, useSubmit } from '@remix-run/react';
 import { HoldingsTable } from '~/components';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
-import { Portfolio, PortfolioQuery, Holding } from '~/generated/graphql';
+import { Holding } from '~/generated/graphql';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
+import { usePortfolio } from '~/hooks/usePortfolio';
 
 export default function Holdings() {
-  const { portfolio } = useMatches().find(
-    (m) => m.id === `routes/__app/portfolios.$id`,
-  )?.data as PortfolioQuery;
+  const portfolio = usePortfolio();
 
-  const { holdings } = portfolio as Portfolio;
+  const { holdings } = portfolio;
   const { id } = useParams();
 
   const [density, setDensity] = useState<DataGridProProps['density']>(
@@ -68,19 +62,21 @@ export default function Holdings() {
         </Grid>
       </Grid>
 
-      <Grid item xs={12} height={500}>
-        <HoldingsTable
-          holdings={holdings as Holding[]}
-          density={density}
-          onRemoveHolding={(pos) =>
-            submit(
-              {
-                holding_id: pos._id,
-              },
-              { action: `/portfolios/${id}/remove`, method: `delete` },
-            )
-          }
-        />
+      <Grid item xs={12}>
+        <Paper sx={{ height: 500 }}>
+          <HoldingsTable
+            holdings={holdings as Holding[]}
+            density={density}
+            onRemoveHolding={(pos) =>
+              submit(
+                {
+                  holding_id: pos._id,
+                },
+                { action: `/portfolios/${id}/remove`, method: `delete` },
+              )
+            }
+          />
+        </Paper>
       </Grid>
     </Grid>
   );

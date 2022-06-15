@@ -20,8 +20,7 @@ export const SymbolSearchResult: React.FC<SymbolSearchResultProps> = ({
   autoFocus,
   onResultSelect,
 }) => {
-  const theme = useTheme();
-  const result = useRef<HTMLButtonElement>();
+  const result = useRef<HTMLAnchorElement | null>(null);
 
   useEffect(() => {
     if (autoFocus && result.current) {
@@ -29,12 +28,12 @@ export const SymbolSearchResult: React.FC<SymbolSearchResultProps> = ({
     }
   }, [autoFocus, result]);
   return (
-    <ListItem>
+    <ListItem alignItems="flex-start">
       <ListItemButton
         ref={result}
-        component="button"
+        component="a"
         onClick={() => onResultSelect(symbol)}
-        onKeyDown={(e) => {
+        onKeyDown={(e: any) => {
           if (e.key === `Enter`) {
             onResultSelect(symbol);
           }
@@ -43,8 +42,14 @@ export const SymbolSearchResult: React.FC<SymbolSearchResultProps> = ({
         <ListItemAvatar>
           <SymbolLogo symbol={symbol} includeSymbolLink={false} />
         </ListItemAvatar>
-        <ListItemText>{symbol.symbol}</ListItemText>
-        <ListItemText>{symbol.name}</ListItemText>
+        <ListItemText
+          sx={{ minWidth: `100px`, whiteSpace: `nowrap`, flexWrap: `nowrap` }}
+        >
+          {symbol.symbol}
+        </ListItemText>
+        <ListItemText sx={{ alignItems: `flex-start ` }}>
+          {symbol.name}
+        </ListItemText>
       </ListItemButton>
     </ListItem>
   );

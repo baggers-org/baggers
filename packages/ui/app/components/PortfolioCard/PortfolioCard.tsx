@@ -42,7 +42,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({ portfolio }) => {
   const user = useCurrentUser();
 
   return (
-    <Card variant="outlined" sx={{ height: `100%` }}>
+    <Card sx={{ height: `100%` }}>
       <CardActionArea
         onClick={() => navigate(`/portfolios/${portfolio._id}/holdings`)}
       >

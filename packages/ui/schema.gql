@@ -159,8 +159,11 @@ type PortfolioPerformance {
 
 type Query {
   myPortfolios: [Portfolio!]!
+
+  """Find an individual portfolio by ID"""
   portfolio(portfolioId: ObjectId!): Portfolio!
   searchSymbols(search: String!): [Symbol!]!
+  symbol(id: ObjectId!): Symbol!
 }
 
 type Quote {

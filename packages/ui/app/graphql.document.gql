@@ -26,6 +26,65 @@ fragment AllHoldingData on Holding {
         exchangeName
         region
         quote {
+          ...AllQuoteData
+        }
+      }
+}
+
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
+
+  plaid {
+    isLinked
+  }
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  plaid {
+    isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
+  }
+}
+
+fragment AllQuoteData on Quote {
           avgTotalVolume
           calculationPrice
           change
@@ -82,61 +141,7 @@ fragment AllHoldingData on Holding {
           week52Low
           volume
           ytdChange
-        }
-      }
-}
 
-
-
-fragment PortfolioSummary on Portfolio {
-  _id
-  cash
-  owner {
-    ...FullUser
-  }
-  name
-  description
-  private
-  totalValue
-  performance {
-    ytdReturnPercent
-    ytdReturnDollars
-    dailyReturnPercent
-    dailyReturnDollars
-  }
-
-  plaid {
-    isLinked
-  }
-}
-
-fragment PortfolioTransactions on Portfolio {
-  transactions {
-    ...AllTransactionData
-  }
-}
-fragment PortfolioHoldings on Portfolio {
-  holdings {
-    ...AllHoldingData
-  }
-}
-
-fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
-  ...PortfolioHoldings
-  ...PortfolioTransactions
-  plaid {
-    isLinked
-    missingSecuritiesError {
-      message
-      missingSymbols {
-        symbol
-        name
-        exchange
-        figi
-      }
-    }
-  }
 }
 
 fragment AllTransactionData on Transaction {
@@ -260,5 +265,18 @@ query searchSymbols($search: String!) {
       latestTime
       latestPrice
     }
+  }
+}
+
+
+query symbol($symbolId: ObjectId!) {
+  symbol(id: $symbolId) {
+	name
+	symbol
+	exchange
+	quote {
+		...AllQuoteData
+	}
+    
   }
 }
