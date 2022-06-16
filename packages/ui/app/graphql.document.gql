@@ -15,6 +15,7 @@ fragment AllHoldingData on Holding {
       brokerFees
       quantity
       holdingType
+      source
       currency
       symbol {
         _id
@@ -226,6 +227,28 @@ mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
     }
   }
 }
+
+query chartPriceRange(
+  $range: HistoricalRange!
+  $symbolId: ObjectId!
+  $options: ChartPriceRangeOptions
+) {
+  chartPriceRange(range: $range, symbolId: $symbolId, options: $options) {
+    id
+    key
+    subkey
+    date
+    updated
+    change
+    changePercent
+    open
+    close
+    high
+    volume
+    label
+  }
+}
+
 
 
 query myPortfoliosSummary {

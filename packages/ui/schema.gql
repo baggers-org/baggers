@@ -18,6 +18,46 @@ type AddHoldingPayload {
   recordId: ObjectId!
 }
 
+type Chart {
+  change: Float!
+  changeOverTime: Float!
+  changePercent: Float!
+  close: Float!
+  date: String!
+  fClose: Float!
+  fHigh: Float!
+  fLow: Float!
+  fOpen: Float!
+  fVolume: Float!
+  high: Float!
+  id: String!
+  key: String!
+  label: String!
+  low: Float!
+  marketChangeOverTime: Float!
+  open: Float!
+  subkey: String!
+  symbol: String!
+  uClose: Float!
+  uHigh: Float!
+  uLow: Float!
+  uOpen: Float!
+  updated: Float!
+  uVolume: Float!
+  volume: Float!
+}
+
+input ChartPriceRangeOptions {
+  chartByDay: Boolean!
+  chartCloseOnly: Boolean!
+  chartInterval: Float!
+  chartLast: Float!
+  chartSimplify: Boolean!
+  displayPercent: Float!
+  includeToday: Boolean!
+  sort: String!
+}
+
 type ClearImportError {
   record: Portfolio!
   recordId: ObjectId!
@@ -45,6 +85,22 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
+enum HistoricalRange {
+  date
+  dynamic
+  Last2Years
+  Last3Months
+  Last5Days
+  Last5Days10MinuteIntervals
+  Last5Years
+  Last6Months
+  LastMonth
+  LastMonth30MinuteIntervals
+  LastYear
+  max
+  YearToDate
+}
+
 type Holding {
   _id: ObjectId!
   averagePrice: Float!
@@ -58,6 +114,7 @@ type Holding {
   profitLossPercent: Float!
   profitLossUsd: Float!
   quantity: Float!
+  source: HoldingSource!
   symbol: Symbol!
 }
 
@@ -65,6 +122,13 @@ type Holding {
 enum HoldingDirection {
   long
   short
+}
+
+"""How the holding was created"""
+enum HoldingSource {
+  broker
+  direct
+  transactions
 }
 
 """Shares, calls, puts"""
@@ -158,6 +222,7 @@ type PortfolioPerformance {
 }
 
 type Query {
+  chartPriceRange(options: ChartPriceRangeOptions, range: HistoricalRange!, symbolId: ObjectId!): [Chart!]!
   myPortfolios: [Portfolio!]!
 
   """Find an individual portfolio by ID"""

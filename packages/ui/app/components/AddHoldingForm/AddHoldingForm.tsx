@@ -19,9 +19,10 @@ import {
   HoldingType,
   Symbol,
 } from '~/generated/graphql';
+import { ValidatedTextField } from '~/validation/components/ValidatedTextField';
 import { ValidatedSelect } from '~/validation/components/ValidatedTextField/ValidatedSelect';
 import { useTranslatedHoldingType } from '../AddHoldingDrawer/HoldingDetails/util';
-import { BaggersTextField as ValidatedTextField } from '../BaggersTextField';
+import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
 
@@ -67,7 +68,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   return (
     <>
       <Paper sx={{ py: 3, mb: 3 }}>
-        <Grid container px={6} spacing={1}>
+        <Grid container px={{ xs: 2, sm: 6  }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
               {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>
@@ -80,7 +81,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
             </FormLabel>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <ValidatedTextField
+            <BaggersTextField
               type="number"
               name="quantity"
               margin="normal"
@@ -162,7 +163,14 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
           </Button>
         </Grid>
         {showAdvanced ? (
-          <Grid container item xs={12} px={6} py={3} overflow="auto">
+          <Grid
+            container
+            item
+            xs={12}
+            px={{ xs: 2, sm: 6 }}
+            py={3}
+            overflow="auto"
+          >
             <Grid item xs={12}>
               <FormLabel>
                 {t(`tell_us_about_your`, `Tell us about your`)}

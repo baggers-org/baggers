@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useChart } from './hooks/useChart';
 import { AreaChartProps } from './types';
 
-const AreaChart: React.FC<AreaChartProps> = (props) => {
+export const AreaChart: React.FC<AreaChartProps> = (props) => {
   const { chart, chartContainerRef, setSeries } = useChart(props);
 
   useEffect(() => {
@@ -14,5 +14,3 @@ const AreaChart: React.FC<AreaChartProps> = (props) => {
 
   return <div ref={chartContainerRef} />;
 };
-
-export default AreaChart;

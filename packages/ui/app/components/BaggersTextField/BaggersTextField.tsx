@@ -6,7 +6,6 @@ import {
   TextFieldProps,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { useField } from 'remix-validated-form';
 
 export type BaggersTextFieldProps = {
   loading?: boolean;
@@ -18,8 +17,6 @@ export const BaggersTextField: React.FC<
 > = ({ isMonetaryInput, secret, ...muiProps }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const additionalProps: TextFieldProps = {};
-
-  const { error, getInputProps } = useField(muiProps.name);
 
   const defaultProps: TextFieldProps = {
     variant: `outlined`,
@@ -50,15 +47,5 @@ export const BaggersTextField: React.FC<
     };
   }
 
-  return (
-    <TextField
-      {...getInputProps({
-        ...defaultProps,
-        ...muiProps,
-        ...additionalProps,
-      })}
-      error={!!error}
-      helperText={error}
-    />
-  );
+  return <TextField {...defaultProps} {...muiProps} {...additionalProps} />;
 };

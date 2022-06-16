@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
-import { useLoaderData, useNavigate } from '@remix-run/react';
+import { CircularProgress, Typography } from '@mui/material';
+import { useLoaderData, useNavigate, useTransition } from '@remix-run/react';
 import {
   ActionFunction,
   json,
@@ -13,22 +13,6 @@ import { SymbolSearchModal } from '~/components/SearchModal';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
-
-export const action: ActionFunction = async ({ request, params }) => {
-  const headers = new Headers();
-  const sdk = await authenticatedSdk(request, headers);
-  const formData = Object.fromEntries(await request.formData());
-  const { data, error } = await AddHoldingValidator.validate(formData);
-
-  if (error) return validationError(error);
-
-  const response = sdk.addHolding({
-    portfolioId: params.id,
-    record: data,
-  });
-
-  return json(response, { headers });
-};
 
 export const loader: LoaderFunction = ({ request }) => {
   const url = new URL(request.url);
@@ -44,11 +28,14 @@ export default function AddHoldingSearch() {
   const navigate = useNavigate();
   const id = useIdParam();
 
+  const transition = useTransition();
+
   const { defaultSearch } = useLoaderData();
 
   return (
     <>
       <AddHoldingWarning />
+      {transition.state === `loading` ? <CircularProgress /> : null}
       <SymbolSearchModal
         defaultValue={defaultSearch}
         open={isTickerSearchOpen}

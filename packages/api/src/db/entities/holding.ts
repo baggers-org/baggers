@@ -14,6 +14,28 @@ export enum HoldingType {
   calls = `calls`,
 }
 
+export enum HoldingSource {
+  /** A direct holding is one that has been added directly to the portfolio
+   * without any transaction data.
+   * These holdings will not be included in analysis as they do not have any date/time
+   * information associated with them
+   * */
+  direct = 'direct',
+  /**
+   * A transactions source means the holding has been generated from transaction data
+   * stored on the portfolio.
+   * These holdings will be included in analysis
+   */
+  transactions = 'transactions',
+
+  /**
+   * A broker source means this holding was generated from transaction data received
+   * from the user's broker.
+   * These holdings will be included in analysis
+   */
+  broker = 'broker',
+}
+
 registerEnumType(HoldingDirection, {
   name: `HoldingDirection`,
   description: `Buying vs selling`,
@@ -21,6 +43,10 @@ registerEnumType(HoldingDirection, {
 registerEnumType(HoldingType, {
   name: `HoldingType`,
   description: `Shares, calls, puts`,
+});
+registerEnumType(HoldingSource, {
+  name: `HoldingSource`,
+  description: `How the holding was created`,
 });
 @ObjectType()
 export class Holding extends Document {
@@ -51,6 +77,10 @@ export class Holding extends Document {
   @Field(() => HoldingType)
   @prop({ enum: HoldingType })
   holdingType: HoldingType;
+
+  @Field(() => HoldingSource)
+  @prop({ enum: HoldingSource })
+  source: HoldingSource;
 
   // Market data fields are not stored in the DB
   @Field()

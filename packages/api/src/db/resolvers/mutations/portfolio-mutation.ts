@@ -99,6 +99,7 @@ export class PortfolioMutations {
           holdings: {
             ...input,
             costBasis: input.averagePrice * input.quantity,
+            source: 'direct',
           },
         },
       },

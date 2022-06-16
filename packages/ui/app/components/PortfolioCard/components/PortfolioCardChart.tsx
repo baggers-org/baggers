@@ -1,18 +1,7 @@
 import { useTheme } from '@mui/material';
 import { alpha } from '@mui/system';
 import { useState } from 'react';
-
-// eslint-disable-next-line
-// @ts-expect-error
-import loadable from '@loadable/component';
-
-const AreaChart = loadable.lib(async () => {
-  if (typeof window !== `undefined`) {
-    return import(`~/components/Charts/AreaChart`);
-  }
-
-  return <div />;
-});
+import { AreaChart } from '~/components/Charts/AreaChart';
 
 const POINTS = [
   { time: `2018-12-22`, value: 32.51 },
@@ -41,59 +30,55 @@ export const PortfolioCardChart = () => {
   const theme = useTheme();
 
   return (
-    <AreaChart>
-      {({ default: Area }: { default: any }) => (
-        <Area
-          fitContent
-          options={{
-            layout: {
-              backgroundColor: `transparent`,
-            },
-            handleScale: false,
-            handleScroll: false,
-            watermark: {
-              visible: false,
-            },
-            crosshair: {
-              horzLine: {
-                visible: false,
-              },
-              mode: undefined,
+    <AreaChart
+      fitContent
+      options={{
+        layout: {
+          backgroundColor: `transparent`,
+        },
+        handleScale: false,
+        handleScroll: false,
+        watermark: {
+          visible: false,
+        },
+        crosshair: {
+          horzLine: {
+            visible: false,
+          },
+          mode: undefined,
 
-              vertLine: {
-                visible: false,
-              },
-            },
-            rightPriceScale: {
-              visible: false,
-            },
-            timeScale: {
-              visible: false,
-            },
-            grid: {
-              vertLines: {
-                visible: false,
-              },
-              horzLines: {
-                visible: false,
-              },
-            },
-          }}
-          seriesOptions={{
-            // eslint-disable-next-line
+          vertLine: {
+            visible: false,
+          },
+        },
+        rightPriceScale: {
+          visible: false,
+        },
+        timeScale: {
+          visible: false,
+        },
+        grid: {
+          vertLines: {
+            visible: false,
+          },
+          horzLines: {
+            visible: false,
+          },
+        },
+      }}
+      seriesOptions={{
+        // eslint-disable-next-line
             // @ts-ignore
-            lineColor: alpha(theme.palette[color].main, 0.8),
-            // eslint-disable-next-line
+        lineColor: alpha(theme.palette[color].main, 0.8),
+        // eslint-disable-next-line
             // @ts-ignore
-            topColor: alpha(theme.palette[color].main, 0.4),
-            // eslint-disable-next-line
+        topColor: alpha(theme.palette[color].main, 0.4),
+        // eslint-disable-next-line
             // @ts-ignore
-            bottomColor: alpha(theme.palette[color].main, 0.002),
-            crosshairMarkerVisible: false,
-          }}
-          data={chartData}
-        />
-      )}
-    </AreaChart>
+        bottomColor: alpha(theme.palette[color].main, 0.002),
+        crosshairMarkerVisible: false,
+      }}
+      data={chartData}
+    />
   );
 };

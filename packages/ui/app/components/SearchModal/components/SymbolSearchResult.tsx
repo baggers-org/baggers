@@ -6,6 +6,7 @@ import {
   ListProps,
   useTheme,
 } from '@mui/material';
+import { Link } from '@remix-run/react';
 import { useEffect, useRef } from 'react';
 import { SymbolLogo } from '~/components/SymbolLogo';
 import { Symbol } from '~/generated/graphql';
