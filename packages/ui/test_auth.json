@@ -1,0 +1,13 @@
+{
+  "_id": "auth0|62ac56f6504e5680df886696",
+  "displayName": "xx_wbuffet666@berkshire.com",
+  "emails": [
+    "xx_wbuffet666@berkshire.com"
+  ],
+  "photos": [
+    "https://s.gravatar.com/avatar/eff288e75f33027c7f348c03f84fa15e?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fxx.png"
+  ],
+  "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImdlckNhTjRLRVZaQVpyV3BuYk1kOCJ9.eyJodHRwczovL2JhZ2dlcnMuYXBwL3JvbGUiOltdLCJpc3MiOiJodHRwczovL2JhZ2dlcnMtZGV2LmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2MmFjNTZmNjUwNGU1NjgwZGY4ODY2OTYiLCJhdWQiOlsiaHR0cDovL2xvY2FsaG9zdDo0MDAwL2dyYXBocWwiLCJodHRwczovL2JhZ2dlcnMtZGV2LmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2NTU0NzQ0NzMsImV4cCI6MTY1NTU2MDg3MywiYXpwIjoiNk1uQ0ZPNTlTZUFvcTcyajZQemxKRXg4UVNGVDVjM24iLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG9mZmxpbmVfYWNjZXNzIiwiZ3R5IjoicGFzc3dvcmQiLCJwZXJtaXNzaW9ucyI6W119.SLDS7KUKbGtKa7bxcz7M0HPzFgCJ2OSD2nW6XCwmvZgVFPrSRNzCwcUHuFDdcXI0ifR6wpSR765r6PlIQPjK72DYHZnF-Vmr2riNHWa3MvapCuYpzSoEwvKKIBzEQFw_y0Xmov7IY6Q8HzG6qowjV59q3YqbwgzoBM9TIaBsuoNAOdGAcUHcaL5wa8YmNSqzutlpSt208rpsdqHawNBY2sJLjn5lhZO6vC7wsV9Vu4zljkjC86vo27d0Mbxju19k1_0jJZLbSeZkD3Kkvu6LICqM0-S_fAnGkmW5fW5xG5Ltdfb2ll4nVCpcQgH02MNnjZH2YUhB0tdhhc2Ix_KCKQ",
+  "refreshToken": "9PukLoSC0AE_5sUC2OPFXK0KiLKE13xgoKQfCpkythEpf",
+  "expires": 3310984946857
+}

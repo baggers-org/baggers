@@ -11,7 +11,7 @@ export const authenticatedSdk = async (
   request: Request,
   headers?: Headers,
 ): Promise<ReturnType<typeof getSdk>> => {
-  const accessToken = await authenticate(request, headers);
+  const { accessToken } = await authenticate(request, headers);
   return getSdk(
     new GraphQLClient(apiBaseUrl, {
       headers: {
@@ -25,7 +25,8 @@ export const unauthenticatedSdk = async (
   request: Request,
   headers?: Headers,
 ): Promise<ReturnType<typeof getSdk>> => {
-  const accessToken = await isAuthenticated(request, headers);
+  const user = await isAuthenticated(request, headers);
+  const accessToken = user?.accessToken;
   return getSdk(
     new GraphQLClient(apiBaseUrl, {
       headers: accessToken

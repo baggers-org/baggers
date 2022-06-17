@@ -6,11 +6,6 @@
     "node": true,
     "es6": true,
   },
-  "parserOptions": {
-    "project": [
-      "./packages/*/tsconfig.json"
-    ]
-  },
   "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
