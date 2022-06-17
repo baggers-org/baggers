@@ -22,6 +22,7 @@ import { AddHoldingForm } from '~/components/AddHoldingForm';
 import { AddHoldingSymbolCard } from '~/components/AddHoldingSymbolCard';
 import { AreaChart } from '~/components/Charts/AreaChart';
 import { SymbolSearchModal } from '~/components/SearchModal';
+import { SectionTitle } from '~/components/SectionTitle';
 import { HistoricalRange, Symbol } from '~/generated/graphql';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
@@ -86,9 +87,9 @@ export default function AddHolding() {
   return (
     <Grid container spacing={3}>
       <Grid display="flex" item xs={12} md={6} gap={3} flexDirection="column">
-        <Typography variant="h5" color="textSecondary">
+        <SectionTitle>
           {t(`adding_holding_in`, `Adding holding in`)}
-        </Typography>
+        </SectionTitle>
         <AddHoldingSymbolCard
           addingSymbol={symbol}
           loading={state === `loading`}
@@ -154,9 +155,9 @@ export default function AddHolding() {
         <Divider orientation="horizontal" />
       </Grid>
       <Grid item xs md display="flex" flexDirection="column" gap={3}>
-        <Typography variant="h5" color="textSecondary">
+        <SectionTitle>
           {t(`holding_information`, `Holding information`)}
-        </Typography>
+        </SectionTitle>
         <ValidatedForm validator={AddHoldingValidator} method="post">
           <AddHoldingForm addingSymbol={symbol} />
         </ValidatedForm>

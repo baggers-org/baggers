@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { Portfolio } from '~/generated/graphql';
 import { useFetcher } from '@remix-run/react';
-import { useBreakpointValue, useIsMobile } from '~/hooks';
 
 export type PortfolioHeaderProps = {
   portfolio: Portfolio;
@@ -33,7 +32,7 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
         variant="h2"
         isSubmitting={!!fetcher.submission}
         placeholder={t(`enter_portfolio_title`, `Enter portfolio title`)}
-        onFinishEdit={(name) => fetcher.submit({ name }, { method: `post` })}
+        onFinishEdit={(name) => fetcher.submit({ name }, { method: `patch` })}
         value={
           (fetcher?.submission?.formData?.get(`name`) as string) ||
           portfolio?.name
