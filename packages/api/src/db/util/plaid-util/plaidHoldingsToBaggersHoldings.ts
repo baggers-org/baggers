@@ -96,7 +96,7 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
       ...s,
       baggersHolding: {
         costBasis: s.plaidHolding.cost_basis,
-        holdingType: 'shares',
+        type: 'shares',
         quantity: s.plaidHolding.quantity,
         currency: s.plaidHolding.iso_currency_code,
         averagePrice:

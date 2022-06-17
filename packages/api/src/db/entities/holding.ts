@@ -56,7 +56,7 @@ export class Holding extends Document {
 
   @Field()
   @prop({ default: 0.0 })
-  averagePrice?: number;
+  averagePrice: number;
 
   @Field()
   @prop({ default: 0.0 })
@@ -70,13 +70,17 @@ export class Holding extends Document {
   @prop({ default: 0.0 })
   brokerFees?: number;
 
+  @Field(() => HoldingDirection)
+  @prop({ enum: HoldingDirection, default: HoldingDirection.long })
+  direction?: HoldingDirection;
+
   @Field()
   @prop()
   quantity: number;
 
   @Field(() => HoldingType)
   @prop({ enum: HoldingType })
-  holdingType: HoldingType;
+  type: HoldingType;
 
   @Field(() => HoldingSource)
   @prop({ enum: HoldingSource })

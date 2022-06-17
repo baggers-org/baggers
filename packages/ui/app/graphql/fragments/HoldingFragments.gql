@@ -12,7 +12,7 @@ fragment AllHoldingData on Holding {
       costBasis
       brokerFees
       quantity
-      holdingType
+      type
       source
       currency
       symbol {

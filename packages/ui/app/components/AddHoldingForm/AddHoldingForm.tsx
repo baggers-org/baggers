@@ -38,7 +38,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     symbol: addingSymbol._id,
     direction: HoldingDirection.Long,
     quantity: 1,
-    holdingType: HoldingType.Shares,
+    type: HoldingType.Shares,
     brokerFees: 0,
     averagePrice: 0,
   });
@@ -73,7 +73,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
             <FormLabel>
               {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>
               {` `}
-              {useTranslatedHoldingType(holdingDetails.holdingType)}
+              {useTranslatedHoldingType(holdingDetails.type)}
               {` `}
               {holdingDetails?.direction === `long`
                 ? t(`did_you_buy?`, `did you buy?`)
@@ -133,7 +133,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
                 `What is your average price per`,
               )}
               {` `}
-              {useTranslatedHoldingType(holdingDetails.holdingType, 1)}?
+              {useTranslatedHoldingType(holdingDetails.type, 1)}?
             </FormLabel>
           </Grid>
           <Grid item xs={12} mt={1}>
@@ -186,7 +186,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
                 </InputLabel>
                 <ValidatedSelect
                   labelId="instrument-label"
-                  name="holdingType"
+                  name="type"
                   value="shares"
                 >
                   <MenuItem value="shares">{t(`shares`, `Shares`)}</MenuItem>

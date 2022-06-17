@@ -8,7 +8,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { alpha, Box } from '@mui/system';
+import { alpha } from '@mui/system';
 import { useLoaderData, useNavigate, useTransition } from '@remix-run/react';
 import {
   ActionFunction,

@@ -17,7 +17,7 @@ export const BasicDetails = ({
         <FormLabel>
           {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>
           {` `}
-          {useTranslatedHoldingType(holdingDetails.holdingType)}
+          {useTranslatedHoldingType(holdingDetails.type)}
           {` `}
           {holdingDetails?.direction === `long`
             ? t(`did_you_buy?`, `did you buy?`)

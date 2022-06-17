@@ -11,7 +11,7 @@ export const AddHoldingSchema = zfd.formData({
 
     .default(HoldingDirection.Long),
   quantity: zfd.numeric(),
-  holdingType: zfd
+  type: zfd
     .text(z.enum([HoldingType.Shares, HoldingType.Calls, HoldingType.Puts]))
     .optional()
     .default(HoldingType.Shares),

@@ -12,6 +12,7 @@ import {
   RemoveHoldingPayload,
   ClearImportError,
 } from '@/db/payloads/portfolio-payloads';
+import { mergeHoldings } from '@/db/util/portfolio-util/mergeHoldings';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { AccessClaim } from '@/types/AccessClaim';
 import { GraphQLContext } from '@/types/GraphQLContext';
@@ -103,12 +104,28 @@ export class PortfolioMutations {
           },
         },
       },
+      {
+        new: true,
+      },
     ).orFail(
       () =>
         new NotFoundError(
           `Could not find a portfolio to add a holding to with id ${id}`,
         ),
     );
+
+    const mergedHoldings = mergeHoldings(portfolio.toJSON().holdings);
+
+    if (mergedHoldings.length !== portfolio.holdings.length) {
+      await PortfolioModel.findOneAndUpdate(
+        { _id: id, owner: user.sub },
+        {
+          $set: {
+            holdings: mergedHoldings,
+          },
+        },
+      );
+    }
 
     return {
       recordId: portfolio?._id,

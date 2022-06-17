@@ -8,9 +8,9 @@ input AddHoldingInput {
   brokerFees: Float
   currency: String
   direction: HoldingDirection!
-  holdingType: HoldingType!
   quantity: Float!
   symbol: ObjectId!
+  type: HoldingType!
 }
 
 type AddHoldingPayload {
@@ -108,14 +108,15 @@ type Holding {
   costBasis: Float!
   currency: String!
   dailyProfitLossUsd: Float!
+  direction: HoldingDirection!
   exposure: Float!
-  holdingType: HoldingType!
   marketValue: Float!
   profitLossPercent: Float!
   profitLossUsd: Float!
   quantity: Float!
   source: HoldingSource!
   symbol: Symbol!
+  type: HoldingType!
 }
 
 """Buying vs selling"""

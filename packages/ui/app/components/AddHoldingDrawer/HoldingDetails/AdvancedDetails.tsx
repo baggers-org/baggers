@@ -51,7 +51,7 @@ export const AdvancedDetails: React.FC<HoldingDetailsProps> = ({
           <Select
             labelId="instrument-label"
             name="type"
-            value={holdingDetails?.holdingType}
+            value={holdingDetails?.type}
             label={t(`instrument`, `Instrument`)}
           >
             <MenuItem value="shares">{t(`shares`, `Shares`)}</MenuItem>

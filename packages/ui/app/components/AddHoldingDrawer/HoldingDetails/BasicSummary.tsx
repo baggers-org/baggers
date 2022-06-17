@@ -8,7 +8,7 @@ export const BasicSummary: React.FC<HoldingDetailsProps> = ({
   addingSymbol,
   addingHolding: holdingDetails,
 }) => {
-  const { quantity, direction, holdingType } = holdingDetails;
+  const { quantity, direction, type } = holdingDetails;
   const { t } = useTranslation(`view_portfolio`);
   return (
     <Grid container px={6}>
@@ -17,7 +17,7 @@ export const BasicSummary: React.FC<HoldingDetailsProps> = ({
           {`${t(`adding`, `Adding`)} `} {quantity}
           {` `}
           <strong>
-            {useTranslatedHoldingType(holdingType || `shares`, quantity)}
+            {useTranslatedHoldingType(type || `shares`, quantity)}
             {` `}
             {direction === `short` ? t(`short`, `short`) : t(`long`, `long`)}
             {` of `}
