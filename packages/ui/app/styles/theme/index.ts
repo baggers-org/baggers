@@ -73,7 +73,6 @@ themer.setLightColors({
     600: `#E7E7E7`,
     900: `#0E131F`,
   },
-  action: { focus: `#2196f3` },
   success: {
     main: `#3BB273`,
   },

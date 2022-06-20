@@ -8,14 +8,54 @@ input AddHoldingInput {
   brokerFees: Float
   currency: String
   direction: HoldingDirection!
-  holdingType: HoldingType!
   quantity: Float!
   symbol: ObjectId!
+  type: HoldingType!
 }
 
 type AddHoldingPayload {
   record: Portfolio!
   recordId: ObjectId!
+}
+
+type Chart {
+  change: Float!
+  changeOverTime: Float!
+  changePercent: Float!
+  close: Float!
+  date: String!
+  fClose: Float!
+  fHigh: Float!
+  fLow: Float!
+  fOpen: Float!
+  fVolume: Float!
+  high: Float!
+  id: String!
+  key: String!
+  label: String!
+  low: Float!
+  marketChangeOverTime: Float!
+  open: Float!
+  subkey: String!
+  symbol: String!
+  uClose: Float!
+  uHigh: Float!
+  uLow: Float!
+  uOpen: Float!
+  updated: Float!
+  uVolume: Float!
+  volume: Float!
+}
+
+input ChartPriceRangeOptions {
+  chartByDay: Boolean!
+  chartCloseOnly: Boolean!
+  chartInterval: Float!
+  chartLast: Float!
+  chartSimplify: Boolean!
+  displayPercent: Float!
+  includeToday: Boolean!
+  sort: String!
 }
 
 type ClearImportError {
@@ -45,6 +85,22 @@ type FindOrCreateUserPayload {
   recordId: ObjectId!
 }
 
+enum HistoricalRange {
+  date
+  dynamic
+  Last2Years
+  Last3Months
+  Last5Days
+  Last5Days10MinuteIntervals
+  Last5Years
+  Last6Months
+  LastMonth
+  LastMonth30MinuteIntervals
+  LastYear
+  max
+  YearToDate
+}
+
 type Holding {
   _id: ObjectId!
   averagePrice: Float!
@@ -52,19 +108,28 @@ type Holding {
   costBasis: Float!
   currency: String!
   dailyProfitLossUsd: Float!
+  direction: HoldingDirection!
   exposure: Float!
-  holdingType: HoldingType!
   marketValue: Float!
   profitLossPercent: Float!
   profitLossUsd: Float!
   quantity: Float!
+  source: HoldingSource!
   symbol: Symbol!
+  type: HoldingType!
 }
 
 """Buying vs selling"""
 enum HoldingDirection {
   long
   short
+}
+
+"""How the holding was created"""
+enum HoldingSource {
+  broker
+  direct
+  transactions
 }
 
 """Shares, calls, puts"""
@@ -158,9 +223,13 @@ type PortfolioPerformance {
 }
 
 type Query {
+  chartPriceRange(options: ChartPriceRangeOptions, range: HistoricalRange!, symbolId: ObjectId!): [Chart!]!
   myPortfolios: [Portfolio!]!
+
+  """Find an individual portfolio by ID"""
   portfolio(portfolioId: ObjectId!): Portfolio!
   searchSymbols(search: String!): [Symbol!]!
+  symbol(id: ObjectId!): Symbol!
 }
 
 type Quote {

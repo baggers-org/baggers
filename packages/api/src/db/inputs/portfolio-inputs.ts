@@ -19,7 +19,7 @@ export class AddHoldingInput implements Partial<Holding> {
   brokerFees?: number;
 
   @Field(() => HoldingType)
-  holdingType?: HoldingType;
+  type?: HoldingType;
 
   @Field(() => HoldingDirection)
   direction?: HoldingDirection;

@@ -1,18 +1,38 @@
-import { FormControl, InputLabel, Select, SelectProps } from '@mui/material';
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  InputLabel,
+  Select,
+  SelectProps,
+} from '@mui/material';
+import React from 'react';
 
-export type BaggersSelectProps = {} & SelectProps;
+export type BaggersSelectProps = SelectProps & {
+  helperText?: string;
+  formLabel?: string;
+};
 export const BaggersSelect: React.FC<BaggersSelectProps> = ({
-  id,
   children,
-  ...props
+  helperText,
+  ...selectProps
 }) => {
-  const labelId = `${id}_label`;
+  const labelId = `${selectProps.name}-label`;
   return (
-    <FormControl fullWidth>
-      <InputLabel id={labelId}>{props.label}</InputLabel>
-      <Select labelId={labelId} {...props}>
+    <FormControl fullWidth error={selectProps.error}>
+      <FormLabel>{selectProps.formLabel}</FormLabel>
+      <InputLabel id={labelId} htmlFor={selectProps.name}>
+        {selectProps?.label}
+      </InputLabel>
+      <Select
+        id={selectProps.name}
+        labelId={labelId}
+        {...selectProps}
+        fullWidth
+      >
         {children}
       </Select>
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 };

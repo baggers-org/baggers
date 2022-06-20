@@ -28,8 +28,8 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
         </Stack>
       ) : null}
       <EditableTypography
-        variant="h2"
         name="name"
+        variant="h2"
         isSubmitting={!!fetcher.submission}
         placeholder={t(`enter_portfolio_title`, `Enter portfolio title`)}
         onFinishEdit={(name) => fetcher.submit({ name }, { method: `post` })}

@@ -28,7 +28,7 @@ export const HoldingDetails = ({
     symbol: addingSymbol._id,
     direction: HoldingDirection.Long,
     quantity: 1,
-    holdingType: HoldingType.Shares,
+    type: HoldingType.Shares,
     brokerFees: 0,
     // Default to market price
     averagePrice: addingSymbol.quote.latestPrice || 0,

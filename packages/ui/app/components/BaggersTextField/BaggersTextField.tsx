@@ -11,10 +11,12 @@ export type BaggersTextFieldProps = {
   loading?: boolean;
   isMonetaryInput?: boolean;
   secret?: boolean;
-};
-export const BaggersTextField: React.FC<
-  BaggersTextFieldProps & TextFieldProps
-> = ({ isMonetaryInput, secret, ...muiProps }) => {
+} & TextFieldProps;
+export const BaggersTextField: React.FC<BaggersTextFieldProps> = ({
+  isMonetaryInput,
+  secret,
+  ...muiProps
+}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const additionalProps: TextFieldProps = {};
 

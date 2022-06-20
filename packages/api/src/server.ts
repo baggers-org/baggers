@@ -12,6 +12,7 @@ import {
   PortfolioQueries,
   PortfolioMutations,
   SymbolQueries,
+  ChartQueries,
 } from '@/db/resolvers';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import { UserMutations } from './db/resolvers/mutations/user-mutations';
@@ -38,6 +39,7 @@ const getApolloServerHandler = async () => {
       PortfolioQueries,
       PortfolioMutations,
       PlaidMutations,
+      ChartQueries,
       SymbolQueries,
       UserMutations,
     ],

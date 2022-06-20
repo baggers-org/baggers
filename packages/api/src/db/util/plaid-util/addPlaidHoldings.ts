@@ -24,7 +24,7 @@ export const addPlaidHoldings = async (
         costBasis: holding.cost_basis,
         quantity: holding.quantity,
         // TODO: support other instruments
-        holdingType: `shares`,
+        type: `shares`,
         plaidHolding: holding,
       };
     });

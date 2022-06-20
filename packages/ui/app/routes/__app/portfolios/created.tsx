@@ -42,27 +42,17 @@ export default function CreatedPortfoliosPage() {
             spacing={3}
             sx={{ display: { xs: `none`, md: `flex` } }}
           >
-            <Button
-              variant="contained"
-              color="warning"
-              type="submit"
-              endIcon={<Create />}
-            >
+            <Button variant="contained" type="submit" endIcon={<Create />}>
               {t(`create_portfolio`, `Create portfolio`)}
             </Button>
             <Button
-              variant="contained"
-              color="warning"
+              variant="outlined"
               onClick={() => navigate(`/portfolios/import`)}
               endIcon={<DriveFolderUpload />}
             >
               {t(`import_from_broker`, `Import From Broker`)}
             </Button>
-            <Button
-              variant="contained"
-              color="warning"
-              endIcon={<FileUpload />}
-            >
+            <Button variant="outlined" endIcon={<FileUpload />}>
               {t(`upload_csv`, `Upload CSV`)}
             </Button>
           </Stack>

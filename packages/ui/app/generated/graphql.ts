@@ -24,15 +24,56 @@ export type AddHoldingInput = {
   brokerFees?: InputMaybe<Scalars['Float']>;
   currency?: InputMaybe<Scalars['String']>;
   direction: HoldingDirection;
-  holdingType: HoldingType;
   quantity: Scalars['Float'];
   symbol: Scalars['ObjectId'];
+  type: HoldingType;
 };
 
 export type AddHoldingPayload = {
   __typename?: 'AddHoldingPayload';
   record: Portfolio;
   recordId: Scalars['ObjectId'];
+};
+
+export type Chart = {
+  __typename?: 'Chart';
+  change: Scalars['Float'];
+  changeOverTime: Scalars['Float'];
+  changePercent: Scalars['Float'];
+  close: Scalars['Float'];
+  date: Scalars['String'];
+  fClose: Scalars['Float'];
+  fHigh: Scalars['Float'];
+  fLow: Scalars['Float'];
+  fOpen: Scalars['Float'];
+  fVolume: Scalars['Float'];
+  high: Scalars['Float'];
+  id: Scalars['String'];
+  key: Scalars['String'];
+  label: Scalars['String'];
+  low: Scalars['Float'];
+  marketChangeOverTime: Scalars['Float'];
+  open: Scalars['Float'];
+  subkey: Scalars['String'];
+  symbol: Scalars['String'];
+  uClose: Scalars['Float'];
+  uHigh: Scalars['Float'];
+  uLow: Scalars['Float'];
+  uOpen: Scalars['Float'];
+  uVolume: Scalars['Float'];
+  updated: Scalars['Float'];
+  volume: Scalars['Float'];
+};
+
+export type ChartPriceRangeOptions = {
+  chartByDay: Scalars['Boolean'];
+  chartCloseOnly: Scalars['Boolean'];
+  chartInterval: Scalars['Float'];
+  chartLast: Scalars['Float'];
+  chartSimplify: Scalars['Boolean'];
+  displayPercent: Scalars['Float'];
+  includeToday: Scalars['Boolean'];
+  sort: Scalars['String'];
 };
 
 export type ClearImportError = {
@@ -60,6 +101,22 @@ export type FindOrCreateUserPayload = {
   recordId: Scalars['ObjectId'];
 };
 
+export enum HistoricalRange {
+  Last2Years = 'Last2Years',
+  Last3Months = 'Last3Months',
+  Last5Days = 'Last5Days',
+  Last5Days10MinuteIntervals = 'Last5Days10MinuteIntervals',
+  Last5Years = 'Last5Years',
+  Last6Months = 'Last6Months',
+  LastMonth = 'LastMonth',
+  LastMonth30MinuteIntervals = 'LastMonth30MinuteIntervals',
+  LastYear = 'LastYear',
+  YearToDate = 'YearToDate',
+  Date = 'date',
+  Dynamic = 'dynamic',
+  Max = 'max'
+}
+
 export type Holding = {
   __typename?: 'Holding';
   _id: Scalars['ObjectId'];
@@ -68,19 +125,28 @@ export type Holding = {
   costBasis: Scalars['Float'];
   currency: Scalars['String'];
   dailyProfitLossUsd: Scalars['Float'];
+  direction: HoldingDirection;
   exposure: Scalars['Float'];
-  holdingType: HoldingType;
   marketValue: Scalars['Float'];
   profitLossPercent: Scalars['Float'];
   profitLossUsd: Scalars['Float'];
   quantity: Scalars['Float'];
+  source: HoldingSource;
   symbol: Symbol;
+  type: HoldingType;
 };
 
 /** Buying vs selling */
 export enum HoldingDirection {
   Long = 'long',
   Short = 'short'
+}
+
+/** How the holding was created */
+export enum HoldingSource {
+  Broker = 'broker',
+  Direct = 'direct',
+  Transactions = 'transactions'
 }
 
 /** Shares, calls, puts */
@@ -215,9 +281,19 @@ export type PortfolioPerformance = {
 
 export type Query = {
   __typename?: 'Query';
+  chartPriceRange: Array<Chart>;
   myPortfolios: Array<Portfolio>;
+  /** Find an individual portfolio by ID */
   portfolio: Portfolio;
   searchSymbols: Array<Symbol>;
+  symbol: Symbol;
+};
+
+
+export type QueryChartPriceRangeArgs = {
+  options?: InputMaybe<ChartPriceRangeOptions>;
+  range: HistoricalRange;
+  symbolId: Scalars['ObjectId'];
 };
 
 
@@ -228,6 +304,11 @@ export type QueryPortfolioArgs = {
 
 export type QuerySearchSymbolsArgs = {
   search: Scalars['String'];
+};
+
+
+export type QuerySymbolArgs = {
+  id: Scalars['ObjectId'];
 };
 
 export type Quote = {
@@ -400,15 +481,17 @@ export type User = {
   photos: Array<Scalars['String']>;
 };
 
-export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, holdingType: HoldingType, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } };
+export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, type: HoldingType, source: HoldingSource, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } };
 
 export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null } | null };
 
 export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> };
 
-export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, holdingType: HoldingType, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }> };
+export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, type: HoldingType, source: HoldingSource, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }> };
 
-export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null, missingSecuritiesError?: { __typename?: 'PlaidMissingSecuritiesError', message: string, missingSymbols?: Array<{ __typename?: 'MissingSymbol', symbol: string, name?: string | null, exchange?: string | null, figi?: string | null }> | null } | null } | null, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, holdingType: HoldingType, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> };
+export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null, missingSecuritiesError?: { __typename?: 'PlaidMissingSecuritiesError', message: string, missingSymbols?: Array<{ __typename?: 'MissingSymbol', symbol: string, name?: string | null, exchange?: string | null, figi?: string | null }> | null } | null } | null, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, type: HoldingType, source: HoldingSource, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> };
+
+export type AllQuoteDataFragment = { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null };
 
 export type AllTransactionDataFragment = { __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype };
 
@@ -476,6 +559,15 @@ export type UpdatePortfolioMutationVariables = Exact<{
 
 export type UpdatePortfolioMutation = { __typename?: 'Mutation', updatePortfolio: { __typename?: 'UpdatePortfolioPayload', record: { __typename?: 'Portfolio', _id: any } } };
 
+export type ChartPriceRangeQueryVariables = Exact<{
+  range: HistoricalRange;
+  symbolId: Scalars['ObjectId'];
+  options?: InputMaybe<ChartPriceRangeOptions>;
+}>;
+
+
+export type ChartPriceRangeQuery = { __typename?: 'Query', chartPriceRange: Array<{ __typename?: 'Chart', id: string, key: string, subkey: string, date: string, updated: number, change: number, changePercent: number, open: number, close: number, high: number, volume: number, label: string }> };
+
 export type MyPortfoliosSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -486,7 +578,7 @@ export type PortfolioQueryVariables = Exact<{
 }>;
 
 
-export type PortfolioQuery = { __typename?: 'Query', portfolio: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null, missingSecuritiesError?: { __typename?: 'PlaidMissingSecuritiesError', message: string, missingSymbols?: Array<{ __typename?: 'MissingSymbol', symbol: string, name?: string | null, exchange?: string | null, figi?: string | null }> | null } | null } | null, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, holdingType: HoldingType, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> } };
+export type PortfolioQuery = { __typename?: 'Query', portfolio: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description: string, private: boolean, totalValue: number, plaid?: { __typename?: 'PlaidItem', isLinked?: boolean | null, missingSecuritiesError?: { __typename?: 'PlaidMissingSecuritiesError', message: string, missingSymbols?: Array<{ __typename?: 'MissingSymbol', symbol: string, name?: string | null, exchange?: string | null, figi?: string | null }> | null } | null } | null, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string> }, performance: { __typename?: 'PortfolioPerformance', ytdReturnPercent: number, ytdReturnDollars: number, dailyReturnPercent: number, dailyReturnDollars: number }, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, brokerFees: number, quantity: number, type: HoldingType, source: HoldingSource, currency: string, symbol: { __typename?: 'Symbol', _id: any, name: string, symbol: string, symbolType: string, exchange: string, currency: string, exchangeName: string, region: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype }> } };
 
 export type SearchSymbolsQueryVariables = Exact<{
   search: Scalars['String'];
@@ -494,6 +586,13 @@ export type SearchSymbolsQueryVariables = Exact<{
 
 
 export type SearchSymbolsQuery = { __typename?: 'Query', searchSymbols: Array<{ __typename?: 'Symbol', symbol: string, _id: any, name: string, exchange: string, exchangeName: string, region: string, symbolType: string, iexId?: string | null, figi?: string | null, cik?: string | null, currency: string, quote: { __typename?: 'Quote', latestTime?: string | null, latestPrice?: number | null } }> };
+
+export type SymbolQueryVariables = Exact<{
+  symbolId: Scalars['ObjectId'];
+}>;
+
+
+export type SymbolQuery = { __typename?: 'Query', symbol: { __typename?: 'Symbol', name: string, symbol: string, exchange: string, quote: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName?: string | null, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } } };
 
 export const FullUserFragmentDoc = gql`
     fragment FullUser on User {
@@ -525,6 +624,66 @@ export const PortfolioSummaryFragmentDoc = gql`
   }
 }
     ${FullUserFragmentDoc}`;
+export const AllQuoteDataFragmentDoc = gql`
+    fragment AllQuoteData on Quote {
+  avgTotalVolume
+  calculationPrice
+  change
+  changePercent
+  companyName
+  close
+  closeSource
+  closeTime
+  currency
+  delayedPrice
+  delayedPriceTime
+  extendedPrice
+  extendedChange
+  extendedChangePercent
+  extendedPriceTime
+  high
+  highSource
+  highTime
+  iexAskPrice
+  iexAskSize
+  iexBidPrice
+  iexBidSize
+  iexClose
+  iexCloseTime
+  iexLastUpdated
+  iexOpen
+  iexOpenTime
+  iexRealtimePrice
+  iexRealtimeSize
+  iexMarketPercent
+  iexVolume
+  isUSMarketOpen
+  lastTradeTime
+  latestPrice
+  latestSource
+  latestTime
+  latestUpdate
+  latestVolume
+  low
+  lowTime
+  lowSource
+  marketCap
+  oddLotDelayedPrice
+  oddLotDelayedPriceTime
+  open
+  openSource
+  openTime
+  peRatio
+  previousClose
+  previousVolume
+  primaryExchange
+  symbol
+  week52High
+  week52Low
+  volume
+  ytdChange
+}
+    `;
 export const AllHoldingDataFragmentDoc = gql`
     fragment AllHoldingData on Holding {
   _id
@@ -537,7 +696,8 @@ export const AllHoldingDataFragmentDoc = gql`
   costBasis
   brokerFees
   quantity
-  holdingType
+  type
+  source
   currency
   symbol {
     _id
@@ -549,66 +709,11 @@ export const AllHoldingDataFragmentDoc = gql`
     exchangeName
     region
     quote {
-      avgTotalVolume
-      calculationPrice
-      change
-      changePercent
-      companyName
-      close
-      closeSource
-      closeTime
-      currency
-      delayedPrice
-      delayedPriceTime
-      extendedPrice
-      extendedChange
-      extendedChangePercent
-      extendedPriceTime
-      high
-      highSource
-      highTime
-      iexAskPrice
-      iexAskSize
-      iexBidPrice
-      iexBidSize
-      iexClose
-      iexCloseTime
-      iexLastUpdated
-      iexOpen
-      iexOpenTime
-      iexRealtimePrice
-      iexRealtimeSize
-      iexMarketPercent
-      iexVolume
-      isUSMarketOpen
-      lastTradeTime
-      latestPrice
-      latestSource
-      latestTime
-      latestUpdate
-      latestVolume
-      low
-      lowTime
-      lowSource
-      marketCap
-      oddLotDelayedPrice
-      oddLotDelayedPriceTime
-      open
-      openSource
-      openTime
-      peRatio
-      previousClose
-      previousVolume
-      primaryExchange
-      symbol
-      week52High
-      week52Low
-      volume
-      ytdChange
+      ...AllQuoteData
     }
   }
 }
-    `;
+    ${AllQuoteDataFragmentDoc}`;
 export const PortfolioHoldingsFragmentDoc = gql`
     fragment PortfolioHoldings on Portfolio {
   holdings {
@@ -729,6 +834,24 @@ export const UpdatePortfolioDocument = gql`
   }
 }
     `;
+export const ChartPriceRangeDocument = gql`
+    query chartPriceRange($range: HistoricalRange!, $symbolId: ObjectId!, $options: ChartPriceRangeOptions) {
+  chartPriceRange(range: $range, symbolId: $symbolId, options: $options) {
+    id
+    key
+    subkey
+    date
+    updated
+    change
+    changePercent
+    open
+    close
+    high
+    volume
+    label
+  }
+}
+    `;
 export const MyPortfoliosSummaryDocument = gql`
     query myPortfoliosSummary {
   myPortfolios {
@@ -772,6 +895,18 @@ export const SearchSymbolsDocument = gql`
   }
 }
     `;
+export const SymbolDocument = gql`
+    query symbol($symbolId: ObjectId!) {
+  symbol(id: $symbolId) {
+    name
+    symbol
+    exchange
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+    ${AllQuoteDataFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -807,6 +942,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     updatePortfolio(variables: UpdatePortfolioMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePortfolioMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdatePortfolioMutation>(UpdatePortfolioDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePortfolio', 'mutation');
     },
+    chartPriceRange(variables: ChartPriceRangeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ChartPriceRangeQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ChartPriceRangeQuery>(ChartPriceRangeDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'chartPriceRange', 'query');
+    },
     myPortfoliosSummary(variables?: MyPortfoliosSummaryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<MyPortfoliosSummaryQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<MyPortfoliosSummaryQuery>(MyPortfoliosSummaryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'myPortfoliosSummary', 'query');
     },
@@ -815,6 +953,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     searchSymbols(variables: SearchSymbolsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SearchSymbolsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<SearchSymbolsQuery>(SearchSymbolsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'searchSymbols', 'query');
+    },
+    symbol(variables: SymbolQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SymbolQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<SymbolQuery>(SymbolDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'symbol', 'query');
     }
   };
 }

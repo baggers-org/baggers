@@ -1,4 +1,4 @@
-import { Portfolio, PortfolioModel } from '@/db/entities';
+import { Holding, Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   AddHoldingInput,
@@ -12,6 +12,7 @@ import {
   RemoveHoldingPayload,
   ClearImportError,
 } from '@/db/payloads/portfolio-payloads';
+import { mergeHoldings } from '@/db/util/portfolio-util/mergeHoldings';
 import { CurrentUser } from '@/decorators/CurrentUser';
 import { AccessClaim } from '@/types/AccessClaim';
 import { GraphQLContext } from '@/types/GraphQLContext';
@@ -99,8 +100,12 @@ export class PortfolioMutations {
           holdings: {
             ...input,
             costBasis: input.averagePrice * input.quantity,
+            source: 'direct',
           },
         },
+      },
+      {
+        new: true,
       },
     ).orFail(
       () =>
@@ -108,6 +113,21 @@ export class PortfolioMutations {
           `Could not find a portfolio to add a holding to with id ${id}`,
         ),
     );
+
+    const mergedHoldings = mergeHoldings(
+      portfolio.toJSON().holdings as Holding[],
+    );
+
+    if (mergedHoldings.length !== portfolio.holdings.length) {
+      await PortfolioModel.findOneAndUpdate(
+        { _id: id, owner: user.sub },
+        {
+          $set: {
+            holdings: mergedHoldings,
+          },
+        },
+      );
+    }
 
     return {
       recordId: portfolio?._id,

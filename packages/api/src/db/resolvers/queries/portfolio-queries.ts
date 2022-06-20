@@ -14,7 +14,7 @@ import { sortHoldingsByMarketValue } from '@/db/helpers/aggregation/portfolios/s
 
 @Resolver(() => Portfolio)
 export class PortfolioQueries {
-  @Query(() => Portfolio)
+  @Query(() => Portfolio, { description: 'Find an individual portfolio by ID' })
   async portfolio(
     @Arg(`portfolioId`, () => ObjectIdScalar) portfolioId: ObjectId,
     @CurrentUser() user: AccessClaim,

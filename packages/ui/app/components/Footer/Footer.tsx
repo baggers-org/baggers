@@ -19,7 +19,9 @@ export const Footer: React.FC<FooterProps> = () => {
         </Typography>
 
         <Typography variant="caption">Email any enquiries to:</Typography>
-        <Link href="mailto: dan@baggers.app">dan@baggers.app</Link>
+        <Link href="mailto: dan@baggers.app" tabIndex={-1}>
+          dan@baggers.app
+        </Link>
         <Typography variant="caption">Baggers Ltd.</Typography>
         <Typography variant="caption">
           © Copyright {new Date().getFullYear()}

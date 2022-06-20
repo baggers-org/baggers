@@ -12,10 +12,13 @@ export const PortfolioTabs = () => {
   const portfolioId = useIdParam();
 
   const { pathname } = useLocation();
-  const activeTab = `/${pathname.split(`/`).pop()}`;
+
+  const activeTab = `/${
+    pathname.split(`/portfolios/${portfolioId}/`).pop()?.split(`/`)[0]
+  }`;
 
   const jumpToTab = (tab: string) =>
-    navigate(`/portfolios/${portfolioId}/${tab}`);
+    navigate(`/portfolios/${portfolioId}${tab}`);
 
   return (
     <Tabs value={activeTab}>
@@ -23,6 +26,11 @@ export const PortfolioTabs = () => {
         value="/holdings"
         label={t(`holdings`, `Holdings`)}
         onClick={() => jumpToTab(`/holdings`)}
+      />
+      <Tab
+        value="/transactions"
+        label={t(`transactions`, `Transactions`)}
+        onClick={() => jumpToTab(`/transactions`)}
       />
       <Tab
         value="/performance"
