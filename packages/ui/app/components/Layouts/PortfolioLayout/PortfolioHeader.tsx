@@ -31,6 +31,14 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
         name="name"
         variant="h2"
         isSubmitting={!!fetcher.submission}
+        confirmButtonAriaLabel={t(
+          `confirm_portfolio_name`,
+          `confirm portfolio name`,
+        )}
+        cancelButtonAriaLabel={t(
+          `cancel_portfolio_edit`,
+          `cancel portfolio edit`,
+        )}
         placeholder={t(`enter_portfolio_title`, `Enter portfolio title`)}
         onFinishEdit={(name) => fetcher.submit({ name }, { method: `patch` })}
         value={

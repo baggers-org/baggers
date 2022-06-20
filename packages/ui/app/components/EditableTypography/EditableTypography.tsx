@@ -7,12 +7,16 @@ export type EditableTypographyProps = TypographyTextFieldProps & {
   onFinishEdit: (newValue: string) => void;
   value?: string;
   isSubmitting?: boolean;
+  confirmButtonAriaLabel?: string;
+  cancelButtonAriaLabel?: string;
 };
 export const EditableTypography: React.FC<EditableTypographyProps> = ({
   variant,
   value,
   onFinishEdit,
   isSubmitting,
+  confirmButtonAriaLabel = `confirm edit`,
+  cancelButtonAriaLabel = `cancel edit`,
   ...typographyProps
 }) => {
   const [isEditting, setIsEditting] = useState(false);
@@ -66,6 +70,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
           <IconButton
             size="small"
             type="submit"
+            aria-label={confirmButtonAriaLabel}
             onClick={() => {
               if (tempValue) {
                 onFinishEdit(tempValue);
@@ -77,6 +82,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
           </IconButton>
           <IconButton
             size="small"
+            aria-label={cancelButtonAriaLabel}
             onClick={() => {
               cancelEdit();
             }}

@@ -1,16 +1,18 @@
 import React from 'react';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { formatCurrency, isProfitLossOrNeutral } from '~/util';
+import { TypographyProps } from '@mui/system';
 
 export type PriceTagProps = {
   value: number;
   label?: string;
   isPercent?: boolean;
 };
-export const PriceTag: React.FC<PriceTagProps> = ({
+export const PriceTag: React.FC<PriceTagProps & TypographyProps> = ({
   value,
   isPercent,
   label,
+  ...props
 }) => {
   const theme = useTheme();
 
@@ -33,7 +35,7 @@ export const PriceTag: React.FC<PriceTagProps> = ({
   return (
     <Stack>
       {label}
-      <Typography variant="subtitle1" color={getColor()}>
+      <Typography variant="subtitle1" color={getColor()} {...props}>
         {value > 0 ? `+${formattedValue}` : formattedValue}
       </Typography>
     </Stack>

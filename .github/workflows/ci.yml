@@ -47,3 +47,14 @@ jobs:
           FLY_PROJECT_PATH: packages/api
         with:
           args: "deploy -c fly.staging.toml"
+
+  cypress:
+    name: "Run cypress tests"
+    needs: 
+      - deployApi
+      - deployUi
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "yarn e2e"

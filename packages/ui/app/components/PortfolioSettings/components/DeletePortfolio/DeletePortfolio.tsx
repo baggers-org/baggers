@@ -8,17 +8,14 @@ import {
   DialogActions,
   DialogContent,
 } from '@mui/material';
-import { Form, useFetcher } from '@remix-run/react';
+import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionTitle } from '~/components/SectionTitle';
-import { useIdParam } from '~/hooks';
 
 export type DeletePortfolioProps = {};
 export const DeletePortfolio: React.FC<DeletePortfolioProps> = () => {
   const { t } = useTranslation(`portfolio_settings`);
-  const fetcher = useFetcher();
-  const id = useIdParam();
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   return (
@@ -32,10 +29,11 @@ export const DeletePortfolio: React.FC<DeletePortfolioProps> = () => {
       </Stack>
       <Button
         color="error"
+        data-cy="delete portfolio"
         variant="contained"
         onClick={() => setShowConfirmDelete(true)}
       >
-        {t(`Delete portfolio`)}
+        {t(`delete_portfolio`, `Delete portfolio`)}
       </Button>
       <Dialog open={showConfirmDelete}>
         <DialogTitle>

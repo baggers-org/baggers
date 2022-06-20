@@ -68,7 +68,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   return (
     <>
       <Paper sx={{ py: 3, mb: 3 }}>
-        <Grid container px={{ xs: 2, sm: 6  }} spacing={1}>
+        <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
               {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>
@@ -206,17 +206,31 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Box display="flex" alignItems="center" gap={1}>
           <KeyboardArrowDown /> {t(`return`, `Return`)}
           <Box ml="auto" display="flex" gap={3}>
-            <PriceTag value={profitLossUsd || 0} />
+            <PriceTag
+              value={profitLossUsd || 0}
+              aria-label={t(`return_usd`, `Return USD`)}
+            />
             {` `}
-            <PriceTag value={profitLossPercent || 0} isPercent />
+            <PriceTag
+              value={profitLossPercent || 0}
+              isPercent
+              aria-label={t(`return_percent`, `Return percent`)}
+            />
           </Box>
         </Box>
         <Box display="flex" alignItems="center" gap={1} ml={3}>
           <KeyboardArrowDown /> {t(`profit_loss`, `Profit/Loss`)}
           <Box ml="auto" display="flex" gap={3}>
-            <PriceTag value={profitLossUsd || 0} />
+            <PriceTag
+              value={profitLossUsd || 0}
+              aria-label={t(`profit_loss_usd`, `Profit/Loss USD`)}
+            />
             {` `}
-            <PriceTag value={profitLossPercent || 0} isPercent />
+            <PriceTag
+              value={profitLossPercent || 0}
+              isPercent
+              aria-label={t(`profit_loss_percent`, `Profit/Loss percent`)}
+            />
           </Box>
         </Box>
         <Box
