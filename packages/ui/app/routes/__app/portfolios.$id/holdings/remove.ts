@@ -11,8 +11,5 @@ export const action: ActionFunction = async ({ params, request }) => {
     holding_id,
   });
 
-  console.log(response);
-  
-
   return json(response, { headers });
 };

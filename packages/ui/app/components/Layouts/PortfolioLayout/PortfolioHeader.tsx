@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { Portfolio } from '~/generated/graphql';
 import { useFetcher } from '@remix-run/react';
-import { useBreakpointValue, useIsMobile } from '~/hooks';
 
 export type PortfolioHeaderProps = {
   portfolio: Portfolio;

@@ -1,10 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { HoldingType } from '~/generated/graphql';
 
-export const useTranslatedHoldingType = (
-  type: HoldingType,
-  size = 2,
-) => {
+export const useTranslatedHoldingType = (type: HoldingType, size = 2) => {
   const { t } = useTranslation(`view_portfolio`);
   let returnString = t(`shares`, `shares`);
   if (type === `calls`) {

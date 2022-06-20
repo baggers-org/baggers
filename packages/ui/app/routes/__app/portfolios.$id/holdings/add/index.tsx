@@ -1,18 +1,11 @@
-import { CircularProgress, Typography } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import { useLoaderData, useNavigate, useTransition } from '@remix-run/react';
-import {
-  ActionFunction,
-  json,
-  LoaderFunction,
-} from '@remix-run/server-runtime';
+import { LoaderFunction } from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { validationError } from 'remix-validated-form';
 import { AddHoldingWarning } from '~/components/AddHoldingWarning';
 import { SymbolSearchModal } from '~/components/SearchModal';
-import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
-import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
 
 export const loader: LoaderFunction = ({ request }) => {
   const url = new URL(request.url);

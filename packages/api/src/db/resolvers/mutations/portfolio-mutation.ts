@@ -1,4 +1,4 @@
-import { Portfolio, PortfolioModel } from '@/db/entities';
+import { Holding, Portfolio, PortfolioModel } from '@/db/entities';
 import { NotFoundError } from '@/db/errors/NotFoundError';
 import {
   AddHoldingInput,
@@ -114,7 +114,9 @@ export class PortfolioMutations {
         ),
     );
 
-    const mergedHoldings = mergeHoldings(portfolio.toJSON().holdings);
+    const mergedHoldings = mergeHoldings(
+      portfolio.toJSON().holdings as Holding[],
+    );
 
     if (mergedHoldings.length !== portfolio.holdings.length) {
       await PortfolioModel.findOneAndUpdate(

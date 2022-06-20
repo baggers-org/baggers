@@ -43,9 +43,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     averagePrice: 0,
   });
 
-  const { isValid, fieldErrors } = useFormContext();
-
-  console.log(fieldErrors);
+  const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
     if (!addingSymbol?.quote?.latestPrice || !holdingDetails.averagePrice)
@@ -68,7 +66,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   return (
     <>
       <Paper sx={{ py: 3, mb: 3 }}>
-        <Grid container px={{ xs: 2, sm: 6  }} spacing={1}>
+        <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
               {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>

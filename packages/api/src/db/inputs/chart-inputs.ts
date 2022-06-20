@@ -2,6 +2,8 @@ import { Field, InputType } from 'type-graphql';
 
 @InputType()
 export class ChartPriceRangeOptions {
+  [index: string]: any;
+
   @Field()
   includeToday?: boolean;
   @Field()

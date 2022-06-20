@@ -4,13 +4,7 @@ import { Grid, IconButton, Paper, Typography } from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
-import {
-  Form,
-  useFetcher,
-  useNavigate,
-  useParams,
-  useSubmit,
-} from '@remix-run/react';
+import { useFetcher, useNavigate, useParams } from '@remix-run/react';
 import { HoldingsTable } from '~/components';
 import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
 import { Holding } from '~/generated/graphql';

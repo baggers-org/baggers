@@ -1,8 +1,7 @@
 import { Delete } from '@mui/icons-material';
-import { Avatar, Link, Skeleton, Stack } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
-import { Link as RemixLink } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
