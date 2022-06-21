@@ -18,9 +18,6 @@ const {
   CYPRESS_AUTH0_SCOPE,
 } = process.env;
 
-if (!process.env.ATLAS_CLUSTER_URI)
-  throw Error('No Atlas cluster uri in environment');
-
 export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:3000/',
