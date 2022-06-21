@@ -1,5 +1,4 @@
 import { Alert, List, ModalProps } from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import { Symbol } from '~/generated/graphql';
 import {
   BaseSearchModal,
@@ -15,11 +14,9 @@ export type SymbolSearchModalProps = Omit<
 export const SymbolSearchModal: React.FC<SymbolSearchModalProps> = ({
   ...baseProps
 }) => {
-  const { t } = useTranslation(`symbol_search`);
   return (
     <BaseSearchModal<Symbol>
       getSearchHref={(term) => `/symbols/${term}?index`}
-      searchInputProps={{ placeholder: t(`search_ticker`, `Search tickers`) }}
       renderResults={(results: Symbol[], onResultSelect) => {
         return (
           <List component="ul">

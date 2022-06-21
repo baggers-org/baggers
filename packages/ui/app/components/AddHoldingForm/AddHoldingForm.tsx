@@ -43,9 +43,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     averagePrice: 0,
   });
 
-  const { isValid, fieldErrors } = useFormContext();
-
-  console.log(fieldErrors);
+  const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
     if (!addingSymbol?.quote?.latestPrice || !holdingDetails.averagePrice)
@@ -206,31 +204,17 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Box display="flex" alignItems="center" gap={1}>
           <KeyboardArrowDown /> {t(`return`, `Return`)}
           <Box ml="auto" display="flex" gap={3}>
-            <PriceTag
-              value={profitLossUsd || 0}
-              aria-label={t(`return_usd`, `Return USD`)}
-            />
+            <PriceTag value={profitLossUsd || 0} />
             {` `}
-            <PriceTag
-              value={profitLossPercent || 0}
-              isPercent
-              aria-label={t(`return_percent`, `Return percent`)}
-            />
+            <PriceTag value={profitLossPercent || 0} isPercent />
           </Box>
         </Box>
         <Box display="flex" alignItems="center" gap={1} ml={3}>
           <KeyboardArrowDown /> {t(`profit_loss`, `Profit/Loss`)}
           <Box ml="auto" display="flex" gap={3}>
-            <PriceTag
-              value={profitLossUsd || 0}
-              aria-label={t(`profit_loss_usd`, `Profit/Loss USD`)}
-            />
+            <PriceTag value={profitLossUsd || 0} />
             {` `}
-            <PriceTag
-              value={profitLossPercent || 0}
-              isPercent
-              aria-label={t(`profit_loss_percent`, `Profit/Loss percent`)}
-            />
+            <PriceTag value={profitLossPercent || 0} isPercent />
           </Box>
         </Box>
         <Box

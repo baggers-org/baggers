@@ -12,7 +12,7 @@ import { useFetcher } from '@remix-run/react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebouncedCallback } from 'use-debounce';
-import { SearchInput, SearchInputProps } from '../../SearchInput';
+import { SearchInput } from '../../SearchInput';
 
 export type BaseSearchModalProps<T extends Record<string, unknown>> = {
   modalTitle?: string;
@@ -25,7 +25,6 @@ export type BaseSearchModalProps<T extends Record<string, unknown>> = {
     onResultSelect: (res: T) => void,
   ) => JSX.Element | JSX.Element[];
   renderNoResults: () => JSX.Element | JSX.Element[];
-  searchInputProps?: SearchInputProps;
 } & Omit<ModalProps, 'children'>;
 
 export function BaseSearchModal<TResult extends Record<string, unknown>>({
@@ -36,7 +35,6 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
   debounceMs = 500,
   renderResults,
   renderNoResults,
-  searchInputProps = {},
   ...modalProps
 }: BaseSearchModalProps<TResult>) {
   const { t } = useTranslation(`holdings`);
@@ -115,7 +113,6 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
                   textTransform: capitalise ? `uppercase` : `none`,
                 },
               }}
-              {...searchInputProps}
             />
           </fetcher.Form>
 
