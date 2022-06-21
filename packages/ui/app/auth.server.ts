@@ -29,6 +29,8 @@ if (!AUTH0_AUDIENCE) throw new Error(`Missing Auth0 audience.`);
 if (!AUTH0_CALLBACK_URL) throw new Error(`Missing Auth0 redirect uri.`);
 if (!API_URI) throw new Error(`Missing API_URI.`);
 
+console.log(AUTH0_SCOPE, AUTH0_AUDIENCE);
+
 export const auth0 = {
   clientID: AUTH0_CLIENT_ID,
   clientSecret: AUTH0_CLIENT_SECRET,
@@ -61,6 +63,11 @@ const auth0Strategy = new Auth0Strategy(
     refreshToken,
     extraParams: { expires_in },
   }) => {
+    if ((profile._json as any)?.error) {
+      console.error(profile._json);
+      throw Error(`Auth0 userinfo error`);
+    }
+
     const user: FindOrCreateUserInput = {
       _id: profile.id,
       displayName: profile.displayName,
