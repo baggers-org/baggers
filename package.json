@@ -16,7 +16,7 @@
   },
   "homepage": "https://github.com/baggers-ltd/baggers#readme",
   "scripts": {
-    "e2e": "node ./cypress/scripts/fetchTestSymbolData && CYPRES_BASE_URL=https://baggers-staging.fly.dev cypress run",
+    "e2e": "node ./cypress/scripts/fetchTestSymbolData && cypress run",
     "lint": "lerna exec -- yarn lint",
     "typecheck": "lerna exec -- yarn typecheck"
   },
