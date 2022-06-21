@@ -1,5 +1,4 @@
 import { LoaderFunction, redirect } from '@remix-run/server-runtime';
-import { readFileSync } from 'fs';
 import { GraphQLClient } from 'graphql-request';
 import { baggersApiAuthenticator, refreshTokens, Tokens } from './auth.server';
 import { getSdk, User } from './generated/graphql';

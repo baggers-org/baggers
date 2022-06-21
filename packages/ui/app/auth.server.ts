@@ -44,10 +44,6 @@ export const baggersApiAuthenticator = new Authenticator<User & Tokens>(
   sessionStorage,
 );
 
-export const findOrCreateUser = (user: User & Tokens) => {
-
-}
-
 /**
  * Returns the unix timestamp when accessTokens are invalid
  * @param expires_in Expires_in (number of seconds till expiry from auth0)

@@ -4,7 +4,6 @@ import {
   LoaderFunction,
   ActionFunction,
   json,
-  redirect,
 } from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
 import { Portfolio, PortfolioQuery } from '~/generated/graphql';
