@@ -18,8 +18,6 @@ const {
   CYPRESS_AUTH0_SCOPE,
 } = process.env;
 
-console.log(process.env);
-
 export default defineConfig({
   projectId: '1hdkja',
   e2e: {
