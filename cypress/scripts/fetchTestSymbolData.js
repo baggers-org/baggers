@@ -11,10 +11,12 @@ const symbolFilter = {
 };
 // We will only need the value of the dev ATLAS cluster
 // so just require .env
-const envPath = path.join(__dirname, '../../packages/api/.env');
-dotenv.config({
-  path: envPath,
-});
+if (!process.env.CI) {
+  const envPath = path.join(__dirname, '../../packages/ui/.env');
+  dotenv.config({
+    path: envPath,
+  });
+}
 
 async function fetchTestSymbolData(mongoUri) {
   const client = new MongoClient(mongoUri);
@@ -39,6 +41,4 @@ async function fetchTestSymbolData(mongoUri) {
   }
 }
 
-fetchTestSymbolData(process.env.ATLAS_CLUSTER_URI)
-  .then(console.log)
-  .catch(console.error);
+fetchTestSymbolData(process.env.CYPRESS_ATLAS_CLUSTER_URI);
