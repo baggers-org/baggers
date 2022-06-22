@@ -23,7 +23,7 @@ export default defineConfig({
   e2e: {
     baseUrl: process.env.CI
       ? 'https://baggers-staging.fly.dev'
-      : 'http://localhost:3000/',
+      : 'http://localhost:3000',
     env: {
       Auth0Username: CYPRESS_AUTH0_USERNAME,
       Auth0Password: CYPRESS_AUTH0_PASSWORD,

@@ -22,7 +22,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
 
   cy.request({
     method: 'POST',
-    url: `https://baggers-staging.eu.auth0.com/oauth/token`,
+    url: `https://${Cypress.env('Auth0Domain')}/oauth/token`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -39,9 +39,6 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     const claims = jwt.decode(body.id_token);
     const { name, picture, email, sub, exp } = claims as any;
 
-    console.log('The body is ', body);
-    cy.log('body is ', body);
-
     const user = {
       _id: sub,
       displayName: name,
@@ -52,10 +49,7 @@ Cypress.Commands.add('login', (username: string, password: string) => {
       expires: Date.now() + exp * 1000,
     };
 
-    // This is not great, we are gonna be sending the user to every endpoint our
-    // app requests
-    cy.intercept(`*`, (req) => {
-      console.log(req);
+    cy.intercept(`${Cypress.config('baseUrl')}/**`, (req) => {
       req.headers['X-Cypress'] = JSON.stringify(user);
     });
   });
