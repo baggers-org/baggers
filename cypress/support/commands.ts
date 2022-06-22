@@ -52,10 +52,10 @@ Cypress.Commands.add('login', (username: string, password: string) => {
       expires: Date.now() + exp * 1000,
     };
 
-    cy.log('BaseUrl is ', Cypress.config('baseUrl'));
+    // This is not great, we are gonna be sending the user to every endpoint our
+    // app requests
     cy.intercept(`*`, (req) => {
-      cy.log('Intercepting request ', req.url);
-      cy.log('Adding header for user ', user.displayName);
+      console.log(req);
       req.headers['X-Cypress'] = JSON.stringify(user);
     });
   });
