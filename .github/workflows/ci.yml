@@ -50,9 +50,9 @@ jobs:
 
   cypress:
     name: "Run cypress tests"
-    needs: 
-      - deployApi
-      - deployUi
+    # needs: 
+    #   - deployApi
+    #   - deployUi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
