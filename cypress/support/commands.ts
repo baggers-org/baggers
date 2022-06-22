@@ -40,6 +40,9 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     const claims = jwt.decode(body.id_token);
     const { name, picture, email, sub, exp } = claims as any;
 
+    console.log('The body is ', body);
+    cy.log('body is ', body);
+
     const user = {
       _id: sub,
       displayName: name,
