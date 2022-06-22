@@ -54,6 +54,8 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     };
 
     cy.intercept(`${Cypress.config('baseUrl')}**`, (req) => {
+      cy.log('Intercepting request ', req.url);
+      cy.log('Adding header for user ', user.displayName);
       req.headers['X-Cypress'] = JSON.stringify(user);
     });
   });
