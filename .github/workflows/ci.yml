@@ -5,48 +5,48 @@ on:
     
 
 jobs:
-  test:
-    name: "Lint + Typecheck"
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-    runs-on: ubuntu-latest
-    steps:
-       - uses: actions/checkout@v2
-       - name: Install
-         run: yarn
-       - name: "Typecheck"
-         run: yarn typecheck
-       - name: "Lint"
-         run: yarn lint
-  deployUi:
-    name: "Deploy UI to preview"
-    needs: test
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-    runs-on: ubuntu-latest
-    environment: "Preview"
-    steps:
-      - uses: actions/checkout@v2
-      - name: "Deploy ui"
-        uses: superfly/flyctl-actions@master
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          FLY_PROJECT_PATH: packages/ui
-        with:
-          args: "deploy -c fly.staging.toml"
-  deployApi:
-    name: "Deploy API to preview"
-    needs: test
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-    runs-on: ubuntu-latest
-    environment: "Preview"
-    steps:
-      - uses: actions/checkout@v2
-      - name: "Deploy API"
-        uses: superfly/flyctl-actions@master
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          FLY_PROJECT_PATH: packages/api
-        with:
-          args: "deploy -c fly.staging.toml"
+  # test:
+  #   name: "Lint + Typecheck"
+  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #      - uses: actions/checkout@v2
+  #      - name: Install
+  #        run: yarn
+  #      - name: "Typecheck"
+  #        run: yarn typecheck
+  #      - name: "Lint"
+  #        run: yarn lint
+  # deployUi:
+  #   name: "Deploy UI to preview"
+  #   needs: test
+  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+  #   runs-on: ubuntu-latest
+  #   environment: "Preview"
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: "Deploy ui"
+  #       uses: superfly/flyctl-actions@master
+  #       env:
+  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  #         FLY_PROJECT_PATH: packages/ui
+  #       with:
+  #         args: "deploy -c fly.staging.toml"
+  # deployApi:
+  #   name: "Deploy API to preview"
+  #   needs: test
+  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+  #   runs-on: ubuntu-latest
+  #   environment: "Preview"
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: "Deploy API"
+  #       uses: superfly/flyctl-actions@master
+  #       env:
+  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  #         FLY_PROJECT_PATH: packages/api
+  #       with:
+  #         args: "deploy -c fly.staging.toml"
 
   cypress:
     name: "Run cypress tests"
