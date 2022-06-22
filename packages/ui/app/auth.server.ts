@@ -16,23 +16,29 @@ const {
   AUTH0_CLIENT_SECRET,
   AUTH0_DOMAIN,
   AUTH0_CALLBACK_URL,
+  AUTH0_SCOPE,
+  AUTH0_AUDIENCE,
   API_URI,
 } = process.env;
 
 if (!AUTH0_DOMAIN) throw new Error(`Missing Auth0 domain.`);
 if (!AUTH0_CLIENT_ID) throw new Error(`Missing Auth0 client id.`);
 if (!AUTH0_CLIENT_SECRET) throw new Error(`Missing Auth0 client secret.`);
+if (!AUTH0_SCOPE) throw new Error(`Missing Auth0 scope.`);
+if (!AUTH0_AUDIENCE) throw new Error(`Missing Auth0 audience.`);
 if (!AUTH0_CALLBACK_URL) throw new Error(`Missing Auth0 redirect uri.`);
 if (!API_URI) throw new Error(`Missing API_URI.`);
+
+console.log(AUTH0_SCOPE, AUTH0_AUDIENCE);
 
 export const auth0 = {
   clientID: AUTH0_CLIENT_ID,
   clientSecret: AUTH0_CLIENT_SECRET,
   domain: AUTH0_DOMAIN,
   callbackURL: AUTH0_CALLBACK_URL,
-  scope: `offline_access openid profile email`,
+  scope: AUTH0_SCOPE,
   // Frontned will only ever communicate with the db via the GraphQL endpoint
-  audience: `${API_URI}/graphql`,
+  audience: AUTH0_AUDIENCE,
 };
 
 // This authenticator will be used for
@@ -57,6 +63,11 @@ const auth0Strategy = new Auth0Strategy(
     refreshToken,
     extraParams: { expires_in },
   }) => {
+    if ((profile._json as any)?.error) {
+      console.error(profile._json);
+      throw Error(`Auth0 userinfo error`);
+    }
+
     const user: FindOrCreateUserInput = {
       _id: profile.id,
       displayName: profile.displayName,
@@ -65,7 +76,7 @@ const auth0Strategy = new Auth0Strategy(
     };
 
     try {
-      const { findOrCreateUser } = await getSdk(
+      const { findOrCreateUser: result } = await getSdk(
         new GraphQLClient(apiBaseUrl, {
           headers: {
             authorization: `Bearer ${accessToken}`,
@@ -74,7 +85,7 @@ const auth0Strategy = new Auth0Strategy(
       ).findOrCreateUser({ record: user });
 
       return {
-        ...findOrCreateUser.record,
+        ...result.record,
         accessToken,
         refreshToken,
         expires: getExpires(expires_in),

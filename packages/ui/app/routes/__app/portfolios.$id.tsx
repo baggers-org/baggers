@@ -19,13 +19,18 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const headers = new Headers();
   const sdk = await authenticatedSdk(request, headers);
-  const response = sdk.updatePortfolio({
-    id: params.id,
-    input: {
-      ...Object.fromEntries(await request.formData()),
-    },
-  });
-  return json(response, { headers });
+
+  if (request.method === `PATCH`) {
+    const response = await sdk.updatePortfolio({
+      id: params.id,
+      input: {
+        ...Object.fromEntries(await request.formData()),
+      },
+    });
+    return json(response, { headers });
+  }
+
+  return json({ error: `method not support` }, { status: 405 });
 };
 
 export default function PortfoloLayout() {

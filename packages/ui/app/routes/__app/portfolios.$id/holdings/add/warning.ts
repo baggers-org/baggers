@@ -11,10 +11,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     const cookie =
       (await onboardingCookie.parse(request.headers.get(`Cookie`))) || {};
 
-    console.log(cookie);
-
     cookie.hideDirectHoldingAddWarning = true;
-    console.log(cookie);
 
     headers.append(`Set-Cookie`, await onboardingCookie.serialize(cookie));
   }

@@ -6,10 +6,7 @@ export const iexFetch = async (
 ) => {
   const { IEX_BASE_URL, IEX_TOKEN } = getIexEnv();
 
-  console.log(endpoint, IEX_BASE_URL);
-
   const url = new URL(`${IEX_BASE_URL}${endpoint}`);
-  console.log(url);
 
   url.searchParams.set('token', IEX_TOKEN);
 

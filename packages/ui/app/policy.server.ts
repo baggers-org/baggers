@@ -1,5 +1,8 @@
 import { LoaderFunction, redirect } from '@remix-run/server-runtime';
-import { baggersApiAuthenticator, refreshTokens } from './auth.server';
+import { GraphQLClient } from 'graphql-request';
+import { baggersApiAuthenticator, refreshTokens, Tokens } from './auth.server';
+import { getSdk, User } from './generated/graphql';
+import { apiBaseUrl } from './graphql/sdk.server';
 import { commitSession, getSession } from './session.server';
 
 type PolicyCallback<PolicyResult> = (
@@ -37,9 +40,31 @@ const refreshTokensAndSetCookie = async (
     });
   }
 
-  return newTokens.accessToken;
+  return newUser;
 };
 
+const getCypressUser = async (request: Request) => {
+  const cypressHeader = request.headers.get(`X-Cypress`);
+  if (!cypressHeader) throw Error(`No cypress header found`);
+  const user: User & Tokens = JSON.parse(cypressHeader);
+  // Create the test user in the db if he does not exist
+  const { findOrCreateUser } = await getSdk(
+    new GraphQLClient(apiBaseUrl, {
+      headers: {
+        authorization: `Bearer ${user.accessToken}`,
+      },
+    }),
+  ).findOrCreateUser({
+    record: {
+      _id: user._id,
+      displayName: user.displayName,
+      emails: user.emails,
+      photos: user.photos,
+    },
+  });
+
+  return { ...findOrCreateUser.record, ...user };
+};
 /**
  * Checks if a user is authenticated.
  *
@@ -55,10 +80,17 @@ const refreshTokensAndSetCookie = async (
 export const authenticate = async (
   request: Request,
   headers?: Headers,
-): Promise<string> => {
-  const user = await baggersApiAuthenticator.authenticate(`auth0`, request, {
-    failureRedirect: `/`,
-  });
+): Promise<User & Tokens> => {
+  let user: User & Tokens;
+  const cypressUserHeader = request.headers.get(`X-Cypress`);
+
+  if (cypressUserHeader) {
+    user = await getCypressUser(request);
+  } else {
+    user = await baggersApiAuthenticator.authenticate(`auth0`, request, {
+      failureRedirect: `/`,
+    });
+  }
 
   if (Date.now() > user.expires) {
     return refreshTokensAndSetCookie(
@@ -68,7 +100,7 @@ export const authenticate = async (
     );
   }
 
-  return user.accessToken;
+  return user;
 };
 
 /**
@@ -77,8 +109,15 @@ export const authenticate = async (
 export const isAuthenticated = async (
   request: Request,
   headers?: Headers,
-): Promise<string | undefined> => {
-  const user = await baggersApiAuthenticator.isAuthenticated(request);
+): Promise<(User & Tokens) | null> => {
+  let user: (User & Tokens) | null;
+  const cypressUserHeader = request.headers.get(`X-Cypress`);
+
+  if (cypressUserHeader) {
+    user = await getCypressUser(request);
+  } else {
+    user = await baggersApiAuthenticator.isAuthenticated(request);
+  }
 
   if (user && Date.now() > user.expires) {
     return refreshTokensAndSetCookie(
@@ -88,5 +127,5 @@ export const isAuthenticated = async (
     );
   }
 
-  return user?.accessToken;
+  return user;
 };

@@ -15,11 +15,16 @@ export const calculateHoldingMetrics = (
   }),
   addFieldToHolding(holdingsField, {
     profitLossPercent: {
-      $divide: [
+      $multiply: [
         {
-          $subtract: [`$$pos.marketValue`, `$$pos.costBasis`],
+          $divide: [
+            {
+              $subtract: [`$$pos.marketValue`, `$$pos.costBasis`],
+            },
+            `$$pos.costBasis`,
+          ],
         },
-        `$$pos.costBasis`,
+        100,
       ],
     },
   }),
