@@ -20,25 +20,22 @@ Cypress.Commands.add('login', (username: string, password: string) => {
   const audience = Cypress.env('Auth0Audience');
   const scope = Cypress.env('Auth0Scope');
 
-  console.log('Making request ');
-
   cy.request({
     method: 'POST',
     url: `https://${Cypress.env('Auth0Domain')}/oauth/token`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: {
       grant_type: 'password',
       username,
       password,
-      audience: 'https://baggers-api-staging.fly.dev/graphql',
-      scope: 'openid profile email offline_access',
-      client_id: '5KA0uKNvy4j51P09Qs5HcTXFjRbUOYES',
-      client_secret:
-        'l8ckq2CD8nYUIMOsp2WDmFKiAuHGb2v-cAIPAjxAOUiJNQWr0NoHn0ZcraKsCf1U',
+      audience,
+      scope,
+      client_id,
+      client_secret,
     },
   }).then(({ body }) => {
-    console.log('In here the body is ', body);
-    cy.log('body', body);
-
     const claims = jwt.decode(body.id_token);
     const { name, picture, email, sub, exp } = claims as any;
 

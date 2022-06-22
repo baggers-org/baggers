@@ -7,8 +7,8 @@ export type PriceTagProps = {
   value: number;
   label?: string;
   isPercent?: boolean;
-};
-export const PriceTag: React.FC<PriceTagProps & TypographyProps> = ({
+} & TypographyProps;
+export const PriceTag: React.FC<PriceTagProps> = ({
   value,
   isPercent,
   label,
