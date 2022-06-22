@@ -28,13 +28,12 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     },
     body: {
       grant_type: 'password',
-      username: 'xX_wbuffet666@berkshire.com',
-      password: 'xX_stockmaster_XX124%',
-      audience: 'https://baggers-api-staging.fly.dev/graphql',
-      scope: 'openid profile email offline_access',
-      client_id: 'cG6pvSKaRakadaBHI5QLJCpRz9avBjEX',
-      client_secret:
-        'ej6ucYJ6rHgQ-rnGdtqZuwg_ZPNqCxXPI9YlsQO53xcKkopAoGj2cvVsCQ-G0Z1M',
+      username,
+      password,
+      client_id,
+      client_secret,
+      audience,
+      scope,
     },
   }).then(({ body }) => {
     const claims = jwt.decode(body.id_token);
