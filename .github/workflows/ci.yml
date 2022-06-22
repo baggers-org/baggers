@@ -70,7 +70,7 @@ jobs:
           CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
 
   cypress-ff:
-    name: "Cypress Chrome"
+    name: "Cypress Firefox"
     needs: 
       - deployApi
       - deployUi
