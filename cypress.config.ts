@@ -21,6 +21,7 @@ const {
 export default defineConfig({
   projectId: '1hdkja',
   e2e: {
+    video: !!process.env.CI,
     baseUrl: process.env.CI
       ? 'https://baggers-staging.fly.dev'
       : 'http://localhost:3000',
