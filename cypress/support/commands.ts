@@ -52,7 +52,8 @@ Cypress.Commands.add('login', (username: string, password: string) => {
       expires: Date.now() + exp * 1000,
     };
 
-    cy.intercept(`${Cypress.config('baseUrl')}**`, (req) => {
+    cy.log('BaseUrl is ', Cypress.config('baseUrl'));
+    cy.intercept(`*`, (req) => {
       cy.log('Intercepting request ', req.url);
       cy.log('Adding header for user ', user.displayName);
       req.headers['X-Cypress'] = JSON.stringify(user);
