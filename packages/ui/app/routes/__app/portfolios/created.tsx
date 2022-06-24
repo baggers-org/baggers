@@ -1,16 +1,16 @@
-import { Button, Grid, MenuItem, Stack } from '@mui/material';
-import { BaggersSelect, PortfolioCard } from '~/components';
+import { Button, Stack } from '@mui/material';
 import { Form, useLoaderData, useNavigate } from '@remix-run/react';
 import {
   ActionFunction,
+  json,
   LoaderFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
+import { MyPortfoliosSummaryQuery, Portfolio } from '~/generated/graphql';
 import { useTranslation } from 'react-i18next';
-import { Box } from '@mui/system';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';
+import { PortfolioCardList } from '~/components/PortfolioCardList';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
@@ -20,63 +20,60 @@ export const loader: LoaderFunction = async ({ request }) => {
 export const action: ActionFunction = async ({ request }) => {
   const headers = new Headers();
   const sdk = await authenticatedSdk(request, headers);
-  const { createPortfolio } = await sdk.createPortfolio();
+  const formData = await request.formData();
+  const intent = formData.get(`intent`);
 
-  return redirect(`/portfolios/${createPortfolio.record._id}/holdings`, {
-    headers,
-  });
+  if (intent === `delete`) {
+    const ids = formData.getAll(`portfolio`);
+    await sdk.deletePortfolios({ ids });
+    return json({}, { headers });
+  }
+
+  if (intent === `create`) {
+    const { createPortfolio } = await sdk.createPortfolio();
+    return redirect(`/portfolios/${createPortfolio.record._id}/holdings`, {
+      headers,
+    });
+  }
+
+  return json({ error: `method not supported ` }, { status: 405 });
 };
 export default function CreatedPortfoliosPage() {
   const data = useLoaderData<MyPortfoliosSummaryQuery>();
 
   const { t } = useTranslation();
-
   const navigate = useNavigate();
 
   return (
-    <>
-      <Stack direction="row">
-        <Form method="post">
-          <Stack
-            direction="row"
-            spacing={3}
-            sx={{ display: { xs: `none`, md: `flex` } }}
+    <Form method="post">
+      <Stack spacing={3}>
+        <Stack
+          direction="row"
+          spacing={3}
+          sx={{ display: { xs: `none`, md: `flex` } }}
+        >
+          <Button
+            variant="contained"
+            type="submit"
+            name="intent"
+            value="create"
+            endIcon={<Create />}
           >
-            <Button variant="contained" type="submit" endIcon={<Create />}>
-              {t(`create_portfolio`, `Create portfolio`)}
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={() => navigate(`/portfolios/import`)}
-              endIcon={<DriveFolderUpload />}
-            >
-              {t(`import_from_broker`, `Import From Broker`)}
-            </Button>
-            <Button variant="outlined" endIcon={<FileUpload />}>
-              {t(`upload_csv`, `Upload CSV`)}
-            </Button>
-          </Stack>
-        </Form>
-        <Box ml="auto" width={{ xs: `100%`, md: `200px` }}>
-          <BaggersSelect
-            label={t(`show`, `Show`)}
-            id="show-portfolios-filter"
-            value="all"
-            size="small"
+            {t(`create_portfolio`, `Create portfolio`)}
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={() => navigate(`/portfolios/import`)}
+            endIcon={<DriveFolderUpload />}
           >
-            <MenuItem value="all">{t(`all`, `All`)}</MenuItem>
-            <MenuItem value="public">{t(`public`, `Public`)}</MenuItem>
-            <MenuItem value="private">{t(`private`, `Private`)}</MenuItem>
-          </BaggersSelect>
-        </Box>
+            {t(`import_from_broker`, `Import from broker`)}
+          </Button>
+          <Button variant="outlined" endIcon={<FileUpload />}>
+            {t(`upload_csv`, `Upload CSV`)}
+          </Button>
+        </Stack>
+        <PortfolioCardList portfolios={data?.myPortfolios as Portfolio[]} />
       </Stack>
-      <Grid container spacing={3} ml="-24px !important">
-        {data?.myPortfolios?.map((portfolio) => (
-          <Grid item xs={12} sm={6} lg={4} xl={3} key={portfolio._id}>
-            <PortfolioCard portfolio={portfolio} />
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    </Form>
   );
 }

@@ -191,6 +191,12 @@ mutation deletePortfolio($id: ObjectId!) {
   }
 }
 
+mutation deletePortfolios($ids: [ObjectId!]!) {
+  deletePortfolios(_ids: $ids) {
+    deletedCount
+  }
+}
+
 mutation findOrCreateUser($record: FindOrCreateUserInput!){
   findOrCreateUser(record: $record) {
     record {

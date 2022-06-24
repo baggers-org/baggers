@@ -17,7 +17,6 @@
   "homepage": "https://github.com/baggers-ltd/baggers#readme",
   "scripts": {
     "e2e:chrome": "node ./cypress/scripts/fetchTestSymbolData && cypress run --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome",
-    "e2e:firefox": "node ./cypress/scripts/fetchTestSymbolData && cypress run --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox",
     "lint": "lerna exec -- yarn lint",
     "typecheck": "lerna exec -- yarn typecheck"
   },
@@ -25,6 +24,7 @@
     "@testing-library/cypress": "^8.0.3",
     "@typescript-eslint/eslint-plugin": "4.15.2",
     "@typescript-eslint/parser": "4.15.2",
+    "cypress-iframe": "^1.0.1",
     "dotenv": "^16.0.1",
     "eslint": "7.20.0",
     "eslint-config-airbnb": "18.2.1",

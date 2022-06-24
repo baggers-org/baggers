@@ -10,6 +10,15 @@ export class BasePayload<T> implements Payload<T> {
   record: T;
 }
 
+@ObjectType()
+export class BaseDeleteMultiplePayload {
+  @Field()
+  deletedCount: number;
+
+  @Field()
+  acknowledged: boolean;
+}
+
 interface Payload<T> {
   recordId: ObjectId | string;
   record: T;

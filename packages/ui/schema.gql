@@ -18,6 +18,11 @@ type AddHoldingPayload {
   recordId: ObjectId!
 }
 
+type BaseDeleteMultiplePayload {
+  acknowledged: Boolean!
+  deletedCount: Float!
+}
+
 type Chart {
   change: Float!
   changeOverTime: Float!
@@ -152,9 +157,13 @@ type Mutation {
 
   """Create a portfolio under your username"""
   createPortfolio: CreatePortfolioPayload!
+  deleteMyPortfolios: BaseDeleteMultiplePayload!
 
   """Delete the specified portfolio if you have permission to do so"""
   deletePortfolio(_id: ObjectId!): CreatePortfolioPayload!
+
+  """Delete the specified portfolios if you have permission to do so"""
+  deletePortfolios(_ids: [ObjectId!]!): BaseDeleteMultiplePayload!
   findOrCreateUser(record: FindOrCreateUserInput!): FindOrCreateUserPayload!
   plaidCreateLinkToken: PlaidCreateLinkTokenResponse!
 
@@ -204,6 +213,7 @@ type PlaidMissingSecuritiesError {
 type Portfolio {
   _id: ObjectId!
   cash: Float!
+  createdAt: Float!
   description: String!
   holdings: [Holding!]!
   name: String!
@@ -213,6 +223,7 @@ type Portfolio {
   private: Boolean!
   totalValue: Float!
   transactions: [Transaction!]!
+  updatedAt: Float!
 }
 
 type PortfolioPerformance {

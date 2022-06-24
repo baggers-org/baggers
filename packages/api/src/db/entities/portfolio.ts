@@ -58,6 +58,12 @@ export class Portfolio extends Document {
 
   @Field(() => PortfolioPerformance)
   performance?: PortfolioPerformance;
+
+  @Field()
+  createdAt: number;
+
+  @Field()
+  updatedAt: number;
 }
 
 export const PortfolioModel = getModelForClass(Portfolio);

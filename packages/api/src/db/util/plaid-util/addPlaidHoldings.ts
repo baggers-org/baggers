@@ -1,4 +1,4 @@
-import { Holding, Portfolio } from '@/db/entities';
+import { Holding, HoldingSource, Portfolio } from '@/db/entities';
 import { PlaidMissingSecuritiesError } from '@/db/entities/plaid';
 import { InvestmentsHoldingsGetResponse } from 'plaid';
 import { equityOnly } from './equityOnly';
@@ -26,6 +26,7 @@ export const addPlaidHoldings = async (
         // TODO: support other instruments
         type: `shares`,
         plaidHolding: holding,
+        source: HoldingSource.broker,
       };
     });
 

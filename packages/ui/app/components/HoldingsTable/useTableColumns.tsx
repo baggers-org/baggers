@@ -1,8 +1,15 @@
-import { Delete } from '@mui/icons-material';
-import { Skeleton } from '@mui/material';
+import {
+  AddLink,
+  Delete,
+  GroupAdd,
+  Link,
+  PlaylistAdd,
+} from '@mui/icons-material';
+import { Skeleton, Tooltip } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
 import { useTranslation } from 'react-i18next';
+import { HoldingSource } from '~/generated/graphql';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { SymbolLogo } from '../SymbolLogo';
@@ -11,7 +18,7 @@ import { UseTableColumnProps } from './types';
 export const useTableColumns = ({
   onRemoveHolding,
 }: UseTableColumnProps): GridColDef[] => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(`holdings`);
 
   return [
     {
@@ -80,6 +87,60 @@ export const useTableColumns = ({
       flex: 1,
       headerName: `${t(`profit_loss`, `Daily P/L`)}`,
       renderCell: ({ row }) => <PriceTag value={row.dailyProfitLossUsd} />,
+    },
+    {
+      field: `source`,
+      headerName: `${t(`source`, `Source`)}`,
+      align: `center`,
+      headerAlign: `center`,
+      renderCell: ({ row }) => {
+        if (row.source === HoldingSource.Direct) {
+          return (
+            <Tooltip
+              title={t(
+                `direct_tooltip`,
+                `This holding has been added manually and will not contribute to analytics`,
+              )}
+            >
+              <GroupAdd
+                aria-label={t(`direct_holding`, `direct holding source`)}
+              />
+            </Tooltip>
+          );
+        }
+
+        if (row.source === HoldingSource.Broker) {
+          return (
+            <Tooltip
+              title={t(
+                `broker_tooltip`,
+                `This holding has been added via a linked brokerage account and is contributing to analytics.`,
+              )}
+            >
+              <AddLink
+                aria-label={t(`broker_holding`, `broker holding source`)}
+              />
+            </Tooltip>
+          );
+        }
+
+        if (row.source === HoldingSource.Transactions) {
+          return (
+            <Tooltip
+              title={t(
+                `transaction_tooltip`,
+                `This holding has been generated from transaction data and is contributing to analytics.`,
+              )}
+            >
+              <PlaylistAdd
+                aria-label={t(`broker_holding`, `broker holding source`)}
+              />
+            </Tooltip>
+          );
+        }
+
+        return null;
+      },
     },
     {
       field: `actions`,

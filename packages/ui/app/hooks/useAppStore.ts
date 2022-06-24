@@ -6,6 +6,7 @@ import { Onboarding } from '~/types/Onboarding';
 export interface AppStore {
   user: (User & Tokens) | null;
   onboarding: Onboarding;
+  url: string;
 }
 export const useAppStore = (): AppStore | undefined => {
   const matches = useMatches();

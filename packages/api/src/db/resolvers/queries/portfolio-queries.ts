@@ -47,7 +47,7 @@ export class PortfolioQueries {
       ...withPerformance,
       ...populateOwner(),
       ...sortHoldingsByMarketValue,
-    ]).sort({ totalValue: -1 });
+    ]).sort({ updatedAt: -1 });
 
     return res;
   }

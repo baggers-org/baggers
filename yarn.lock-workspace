@@ -1794,6 +1794,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 4.15.2
     "@typescript-eslint/parser": 4.15.2
     cypress: ^10.1.0
+    cypress-iframe: ^1.0.1
     dotenv: ^16.0.1
     eslint: 7.20.0
     eslint-config-airbnb: 18.2.1
@@ -2433,6 +2434,15 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
+  languageName: node
+  linkType: hard
+
+"cypress-iframe@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "cypress-iframe@npm:1.0.1"
+  peerDependencies:
+    "@types/cypress": ^1.1.0
+  checksum: 98f3322c49949234e86c7915bbcac413e50a804c6e0b630b1273ebdacf4146f231f03a54e34fae5adf6387b086fb9c6d0d1a2347ac7da5981376ee5553f31ec0
   languageName: node
   linkType: hard
 
