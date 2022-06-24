@@ -4,7 +4,7 @@ import React from 'react';
 export type FooterProps = {};
 export const Footer: React.FC<FooterProps> = () => {
   return (
-    <Box>
+    <Box display={{ xs: `none`, md: `flex` }}>
       <Divider />
       <Box
         display="flex"

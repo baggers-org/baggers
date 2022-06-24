@@ -22,7 +22,7 @@ export const SelectModeButtons: React.FC<SelectModeButtonsProps> = ({
     },
   ];
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={1}>
       {actions.map((action) => (
         <Tooltip title={action.tooltip} enterDelay={1000}>
           <IconButton

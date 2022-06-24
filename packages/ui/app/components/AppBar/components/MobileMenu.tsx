@@ -19,7 +19,6 @@ import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { ColorModeContext } from '~/styles';
-import { useMenuOptions } from '../useMenuOptions';
 
 export const MobileMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,8 +26,6 @@ export const MobileMenu = () => {
   const { toggleColorMode } = useContext(ColorModeContext);
 
   const user = useCurrentUser();
-
-  const options = useMenuOptions();
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -46,15 +43,10 @@ export const MobileMenu = () => {
       </IconButton>
       <Drawer
         open={isMenuOpen}
-        anchor="top"
+        anchor="left"
         onClose={() => setIsMenuOpen(false)}
       >
         <List>
-          {options.map((option) => (
-            <ListItemButton onClick={() => navigate(option.href)}>
-              <ListItemText>{option.label}</ListItemText>
-            </ListItemButton>
-          ))}
           <ListItemButton>
             <ListItemIcon>
               <LoginOutlined />

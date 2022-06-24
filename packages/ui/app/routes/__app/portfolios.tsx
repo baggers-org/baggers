@@ -11,7 +11,7 @@ export default function PortfoliosLayout() {
     <Container maxWidth="xl">
       <Stack spacing={5}>
         <Stack direction="row">
-          <Typography variant="h2">
+          <Typography variant="h2" fontSize={{ xs: `30px`, md: undefined }}>
             {t(`created_portfolios`, `Your portfolios`)}
           </Typography>
           <Tabs

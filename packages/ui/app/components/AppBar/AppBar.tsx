@@ -1,5 +1,7 @@
 import {
   AppBar as MuiAppBar,
+  BottomNavigation,
+  BottomNavigationAction,
   Box,
   ToggleButton,
   ToggleButtonGroup,
@@ -8,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
-import { useActiveTab } from '~/hooks';
+import { useActiveTab, useIsMobile } from '~/hooks';
 import Logo from '../../../public/svg/logo_white_small.svg';
 import { ProfileButton } from '../ProfileButton';
 import { MobileMenu } from './components/MobileMenu';
@@ -95,6 +97,23 @@ export const AppBar = () => {
           <ProfileButton />
         </Box>
       </Toolbar>
+      <BottomNavigation
+        sx={{
+          position: `fixed`,
+          bottom: 0,
+          width: `100%`,
+          zIndex: 99,
+          display: { xs: `static`, md: `none` },
+        }}
+      >
+        {options.map((option) => (
+          <BottomNavigationAction
+            label={option.label}
+            icon={option.icon}
+            onClick={() => navigate(option.href)}
+          />
+        ))}
+      </BottomNavigation>
     </MuiAppBar>
   );
 };

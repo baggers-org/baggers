@@ -47,11 +47,7 @@ export default function CreatedPortfoliosPage() {
   return (
     <Form method="post">
       <Stack spacing={3}>
-        <Stack
-          direction="row"
-          spacing={3}
-          sx={{ display: { xs: `none`, md: `flex` } }}
-        >
+        <Stack direction="row" spacing={3}>
           <Button
             variant="contained"
             type="submit"
