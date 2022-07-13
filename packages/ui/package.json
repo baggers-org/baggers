@@ -12,7 +12,7 @@
     "predev": "nodemon --watch src/graphql -e .gql scripts/mergeGraphQLDocuments.js & yarn generate",
     "lint": "eslint app",
     "postinstall": "remix setup node",
-    "start": "cross-env NODE_ENV=production remix-serve build 2> error.log",
+    "start": "cross-env NODE_ENV=production remix-serve build",
     "generate": "graphql-codegen --config codegen.yml",
     "env:staging": "cat .env.staging | flyctl -c fly.staging.toml secrets import",
     "env:prod": "cat .env.production | flyctl secrets import",
