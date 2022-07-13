@@ -12,7 +12,7 @@ WORKDIR /app
 
 ADD package.json ./
 ADD yarn.lock-workspace ./yarn.lock
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Setup production node_modules
 FROM base as production-deps
