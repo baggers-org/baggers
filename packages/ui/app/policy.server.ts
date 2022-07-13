@@ -127,5 +127,7 @@ export const isAuthenticated = async (
     );
   }
 
+  console.log(`User is `, user);
+
   return user;
 };
