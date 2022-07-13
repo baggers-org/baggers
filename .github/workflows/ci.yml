@@ -12,7 +12,7 @@ jobs:
     steps:
        - uses: actions/checkout@v2
        - name: Install
-         run: yarn install --immutable --immutable-cache
+         run: yarn install --immutable
        - name: "Typecheck"
          run: yarn typecheck
        - name: "Lint"
