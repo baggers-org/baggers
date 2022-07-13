@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
-import { useActiveTab, useIsMobile } from '~/hooks';
+import { useActiveTab } from '~/hooks';
 import Logo from '../../../public/svg/logo_white_small.svg';
 import { ProfileButton } from '../ProfileButton';
 import { MobileMenu } from './components/MobileMenu';
