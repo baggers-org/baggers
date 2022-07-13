@@ -1,3 +1,5 @@
+import { skipOn } from '@cypress/skip-test';
+
 describe('Portfolio holdings', () => {
   before(() => {
     cy.login();
@@ -7,6 +9,7 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
   it('user can add holdings to a portfolio directly', () => {
+    skipOn('firefox');
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio",

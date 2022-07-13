@@ -60,8 +60,33 @@ jobs:
       - run: "yarn install"
       - run: "yarn e2e:chrome"
         env:
-          CYPRESS_AUTH0_USERNAME: ${{ secrets.CYPRESS_AUTH0_USERNAME }}
-          CYPRESS_AUTH0_PASSWORD: ${{ secrets.CYPRESS_AUTH0_PASSWORD }}
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
+
+  cypress-firefox:
+    name: "Cypress - firefox"
+    needs: 
+      - deployApi
+      - deployUi
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "yarn install"
+      - run: "yarn e2e:firefox"
+        env:
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
           CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
           CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
           CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}

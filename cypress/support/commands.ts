@@ -1,6 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import 'cypress-iframe';
 import '@testing-library/cypress/add-commands';
+import '@cypress/skip-test/';
 
 declare global {
   namespace Cypress {
