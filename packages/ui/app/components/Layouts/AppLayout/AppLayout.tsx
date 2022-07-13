@@ -1,11 +1,10 @@
 import { Box } from '@mui/system';
-import { AppBar } from '~/components/AppBar';
 import { Footer } from '~/components/Footer';
 
 export const AppLayout: React.FC = ({ children }) => {
   return (
     <>
-      <AppBar />
+      {/* <AppBar /> */}
       <Box
         sx={{
           mt: 12,
