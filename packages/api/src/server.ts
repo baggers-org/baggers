@@ -14,7 +14,10 @@ import {
   SymbolQueries,
   ChartQueries,
 } from '@/db/resolvers';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} from 'apollo-server-core';
 import { UserMutations } from './db/resolvers/mutations/user-mutations';
 import { GraphQLContext } from './types/GraphQLContext';
 import { authChecker } from './util/authChecker';
@@ -27,11 +30,6 @@ const getApolloServerHandler = async () => {
 
   app.use(`/graphql`, jwtCheck());
   app.use(`/cron`, cronApp);
-
-  app.use(function (req, res, next) {
-    req.socket.on('error', (err) => console.error(err));
-    next();
-  });
 
   const httpServer = http.createServer(app);
 
@@ -55,7 +53,10 @@ const getApolloServerHandler = async () => {
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });
 
-  const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];
+  const plugins = [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    ApolloServerPluginLandingPageGraphQLPlayground(),
+  ];
 
   const server = new ApolloServer<
     ExpressContext & { req: Request & GraphQLContext }
