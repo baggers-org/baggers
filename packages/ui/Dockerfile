@@ -1,5 +1,5 @@
 # base node image
-FROM node:18.3-bullseye-slim as base
+FROM node:17.5-bullseye-slim as base
 
 RUN apt-get update && apt-get install git -y
 # Install all node_modules, including dev dependencies
@@ -38,10 +38,6 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY --from=deps /app/node_modules /app/node_modules
-
-# If we're using Prisma, uncomment to cache the prisma schema
-# ADD prisma .
-# RUN npx prisma generate
 
 ADD . .
 RUN yarn build
