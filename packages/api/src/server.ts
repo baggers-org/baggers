@@ -31,6 +31,15 @@ const getApolloServerHandler = async () => {
   app.use(`/graphql`, jwtCheck());
   app.use(`/cron`, cronApp);
 
+  app.use((req, res, next) => {
+    req.on('error', (err) => {
+      console.log(
+        'This is required for some ridiculous reason, i have no idea',
+      );
+    });
+    next();
+  });
+
   const httpServer = http.createServer(app);
 
   const { ATLAS_CLUSTER_URI } = process.env;
