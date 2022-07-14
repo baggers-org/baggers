@@ -32,7 +32,7 @@ const getApolloServerHandler = async () => {
   app.use(`/cron`, cronApp);
 
   app.use((req, res, next) => {
-    req.on('error', (err) => {
+    req.on('error', () => {
       console.log(
         'This is required for some ridiculous reason, i have no idea',
       );
