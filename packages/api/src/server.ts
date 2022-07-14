@@ -63,6 +63,7 @@ const getApolloServerHandler = async () => {
   >({
     schema,
     plugins,
+    introspection: true,
     context: ({ req }) => {
       return {
         user: req.user,
