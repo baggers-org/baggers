@@ -1,8 +1,10 @@
+import { ArrowBack } from '@mui/icons-material';
 import {
   AppBar as MuiAppBar,
   BottomNavigation,
   BottomNavigationAction,
   Box,
+  IconButton,
   ToggleButton,
   ToggleButtonGroup,
   Toolbar,
@@ -13,7 +15,6 @@ import { useLocation, useNavigate } from '@remix-run/react';
 import { useActiveTab } from '~/hooks';
 import Logo from '../../../public/svg/logo_white_small.svg';
 import { ProfileButton } from '../ProfileButton';
-import { MobileMenu } from './components/MobileMenu';
 import { useMenuOptions } from './useMenuOptions';
 
 export const AppBar = () => {
@@ -32,14 +33,7 @@ export const AppBar = () => {
     >
       <Toolbar>
         <Box
-          flexGrow={1}
-          justifyContent="start"
-          display={{ xs: `flex`, md: `none` }}
-        >
-          <MobileMenu />
-        </Box>
-        <Box
-          display="flex"
+          display={{ xs: `none`, md: `flex` }}
           alignItems="center"
           justifyContent={{ xs: `center`, md: `start` }}
           flexGrow={1}
@@ -48,6 +42,11 @@ export const AppBar = () => {
           <Typography fontFamily="Archivo Black" fontSize="24px" ml={1}>
             BAGGERS
           </Typography>
+        </Box>
+        <Box display={{ xs: `flex`, md: `none` }}>
+          <IconButton onClick={() => navigate(-1)}>
+            <ArrowBack />
+          </IconButton>
         </Box>
         <Box display={{ xs: `none`, md: `flex` }}>
           <ToggleButtonGroup

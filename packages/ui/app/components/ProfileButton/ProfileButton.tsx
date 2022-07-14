@@ -4,9 +4,12 @@ import {
   Button,
   Divider,
   IconButton,
+  ListItemButton,
   ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
+  MenuList,
   useTheme,
 } from '@mui/material';
 import {
@@ -75,38 +78,30 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
         transformOrigin={{ horizontal: `right`, vertical: `top` }}
         anchorOrigin={{ horizontal: `right`, vertical: `bottom` }}
       >
-        <MenuItem>
-          <Avatar
-            src={profilePhoto}
-            imgProps={{
-              referrerPolicy: `no-referrer`,
-            }}
-          />
-          {` `}
-          {user.displayName}
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> {t(`account`, `Account`)}
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={toggleColorMode}>
-          {theme.palette.mode === `dark` ? (
-            <Brightness4Outlined />
-          ) : (
-            <DarkModeOutlined />
-          )}
-          {theme.palette.mode === `dark`
-            ? t(`switch_to_light_theme`, `Switch to light theme`)
-            : t(`switch_to_dark_theme`, `Switch to dark theme`)}
-        </MenuItem>
-        <Form action="/auth/auth0/logout" method="post">
-          <Button type="submit">
+        <MenuList>
+          <MenuItem onClick={toggleColorMode}>
             <ListItemIcon>
-              <Logout fontSize="small" />
+              {theme.palette.mode === `dark` ? (
+                <Brightness4Outlined />
+              ) : (
+                <DarkModeOutlined />
+              )}
             </ListItemIcon>
-            {t(`logout`, `Logout`)}
-          </Button>
-        </Form>
+            <ListItemText>
+              {theme.palette.mode === `dark`
+                ? t(`switch_to_light_theme`, `Switch to light theme`)
+                : t(`switch_to_dark_theme`, `Switch to dark theme`)}
+            </ListItemText>
+          </MenuItem>
+          <Form action="/auth/auth0/logout" method="post">
+            <MenuItem type="submit" component="button">
+              <ListItemIcon>
+                <Logout fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>{t(`logout`, `Logout`)}</ListItemText>
+            </MenuItem>
+          </Form>
+        </MenuList>
       </Menu>
     </>
   );

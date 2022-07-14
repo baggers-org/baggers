@@ -4,6 +4,7 @@ import {
   ActionFunction,
   json,
   LoaderFunction,
+  MetaFunction,
   redirect,
 } from '@remix-run/server-runtime';
 import { MyPortfoliosSummaryQuery, Portfolio } from '~/generated/graphql';
@@ -16,6 +17,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
   return sdk.myPortfoliosSummary();
 };
+
+export const meta: MetaFunction = () => ({
+  title: `Baggers - Created portfolios`,
+});
 
 export const action: ActionFunction = async ({ request }) => {
   const headers = new Headers();

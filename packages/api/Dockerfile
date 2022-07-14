@@ -1,5 +1,5 @@
 
-FROM node:18.3-bullseye-slim as base
+FROM node:18-bullseye-slim as base
 
 RUN apt-get update && apt-get install git -y
 # Install all node_modules, including dev dependencies
