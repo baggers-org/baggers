@@ -9,7 +9,6 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
   it('user can add holdings to a portfolio directly', () => {
-    skipOn('firefox');
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio",
@@ -79,6 +78,8 @@ describe('Portfolio holdings', () => {
   });
 
   it('users should be able to import holdings from their broker', () => {
+    // TODO: unskip if FF ever support disabling security for cross origin iframes
+    skipOn('firefox');
     cy.findByText('Import from broker').click();
 
     cy.frameLoaded();
