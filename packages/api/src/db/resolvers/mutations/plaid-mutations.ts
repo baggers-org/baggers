@@ -58,18 +58,30 @@ export class PlaidMutations {
       },
     );
 
-    const portfolios = (await mapPlaidDataToPortfolios(holdings, transactions))
-      .filter((p) => p.holdings.length)
-      .map((p) => ({
-        ...p,
-        owner: user.sub,
-        plaid: { ...p.plaid, access_token, item_id, request_id },
-      }));
+    try {
+      const portfolios = (
+        await mapPlaidDataToPortfolios(holdings, transactions)
+      )
+        .filter((p) => p.holdings.length)
+        .map((p) => ({
+          ...p,
+          owner: user.sub,
+          plaid: { ...p.plaid, access_token, item_id, request_id },
+        }));
 
-    await PortfolioModel.insertMany(portfolios);
+      console.log(portfolios);
 
-    return {
-      ok: true,
-    };
+      await PortfolioModel.insertMany(portfolios);
+
+      return {
+        ok: true,
+      };
+    } catch (e) {
+      console.error(e);
+
+      return {
+        ok: false,
+      };
+    }
   }
 }

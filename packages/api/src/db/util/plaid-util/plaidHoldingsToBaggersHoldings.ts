@@ -1,4 +1,4 @@
-import { Holding, Symbol, SymbolModel } from '@/db/entities';
+import { Holding, HoldingSource, Symbol, SymbolModel } from '@/db/entities';
 import { openFigiFetch, OpenFigiResponse } from '@/open-figi/open-figi';
 import { FlatHolding } from './types';
 
@@ -38,7 +38,7 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
     plaidHolding: holding,
     baggersHolding: {} as Partial<Holding>,
     figiInput: getOpenFigiInput(holding.security),
-    figiResult: {} as OpenFigiResponse[number],
+    figiResult: {} as OpenFigiResponse[number] | undefined,
     lookupFigis: [''],
     lookupSymbol: '',
   }));
@@ -47,11 +47,21 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
     method: `post`,
     body: JSON.stringify(securityMap.map((s) => s.figiInput)),
   });
-  const openFigiResults = (await openFigiResponse.json()) as OpenFigiResponse;
+  if (!openFigiResponse.ok) {
+    console.error(
+      'Response from openfigi.com/api ',
+      openFigiResponse.status,
+      openFigiResponse.statusText,
+    );
+  }
+
+  const openFigiResults = openFigiResponse.ok
+    ? ((await openFigiResponse.json()) as OpenFigiResponse)
+    : null;
 
   securityMap = securityMap.map((mapping, index) => ({
     ...mapping,
-    figiResult: openFigiResults[index],
+    figiResult: openFigiResults?.[index],
   }));
 
   securityMap = securityMap.map((mapper) => {
@@ -61,6 +71,10 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
         lookupFigis: mapper.figiResult?.data?.map((d) => d.figi) || '',
       };
     }
+    console.log(
+      'OpenFIGI unavailable, using symbol search for ',
+      mapper.plaidHolding.security?.ticker_symbol,
+    );
 
     return {
       ...mapper,
@@ -99,10 +113,11 @@ export const plaidHoldingsToBaggersHoldings = async (input: PlaidHolding[]) => {
         type: 'shares',
         quantity: s.plaidHolding.quantity,
         currency: s.plaidHolding.iso_currency_code,
+        source: HoldingSource.broker,
         averagePrice:
           (s.plaidHolding.cost_basis || 0) / s.plaidHolding.quantity,
         symbol,
-      } as Partial<Holding>,
+      } as Holding,
     };
   });
 

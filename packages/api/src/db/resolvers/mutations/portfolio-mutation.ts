@@ -5,6 +5,7 @@ import {
   UpdatePortfolioInput,
 } from '@/db/inputs/portfolio-inputs';
 import { ObjectIdScalar } from '@/db/object-id.scalar';
+import { BaseDeleteMultiplePayload } from '@/db/payloads/base-payload';
 import {
   CreatePortfolioPayload,
   UpdatePortfolioPayload,
@@ -32,6 +33,8 @@ export class PortfolioMutations {
       owner: {
         _id: user.sub,
       },
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
     return {
       record: await portfolio.populate(`owner`),
@@ -39,6 +42,7 @@ export class PortfolioMutations {
     };
   }
 
+  @Authorized()
   @Mutation(() => CreatePortfolioPayload, {
     description: `Delete the specified portfolio if you have permission to do so`,
   })
@@ -59,6 +63,31 @@ export class PortfolioMutations {
     };
   }
 
+  @Authorized()
+  @Mutation(() => BaseDeleteMultiplePayload, {
+    description: `Delete the specified portfolios if you have permission to do so`,
+  })
+  async deletePortfolios(
+    @Arg(`_ids`, () => [ObjectIdScalar]) ids: ObjectId[],
+    @CurrentUser() user: AccessClaim,
+  ): Promise<boolean> {
+    return await PortfolioModel.remove({
+      owner: user.sub,
+      _id: {
+        $in: ids,
+      },
+    }).orFail(() => new NotFoundError('Could not remove portfolios'));
+  }
+
+  @Authorized()
+  @Mutation(() => BaseDeleteMultiplePayload)
+  async deleteMyPortfolios(@CurrentUser() user: AccessClaim): Promise<boolean> {
+    return await PortfolioModel.remove({
+      owner: user.sub,
+    }).orFail(() => new NotFoundError('Could not remove portfolios'));
+  }
+
+  @Authorized()
   @Mutation(() => UpdatePortfolioPayload, {
     description: `Update portfolio details`,
   })
@@ -69,7 +98,7 @@ export class PortfolioMutations {
   ): Promise<UpdatePortfolioPayload> {
     const portfolio = await PortfolioModel.findOneAndUpdate(
       { _id: id, owner: user.sub },
-      { $set: input },
+      { $set: { ...input, updatedAt: Date.now() } },
     ).orFail(
       () =>
         new NotFoundError(
@@ -83,6 +112,7 @@ export class PortfolioMutations {
     };
   }
 
+  @Authorized()
   @Mutation(() => AddHoldingPayload)
   async addHolding(
     @Arg(`id`) id: ObjectId,
@@ -102,6 +132,9 @@ export class PortfolioMutations {
             costBasis: input.averagePrice * input.quantity,
             source: 'direct',
           },
+        },
+        $set: {
+          updatedAt: Date.now(),
         },
       },
       {
@@ -134,6 +167,7 @@ export class PortfolioMutations {
     };
   }
 
+  @Authorized()
   @Mutation(() => RemoveHoldingPayload)
   async removeHolding(
     @Arg(`portfolio_id`) portfolio_id: ObjectId,
@@ -147,6 +181,9 @@ export class PortfolioMutations {
       },
       {
         $pull: { holdings: { _id: holding_id } },
+        $set: {
+          updatedAt: Date.now(),
+        },
       },
     ).orFail(() => new NotFoundError(`Could not remove the holding`));
 
@@ -155,6 +192,7 @@ export class PortfolioMutations {
     };
   }
 
+  @Authorized()
   @Mutation(() => ClearImportError)
   async clearImportError(
     @Arg(`portfolio_id`) portfolio_id: ObjectId,

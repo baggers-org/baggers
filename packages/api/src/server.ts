@@ -14,7 +14,10 @@ import {
   SymbolQueries,
   ChartQueries,
 } from '@/db/resolvers';
-import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import {
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageGraphQLPlayground,
+} from 'apollo-server-core';
 import { UserMutations } from './db/resolvers/mutations/user-mutations';
 import { GraphQLContext } from './types/GraphQLContext';
 import { authChecker } from './util/authChecker';
@@ -50,13 +53,17 @@ const getApolloServerHandler = async () => {
     scalarsMap: [{ type: ObjectId, scalar: ObjectIdScalar }],
   });
 
-  const plugins = [ApolloServerPluginDrainHttpServer({ httpServer })];
+  const plugins = [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    ApolloServerPluginLandingPageGraphQLPlayground(),
+  ];
 
   const server = new ApolloServer<
     ExpressContext & { req: Request & GraphQLContext }
   >({
     schema,
     plugins,
+    introspection: true,
     context: ({ req }) => {
       return {
         user: req.user,

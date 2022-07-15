@@ -35,6 +35,12 @@ export type AddHoldingPayload = {
   recordId: Scalars['ObjectId'];
 };
 
+export type BaseDeleteMultiplePayload = {
+  __typename?: 'BaseDeleteMultiplePayload';
+  acknowledged: Scalars['Boolean'];
+  deletedCount: Scalars['Float'];
+};
+
 export type Chart = {
   __typename?: 'Chart';
   change: Scalars['Float'];
@@ -170,8 +176,11 @@ export type Mutation = {
   clearImportError: ClearImportError;
   /** Create a portfolio under your username */
   createPortfolio: CreatePortfolioPayload;
+  deleteMyPortfolios: BaseDeleteMultiplePayload;
   /** Delete the specified portfolio if you have permission to do so */
   deletePortfolio: CreatePortfolioPayload;
+  /** Delete the specified portfolios if you have permission to do so */
+  deletePortfolios: BaseDeleteMultiplePayload;
   findOrCreateUser: FindOrCreateUserPayload;
   plaidCreateLinkToken: PlaidCreateLinkTokenResponse;
   /** Uses the public_token from the link process to import portfolios */
@@ -195,6 +204,11 @@ export type MutationClearImportErrorArgs = {
 
 export type MutationDeletePortfolioArgs = {
   _id: Scalars['ObjectId'];
+};
+
+
+export type MutationDeletePortfoliosArgs = {
+  _ids: Array<Scalars['ObjectId']>;
 };
 
 
@@ -524,6 +538,13 @@ export type DeletePortfolioMutationVariables = Exact<{
 
 export type DeletePortfolioMutation = { __typename?: 'Mutation', deletePortfolio: { __typename?: 'CreatePortfolioPayload', recordId: any } };
 
+export type DeletePortfoliosMutationVariables = Exact<{
+  ids: Array<Scalars['ObjectId']> | Scalars['ObjectId'];
+}>;
+
+
+export type DeletePortfoliosMutation = { __typename?: 'Mutation', deletePortfolios: { __typename?: 'BaseDeleteMultiplePayload', deletedCount: number } };
+
 export type FindOrCreateUserMutationVariables = Exact<{
   record: FindOrCreateUserInput;
 }>;
@@ -792,6 +813,13 @@ export const DeletePortfolioDocument = gql`
   }
 }
     `;
+export const DeletePortfoliosDocument = gql`
+    mutation deletePortfolios($ids: [ObjectId!]!) {
+  deletePortfolios(_ids: $ids) {
+    deletedCount
+  }
+}
+    `;
 export const FindOrCreateUserDocument = gql`
     mutation findOrCreateUser($record: FindOrCreateUserInput!) {
   findOrCreateUser(record: $record) {
@@ -926,6 +954,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     deletePortfolio(variables: DeletePortfolioMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePortfolioMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeletePortfolioMutation>(DeletePortfolioDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePortfolio', 'mutation');
+    },
+    deletePortfolios(variables: DeletePortfoliosMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePortfoliosMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeletePortfoliosMutation>(DeletePortfoliosDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePortfolios', 'mutation');
     },
     findOrCreateUser(variables: FindOrCreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<FindOrCreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<FindOrCreateUserMutation>(FindOrCreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'findOrCreateUser', 'mutation');

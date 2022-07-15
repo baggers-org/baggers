@@ -38,7 +38,8 @@ export const getBasicPortfolios = async (
     },
     cash: account?.balances.available || 0,
     name: `${name} - ${account.official_name}`,
-
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
     private: true,
   }));
 

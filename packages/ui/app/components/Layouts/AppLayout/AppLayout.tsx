@@ -7,10 +7,17 @@ import { Footer } from '~/components/Footer';
 
 export const AppLayout: React.FC = ({ children }) => {
   const { pathname } = useLocation();
+
   return (
     <>
       <AppBar />
-      <Box sx={{ mt: pathname === `/` ? 0 : 16, minHeight: `100vh`, mb: 32 }}>
+      <Box
+        sx={{
+          mt: pathname === `/` ? 0 : 12,
+          minHeight: `100vh`,
+          mb: 32,
+        }}
+      >
         <main>{children}</main>
       </Box>
       <Footer />

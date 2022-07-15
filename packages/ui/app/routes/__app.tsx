@@ -15,6 +15,7 @@ export const loader: LoaderFunction = async ({
   return {
     user,
     onboarding,
+    url: request?.url,
   };
 };
 export default function LandingLayout() {

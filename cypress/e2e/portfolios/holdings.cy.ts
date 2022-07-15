@@ -1,9 +1,14 @@
+import { skipOn } from '@cypress/skip-test';
+
 describe('Portfolio holdings', () => {
   before(() => {
-    cy.login(Cypress.env('Auth0Username'), Cypress.env('Auth0Password'));
+    cy.login();
+  });
+
+  beforeEach(() => {
+    cy.visit('/portfolios/created');
   });
   it('user can add holdings to a portfolio directly', () => {
-    cy.visit('/portfolios/created');
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio",
@@ -66,12 +71,45 @@ describe('Portfolio holdings', () => {
       firstRow()
         .find('[data-field="profitLossUsd"]')
         .should('contain.text', `+$${expectedReturnUsd.toFixed(2)}`);
+
+      // Should have a direct holding source
+      cy.findByLabelText('direct holding source');
     });
   });
 
-  after(() => {
-    cy.findByText('Settings').scrollIntoView().click({ force: true });
-    cy.get('[data-cy="delete portfolio"]').click({ force: true });
-    cy.findByText('Yes delete it').click();
+  it('users should be able to import holdings from their broker', () => {
+    // TODO: unskip if FF ever support disabling security for cross origin iframes
+    skipOn('firefox');
+    cy.findByText('Import from broker').click();
+
+    cy.frameLoaded();
+
+    cy.iframe().findByText('Continue').click();
+
+    cy.iframe().findByText('Vanguard').click();
+
+    cy.fixture('Plaid1').then(({ username, password }) => {
+      cy.iframe().findByLabelText('User Name').type(username);
+      cy.iframe().findByLabelText('Password').type(password);
+    });
+
+    cy.iframe().findByText('Submit').click();
+    cy.iframe().findByText('Continue').click();
+    cy.iframe().findByText('View', { timeout: 20000 }).click();
+
+    cy.url({ timeout: 15000 }).should(
+      'eq',
+      `${Cypress.config('baseUrl')}/portfolios/created`,
+    );
+
+    // Most recent one will be the default sort
+    cy.findAllByText('Vanguard - Plaid isa').first().click();
+
+    cy.findByText('$34,220,543.24');
+
+    cy.findByText('Total Rows: 5');
+
+    // All of these holdings should have a broker holding source
+    cy.findAllByLabelText('broker holding source').should('have.length', 5);
   });
 });

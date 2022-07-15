@@ -1,5 +1,7 @@
 import * as jwt from 'jsonwebtoken';
+import 'cypress-iframe';
 import '@testing-library/cypress/add-commands';
+import '@cypress/skip-test/';
 
 declare global {
   namespace Cypress {
@@ -8,12 +10,27 @@ declare global {
        * Custom command to select DOM element by data-cy attribute.
        * @example cy.dataCy('greeting')
        */
-      login(username: string, password: string): Chainable<Element>;
+      login(username?: string, password?: string): Chainable<Element>;
     }
   }
 }
+
 // cypress/support/commands.js
-Cypress.Commands.add('login', (username: string, password: string) => {
+Cypress.Commands.add('login', (username?: string, password?: string) => {
+  let user = username;
+  let pass = password;
+  if (!username || !password) {
+    // Use the default browser user
+
+    if (Cypress.browser.name === 'chrome') {
+      user = Cypress.env('ChromeUser');
+      pass = Cypress.env('ChromePassword');
+    }
+    if (Cypress.browser.name === 'firefox') {
+      user = Cypress.env('FirefoxUser');
+      pass = Cypress.env('FirefoxPassword');
+    }
+  }
   cy.log(`Logging in as ${username}`);
   const client_id = Cypress.env('Auth0ClientId');
   const client_secret = Cypress.env('Auth0ClientSecret');
@@ -28,8 +45,8 @@ Cypress.Commands.add('login', (username: string, password: string) => {
     },
     body: {
       grant_type: 'password',
-      username,
-      password,
+      username: user,
+      password: pass,
       client_id,
       client_secret,
       audience,

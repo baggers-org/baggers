@@ -2009,6 +2009,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cypress/skip-test@npm:^2.6.1":
+  version: 2.6.1
+  resolution: "@cypress/skip-test@npm:2.6.1"
+  checksum: 48ec912f162563ca8657b6f023b701f66ddc29083ed36ae96cd861087c828046c2abb36c6fa0b316bb74941a17b046ac3b143532218e4cdc6d78d7838a64a141
+  languageName: node
+  linkType: hard
+
 "@cypress/xvfb@npm:^1.2.4":
   version: 1.2.4
   resolution: "@cypress/xvfb@npm:1.2.4"
@@ -7072,10 +7079,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "baggers@workspace:."
   dependencies:
+    "@cypress/skip-test": ^2.6.1
     "@testing-library/cypress": ^8.0.3
     "@typescript-eslint/eslint-plugin": 4.15.2
     "@typescript-eslint/parser": 4.15.2
     cypress: ^10.1.0
+    cypress-iframe: ^1.0.1
     dotenv: ^16.0.1
     eslint: 7.20.0
     eslint-config-airbnb: 18.2.1
@@ -8632,6 +8641,15 @@ __metadata:
   version: 3.1.0
   resolution: "csstype@npm:3.1.0"
   checksum: 644e986cefab86525f0b674a06889cfdbb1f117e5b7d1ce0fc55b0423ecc58807a1ea42ecc75c4f18999d14fc42d1d255f84662a45003a52bb5840e977eb2ffd
+  languageName: node
+  linkType: hard
+
+"cypress-iframe@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "cypress-iframe@npm:1.0.1"
+  peerDependencies:
+    "@types/cypress": ^1.1.0
+  checksum: 98f3322c49949234e86c7915bbcac413e50a804c6e0b630b1273ebdacf4146f231f03a54e34fae5adf6387b086fb9c6d0d1a2347ac7da5981376ee5553f31ec0
   languageName: node
   linkType: hard
 
