@@ -26,7 +26,6 @@ import { cronApp } from './cron';
 import { jwtCheck } from './jwtCheck';
 
 const getApolloServerHandler = async () => {
-
   const app = express();
 
   app.use(`/graphql`, jwtCheck());
