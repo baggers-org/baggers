@@ -3,10 +3,14 @@ import { baggersApiAuthenticator } from '~/auth.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {
-    return baggersApiAuthenticator.authenticate(`auth0`, request, {
+    console.log(`In callback`);
+
+    const res = await baggersApiAuthenticator.authenticate(`auth0`, request, {
       successRedirect: `/portfolios/created`,
       throwOnError: true,
     });
+
+    console.log(`Callback response `, res);
   } catch (e) {
     console.error(e);
 

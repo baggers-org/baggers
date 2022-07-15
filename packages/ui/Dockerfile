@@ -1,5 +1,5 @@
 # base node image
-FROM node:17.5-bullseye-slim as base
+FROM node:16-bullseye-slim as base
 
 RUN apt-get update && apt-get install git -y
 # Install all node_modules, including dev dependencies
