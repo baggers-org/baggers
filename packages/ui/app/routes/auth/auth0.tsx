@@ -10,6 +10,8 @@ export const loader: LoaderFunction = () => redirect(`/`);
 
 export const action: ActionFunction = ({ request }) => {
   try {
+    console.log(`In here what THE ABSOLUTE FUCK IS HAPPENING JESUS CHRIST`);
+
     return baggersApiAuthenticator.authenticate(`auth0`, request, {
       throwOnError: true,
     });
