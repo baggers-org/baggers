@@ -63,8 +63,6 @@ const auth0Strategy = new Auth0Strategy(
     refreshToken,
     extraParams: { expires_in },
   }) => {
-    console.log(`User is confirmed, in here `, profile);
-
     if ((profile._json as any)?.error) {
       console.error(profile._json);
       throw Error(`Auth0 userinfo error`);
@@ -78,8 +76,6 @@ const auth0Strategy = new Auth0Strategy(
     };
 
     try {
-      console.log(`Getting SDK to find user`);
-
       const { findOrCreateUser: result } = await getSdk(
         new GraphQLClient(apiBaseUrl, {
           headers: {
@@ -87,8 +83,6 @@ const auth0Strategy = new Auth0Strategy(
           },
         }),
       ).findOrCreateUser({ record: user });
-
-      console.log(`find user result `, result);
 
       return {
         ...result.record,
