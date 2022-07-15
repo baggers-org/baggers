@@ -39,6 +39,7 @@ export class PortfolioQueries {
   @Query(() => [Portfolio])
   @Authorized()
   async myPortfolios(@CurrentUser() user: AccessClaim) {
+    console.log('In my portfolios query');
     const res = await PortfolioModel.aggregate([
       {
         $match: { owner: user.sub },
@@ -48,6 +49,8 @@ export class PortfolioQueries {
       ...populateOwner(),
       ...sortHoldingsByMarketValue,
     ]).sort({ updatedAt: -1 });
+
+    console.log('Returning from my portfolios query');
 
     return res;
   }
