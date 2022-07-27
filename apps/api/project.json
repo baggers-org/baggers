@@ -64,7 +64,7 @@
       ],
       "options": {
         "jestConfig": "apps/api/jest.config.ts",
-        "passWithNoTests": true,
+        "passWithNoTests": true
       }
     }
   },
