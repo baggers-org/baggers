@@ -11,6 +11,7 @@ import { RecordId } from 'src/shared/classes/record-id';
 import { ObjectIdScalar } from 'src/shared/scalars/ObjectIdScalar';
 
 import mongoose from 'mongoose';
+import { RemoveMultiple } from 'src/shared/classes/remove-multiple.entity';
 
 @Resolver(() => PortfolioFromDb)
 export class PortfoliosResolver {
@@ -51,5 +52,14 @@ export class PortfoliosResolver {
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     return this.portfoliosService.removeOne(_id, currentUser);
+  }
+
+  @Mutation(() => RemoveMultiple, { name: 'portfoliosRemoveMultiple' })
+  removeMultiple(
+    @Args('_ids', { type: () => [ObjectIdScalar] })
+    _ids: mongoose.Types.ObjectId[],
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    return this.portfoliosService.removeMultiple(_ids, currentUser);
   }
 }

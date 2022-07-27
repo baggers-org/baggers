@@ -2,9 +2,12 @@ import { PopulatedPortfolioWithMetrics } from 'src/portfolios/entities/portfolio
 import { Portfolio1, PublicPortfolio } from './data/portfolio.test-data';
 import { User2 } from './data/user.test-data';
 import { setupTestApp, setUser } from './jest/setup';
-import { CreatedPortfoliosQuery } from './queries/created-portfolios.test-query';
-import { FullPortfolioQuery } from './queries/full-portfolio.test-query';
 import { appRequest } from './util/appRequest';
+import {
+  FullPortfolioQuery,
+  portfolioQuery,
+  portfoliosCreatedQuery,
+} from './util/queries/portfolio.test-queries';
 
 describe('Portfolio Queries', () => {
   beforeAll(async () => {
@@ -12,12 +15,9 @@ describe('Portfolio Queries', () => {
   });
   describe('portfolio', () => {
     it('should return a portfolio complete with holdings and all metrics', async () => {
-      const { data } = await appRequest()
-        .query(FullPortfolioQuery)
-        .variables({
-          id: Portfolio1._id,
-        })
-        .expectNoErrors();
+      const { data } = await portfolioQuery().expectNoErrors().variables({
+        id: Portfolio1._id,
+      });
 
       const portfolio: PopulatedPortfolioWithMetrics = data.portfolio;
 
@@ -96,7 +96,7 @@ describe('Portfolio Queries', () => {
       expect(
         portfolio.holdings
           .reduce((acc, curr) => acc + curr.exposure, 0)
-          .toFixed(2),
+          .toFixed(2)
       ).toEqual('99.97');
 
       expect(portfolio.holdings.length).toBe(4);
@@ -142,9 +142,7 @@ describe('Portfolio Queries', () => {
 
   describe('portfoliosCreated', () => {
     it('should return a PortfolioSummary for all the portfolios where you are the owner', async () => {
-      const { data } = await appRequest()
-        .query(CreatedPortfoliosQuery)
-        .expectNoErrors();
+      const { data } = await portfoliosCreatedQuery().expectNoErrors();
 
       expect(data.portfoliosCreated).toHaveLength(2);
       expect(data.portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
@@ -174,15 +172,15 @@ describe('Portfolio Queries', () => {
 
       // It should sort them by updatedAt - most recent
       expect(data.portfoliosCreated[0].updatedAt).toMatchInlineSnapshot(
-        `"2022-12-12T00:00:00.000Z"`,
+        `"2022-12-12T00:00:00.000Z"`
       );
       expect(data.portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
-        `"2022-07-22T00:00:00.000Z"`,
+        `"2022-07-22T00:00:00.000Z"`
       );
 
       expect(
         new Date(data.portfoliosCreated[0].updatedAt) >
-          new Date(data.portfoliosCreated[1].updatedAt),
+          new Date(data.portfoliosCreated[1].updatedAt)
       );
     });
   });

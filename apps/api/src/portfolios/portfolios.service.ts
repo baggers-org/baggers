@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Auth0AccessTokenPayload } from 'src/auth/types';
+import { RemoveMultiple } from 'src/shared/classes/remove-multiple.entity';
 import {
   PortfolioFromDb,
   PortfolioDocument,
@@ -19,7 +20,7 @@ export class PortfoliosService {
     @InjectModel(PortfolioFromDb.name)
     private portfolioModel: Model<PortfolioDocument>,
     private portfolioMetricsService: PortfolioMetricsService,
-    private holdingMetricsService: HoldingMetricsService,
+    private holdingMetricsService: HoldingMetricsService
   ) {}
 
   initEmpty(currentUser: Auth0AccessTokenPayload) {
@@ -28,7 +29,7 @@ export class PortfoliosService {
     });
   }
   getPortfolioWithMetrics(
-    portfolio: PopulatedPortfolio,
+    portfolio: PopulatedPortfolio
   ): PopulatedPortfolioWithMetrics {
     const holdingsWithMetrics =
       this.holdingMetricsService.calculateHoldingMetrics(portfolio);
@@ -42,7 +43,7 @@ export class PortfoliosService {
 
   async findById(
     _id: mongoose.Types.ObjectId,
-    currentUser: Auth0AccessTokenPayload,
+    currentUser: Auth0AccessTokenPayload
   ): Promise<PopulatedPortfolioWithMetrics> {
     const portfolios = await this.portfolioModel.aggregate<PopulatedPortfolio>([
       {
@@ -71,7 +72,7 @@ export class PortfoliosService {
   }
 
   async findCreated(
-    byUser: Auth0AccessTokenPayload,
+    byUser: Auth0AccessTokenPayload
   ): Promise<PortfolioSummary[]> {
     const portfolios = await this.portfolioModel
       .aggregate<PopulatedPortfolio>([
@@ -86,7 +87,7 @@ export class PortfoliosService {
       .sort({ updatedAt: -1 });
 
     const portfoliosWithMetrics = portfolios.map((p) =>
-      this.getPortfolioWithMetrics(p),
+      this.getPortfolioWithMetrics(p)
     );
 
     return portfoliosWithMetrics.map((p) => ({
@@ -99,7 +100,7 @@ export class PortfoliosService {
 
   async removeOne(
     _id: mongoose.Types.ObjectId,
-    currentUser: Auth0AccessTokenPayload,
+    currentUser: Auth0AccessTokenPayload
   ) {
     return this.portfolioModel
       .findOneAndDelete({
@@ -107,7 +108,23 @@ export class PortfoliosService {
         owner: currentUser.sub,
       })
       .orFail(
-        () => new NotFoundException('Could not find a portfolio with this id'),
+        () => new NotFoundException('Could not find a portfolio with this id')
+      );
+  }
+
+  async removeMultiple(
+    _ids: mongoose.Types.ObjectId[],
+    currentUser: Auth0AccessTokenPayload
+  ): Promise<RemoveMultiple> {
+    return await this.portfolioModel
+      .remove({
+        owner: currentUser.sub,
+        _id: {
+          $in: _ids,
+        },
+      })
+      .orFail(
+        () => new NotFoundException('Could not find any portfolios to delete')
       );
   }
 }

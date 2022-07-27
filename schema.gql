@@ -62,6 +62,7 @@ enum HoldingType {
 
 type Mutation {
   portfoliosInitEmpty: RecordId!
+  portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultiple!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!
   usersFindOrCreate(input: CreateUserInput!): User!
   usersRemoveOne(_id: ID!): User!
@@ -179,6 +180,11 @@ type Quote {
 
 type RecordId {
   _id: String!
+}
+
+type RemoveMultiple {
+  acknowledged: Boolean!
+  deletedCount: Float!
 }
 
 type Ticker {
