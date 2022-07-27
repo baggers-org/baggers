@@ -1,5 +1,0 @@
-mutation removeHolding($portfolio_id: ObjectId!, $holding_id: ObjectId!) {
-  removeHolding(portfolio_id: $portfolio_id, holding_id: $holding_id) {
-    recordId
-  }
-}
