@@ -1,0 +1,283 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateUserInput {
+  _id: String!
+  displayName: String!
+  emails: [String!]!
+  photos: [String!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Holding {
+  averagePrice: Float!
+  brokerFees: Float
+  costBasis: Float!
+  currency: String
+  dailyProfitLossUsd: Float!
+  direction: HoldingDirection
+  exposure: Float!
+  marketValue: Float!
+  profitLossPercent: Float!
+  profitLossUsd: Float!
+  quantity: Float!
+  source: HoldingSource!
+  ticker: Ticker!
+  type: HoldingType!
+}
+
+enum HoldingDirection {
+  long
+  short
+}
+
+type HoldingFromDb {
+  averagePrice: Float!
+  brokerFees: Float
+  costBasis: Float!
+  currency: String
+  direction: HoldingDirection
+  quantity: Float!
+  source: HoldingSource!
+  ticker: Ticker!
+  type: HoldingType!
+}
+
+enum HoldingSource {
+  broker
+  direct
+  transactions
+}
+
+enum HoldingType {
+  calls
+  puts
+  shares
+}
+
+type Mutation {
+  portfoliosInitEmpty: RecordId!
+  portfoliosRemoveOne(_id: ObjectId!): RecordId!
+  usersFindOrCreate(input: CreateUserInput!): User!
+  usersRemoveOne(_id: ID!): User!
+  usersUpdateOne(input: UpdateUserInput!): User!
+}
+
+"""Mongo object id scalar type"""
+scalar ObjectId
+
+type PopulatedHolding {
+  averagePrice: Float!
+  brokerFees: Float
+  costBasis: Float!
+  currency: String
+  direction: HoldingDirection
+  quantity: Float!
+  source: HoldingSource!
+  ticker: Ticker!
+  type: HoldingType!
+}
+
+type Portfolio {
+  _id: ObjectId!
+  cash: Float!
+  createdAt: DateTime!
+  description: String!
+  holdings: [Holding!]!
+  name: String!
+  owner: User!
+  private: Boolean!
+  totalValue: Float!
+  transactions: [Transaction!]!
+  updatedAt: DateTime!
+}
+
+type PortfolioSummary {
+  _id: ObjectId!
+  cash: Float!
+  createdAt: DateTime!
+  description: String!
+  name: String!
+  owner: User!
+  private: Boolean!
+  top5Holdings: [Holding!]!
+  totalValue: Float!
+  updatedAt: DateTime!
+}
+
+type Query {
+  portfolio(_id: ObjectId!): Portfolio!
+  portfoliosCreated: [PortfolioSummary!]!
+  ticker(_id: String!): Ticker!
+  tickersSearch(searchTerm: String!): [Ticker!]!
+  user(_id: ID!): User!
+}
+
+type Quote {
+  avgTotalVolume: Float
+  calculationPrice: String
+  change: Float
+  changePercent: Float
+  close: Float
+  closeSource: String
+  closeTime: Float
+  companyName: String!
+  currency: String
+  delayedPrice: Float
+  delayedPriceTime: Float
+  extendedChange: Float
+  extendedChangePercent: Float
+  extendedPrice: Float
+  extendedPriceTime: Float
+  high: Float
+  highSource: String
+  highTime: Float
+  iexAskPrice: Float
+  iexAskSize: Float
+  iexBidPrice: Float
+  iexBidSize: Float
+  iexClose: Float
+  iexCloseTime: Float
+  iexLastUpdated: Float
+  iexMarketPercent: Float
+  iexOpen: Float
+  iexOpenTime: Float
+  iexRealtimePrice: Float
+  iexRealtimeSize: Float
+  iexVolume: Float
+  isUSMarketOpen: Boolean
+  lastTradeTime: Float
+  latestPrice: Float
+  latestSource: String
+  latestTime: String
+  latestUpdate: Float
+  latestVolume: Float
+  low: Float
+  lowSource: String
+  lowTime: Float
+  marketCap: Float
+  oddLotDelayedPrice: Float
+  oddLotDelayedPriceTime: Float
+  open: Float
+  openSource: String
+  openTime: Float
+  peRatio: Float
+  previousClose: Float
+  previousVolume: Float
+  primaryExchange: String
+  symbol: String
+  volume: Float
+  week52High: Float
+  week52Low: Float
+  ytdChange: Float
+}
+
+type RecordId {
+  _id: String!
+}
+
+type Ticker {
+  _id: ObjectId!
+  cik: String
+  createdAt: DateTime!
+  currency: String!
+  exchange: String!
+  exchangeName: String!
+  figi: String
+  iexId: String
+  name: String!
+  quote: Quote
+  region: String!
+  symbol: String!
+  symbolType: String!
+  updatedAt: DateTime!
+}
+
+type Transaction {
+  currency: String!
+  date: DateTime!
+  name: String!
+  price: Float!
+  quantity: Float!
+  subType: TransactionSubtype!
+  type: TransactionType!
+}
+
+enum TransactionSubtype {
+  AccountFee
+  Adjustment
+  Assignment
+  Buy
+  BuyToCover
+  Contribution
+  Deposit
+  Distribution
+  Dividend
+  DividendReinvestment
+  Exercise
+  Expire
+  FundFee
+  Interest
+  InterestReceivable
+  InterestReinvestment
+  LegalFee
+  LoanPayment
+  LongTermCapitalGain
+  LongTermCapitalGainReinvestment
+  ManagementFee
+  MarginExpense
+  Merger
+  MiscellaneousFee
+  NonQualifiedDividend
+  NonResidentTax
+  PendingCredit
+  PendingDebit
+  QualifiedDividend
+  Rebalance
+  ReturnOfPrincipal
+  Sell
+  SellShort
+  ShortTermCapitalGain
+  ShortTermCapitalGainReinvestment
+  SpinOff
+  Split
+  StockDistribution
+  Tax
+  TaxWithheld
+  Transfer
+  TransferFee
+  TrustFee
+  UnqualifiedGain
+  Withdrawal
+}
+
+enum TransactionType {
+  Buy
+  Cancel
+  Cash
+  Fee
+  Sell
+  Transfer
+}
+
+input UpdateUserInput {
+  _id: String
+  displayName: String
+  emails: [String!]
+  id: Int!
+  photos: [String!]
+}
+
+type User {
+  _id: String!
+  createdAt: DateTime!
+  displayName: String!
+  emails: [String!]
+  photos: [String!]!
+  updatedAt: DateTime!
+}

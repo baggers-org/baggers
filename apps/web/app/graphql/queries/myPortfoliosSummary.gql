@@ -1,0 +1,13 @@
+
+query myPortfoliosSummary {
+  myPortfolios {
+    ...PortfolioSummary
+    holdings {
+      exposure
+      symbol {
+        symbol
+        name
+      }
+    }
+  }
+}

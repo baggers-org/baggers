@@ -1,0 +1,19 @@
+query searchSymbols($search: String!) {
+  searchSymbols(search: $search){
+    symbol
+    _id
+    name
+    exchange
+    exchangeName
+    region
+    symbolType
+    iexId
+    figi
+    cik
+    currency
+    quote {
+      latestTime
+      latestPrice
+    }
+  }
+}

@@ -1,0 +1,11 @@
+query symbol($symbolId: ObjectId!) {
+  symbol(id: $symbolId) {
+	name
+	symbol
+	exchange
+	quote {
+		...AllQuoteData
+	}
+    
+  }
+}

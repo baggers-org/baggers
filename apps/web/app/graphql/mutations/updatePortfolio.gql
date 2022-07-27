@@ -1,0 +1,7 @@
+mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
+  updatePortfolio(input: $input, _id: $id) {
+    record {
+      _id
+    }
+  }
+}

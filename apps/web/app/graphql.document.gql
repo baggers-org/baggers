@@ -1,0 +1,311 @@
+
+
+fragment AllHoldingData on Holding {
+      _id
+      # Market data fields
+      marketValue
+      exposure
+      profitLossUsd
+      profitLossPercent
+      dailyProfitLossUsd
+      #
+
+      averagePrice
+      costBasis
+      brokerFees
+      quantity
+      type
+      source
+      currency
+      symbol {
+        _id
+        name
+        symbol
+        symbolType
+        exchange
+        currency
+        exchangeName
+        region
+        quote {
+          ...AllQuoteData
+        }
+      }
+}
+
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
+
+  plaid {
+    isLinked
+  }
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  plaid {
+    isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
+  }
+}
+
+fragment AllQuoteData on Quote {
+          avgTotalVolume
+          calculationPrice
+          change
+          changePercent
+          companyName
+          close
+          closeSource
+          closeTime
+          currency
+          delayedPrice
+          delayedPriceTime
+          extendedPrice
+          extendedChange
+          extendedChangePercent
+          extendedPriceTime
+          high
+          highSource
+          highTime
+          iexAskPrice
+          iexAskSize
+          iexBidPrice
+          iexBidSize
+          iexClose
+          iexCloseTime
+          iexLastUpdated
+          iexOpen
+          iexOpenTime
+          iexRealtimePrice
+          iexRealtimeSize
+          iexMarketPercent
+          iexVolume
+          isUSMarketOpen
+          lastTradeTime
+          latestPrice
+          latestSource
+          latestTime
+          latestUpdate
+          latestVolume
+          low
+          lowTime
+          lowSource
+          marketCap
+          oddLotDelayedPrice
+          oddLotDelayedPriceTime
+          open
+          openSource
+          openTime
+          peRatio
+          previousClose
+          previousVolume
+          primaryExchange
+          symbol
+          week52High
+          week52Low
+          volume
+          ytdChange
+
+}
+
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  quantity
+  price
+  type
+  subType
+}
+
+fragment FullUser on User {
+	_id
+	displayName
+	emails
+	photos
+}
+
+mutation addHolding($record: AddHoldingInput!, $portfolioId: ObjectId!) {
+  addHolding(id: $portfolioId, record: $record) {
+    recordId
+  }
+}
+
+mutation clearImportError($portfolioId: ObjectId!) {
+	clearImportError(portfolio_id: $portfolioId) {
+		record {
+			_id
+		}
+
+	}
+}
+
+mutation createPortfolio {
+  createPortfolio {
+    record {
+      _id
+    }
+  }
+}
+
+mutation deletePortfolio($id: ObjectId!) {
+  deletePortfolio(_id: $id) {
+    recordId
+  }
+}
+
+mutation deletePortfolios($ids: [ObjectId!]!) {
+  deletePortfolios(_ids: $ids) {
+    deletedCount
+  }
+}
+
+mutation findOrCreateUser($record: FindOrCreateUserInput!){
+  findOrCreateUser(record: $record) {
+    record {
+	    _id
+	    ...FullUser
+    }
+  }
+}
+
+mutation plaidCreateLinkToken {
+  plaidCreateLinkToken {
+    link_token
+    expiration
+    request_id
+  }
+}
+
+mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
+  plaidImportPortfolios(input: $input) {
+    ok
+  }
+}
+
+mutation removeHolding($portfolio_id: ObjectId!, $holding_id: ObjectId!) {
+  removeHolding(portfolio_id: $portfolio_id, holding_id: $holding_id) {
+    recordId
+  }
+}
+
+mutation updatePortfolio($input: UpdatePortfolioInput!, $id: ObjectId!) {
+  updatePortfolio(input: $input, _id: $id) {
+    record {
+      _id
+    }
+  }
+}
+
+query chartPriceRange(
+  $range: HistoricalRange!
+  $symbolId: ObjectId!
+  $options: ChartPriceRangeOptions
+) {
+  chartPriceRange(range: $range, symbolId: $symbolId, options: $options) {
+    id
+    key
+    subkey
+    date
+    updated
+    change
+    changePercent
+    open
+    close
+    high
+    volume
+    label
+  }
+}
+
+
+
+query myPortfoliosSummary {
+  myPortfolios {
+    ...PortfolioSummary
+    holdings {
+      exposure
+      symbol {
+        symbol
+        name
+      }
+    }
+  }
+}
+
+query portfolio($id: ObjectId!) {
+  portfolio(portfolioId: $id) {
+    _id
+    ...AllPortfolioData
+  }
+}
+
+query searchSymbols($search: String!) {
+  searchSymbols(search: $search){
+    symbol
+    _id
+    name
+    exchange
+    exchangeName
+    region
+    symbolType
+    iexId
+    figi
+    cik
+    currency
+    quote {
+      latestTime
+      latestPrice
+    }
+  }
+}
+
+
+query symbol($symbolId: ObjectId!) {
+  symbol(id: $symbolId) {
+	name
+	symbol
+	exchange
+	quote {
+		...AllQuoteData
+	}
+    
+  }
+}

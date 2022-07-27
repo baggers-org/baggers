@@ -1,0 +1,7 @@
+mutation createPortfolio {
+  createPortfolio {
+    record {
+      _id
+    }
+  }
+}

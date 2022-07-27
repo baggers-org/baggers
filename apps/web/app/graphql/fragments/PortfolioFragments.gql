@@ -1,0 +1,50 @@
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+  performance {
+    ytdReturnPercent
+    ytdReturnDollars
+    dailyReturnPercent
+    dailyReturnDollars
+  }
+
+  plaid {
+    isLinked
+  }
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  plaid {
+    isLinked
+    missingSecuritiesError {
+      message
+      missingSymbols {
+        symbol
+        name
+        exchange
+        figi
+      }
+    }
+  }
+}

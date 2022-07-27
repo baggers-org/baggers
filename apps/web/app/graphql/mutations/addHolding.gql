@@ -1,0 +1,5 @@
+mutation addHolding($record: AddHoldingInput!, $portfolioId: ObjectId!) {
+  addHolding(id: $portfolioId, record: $record) {
+    recordId
+  }
+}
