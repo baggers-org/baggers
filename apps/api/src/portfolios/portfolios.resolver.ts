@@ -5,14 +5,14 @@ import {
   PortfolioFromDb,
   PortfolioSummary,
 } from './entities/portfolio.entity';
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator';
-import { Auth0AccessTokenPayload } from 'src/auth/types';
-import { RecordId } from 'src/shared/classes/record-id';
-import { ObjectIdScalar } from 'src/shared/scalars/ObjectIdScalar';
+import { CurrentUser } from '~/shared/decorators/current-user.decorator';
+import { Auth0AccessTokenPayload } from '~/auth/types';
+import { RecordId } from '~/shared/classes/record-id';
+import { ObjectIdScalar } from '~/shared/scalars/ObjectIdScalar';
 
 import mongoose from 'mongoose';
-import { RemoveMultipleResponse } from 'src/shared/classes/remove-multiple-response.entity';
-import { ObjectId } from 'src/shared/classes/object-id';
+import { RemoveMultipleResponse } from '~/shared/classes/remove-multiple-response.entity';
+import { ObjectId } from '~/shared/classes/object-id';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 
 @Resolver(() => PortfolioFromDb)

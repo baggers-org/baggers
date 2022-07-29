@@ -1,7 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BaseDocument } from 'src/shared/classes/base-document';
+import { BaseDocument } from '~/shared/classes/base-document';
 import { Quote } from './quote.entity';
 
 export type TickerDocument = Document & Ticker;

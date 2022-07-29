@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as jwks from 'jwks-rsa';
-import { EnvService } from 'src/env/env.service';
+import { EnvService } from '~/env/env.service';
 import { Auth0AccessTokenPayload } from './types';
 
 @Injectable()

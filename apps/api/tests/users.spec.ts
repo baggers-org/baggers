@@ -3,9 +3,9 @@ import request from 'supertest-graphql';
 import gql from 'graphql-tag';
 import { User1, User2 } from 'tests/data/user.test-data';
 import { setupTestApp, setUser } from './jest/setup';
-import { PartialTokenPayload } from 'src/auth/types';
+import { PartialTokenPayload } from '~/auth/types';
 import { INestApplication } from '@nestjs/common';
-import { CreateUserInput } from 'src/users/dto/create-user.input';
+import { CreateUserInput } from '~/users/dto/create-user.input';
 
 describe('Users', () => {
   beforeAll(async () => {
@@ -15,7 +15,7 @@ describe('Users', () => {
   describe('user', () => {
     const userQuery = (
       idToQuery: string,
-      app: INestApplication = globalThis.__APP__,
+      app: INestApplication = globalThis.__APP__
     ) =>
       request<any>(app.getHttpServer())
         .query(
@@ -30,7 +30,7 @@ describe('Users', () => {
                 updatedAt
               }
             }
-          `,
+          `
         )
         .variables({
           _id: idToQuery,
@@ -125,7 +125,7 @@ describe('Users', () => {
                 emails
               }
             }
-          `,
+          `
         )
         .variables({
           input: dto,
@@ -152,7 +152,7 @@ describe('Users', () => {
                 emails
               }
             }
-          `,
+          `
         )
         .variables({
           input: dto,
@@ -180,7 +180,7 @@ describe('Users', () => {
                 emails
               }
             }
-          `,
+          `
         )
         .variables({
           input: dto,

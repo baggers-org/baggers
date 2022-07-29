@@ -1,9 +1,9 @@
 import { Extensions, Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Auth0AccessTokenPayload } from 'src/auth/types';
-import { Timestamps } from 'src/shared/classes/timestamps.entity';
-import { checkOwnerMiddleware } from 'src/shared/middleware/owner.middleware';
+import { Auth0AccessTokenPayload } from '~/auth/types';
+import { Timestamps } from '~/shared/classes/timestamps.entity';
+import { checkOwnerMiddleware } from '~/shared/middleware/owner.middleware';
 
 export type UserDocument = User & Document;
 

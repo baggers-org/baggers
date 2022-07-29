@@ -1,4 +1,4 @@
-import { User } from 'src/users/entities/user.entity';
+import { User } from '~/users/entities/user.entity';
 
 export const User1: User = {
   _id: 'google-oauth1-233838',

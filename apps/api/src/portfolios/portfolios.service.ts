@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Auth0AccessTokenPayload } from 'src/auth/types';
-import { RemoveMultipleResponse } from 'src/shared/classes/remove-multiple-response.entity';
+import { Auth0AccessTokenPayload } from '~/auth/types';
+import { RemoveMultipleResponse } from '~/shared/classes/remove-multiple-response.entity';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 import {
   PortfolioFromDb,

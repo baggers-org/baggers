@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { Ticker } from 'src/tickers/entities/ticker.entity';
+import { Ticker } from '~/tickers/entities/ticker.entity';
 
 export const Ticker1: Ticker = {
   _id: new mongoose.Types.ObjectId('62988fced38076b635386a91'),

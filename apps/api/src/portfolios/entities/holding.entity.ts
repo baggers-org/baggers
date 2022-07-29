@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { ObjectId } from 'mongodb';
 import { Schema } from 'mongoose';
-import { Ticker } from 'src/tickers/entities/ticker.entity';
+import { Ticker } from '~/tickers/entities/ticker.entity';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
 import { HoldingType } from '../enums/holding-type.enum';

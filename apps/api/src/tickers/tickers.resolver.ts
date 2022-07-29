@@ -1,7 +1,7 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { TickersService } from './tickers.service';
 import { Ticker } from './entities/ticker.entity';
-import { Public } from 'src/shared/decorators/public.decorator';
+import { Public } from '~/shared/decorators/public.decorator';
 
 @Resolver(() => Ticker)
 export class TickersResolver {

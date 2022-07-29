@@ -1,4 +1,4 @@
-import { PopulatedPortfolioWithMetrics } from 'src/portfolios/entities/portfolio.entity';
+import { PopulatedPortfolioWithMetrics } from '~/portfolios/entities/portfolio.entity';
 import { Portfolio1, PublicPortfolio } from 'tests/data/portfolio.test-data';
 import { User2 } from 'tests/data/user.test-data';
 import { setUser } from 'tests/jest/setup';

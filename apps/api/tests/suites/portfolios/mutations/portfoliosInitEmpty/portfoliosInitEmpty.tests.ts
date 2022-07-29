@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express';
-import { ObjectId } from 'src/shared/classes/object-id';
+import { ObjectId } from '~/shared/classes/object-id';
 import { appQuery } from 'tests/util/appRequest';
 import { portfoliosInitEmpty } from './portfoliosInitEmpty.mutation';
 

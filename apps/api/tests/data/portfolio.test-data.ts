@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 import {
   PopulatedPortfolio,
   PortfolioFromDb,
-} from 'src/portfolios/entities/portfolio.entity';
-import { HoldingDirection } from 'src/portfolios/enums/holding-direction.enum';
-import { HoldingSource } from 'src/portfolios/enums/holding-source.enum';
-import { HoldingType } from 'src/portfolios/enums/holding-type.enum';
+} from '~/portfolios/entities/portfolio.entity';
+import { HoldingDirection } from '~/portfolios/enums/holding-direction.enum';
+import { HoldingSource } from '~/portfolios/enums/holding-source.enum';
+import { HoldingType } from '~/portfolios/enums/holding-type.enum';
 import { Ticker1, Ticker2, Tickers } from './ticker.test-data';
 import { User1, User2 } from './user.test-data';
 

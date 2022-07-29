@@ -1,8 +1,8 @@
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BaseDocument } from 'src/shared/classes/base-document';
-import { User } from 'src/users/entities/user.entity';
+import { BaseDocument } from '~/shared/classes/base-document';
+import { User } from '~/users/entities/user.entity';
 import {
   HoldingFromDb,
   PopulatedHolding,

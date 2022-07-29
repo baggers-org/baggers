@@ -1,5 +1,5 @@
 import { FieldMiddleware } from '@nestjs/graphql';
-import { Auth0AccessTokenPayload } from 'src/auth/types';
+import { Auth0AccessTokenPayload } from '~/auth/types';
 
 export const checkOwnerMiddleware: FieldMiddleware = (ctx, next) => {
   const { source, info, context } = ctx;

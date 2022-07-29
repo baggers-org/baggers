@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { EnvModule } from 'src/env/env.module';
+import { EnvModule } from '~/env/env.module';
 import { JwtStrategy } from './jwt.strategy';
 
 @Module({

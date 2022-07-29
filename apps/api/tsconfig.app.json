@@ -5,6 +5,7 @@
     "module": "commonjs",
     "types": ["node"],
     "baseUrl": ".",
+
     "emitDecoratorMetadata": true,
     "target": "es2015"
   },
