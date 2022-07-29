@@ -12,6 +12,7 @@ export default {
     },
   },
   testEnvironment: 'node',
+  testPathIgnorePatterns: ['node_modules', 'tests/suites'],
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },

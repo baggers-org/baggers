@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Auth0AccessTokenPayload } from 'src/auth/types';
-import { RemoveMultiple } from 'src/shared/classes/remove-multiple.entity';
+import { RemoveMultipleResponse } from 'src/shared/classes/remove-multiple-response.entity';
+import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 import {
   PortfolioFromDb,
   PortfolioDocument,
@@ -115,8 +116,8 @@ export class PortfoliosService {
   async removeMultiple(
     _ids: mongoose.Types.ObjectId[],
     currentUser: Auth0AccessTokenPayload
-  ): Promise<RemoveMultiple> {
-    return await this.portfolioModel
+  ): Promise<RemoveMultipleResponse> {
+    return this.portfolioModel
       .remove({
         owner: currentUser.sub,
         _id: {
@@ -125,6 +126,26 @@ export class PortfoliosService {
       })
       .orFail(
         () => new NotFoundException('Could not find any portfolios to delete')
+      );
+  }
+
+  async updateOne(
+    _id: mongoose.Types.ObjectId,
+    input: UpdatePortfolioInput,
+    currentUser: Auth0AccessTokenPayload
+  ) {
+    return this.portfolioModel
+      .findOneAndUpdate(
+        {
+          _id,
+          owner: currentUser.sub,
+        },
+        {
+          $set: { ...input, updatedAt: new Date() },
+        }
+      )
+      .orFail(
+        () => new NotFoundException('Could not find a portfolio with this id')
       );
   }
 }

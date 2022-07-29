@@ -12,8 +12,15 @@ import { Transaction } from './transaction.entity';
 
 export type PortfolioDocument = PortfolioFromDb & Document;
 
+/**
+ * Test
+ */
 @Schema({ collection: 'portfolios' })
-@ObjectType()
+@ObjectType('PortfolioWithoutMarketData', {
+  description: `
+# Test
+`,
+})
 export class PortfolioFromDb extends BaseDocument {
   @Field(() => User)
   @Prop({ ref: 'User', type: () => String })

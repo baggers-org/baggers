@@ -11,13 +11,14 @@
       "options": {
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
+        "generatePackageJson": true,
         "tsConfig": "apps/api/tsconfig.app.json",
         "tsPlugins": [
           {
             "name": "@nestjs/graphql/plugin",
             "options": {
               "introspectComments": true,
-              "typeNameSuffix": [
+              "typeFileNameSuffix": [
                 ".input.ts",
                 ".args.ts",
                 ".entity.ts",

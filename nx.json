@@ -1,7 +1,7 @@
 {
   "npmScope": "baggers",
   "affected": {
-    "defaultBase": "main"
+    "defaultBase": "develop"
   },
   "implicitDependencies": {
     "package.json": {

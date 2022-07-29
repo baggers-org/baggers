@@ -1,25 +1,21 @@
 import { PopulatedPortfolioWithMetrics } from 'src/portfolios/entities/portfolio.entity';
-import { Portfolio1, PublicPortfolio } from './data/portfolio.test-data';
-import { User2 } from './data/user.test-data';
-import { setupTestApp, setUser } from './jest/setup';
-import { appRequest } from './util/appRequest';
+import { Portfolio1, PublicPortfolio } from 'tests/data/portfolio.test-data';
+import { User2 } from 'tests/data/user.test-data';
+import { setUser } from 'tests/jest/setup';
+import { appRequest } from 'tests/util/appRequest';
 import {
-  FullPortfolioQuery,
-  portfolioQuery,
-  portfoliosCreatedQuery,
-} from './util/queries/portfolio.test-queries';
+  portfoliosFindById,
+  portfoliosFindByIdQuery,
+} from './portfoliosFindById.query';
 
-describe('Portfolio Queries', () => {
-  beforeAll(async () => {
-    await setupTestApp();
-  });
-  describe('portfolio', () => {
+export const portfoliosFindByIdTests = () =>
+  describe('portfoliosFindById', () => {
     it('should return a portfolio complete with holdings and all metrics', async () => {
-      const { data } = await portfolioQuery().expectNoErrors().variables({
+      const { data } = await portfoliosFindById().expectNoErrors().variables({
         id: Portfolio1._id,
       });
 
-      const portfolio: PopulatedPortfolioWithMetrics = data.portfolio;
+      const portfolio: PopulatedPortfolioWithMetrics = data.portfoliosFindById;
 
       // Remove holdings and transactions for the first snapshot
       expect({
@@ -109,7 +105,7 @@ describe('Portfolio Queries', () => {
 
       // Portfolio 1 is private so it should throw an exception
       const { errors } = await appRequest(app)
-        .query(FullPortfolioQuery)
+        .query(portfoliosFindByIdQuery)
         .variables({ id: Portfolio1._id });
 
       expect(errors).toMatchInlineSnapshot(`
@@ -131,57 +127,10 @@ describe('Portfolio Queries', () => {
 
     it('should allow any user to view a public portfolio', () => {
       return (
-        appRequest()
-          .query(FullPortfolioQuery)
+        portfoliosFindById()
           // Belongs to user2, so if it was private, it would not be allowed to view
           .variables({ id: PublicPortfolio._id })
           .expectNoErrors()
       );
     });
   });
-
-  describe('portfoliosCreated', () => {
-    it('should return a PortfolioSummary for all the portfolios where you are the owner', async () => {
-      const { data } = await portfoliosCreatedQuery().expectNoErrors();
-
-      expect(data.portfoliosCreated).toHaveLength(2);
-      expect(data.portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "costBasis": 389493,
-            "exposure": 75.87245654125755,
-            "marketValue": 3663350.7600000002,
-          },
-          Object {
-            "costBasis": 84857293,
-            "exposure": 23.9230425481903,
-            "marketValue": 1155076.56,
-          },
-          Object {
-            "costBasis": 3839,
-            "exposure": 0.1533396453946191,
-            "marketValue": 7403.7,
-          },
-          Object {
-            "costBasis": 47942,
-            "exposure": 0.02549343835058642,
-            "marketValue": 1230.9,
-          },
-        ]
-      `);
-
-      // It should sort them by updatedAt - most recent
-      expect(data.portfoliosCreated[0].updatedAt).toMatchInlineSnapshot(
-        `"2022-12-12T00:00:00.000Z"`
-      );
-      expect(data.portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
-        `"2022-07-22T00:00:00.000Z"`
-      );
-
-      expect(
-        new Date(data.portfoliosCreated[0].updatedAt) >
-          new Date(data.portfoliosCreated[1].updatedAt)
-      );
-    });
-  });
-});

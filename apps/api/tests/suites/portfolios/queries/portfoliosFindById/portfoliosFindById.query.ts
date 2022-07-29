@@ -1,9 +1,9 @@
 import { gql } from 'graphql-tag';
-import { appQuery } from '../appRequest';
+import { appQuery } from '../../../../util/appRequest';
 
-export const FullPortfolioQuery = gql`
+export const portfoliosFindByIdQuery = gql`
   query Portfolio($id: ObjectId!) {
-    portfolio(_id: $id) {
+    portfoliosFindById(_id: $id) {
       _id
       cash
       createdAt
@@ -121,34 +121,4 @@ export const FullPortfolioQuery = gql`
   }
 `;
 
-export const portfolioQuery = () => appQuery(FullPortfolioQuery);
-
-export const CreatedPortfoliosQuery = gql`
-  query PortfoliosCreated {
-    portfoliosCreated {
-      _id
-      cash
-      createdAt
-      description
-      name
-      owner {
-        _id
-        createdAt
-        displayName
-        emails
-        photos
-        updatedAt
-      }
-      private
-      top5Holdings {
-        exposure
-        marketValue
-        costBasis
-      }
-      totalValue
-      updatedAt
-    }
-  }
-`;
-
-export const portfoliosCreatedQuery = () => appQuery(CreatedPortfoliosQuery);
+export const portfoliosFindById = () => appQuery(portfoliosFindByIdQuery);

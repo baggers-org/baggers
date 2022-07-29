@@ -11,7 +11,9 @@ import { RecordId } from 'src/shared/classes/record-id';
 import { ObjectIdScalar } from 'src/shared/scalars/ObjectIdScalar';
 
 import mongoose from 'mongoose';
-import { RemoveMultiple } from 'src/shared/classes/remove-multiple.entity';
+import { RemoveMultipleResponse } from 'src/shared/classes/remove-multiple-response.entity';
+import { ObjectId } from 'src/shared/classes/object-id';
+import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 
 @Resolver(() => PortfolioFromDb)
 export class PortfoliosResolver {
@@ -29,7 +31,7 @@ export class PortfoliosResolver {
     };
   }
 
-  @Query(() => PopulatedPortfolioWithMetrics, { name: 'portfolio' })
+  @Query(() => PopulatedPortfolioWithMetrics, { name: 'portfoliosFindById' })
   findById(
     @Args('_id', { type: () => ObjectIdScalar })
     _id: mongoose.Types.ObjectId,
@@ -54,12 +56,21 @@ export class PortfoliosResolver {
     return this.portfoliosService.removeOne(_id, currentUser);
   }
 
-  @Mutation(() => RemoveMultiple, { name: 'portfoliosRemoveMultiple' })
+  @Mutation(() => RemoveMultipleResponse, { name: 'portfoliosRemoveMultiple' })
   removeMultiple(
     @Args('_ids', { type: () => [ObjectIdScalar] })
     _ids: mongoose.Types.ObjectId[],
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     return this.portfoliosService.removeMultiple(_ids, currentUser);
+  }
+
+  @Mutation(() => PortfolioFromDb, { name: 'portfoliosUpdateOne' })
+  update(
+    @Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId,
+    @Args('input') input: UpdatePortfolioInput,
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    return this.portfoliosService.updateOne(_id, input, currentUser);
   }
 }

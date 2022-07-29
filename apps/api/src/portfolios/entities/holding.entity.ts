@@ -7,7 +7,7 @@ import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
 import { HoldingType } from '../enums/holding-type.enum';
 
-@ObjectType()
+@ObjectType('HoldingWithoutMarketData')
 export class HoldingFromDb {
   @Field(() => Ticker)
   @Prop({ type: Schema.Types.ObjectId, ref: 'Ticker' })

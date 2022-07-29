@@ -5,14 +5,16 @@
   "scripts": {
     "dev": "nx serve",
     "build": "nx build",
-    "test": "nx test",
-    "postinstall": "remix setup node"
+    "test": "nx test api --codeCoverage --coverageReporters json",
+    "postinstall": "remix setup node",
+    "coverage-check": "nyc report"
   },
   "private": true,
   "devDependencies": {
     "@nestjs/schematics": "^8.0.0",
     "@nestjs/testing": "^8.0.0",
     "@nrwl/cli": "14.4.3",
+    "@nrwl/devkit": "14.4.3",
     "@nrwl/eslint-plugin-nx": "14.4.3",
     "@nrwl/jest": "14.4.3",
     "@nrwl/linter": "14.4.3",
@@ -33,6 +35,7 @@
     "jest": "27.5.1",
     "mongodb-memory-server": "^8.8.0",
     "nx": "14.4.3",
+    "nyc": "^15.1.0",
     "prettier": "2.7.1",
     "supertest-graphql": "^1.1.4",
     "ts-jest": "27.1.4",

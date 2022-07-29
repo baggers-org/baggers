@@ -36,18 +36,6 @@ enum HoldingDirection {
   short
 }
 
-type HoldingFromDb {
-  averagePrice: Float!
-  brokerFees: Float
-  costBasis: Float!
-  currency: String
-  direction: HoldingDirection
-  quantity: Float!
-  source: HoldingSource!
-  ticker: Ticker!
-  type: HoldingType!
-}
-
 enum HoldingSource {
   broker
   direct
@@ -60,10 +48,23 @@ enum HoldingType {
   shares
 }
 
+type HoldingWithoutMarketData {
+  averagePrice: Float!
+  brokerFees: Float
+  costBasis: Float!
+  currency: String
+  direction: HoldingDirection
+  quantity: Float!
+  source: HoldingSource!
+  ticker: Ticker!
+  type: HoldingType!
+}
+
 type Mutation {
   portfoliosInitEmpty: RecordId!
-  portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultiple!
+  portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!
+  portfoliosUpdateOne(_id: ObjectId!, input: UpdatePortfolioInput!): PortfolioWithoutMarketData!
   usersFindOrCreate(input: CreateUserInput!): User!
   usersRemoveOne(_id: ID!): User!
   usersUpdateOne(input: UpdateUserInput!): User!
@@ -111,9 +112,23 @@ type PortfolioSummary {
   updatedAt: DateTime!
 }
 
+"\n# Test\n"
+type PortfolioWithoutMarketData {
+  _id: ObjectId!
+  cash: Float!
+  createdAt: DateTime!
+  description: String!
+  holdings: [HoldingWithoutMarketData!]!
+  name: String!
+  owner: User!
+  private: Boolean!
+  transactions: [Transaction!]!
+  updatedAt: DateTime!
+}
+
 type Query {
-  portfolio(_id: ObjectId!): Portfolio!
   portfoliosCreated: [PortfolioSummary!]!
+  portfoliosFindById(_id: ObjectId!): Portfolio!
   ticker(_id: String!): Ticker!
   tickersSearch(searchTerm: String!): [Ticker!]!
   user(_id: ID!): User!
@@ -182,7 +197,7 @@ type RecordId {
   _id: String!
 }
 
-type RemoveMultiple {
+type RemoveMultipleResponse {
   acknowledged: Boolean!
   deletedCount: Float!
 }
@@ -269,6 +284,11 @@ enum TransactionType {
   Fee
   Sell
   Transfer
+}
+
+input UpdatePortfolioInput {
+  description: String!
+  name: String!
 }
 
 input UpdateUserInput {
