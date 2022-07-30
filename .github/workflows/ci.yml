@@ -2,63 +2,62 @@ name: CI
 
 on:
   pull_request:
-    
 
 jobs:
   test:
-    name: "Lint + Typecheck"
+    name: 'Lint + Typecheck'
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
-       - uses: actions/checkout@v2
-       - name: Install
-         run: yarn install --immutable
-       - name: "Typecheck"
-         run: yarn typecheck
-       - name: "Lint"
-         run: yarn lint
+      - uses: actions/checkout@v2
+      - name: Install
+        run: npm ci
+      - name: 'Typecheck'
+        run: yarn typecheck
+      - name: 'Lint'
+        run: npm run lint
   deployUi:
-    name: "Deploy UI to staging"
+    name: 'Deploy UI to staging'
     needs: test
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    environment: "Staging"
+    environment: 'Staging'
     steps:
       - uses: actions/checkout@v2
-      - name: "Deploy ui"
+      - name: 'Deploy ui'
         uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           FLY_PROJECT_PATH: packages/ui
         with:
-          args: "deploy -c fly.staging.toml"
+          args: 'deploy -c fly.staging.toml'
   deployApi:
-    name: "Deploy API to staging"
+    name: 'Deploy API to staging'
     needs: test
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    environment: "Staging"
+    environment: 'Staging'
     steps:
       - uses: actions/checkout@v2
-      - name: "Deploy API"
+      - name: 'Deploy API'
         uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
           FLY_PROJECT_PATH: packages/api
         with:
-          args: "deploy -c fly.staging.toml"
+          args: 'deploy -c fly.staging.toml'
 
   cypress-chrome:
-    name: "Cypress - chrome"
-    needs: 
+    name: 'Cypress - chrome'
+    needs:
       - deployApi
       - deployUi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: "yarn install"
-      - run: "yarn e2e:chrome"
+      - run: 'yarn install'
+      - run: 'yarn e2e:chrome'
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
           CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
@@ -72,16 +71,16 @@ jobs:
           CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
 
   cypress-firefox:
-    name: "Cypress - firefox"
-    needs: 
+    name: 'Cypress - firefox'
+    needs:
       - deployApi
       - deployUi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: "yarn install"
-      - run: "yarn e2e:firefox"
+      - run: 'yarn install'
+      - run: 'yarn e2e:firefox'
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
           CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}

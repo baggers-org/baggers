@@ -9,11 +9,9 @@
     "prebuild": "yarn generate",
     "deploy": "fly deploy --remote-only",
     "dev": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
-    "predev": "nodemon --watch src/graphql -e .gql scripts/mergeGraphQLDocuments.js & yarn generate",
-    "lint": "eslint app",
+    "lint": "eslint",
     "postinstall": "remix setup node",
     "start": "cross-env NODE_ENV=production remix-serve build",
-    "generate": "graphql-codegen --config codegen.yml",
     "env:staging": "cat .env.staging | flyctl -c fly.staging.toml secrets import",
     "env:prod": "cat .env.production | flyctl secrets import",
     "typecheck": "tsc --noEmit"
@@ -23,8 +21,6 @@
     "@emotion/react": "^11.6.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.6.0",
-    "@graphql-codegen/cli": "^2.6.2",
-    "@graphql-codegen/typescript-graphql-request": "^4.4.1",
     "@loadable/component": "^5.15.2",
     "@mui/icons-material": "^5.1.1",
     "@mui/lab": "^5.0.0-alpha.62",
@@ -42,8 +38,6 @@
     "date-fns": "^2.28.0",
     "date-fns-tz": "^1.3.0",
     "esbuild-plugin-svgr": "^1.0.0",
-    "graphql": "^16.3.0",
-    "graphql-request": "^4.0.0",
     "i18next": "^21.6.11",
     "lightweight-charts": "^3.8.0",
     "material-themer": "1.0.2",
@@ -61,9 +55,6 @@
     "zod-form-data": "^1.2.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.6.2",
-    "@graphql-codegen/typescript": "2.4.6",
-    "@graphql-codegen/typescript-operations": "2.3.3",
     "@remix-run/dev": "^1.1.3",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
@@ -79,7 +70,6 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "glob": "^7.2.0",
-    "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "typescript": "^4.1.2"
   },

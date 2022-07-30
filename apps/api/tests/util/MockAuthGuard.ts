@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { Observable } from 'rxjs';
 import { PartialTokenPayload } from '~/auth/types';
 import { User1 } from 'tests/data/user.test-data';
 
@@ -15,9 +14,7 @@ export class MockAuthGuard implements CanActivate {
     this.user = user;
   }
 
-  canActivate(
-    context: ExecutionContextHost
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContextHost): boolean | Promise<boolean> {
     const { req } = context.getArgs()[2];
     req.user = this.user;
     return true;

@@ -1,0 +1,9 @@
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  quantity
+  price
+  type
+  subType
+}

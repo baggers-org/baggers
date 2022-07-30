@@ -1,0 +1,189 @@
+
+
+fragment AllHoldingData on Holding {
+  # Market data fields
+  marketValue
+  exposure
+  profitLossUsd
+  profitLossPercent
+  dailyProfitLossUsd
+  #
+
+  averagePrice
+  costBasis
+  brokerFees
+  quantity
+  type
+  source
+  currency
+  ticker {
+    _id
+    name
+    symbol
+    symbolType
+    exchange
+    currency
+    exchangeName
+    region
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  totalValue
+  #   performance {
+  #     ytdReturnPercent
+  #     ytdReturnDollars
+  #     dailyReturnPercent
+  #     dailyReturnDollars
+  #   }
+
+  #   plaid {
+  #     isLinked
+  #   }
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+  #   plaid {
+  #     isLinked
+  #     missingSecuritiesError {
+  #       message
+  #       missingSymbols {
+  #         symbol
+  #         name
+  #         exchange
+  #         figi
+  #       }
+  #     }
+  #   }
+}
+
+
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  quantity
+  price
+  type
+  subType
+}
+
+
+query portfoliosCreated {
+  portfoliosCreated {
+    _id
+    owner {
+      displayName
+      photos
+    }
+    totalValue
+    top5Holdings {
+      exposure
+      ticker {
+        symbol
+      }
+    }
+  }
+}
+
+
+
+query portfoliosFindById($_id: ObjectId!) {
+  portfoliosFindById(_id: $_id) {
+    _id
+    ...AllPortfolioData
+  }
+}
+
+fragment AllQuoteData on Quote {
+  avgTotalVolume
+  calculationPrice
+  change
+  changePercent
+  companyName
+  close
+  closeSource
+  closeTime
+  currency
+  delayedPrice
+  delayedPriceTime
+  extendedPrice
+  extendedChange
+  extendedChangePercent
+  extendedPriceTime
+  high
+  highSource
+  highTime
+  iexAskPrice
+  iexAskSize
+  iexBidPrice
+  iexBidSize
+  iexClose
+  iexCloseTime
+  iexLastUpdated
+  iexOpen
+  iexOpenTime
+  iexRealtimePrice
+  iexRealtimeSize
+  iexMarketPercent
+  iexVolume
+  isUSMarketOpen
+  lastTradeTime
+  latestPrice
+  latestSource
+  latestTime
+  latestUpdate
+  latestVolume
+  low
+  lowTime
+  lowSource
+  marketCap
+  oddLotDelayedPrice
+  oddLotDelayedPriceTime
+  open
+  openSource
+  openTime
+  peRatio
+  previousClose
+  previousVolume
+  primaryExchange
+  symbol
+  week52High
+  week52Low
+  volume
+  ytdChange
+}
+
+
+fragment FullUser on User {
+  _id
+  displayName
+  emails
+  photos
+}

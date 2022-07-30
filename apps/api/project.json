@@ -67,6 +67,20 @@
         "jestConfig": "apps/api/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "^test"
+      ],
+      "options": {
+        "command": "fly deploy -c apps/api/fly.staging.toml"
+      },
+      "configurations": {
+        "production": {
+          "command": "fly delpoy -c apps/api/fly.toml"
+        }
+      }
     }
   },
   "tags": []

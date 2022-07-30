@@ -1,0 +1,7 @@
+{
+	"scripts": {
+		"build": "graphql-codegen --config ./codegen.yml",
+		"prebuild": "node scripts/mergeGraphQLDocuments.js"
+	},
+	"main": "./src/index.ts"
+}

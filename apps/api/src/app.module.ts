@@ -4,16 +4,14 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
-import { UsersModule } from './users/users.module';
-import { EnvModule } from './env/env.module';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './auth/jwt.auth.guard';
-import { AuthModule } from './auth/auth.module';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { EnvironmentSchema } from './env/env.schema';
-import { TickersModule } from './tickers/tickers.module';
-import { PortfoliosModule } from './portfolios/portfolios.module';
-import { ObjectIdScalar } from './shared/scalars/ObjectIdScalar';
+import { TickersModule } from '@baggers/api-tickers';
+import { ObjectIdScalar } from '@baggers/api-shared';
+import { PortfoliosModule } from '@baggers/api-portfolios';
+import { UsersModule } from '@baggers/api-users';
+import { AuthModule, JwtAuthGuard } from '@baggers/api-auth';
+import { EnvironmentSchema, EnvModule } from '@baggers/api-env';
 
 @Module({
   imports: [
@@ -31,6 +29,7 @@ import { ObjectIdScalar } from './shared/scalars/ObjectIdScalar';
       autoSchemaFile: join(process.cwd(), 'schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       playground: false,
+      introspection: true,
       resolvers: { ObjectId: ObjectIdScalar },
       sortSchema: true,
     }),

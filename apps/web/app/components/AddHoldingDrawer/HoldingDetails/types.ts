@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
-import { AddHoldingInput, Symbol } from '~/generated/graphql';
+import { Ticker } from '@baggers/sdk';
 
 export interface HoldingDetailsProps {
-  addingSymbol: Symbol;
+  addingSymbol: Ticker;
 
-  addingHolding: AddHoldingInput;
+  // addingHolding: AddHoldingInput;
 
-  setHoldingDetails: Dispatch<SetStateAction<AddHoldingInput>>;
+  // setHoldingDetails: Dispatch<SetStateAction<AddHoldingInput>>;
 
   loadingOpenPrice?: boolean;
 }

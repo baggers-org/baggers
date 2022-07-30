@@ -15,7 +15,7 @@ import { PortfolioCardList } from '~/components/PortfolioCardList';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
-  return sdk.myPortfoliosSummary();
+  return sdk.portfoliosCreated();
 };
 
 export const meta: MetaFunction = () => ({

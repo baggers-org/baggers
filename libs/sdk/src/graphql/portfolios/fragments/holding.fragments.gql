@@ -1,0 +1,30 @@
+fragment AllHoldingData on Holding {
+  # Market data fields
+  marketValue
+  exposure
+  profitLossUsd
+  profitLossPercent
+  dailyProfitLossUsd
+  #
+
+  averagePrice
+  costBasis
+  brokerFees
+  quantity
+  type
+  source
+  currency
+  ticker {
+    _id
+    name
+    symbol
+    symbolType
+    exchange
+    currency
+    exchangeName
+    region
+    quote {
+      ...AllQuoteData
+    }
+  }
+}

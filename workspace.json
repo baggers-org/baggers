@@ -2,6 +2,13 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-auth": "libs/api-auth",
+    "api-env": "libs/api-env",
+    "api-portfolios": "libs/api-portfolios",
+    "api-shared": "libs/api-shared",
+    "api-testing": "libs/api-testing",
+    "api-tickers": "libs/api-tickers",
+    "api-users": "libs/api-users",
     "sdk": "libs/sdk",
     "web": "apps/web"
   },

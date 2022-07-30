@@ -1,18 +1,25 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "libs/sdk/",
   "sourceRoot": "libs/sdk/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/sdk/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/sdk/**/*.ts"
+        ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/sdk"],
+      "outputs": [
+        "coverage/libs/sdk"
+      ],
       "options": {
         "jestConfig": "libs/sdk/jest.config.ts",
         "passWithNoTests": true

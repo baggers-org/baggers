@@ -1,0 +1,16 @@
+query portfoliosCreated {
+  portfoliosCreated {
+    _id
+    owner {
+      displayName
+      photos
+    }
+    totalValue
+    top5Holdings {
+      exposure
+      ticker {
+        symbol
+      }
+    }
+  }
+}

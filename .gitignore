@@ -39,7 +39,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-*.env*
+.env*
 # Remix files
 apps/**/build
 apps/**/.cache
