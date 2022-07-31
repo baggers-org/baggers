@@ -40,6 +40,8 @@ jobs:
           fetch-depth: 0
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
       - name: Install
         run: npm ci
       - run: npx nx affected --target=deploy --parallel=3

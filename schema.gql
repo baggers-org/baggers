@@ -287,8 +287,10 @@ enum TransactionType {
 }
 
 input UpdatePortfolioInput {
-  description: String!
-  name: String!
+  cash: Float
+  description: String
+  name: String
+  private: Boolean
 }
 
 input UpdateUserInput {

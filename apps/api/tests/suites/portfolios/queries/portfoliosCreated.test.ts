@@ -3,14 +3,13 @@ import { TestSdk } from '~test-sdk';
 
 export const portfoliosCreatedTests = () =>
   describe('portfoliosCreated', () => {
-    describe('portfoliosCreated', () => {
-      it('should return a PortfolioSummary for all the portfolios where you are the owner', async () => {
-        const sdk = TestSdk().setAuthHeader(User1._id).build();
+    it('should return a PortfolioSummary for all the portfolios where you are the owner', async () => {
+      const sdk = TestSdk().setAuthHeader(User1._id).build();
 
-        const { portfoliosCreated } = await sdk.portfoliosCreated();
+      const { portfoliosCreated } = await sdk.portfoliosCreated();
 
-        expect(portfoliosCreated).toHaveLength(2);
-        expect(portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
+      expect(portfoliosCreated).toHaveLength(2);
+      expect(portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
           Array [
             Object {
               "costBasis": 389493,
@@ -47,18 +46,17 @@ export const portfoliosCreatedTests = () =>
           ]
         `);
 
-        // It should sort them by updatedAt - most recent
-        expect(portfoliosCreated[0].updatedAt).toMatchInlineSnapshot(
-          `"2022-12-12T00:00:00.000Z"`
-        );
-        expect(portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
-          `"2022-07-22T00:00:00.000Z"`
-        );
+      // It should sort them by updatedAt - most recent
+      expect(portfoliosCreated[0].updatedAt).toMatchInlineSnapshot(
+        `"2022-12-12T00:00:00.000Z"`
+      );
+      expect(portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
+        `"2022-07-22T00:00:00.000Z"`
+      );
 
-        expect(
-          new Date(portfoliosCreated[0].updatedAt) >
-            new Date(portfoliosCreated[1].updatedAt)
-        );
-      });
+      expect(
+        new Date(portfoliosCreated[0].updatedAt) >
+          new Date(portfoliosCreated[1].updatedAt)
+      );
     });
   });

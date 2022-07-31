@@ -139,7 +139,8 @@ export class PortfoliosService {
         },
         {
           $set: { ...input, updatedAt: new Date() },
-        }
+        },
+        { returnDocument: 'after' }
       )
       .orFail(
         () => new NotFoundException('Could not find a portfolio with this id')

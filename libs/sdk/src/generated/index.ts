@@ -364,8 +364,10 @@ export enum TransactionType {
 }
 
 export type UpdatePortfolioInput = {
-  description: Scalars['String'];
-  name: Scalars['String'];
+  cash?: InputMaybe<Scalars['Float']>;
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  private?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type UpdateUserInput = {

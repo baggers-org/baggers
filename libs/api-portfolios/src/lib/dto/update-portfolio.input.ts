@@ -2,7 +2,11 @@ import { InputType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdatePortfolioInput {
-  name: string;
+  name?: string;
 
-  description: string;
+  description?: string;
+
+  cash?: number;
+
+  private?: boolean;
 }
