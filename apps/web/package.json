@@ -4,18 +4,6 @@
   "description": "",
   "license": "",
   "sideEffects": false,
-  "scripts": {
-    "build": "cross-env NODE_ENV=production NODE_OPTIONS='-r ./esbuild-overrides'  remix build",
-    "prebuild": "yarn generate",
-    "deploy": "fly deploy --remote-only",
-    "dev": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
-    "lint": "eslint",
-    "postinstall": "remix setup node",
-    "start": "cross-env NODE_ENV=production remix-serve build",
-    "env:staging": "cat .env.staging | flyctl -c fly.staging.toml secrets import",
-    "env:prod": "cat .env.production | flyctl secrets import",
-    "typecheck": "tsc --noEmit"
-  },
   "dependencies": {
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.6.0",
@@ -61,14 +49,6 @@
     "@types/vivus": "^0.4.4",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
-    "eslint": "^8.8.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
     "glob": "^7.2.0",
     "prettier": "^2.5.1",
     "typescript": "^4.1.2"

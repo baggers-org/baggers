@@ -3,4 +3,6 @@ fragment FullUser on User {
   displayName
   emails
   photos
+  createdAt
+  updatedAt
 }

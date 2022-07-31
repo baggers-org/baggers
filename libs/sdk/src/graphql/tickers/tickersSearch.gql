@@ -1,0 +1,9 @@
+query tickersSearch($searchTerm: String!) {
+  tickersSearch(searchTerm: $searchTerm) {
+    _id
+    ...AllTickerData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}

@@ -1,20 +1,16 @@
 import { INestApplication } from '@nestjs/common';
 import { DocumentNode } from 'graphql';
-import request, { Variables } from 'supertest-graphql';
+import request from 'supertest-graphql';
 
-export const appRequest = <T, TVariables extends Variables = Variables>(
-  app?: INestApplication
-) =>
-  request<T, TVariables>(
-    app ? app.getHttpServer() : globalThis.__APP__.getHttpServer()
-  );
+export const appRequest = (app?: INestApplication) =>
+  request(app ? app.getHttpServer() : globalThis.__APP__.getHttpServer());
 
-export const appQuery = <T, TVariables extends Variables = Variables>(
+export const appQuery = (
   query: string | DocumentNode,
   app?: INestApplication
-) => appRequest<T, TVariables>(app).query(query);
+) => appRequest(app).query(query);
 
-export const appMutate = <T, TVariables extends Variables = Variables>(
+export const appMutate = (
   mutation: string | DocumentNode,
   app?: INestApplication
-) => appRequest<T, TVariables>(app).mutate(mutation);
+) => appRequest(app).mutate(mutation);

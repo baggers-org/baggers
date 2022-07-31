@@ -15,6 +15,9 @@
         ]
       }
     },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
+    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [

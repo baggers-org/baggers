@@ -4,9 +4,9 @@ import { Ticker } from '@baggers/sdk';
 export interface HoldingDetailsProps {
   addingSymbol: Ticker;
 
-  // addingHolding: AddHoldingInput;
+  addingHolding: AddHoldingInput;
 
-  // setHoldingDetails: Dispatch<SetStateAction<AddHoldingInput>>;
+  setHoldingDetails: Dispatch<SetStateAction<AddHoldingInput>>;
 
   loadingOpenPrice?: boolean;
 }

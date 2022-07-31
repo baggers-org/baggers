@@ -1,0 +1,9 @@
+query tickersFindById($_id: ObjectId!) {
+  tickersFindById(_id: $_id) {
+    _id
+    ...AllTickerData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}

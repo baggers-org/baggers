@@ -1,0 +1,6 @@
+mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
+  portfoliosRemoveMultiple(_ids: $_ids) {
+    acknowledged
+    deletedCount
+  }
+}

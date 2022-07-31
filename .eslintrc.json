@@ -9,7 +9,7 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["~test-sdk"],
             "depConstraints": [
               {
                 "sourceTag": "*",

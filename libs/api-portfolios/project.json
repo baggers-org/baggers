@@ -5,14 +5,23 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["libs/api-portfolios/**/*.ts"]
+        "lintFilePatterns": [
+          "libs/api-portfolios/**/*.ts"
+        ]
       }
+    },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/api-portfolios"],
+      "outputs": [
+        "coverage/libs/api-portfolios"
+      ],
       "options": {
         "jestConfig": "libs/api-portfolios/jest.config.ts",
         "passWithNoTests": true

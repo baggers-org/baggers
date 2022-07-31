@@ -1,0 +1,5 @@
+mutation portfoliosInitEmpty {
+  portfoliosInitEmpty {
+    _id
+  }
+}

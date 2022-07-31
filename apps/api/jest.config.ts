@@ -11,11 +11,13 @@ export default {
       },
     },
   },
+  setupFilesAfterEnv: ['<rootDir>/tests/jest/setup.ts'],
   testEnvironment: 'node',
   testPathIgnorePatterns: ['node_modules', 'tests/suites'],
   transform: {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
+
   coverageDirectory: '../../coverage/apps/api',
 };

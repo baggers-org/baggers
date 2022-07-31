@@ -1,25 +1,23 @@
 import { INestApplication } from '@nestjs/common';
-import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
-import { Test } from '@nestjs/testing';
-import { Connection } from 'mongoose';
-import { AppModule } from '~/app.module';
-import { JwtAuthGuard } from '~/auth/jwt.auth.guard';
-import { createTestDb, TEST_DB_NAME } from 'tests/util/createTestDb';
-import { MockAuthGuard } from 'tests/util/MockAuthGuard';
+import { setupTestApp } from '../util/db-util';
+import './mocks';
 
-import { PartialTokenPayload } from '~/auth/types';
-
-let connection: Connection;
 let app: INestApplication;
+let url: string;
 
-beforeAll(() => {
-  setupTestApp();
+export const getApp = () => app;
+export const getAppUrl = () => url;
+
+beforeAll(async () => {
+  if (!app) {
+    app = await setupTestApp();
+    if (app) {
+      url = await app.getUrl();
+    }
+  }
 });
 
 afterAll(async () => {
-  if (connection) {
-    await connection.close();
-  }
   if (app) {
     await app.close();
   }

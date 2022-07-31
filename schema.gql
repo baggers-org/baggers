@@ -129,9 +129,9 @@ type PortfolioWithoutMarketData {
 type Query {
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
-  ticker(_id: String!): Ticker!
+  tickersFindById(_id: ObjectId!): Ticker!
   tickersSearch(searchTerm: String!): [Ticker!]!
-  user(_id: ID!): User!
+  usersFindById(_id: ID!): User!
 }
 
 type Quote {

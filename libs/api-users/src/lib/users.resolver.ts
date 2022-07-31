@@ -10,8 +10,8 @@ import { Auth0AccessTokenPayload, CurrentUser } from '@baggers/api-auth';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => User, { name: 'user' })
-  usersFindOne(@Args('_id', { type: () => ID }) _id: string) {
+  @Query(() => User, { name: 'usersFindById' })
+  findById(@Args('_id', { type: () => ID }) _id: string) {
     return this.usersService.findOne(_id);
   }
 

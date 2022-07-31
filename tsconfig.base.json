@@ -7,8 +7,10 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "esModuleInterop": true,
     "importHelpers": true,
     "target": "es2015",
+    "resolveJsonModule": true,
     "module": "esnext",
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
@@ -19,11 +21,11 @@
       "@baggers/api-env": ["libs/api-env/src/index.ts"],
       "@baggers/api-portfolios": ["libs/api-portfolios/src/index.ts"],
       "@baggers/api-shared": ["libs/api-shared/src/index.ts"],
-      "@baggers/api-testing": ["libs/api-testing/src/index.ts"],
       "@baggers/api-tickers": ["libs/api-tickers/src/index.ts"],
       "@baggers/api-users": ["libs/api-users/src/index.ts"],
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
-      "~/*": ["./app/*", "./src/*"]
+      "~/*": ["./app/*", "./src/*"],
+      "~test-sdk": ["apps/api/tests/test-sdk.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

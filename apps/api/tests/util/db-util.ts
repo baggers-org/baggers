@@ -1,11 +1,10 @@
-import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
+import { JwtAuthGuard } from '@baggers/api-auth';
+import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { AppModule } from '~/app.module';
-import { JwtAuthGuard } from '~/auth/jwt.auth.guard';
-import { createTestDb, TEST_DB_NAME } from 'tests/util/createTestDb';
-import { MockAuthGuard } from 'tests/util/MockAuthGuard';
-
-import { PartialTokenPayload } from '~/auth/types';
+import { createTestDb, TEST_DB_NAME } from './createTestDb';
+import { MockAuthGuard } from './MockAuthGuard';
+import { AppModule } from '../../src/app.module';
+import { INestApplication } from '@nestjs/common';
 
 const setupTestDatabase = async () => {
   if (!globalThis.__MONGOD__) {
@@ -13,8 +12,8 @@ const setupTestDatabase = async () => {
   }
   return globalThis.__MONGOD__;
 };
-
-export const setUser = async (user?: PartialTokenPayload) => {
+export const setupTestApp = async (): Promise<INestApplication | null> => {
+  await setupTestDatabase();
   const testingModule = await Test.createTestingModule({
     imports: [
       globalThis.__MONGOD__
@@ -28,22 +27,21 @@ export const setUser = async (user?: PartialTokenPayload) => {
     .overrideProvider(JwtAuthGuard)
     .useFactory({
       factory: () => {
-        return new MockAuthGuard(user);
+        return new MockAuthGuard();
       },
     })
     .compile();
 
-  connection = testingModule.get(getConnectionToken());
-
-  app = testingModule.createNestApplication();
+  const app = testingModule.createNestApplication();
 
   await app.init();
 
-  return app;
-};
+  try {
+    await app.listen(4000);
+  } catch (e) {
+    //
+    return null;
+  }
 
-export const setupTestApp = async () => {
-  await setupTestDatabase();
-  const app = await setUser();
-  globalThis.__APP__ = app;
+  return app;
 };

@@ -1,0 +1,5 @@
+mutation portfoliosRemoveOne($_id: ObjectId!) {
+  portfoliosRemoveOne(_id: $_id) {
+    _id
+  }
+}

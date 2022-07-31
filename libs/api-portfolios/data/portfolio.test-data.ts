@@ -1,14 +1,8 @@
+import { Ticker2, Ticker1, Tickers } from '@baggers/api-tickers';
+import { User1, User2 } from '@baggers/api-users';
 import mongoose from 'mongoose';
-
-import { Ticker1, Ticker2, Tickers } from './ticker.test-data';
-import { User1, User2 } from './user.test-data';
-import {
-  HoldingDirection,
-  HoldingSource,
-  HoldingType,
-  PopulatedPortfolio,
-  PortfolioFromDb,
-} from '@baggers/api-portfolios';
+import { PortfolioFromDb, PopulatedPortfolio } from '../src/lib/entities';
+import { HoldingDirection, HoldingType, HoldingSource } from '../src/lib/enums';
 
 export const Portfolio1: PortfolioFromDb = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),

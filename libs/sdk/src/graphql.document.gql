@@ -12,6 +12,7 @@ fragment AllHoldingData on Holding {
   averagePrice
   costBasis
   brokerFees
+  direction
   quantity
   type
   source
@@ -41,6 +42,8 @@ fragment PortfolioSummary on Portfolio {
   name
   description
   private
+  createdAt
+  updatedAt
   totalValue
   #   performance {
   #     ytdReturnPercent
@@ -102,9 +105,13 @@ query portfoliosCreated {
       displayName
       photos
     }
+    updatedAt
+    createdAt
     totalValue
     top5Holdings {
+      costBasis
       exposure
+      marketValue
       ticker {
         symbol
       }
@@ -120,6 +127,41 @@ query portfoliosFindById($_id: ObjectId!) {
     ...AllPortfolioData
   }
 }
+
+mutation portfoliosInitEmpty {
+  portfoliosInitEmpty {
+    _id
+  }
+}
+
+
+mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
+  portfoliosRemoveMultiple(_ids: $_ids) {
+    acknowledged
+    deletedCount
+  }
+}
+
+
+mutation portfoliosRemoveOne($_id: ObjectId!) {
+  portfoliosRemoveOne(_id: $_id) {
+    _id
+  }
+}
+
+
+mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
+  portfoliosUpdateOne(_id: $_id, input: $input) {
+    _id
+    cash
+    createdAt
+    description
+    name
+    private
+    updatedAt
+  }
+}
+
 
 fragment AllQuoteData on Quote {
   avgTotalVolume
@@ -181,9 +223,65 @@ fragment AllQuoteData on Quote {
 }
 
 
+fragment AllTickerData on Ticker {
+  cik
+  createdAt
+  currency
+  exchange
+  exchangeName
+  figi
+  iexId
+  name
+  region
+  symbol
+  symbolType
+  updatedAt
+}
+
+
+query tickersFindById($_id: ObjectId!) {
+  tickersFindById(_id: $_id) {
+    _id
+    ...AllTickerData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+
+
+query tickersSearch($searchTerm: String!) {
+  tickersSearch(searchTerm: $searchTerm) {
+    _id
+    ...AllTickerData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+
+
 fragment FullUser on User {
   _id
   displayName
   emails
   photos
+  createdAt
+  updatedAt
+}
+
+
+query usersFindById($_id: ID!) {
+  usersFindById(_id: $_id) {
+    _id
+    ...FullUser
+  }
+}
+
+
+mutation usersFindOrCreate($input: CreateUserInput!) {
+  usersFindOrCreate(input: $input) {
+    _id
+    ...FullUser
+  }
 }

@@ -1,4 +1,4 @@
-import { User } from '@baggers/api-users';
+import { User } from '../src/lib/entities';
 
 export const User1: User = {
   _id: 'google-oauth1-233838',
@@ -18,4 +18,12 @@ export const User2: User = {
   updatedAt: new Date('01/01/01'),
 };
 
-export const Users = [User1, User2];
+export const AdminUser: User = {
+  _id: 'admin-user',
+  displayName: 'Daniel Cooke',
+  emails: ['dcooke123@gmail.com'],
+  photos: ['https://link.come/dans_face.png'],
+  createdAt: new Date('01/01/01'),
+  updatedAt: new Date('01/01/01'),
+};
+export const Users = [User1, User2, AdminUser];

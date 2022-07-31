@@ -65,14 +65,15 @@
       ],
       "options": {
         "jestConfig": "apps/api/jest.config.ts",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "runInBand": true
       }
+    },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
     },
     "deploy": {
       "executor": "nx:run-commands",
-      "dependsOn": [
-        "^test"
-      ],
       "options": {
         "command": "fly deploy -c apps/api/fly.staging.toml"
       },

@@ -1,22 +1,35 @@
+import { PartialTokenPayload } from '@baggers/api-auth';
+import { AdminUser, User1, User2 } from '@baggers/api-users';
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { PartialTokenPayload } from '~/auth/types';
-import { User1 } from 'tests/data/user.test-data';
 
-const DEFAULT_USER: PartialTokenPayload = {
-  sub: User1._id,
-  'https://baggers.app/role': [],
-};
+const payloads: PartialTokenPayload[] = [
+  {
+    sub: User1._id,
+  },
+  {
+    sub: User2._id,
+  },
+  {
+    sub: AdminUser._id,
+    'https://baggers.app/role': ['admin'],
+  },
+];
 export class MockAuthGuard implements CanActivate {
   private user: PartialTokenPayload;
-  constructor(user: PartialTokenPayload = DEFAULT_USER) {
-    this.user = user;
-  }
 
   canActivate(context: ExecutionContextHost): boolean | Promise<boolean> {
     const { req } = context.getArgs()[2];
-    req.user = this.user;
+
+    // We can switch user by passing the user id as the auth token
+    const authHeader = req.headers.authorisation;
+    if (authHeader) {
+      req.user = payloads.find((u) => u.sub === authHeader) || {
+        sub: authHeader,
+      };
+    }
+    // TODO: fix for unauth access tests
     return true;
   }
   getRequest(context: ExecutionContext) {

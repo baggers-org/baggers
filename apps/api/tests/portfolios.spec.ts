@@ -1,17 +1,9 @@
-import { setupTestApp } from './jest/setup';
-import {
-  portfoliosCreatedTests,
-  portfoliosFindByIdTests,
-  portfoliosInitEmptyTests,
-  portfoliosRemoveMultipleTests,
-  portfoliosRemoveOneTests,
-  portfoliosUpdateOneTests,
-} from './suites/portfolios';
+import { portfoliosInitEmptyTests } from './suites/portfolios/mutations/portfoliosInitEmpty.test';
+import { portfoliosRemoveMultipleTests } from './suites/portfolios/mutations/portfoliosRemoveMultiple.test';
+import { portfoliosCreatedTests } from './suites/portfolios/queries/portfoliosCreated.test';
+import { portfoliosFindByIdTests } from './suites/portfolios/queries/portfoliosFindById.test';
 
 describe('Portfolio', () => {
-  beforeAll(async () => {
-    await setupTestApp();
-  });
   describe('Queries', () => {
     portfoliosFindByIdTests();
     portfoliosCreatedTests();
@@ -19,8 +11,6 @@ describe('Portfolio', () => {
 
   describe('Mutations', () => {
     portfoliosInitEmptyTests();
-    portfoliosRemoveOneTests();
     portfoliosRemoveMultipleTests();
-    portfoliosUpdateOneTests();
   });
 });

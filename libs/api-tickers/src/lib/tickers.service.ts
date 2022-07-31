@@ -1,3 +1,4 @@
+import { ObjectId } from '@baggers/api-shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -9,7 +10,7 @@ export class TickersService {
     @InjectModel(Ticker.name) private tickerModel: Model<TickerDocument>
   ) {}
 
-  findById(_id: string) {
+  findById(_id: ObjectId) {
     return this.tickerModel.findById(_id);
   }
 

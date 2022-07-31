@@ -6,7 +6,6 @@
     "api-env": "libs/api-env",
     "api-portfolios": "libs/api-portfolios",
     "api-shared": "libs/api-shared",
-    "api-testing": "libs/api-testing",
     "api-tickers": "libs/api-tickers",
     "api-users": "libs/api-users",
     "sdk": "libs/sdk",

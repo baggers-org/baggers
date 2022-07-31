@@ -1,0 +1,14 @@
+fragment AllTickerData on Ticker {
+  cik
+  createdAt
+  currency
+  exchange
+  exchangeName
+  figi
+  iexId
+  name
+  region
+  symbol
+  symbolType
+  updatedAt
+}

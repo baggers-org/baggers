@@ -1,0 +1,11 @@
+mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
+  portfoliosUpdateOne(_id: $_id, input: $input) {
+    _id
+    cash
+    createdAt
+    description
+    name
+    private
+    updatedAt
+  }
+}

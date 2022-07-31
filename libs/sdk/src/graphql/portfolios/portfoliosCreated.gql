@@ -5,9 +5,13 @@ query portfoliosCreated {
       displayName
       photos
     }
+    updatedAt
+    createdAt
     totalValue
     top5Holdings {
+      costBasis
       exposure
+      marketValue
       ticker {
         symbol
       }
