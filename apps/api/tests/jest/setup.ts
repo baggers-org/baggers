@@ -8,6 +8,8 @@ let url: string;
 export const getApp = () => app;
 export const getAppUrl = () => url;
 
+process.env.TZ = 'UTC';
+
 beforeAll(async () => {
   if (!app) {
     app = await setupTestApp();

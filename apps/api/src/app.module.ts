@@ -18,7 +18,8 @@ import { EnvironmentSchema, EnvModule } from '@baggers/api-env';
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: EnvironmentSchema,
+      validationSchema:
+        process.env.NODE_ENV !== 'test' ? EnvironmentSchema : undefined,
       validationOptions: {
         allowUnknowns: false,
       },

@@ -5,6 +5,8 @@ import { createTestDb, TEST_DB_NAME } from './createTestDb';
 import { MockAuthGuard } from './MockAuthGuard';
 import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
+import { EnvService } from '@baggers/api-env';
+import { MockEnvService } from './MockEnvService';
 
 const setupTestDatabase = async () => {
   if (!globalThis.__MONGOD__) {
@@ -25,11 +27,9 @@ export const setupTestApp = async (): Promise<INestApplication | null> => {
     ],
   })
     .overrideProvider(JwtAuthGuard)
-    .useFactory({
-      factory: () => {
-        return new MockAuthGuard();
-      },
-    })
+    .useClass(MockAuthGuard)
+    .overrideProvider(EnvService)
+    .useClass(MockEnvService)
     .compile();
 
   const app = testingModule.createNestApplication();
