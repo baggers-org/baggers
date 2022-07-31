@@ -13,6 +13,8 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
       - name: Install
         run: npm ci
       - name: NX Workspace lint
