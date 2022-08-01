@@ -19,6 +19,16 @@ export type Scalars = {
   ObjectId: any;
 };
 
+export type AddHoldingInput = {
+  averagePrice: Scalars['Float'];
+  brokerFees?: InputMaybe<Scalars['Float']>;
+  currency?: InputMaybe<Scalars['String']>;
+  direction: HoldingDirection;
+  quantity: Scalars['Float'];
+  ticker: Scalars['ObjectId'];
+  type?: InputMaybe<HoldingType>;
+};
+
 export type CreateUserInput = {
   _id: Scalars['String'];
   displayName: Scalars['String'];
@@ -76,6 +86,7 @@ export type HoldingWithoutMarketData = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  portfoliosAddHolding: PortfolioWithoutMarketData;
   portfoliosInitEmpty: RecordId;
   portfoliosRemoveMultiple: RemoveMultipleResponse;
   portfoliosRemoveOne: RecordId;
@@ -83,6 +94,12 @@ export type Mutation = {
   usersFindOrCreate: User;
   usersRemoveOne: User;
   usersUpdateOne: User;
+};
+
+
+export type MutationPortfoliosAddHoldingArgs = {
+  _id: Scalars['ObjectId'];
+  input: AddHoldingInput;
 };
 
 
@@ -400,6 +417,14 @@ export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cas
 
 export type AllTransactionDataFragment = { __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, price: number, type: TransactionType, subType: TransactionSubtype };
 
+export type PortfoliosAddHoldingMutationVariables = Exact<{
+  _id: Scalars['ObjectId'];
+  input: AddHoldingInput;
+}>;
+
+
+export type PortfoliosAddHoldingMutation = { __typename?: 'Mutation', portfoliosAddHolding: { __typename?: 'PortfolioWithoutMarketData', _id: any, holdings: Array<{ __typename?: 'HoldingWithoutMarketData', averagePrice: number, brokerFees?: number | null, costBasis: number, quantity: number }> } };
+
 export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -638,6 +663,19 @@ export const AllTickerDataFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PortfoliosAddHoldingDocument = gql`
+    mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
+  portfoliosAddHolding(_id: $_id, input: $input) {
+    _id
+    holdings {
+      averagePrice
+      brokerFees
+      costBasis
+      quantity
+    }
+  }
+}
+    `;
 export const PortfoliosCreatedDocument = gql`
     query portfoliosCreated {
   portfoliosCreated {
@@ -751,6 +789,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    portfoliosAddHolding(variables: PortfoliosAddHoldingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosAddHoldingMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosAddHoldingMutation>(PortfoliosAddHoldingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosAddHolding', 'mutation');
+    },
     portfoliosCreated(variables?: PortfoliosCreatedQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosCreatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosCreatedQuery>(PortfoliosCreatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosCreated', 'query');
     },

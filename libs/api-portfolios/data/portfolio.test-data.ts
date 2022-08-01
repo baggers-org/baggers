@@ -1,4 +1,4 @@
-import { Ticker2, Ticker1, Tickers } from '@baggers/api-tickers';
+import { TSLA, A, Tickers } from '@baggers/api-tickers';
 import { User1, User2 } from '@baggers/api-users';
 import mongoose from 'mongoose';
 import { PortfolioFromDb, PopulatedPortfolio } from '../src/lib/entities';
@@ -15,7 +15,7 @@ export const Portfolio1: PortfolioFromDb = {
   cash: 1239.32,
   holdings: [
     {
-      ticker: Ticker2._id,
+      ticker: TSLA._id,
       averagePrice: 383.9,
       costBasis: 3839,
       currency: 'USD',
@@ -26,7 +26,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: Ticker1._id,
+      ticker: A._id,
       averagePrice: 4794.2,
       costBasis: 47942,
       currency: 'USD',
@@ -37,7 +37,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: Ticker2._id,
+      ticker: TSLA._id,
       averagePrice: 78.71725949878739,
       costBasis: 389493,
       currency: 'USD',
@@ -48,7 +48,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: Ticker1._id,
+      ticker: A._id,
       averagePrice: 9042.763533674339,
       costBasis: 84857293,
       currency: 'USD',
@@ -73,7 +73,7 @@ export const PublicPortfolio: PortfolioFromDb = {
   cash: 230495.33,
   holdings: [
     {
-      ticker: Ticker2._id,
+      ticker: TSLA._id,
       averagePrice: 383.9,
       costBasis: 3839,
       currency: 'USD',
@@ -84,7 +84,7 @@ export const PublicPortfolio: PortfolioFromDb = {
       source: HoldingSource.direct,
     },
     {
-      ticker: Ticker1._id,
+      ticker: A._id,
       averagePrice: 4794.2,
       costBasis: 47942,
       currency: 'USD',

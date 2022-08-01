@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Ticker } from '../lib/entities';
 
-export const Ticker1: Ticker = {
+export const A: Ticker = {
   _id: new mongoose.Types.ObjectId('62988fced38076b635386a91'),
   exchange: 'XNYS',
   symbol: 'A',
@@ -75,7 +75,7 @@ export const Ticker1: Ticker = {
   },
 };
 
-export const Ticker2: Ticker = {
+export const TSLA: Ticker = {
   _id: new mongoose.Types.ObjectId('62989022d38076b6353967c3'),
   exchange: 'XNAS',
   createdAt: new Date('01/01/01'),
@@ -149,4 +149,4 @@ export const Ticker2: Ticker = {
   },
 };
 
-export const Tickers = [Ticker1, Ticker2];
+export const Tickers = [A, TSLA];

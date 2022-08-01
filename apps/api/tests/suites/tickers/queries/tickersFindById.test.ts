@@ -1,4 +1,4 @@
-import { Ticker1 } from '@baggers/api-tickers';
+import { A } from '@baggers/api-tickers';
 import { TestSdk } from '../../../test-sdk';
 
 export const tickersFindByIdTest = () =>
@@ -8,7 +8,7 @@ export const tickersFindByIdTest = () =>
       const sdk = TestSdk().build();
 
       const { tickersFindById } = await sdk.tickersFindById({
-        _id: Ticker1._id,
+        _id: A._id,
       });
 
       expect(tickersFindById).toMatchInlineSnapshot(`

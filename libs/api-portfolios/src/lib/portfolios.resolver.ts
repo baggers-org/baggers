@@ -15,10 +15,15 @@ import {
   RemoveMultipleResponse,
   ObjectId,
 } from '@baggers/api-shared';
+import { AddHoldingInput } from './dto/add-holding';
+import { HoldingsService } from './services/holdings.service';
 
 @Resolver(() => PortfolioFromDb)
 export class PortfoliosResolver {
-  constructor(private readonly portfoliosService: PortfoliosService) {}
+  constructor(
+    private readonly portfoliosService: PortfoliosService,
+    private holdingsService: HoldingsService
+  ) {}
 
   /**
    * Inits an empty portfolio belonging to the currently logged in user
@@ -73,5 +78,14 @@ export class PortfoliosResolver {
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     return this.portfoliosService.updateOne(_id, input, currentUser);
+  }
+
+  @Mutation(() => PortfolioFromDb, { name: 'portfoliosAddHolding' })
+  addHolding(
+    @Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId,
+    @Args('input') input: AddHoldingInput,
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    return this.holdingsService.addHolding(_id, input, currentUser);
   }
 }

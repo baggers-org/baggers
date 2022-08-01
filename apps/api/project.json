@@ -75,11 +75,11 @@
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "fly deploy -c apps/api/fly.staging.toml"
+        "command": "flyctl deploy -c apps/api/fly.staging.toml"
       },
       "configurations": {
         "production": {
-          "command": "fly delpoy -c apps/api/fly.toml"
+          "command": "flyctl delpoy -c apps/api/fly.toml"
         }
       }
     }

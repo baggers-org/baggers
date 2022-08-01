@@ -98,6 +98,19 @@ fragment AllTransactionData on Transaction {
 }
 
 
+mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
+  portfoliosAddHolding(_id: $_id, input: $input) {
+    _id
+    holdings {
+      averagePrice
+      brokerFees
+      costBasis
+      quantity
+    }
+  }
+}
+
+
 query portfoliosCreated {
   portfoliosCreated {
     _id

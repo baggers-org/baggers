@@ -7,6 +7,7 @@ import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { EnvService } from '@baggers/api-env';
 import { MockEnvService } from './MockEnvService';
+import { setupApp } from '../../src/setupApp';
 
 const setupTestDatabase = async () => {
   if (!globalThis.__MONGOD__) {
@@ -33,6 +34,7 @@ export const setupTestApp = async (): Promise<INestApplication | null> => {
     .compile();
 
   const app = testingModule.createNestApplication();
+  setupApp(app);
 
   await app.init();
 

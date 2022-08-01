@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddHoldingInput {
+  averagePrice: Float!
+  brokerFees: Float = 0
+  currency: String = "USD"
+  direction: HoldingDirection!
+  quantity: Float!
+  ticker: ObjectId!
+  type: HoldingType = shares
+}
+
 input CreateUserInput {
   _id: String!
   displayName: String!
@@ -61,6 +71,7 @@ type HoldingWithoutMarketData {
 }
 
 type Mutation {
+  portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioWithoutMarketData!
   portfoliosInitEmpty: RecordId!
   portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!

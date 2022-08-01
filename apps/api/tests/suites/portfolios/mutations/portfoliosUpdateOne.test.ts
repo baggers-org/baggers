@@ -32,6 +32,45 @@ export const portfoliosUpdateOneTests = () =>
       `);
     });
 
+    it('should not allow invalid input', async () => {
+      try {
+        await User1Sdk().portfoliosUpdateOne({
+          _id: Portfolio1._id,
+          input: {
+            cash: -238823993,
+            description: ` 
+			rreally 
+
+			really 
+
+			really really really really long
+			`,
+            name: '',
+          },
+        });
+      } catch (e) {
+        expect(e.response.errors).toMatchInlineSnapshot(`
+          Array [
+            Object {
+              "extensions": Object {
+                "code": "BAD_USER_INPUT",
+                "response": Object {
+                  "error": "Bad Request",
+                  "message": Array [
+                    "name should not be empty",
+                    "cash must be a positive number",
+                    "private must be a boolean value",
+                  ],
+                  "statusCode": 400,
+                },
+              },
+              "message": "Bad Request Exception",
+            },
+          ]
+        `);
+      }
+    });
+
     it('should return an error if you are not the owner', async () => {
       try {
         await User2Sdk().portfoliosUpdateOne({

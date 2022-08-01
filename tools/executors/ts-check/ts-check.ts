@@ -1,9 +1,7 @@
 import { ExecutorContext } from '@nrwl/devkit';
-import { detectPackageManager } from '@nrwl/tao/src/shared/package-manager';
 import { spawn } from 'child_process';
 
 export default async function tscExecutor(_, context: ExecutorContext) {
-  const packageManager = detectPackageManager();
   const packageManagerCmd = 'npx';
 
   const libRoot = context.workspace.projects[context.projectName].root;

@@ -18,7 +18,7 @@ export class HoldingMetricsService {
         'Tried to calculate market value for holding' +
           JSON.stringify(holding) +
           ' and ticker ' +
-          JSON.stringify(holding.ticker),
+          JSON.stringify(holding.ticker)
       );
     }
   }
@@ -31,7 +31,7 @@ export class HoldingMetricsService {
         'Tried to calculate exposure for holding' +
           JSON.stringify(holding) +
           ' and total value ' +
-          portfolioTotalValue,
+          portfolioTotalValue
       );
     }
   }
@@ -41,8 +41,7 @@ export class HoldingMetricsService {
       return this.calculateMarketValue(holding) - holding.costBasis;
     } catch (e) {
       throw new Error(
-        'Tried to calculate profitLossUsd for holding' +
-          JSON.stringify(holding),
+        'Tried to calculate profitLossUsd for holding' + JSON.stringify(holding)
       );
     }
   }
@@ -53,7 +52,7 @@ export class HoldingMetricsService {
     } catch (e) {
       throw new Error(
         'Tried to calculate profitLossPercent for holding' +
-          JSON.stringify(holding),
+          JSON.stringify(holding)
       );
     }
   }
@@ -64,24 +63,25 @@ export class HoldingMetricsService {
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +
-          JSON.stringify(holding),
+          JSON.stringify(holding)
       );
     }
   }
 
   calculateHoldingMetrics(
-    portfolio: PopulatedPortfolio,
+    portfolio: PopulatedPortfolio
   ): PopulatedHoldingWithMetrics[] {
     const totalValue =
       this.portfolioMetricsService.calculateTotalValue(portfolio);
     return portfolio.holdings.map((holding) => {
       return {
         ...holding,
-        marketValue: this.calculateMarketValue(holding),
-        exposure: this.calculateExposure(holding, totalValue),
-        profitLossUsd: this.calculateProfitLossUsd(holding),
-        profitLossPercent: this.calculateProfitLossPercent(holding),
-        dailyProfitLossUsd: this.calculateDailyProfitLossUsd(holding),
+        marketValue: +this.calculateMarketValue(holding).toFixed(2),
+        exposure: +this.calculateExposure(holding, totalValue).toFixed(2),
+        profitLossUsd: +this.calculateProfitLossUsd(holding).toFixed(2),
+        profitLossPercent: +this.calculateProfitLossPercent(holding).toFixed(2),
+        dailyProfitLossUsd:
+          +this.calculateDailyProfitLossUsd(holding).toFixed(2),
       };
     });
   }
