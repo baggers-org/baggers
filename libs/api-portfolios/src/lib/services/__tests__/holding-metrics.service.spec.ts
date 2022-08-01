@@ -1,9 +1,9 @@
+import { A } from '@baggers/api-tickers';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingType } from '../../enums/holding-type.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
 import { PortfolioMetricsService } from '../portfolio-metrics.service';
-import { Ticker1 } from '@baggers/api-tickers';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;
@@ -24,7 +24,7 @@ describe('HoldingMetricsService', () => {
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
-          ticker: Ticker1,
+          ticker: A,
           type: HoldingType.shares,
         })
       ).toEqual(1230.9);
@@ -47,7 +47,7 @@ describe('HoldingMetricsService', () => {
             costBasis: 1,
             quantity: 10,
             source: HoldingSource.broker,
-            ticker: Ticker1,
+            ticker: A,
             type: HoldingType.shares,
           },
           12039
@@ -71,7 +71,7 @@ describe('HoldingMetricsService', () => {
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
-          ticker: Ticker1,
+          ticker: A,
           type: HoldingType.shares,
         })
       ).toMatchInlineSnapshot(`1229.9`);
@@ -93,7 +93,7 @@ describe('HoldingMetricsService', () => {
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
-          ticker: Ticker1,
+          ticker: A,
           type: HoldingType.shares,
         })
       ).toMatchInlineSnapshot(`122990.00000000001`);
@@ -115,7 +115,7 @@ describe('HoldingMetricsService', () => {
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
-          ticker: Ticker1,
+          ticker: A,
           type: HoldingType.shares,
         })
       ).toMatchInlineSnapshot(`-44.699999999999996`);
