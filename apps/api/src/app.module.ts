@@ -1,17 +1,20 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { PortfolioImportModule } from '@baggers/api-portfolio-import';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { TickersModule } from '@baggers/api-tickers';
+import { TickersModule } from '@baggers/api-securities';
 import { ObjectIdScalar } from '@baggers/api-shared';
 import { PortfoliosModule } from '@baggers/api-portfolios';
 import { UsersModule } from '@baggers/api-users';
 import { AuthModule, JwtAuthGuard } from '@baggers/api-auth';
 import { EnvironmentSchema, EnvModule } from '@baggers/api-env';
+import { PlaidItemsModule } from '@baggers/api-plaid-items';
+import { PlaidLinkModule } from '@baggers/api-plaid-link';
 
 @Module({
   imports: [
@@ -39,6 +42,9 @@ import { EnvironmentSchema, EnvModule } from '@baggers/api-env';
     EnvModule,
     TickersModule,
     PortfoliosModule,
+    PortfolioImportModule,
+    PlaidItemsModule,
+    PlaidLinkModule,
   ],
   controllers: [],
   providers: [

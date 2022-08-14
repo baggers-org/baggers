@@ -7,7 +7,7 @@ export class PortfolioMetricsService {
     try {
       return (
         portfolio.holdings.reduce((acc, curr) => {
-          const marketValue = curr.quantity * curr.ticker.quote.latestPrice;
+          const marketValue = curr.quantity * curr.security.quote.latestPrice;
           return acc + marketValue;
         }, 0) + portfolio.cash
       );

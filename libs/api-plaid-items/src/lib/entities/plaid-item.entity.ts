@@ -1,0 +1,38 @@
+import { Field, ObjectType, OmitType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { checkAdminMiddleware } from '@baggers/api-auth';
+import { PlaidItemError } from './plaid-item-error.entity';
+import { Institution } from '@baggers/api-institutions';
+import { OwnedDocument } from '@baggers/api-users';
+
+export type PlaidItemDocument = PlaidItem & Document;
+/**
+ * An item represents a login at a financial inst.
+ * They will only be accessible by `admin` user's
+ * and the primary use for storing will be to
+ *
+ */
+@Schema()
+@ObjectType()
+export class PlaidItem extends OmitType(OwnedDocument, ['_id']) {
+  @Prop()
+  _id: string;
+
+  @Prop()
+  @Field(() => String, { middleware: [checkAdminMiddleware] })
+  accessToken?: string;
+
+  @Field(() => Institution)
+  @Prop({ type: () => String, ref: Institution.name })
+  institution: Institution | string;
+
+  @Field(() => PlaidItemError)
+  @Prop()
+  error?: PlaidItemError;
+
+  @Field(() => Date)
+  @Prop({ default: new Date('1970/01/01') })
+  lastWebhookTime: Date;
+}
+
+export const PlaidItemSchema = SchemaFactory.createForClass(PlaidItem);

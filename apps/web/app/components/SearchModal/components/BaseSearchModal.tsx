@@ -22,7 +22,7 @@ export type BaseSearchModalProps<T extends Record<string, unknown>> = {
   onResultSelect: (res: T) => void;
   renderResults: (
     results: T[],
-    onResultSelect: (res: T) => void,
+    onResultSelect: (res: T) => void
   ) => JSX.Element | JSX.Element[];
   renderNoResults: () => JSX.Element | JSX.Element[];
   searchInputProps?: SearchInputProps;
@@ -40,7 +40,7 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
   ...modalProps
 }: BaseSearchModalProps<TResult>) {
   const { t } = useTranslation(`holdings`);
-  const title = modalTitle || t(`search_tickers`, `Search tickers`);
+  const title = modalTitle || t(`search_securities`, `Search securities`);
 
   const fetcher = useFetcher();
 

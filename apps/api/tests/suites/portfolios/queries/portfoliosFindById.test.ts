@@ -45,8 +45,9 @@ export const portfoliosFindByIdTests = () =>
         }
       `);
 
-      // Remove tickers for smaller snapshots
-      expect({ ...portfolio.holdings[1], ticker: null }).toMatchInlineSnapshot(`
+      // Remove securities for smaller snapshots
+      expect({ ...portfolio.holdings[1], security: null })
+        .toMatchInlineSnapshot(`
         Object {
           "averagePrice": 9042.763533674339,
           "brokerFees": 0,
@@ -60,12 +61,13 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": -83702216.44,
           "quantity": 9384,
           "source": "broker",
-          "ticker": null,
+          "security": null,
           "type": "shares",
         }
       `);
 
-      expect({ ...portfolio.holdings[2], ticker: null }).toMatchInlineSnapshot(`
+      expect({ ...portfolio.holdings[2], security: null })
+        .toMatchInlineSnapshot(`
         Object {
           "averagePrice": 383.9,
           "brokerFees": 0,
@@ -79,7 +81,7 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": 3564.7,
           "quantity": 10,
           "source": "broker",
-          "ticker": null,
+          "security": null,
           "type": "shares",
         }
       `);

@@ -1,14 +1,14 @@
-import { BaseDocument } from '@baggers/api-shared';
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { PlaidItem } from '@baggers/api-plaid-items';
 import {
   HoldingFromDb,
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
 } from './holding.entity';
-import { Transaction } from './transaction.entity';
-import { User } from '@baggers/api-users';
+import { Transaction } from './transaction';
+import { OwnedDocument } from '@baggers/api-users';
 
 export type PortfolioDocument = PortfolioFromDb & Document;
 
@@ -16,16 +16,8 @@ export type PortfolioDocument = PortfolioFromDb & Document;
  * Test
  */
 @Schema({ collection: 'portfolios' })
-@ObjectType('PortfolioWithoutMarketData', {
-  description: `
-# Test
-`,
-})
-export class PortfolioFromDb extends BaseDocument {
-  @Field(() => User)
-  @Prop({ ref: 'User', type: () => String })
-  owner: User | string;
-
+@ObjectType('PortfolioWithoutMarketData')
+export class PortfolioFromDb extends OwnedDocument {
   @Prop({ default: true })
   private: boolean;
 
@@ -33,7 +25,7 @@ export class PortfolioFromDb extends BaseDocument {
   name: string;
 
   @Prop({ default: `` })
-  description: string;
+  description?: string;
 
   @Prop({ default: 0 })
   cash: number;
@@ -46,9 +38,12 @@ export class PortfolioFromDb extends BaseDocument {
   @Prop({ type: Transaction, default: [] })
   transactions: Transaction[];
 
-  // @Field({ nullable: true })
-  // @Prop({ type: PlaidItem })
-  // plaid?: PlaidItem;
+  @Field(() => PlaidItem)
+  @Prop({ type: String, ref: 'PlaidItem' })
+  plaidItem?: PlaidItem | string;
+
+  @Prop()
+  plaidAccountId?: string;
 }
 
 @ObjectType()

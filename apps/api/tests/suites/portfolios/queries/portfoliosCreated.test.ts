@@ -15,7 +15,7 @@ export const portfoliosCreatedTests = () =>
             "costBasis": 389493,
             "exposure": 75.87,
             "marketValue": 3663350.76,
-            "ticker": Object {
+            "security": Object {
               "symbol": "TSLA",
             },
           },
@@ -23,7 +23,7 @@ export const portfoliosCreatedTests = () =>
             "costBasis": 84857293,
             "exposure": 23.92,
             "marketValue": 1155076.56,
-            "ticker": Object {
+            "security": Object {
               "symbol": "A",
             },
           },
@@ -31,7 +31,7 @@ export const portfoliosCreatedTests = () =>
             "costBasis": 3839,
             "exposure": 0.15,
             "marketValue": 7403.7,
-            "ticker": Object {
+            "security": Object {
               "symbol": "TSLA",
             },
           },
@@ -39,7 +39,7 @@ export const portfoliosCreatedTests = () =>
             "costBasis": 47942,
             "exposure": 0.03,
             "marketValue": 1230.9,
-            "ticker": Object {
+            "security": Object {
               "symbol": "A",
             },
           },

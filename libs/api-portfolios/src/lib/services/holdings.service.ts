@@ -14,54 +14,6 @@ export class HoldingsService {
     private portfolioModel: Model<PortfolioDocument>
   ) {}
 
-  getMergedHoldings(holdings: HoldingFromDb[]) {
-    const mergedHoldings: HoldingFromDb[] = [];
-
-    const hash = (holding: HoldingFromDb) =>
-      `${holding.ticker}${holding.direction}${holding.type}`;
-
-    const seen = {};
-
-    const newHoldings = holdings.filter((holding, index) => {
-      const holdingHash = hash(holding);
-      if (!seen[holdingHash]) {
-        seen[holdingHash] = holding;
-        const match = holdings.find(
-          (h2, index2) => hash(h2) === holdingHash && index !== index2
-        );
-        if (match) {
-          const newCostBasis = holding.costBasis + match.costBasis;
-          const newQuanity = holding.quantity + match.quantity;
-          const newAverage = newCostBasis / newQuanity;
-          mergedHoldings.push({
-            ...holding,
-            costBasis: +newCostBasis.toFixed(2),
-            averagePrice: +newAverage.toFixed(2),
-            quantity: +newQuanity.toFixed(2),
-          });
-          return false;
-        }
-        return true;
-      }
-      return false;
-    });
-    return [...newHoldings, ...mergedHoldings];
-  }
-
-  /**
-   * ensures no duplicate holdings are in a given portfolio
-   * merging duplicate holdings.
-   */
-  async mergeHoldings(portfolio: PortfolioDocument) {
-    const { holdings } = portfolio;
-    const mergedHoldings = this.getMergedHoldings(holdings);
-    if (mergedHoldings.length !== holdings.length) {
-      portfolio.holdings = mergedHoldings;
-      return portfolio.save();
-    }
-    return portfolio;
-  }
-
   async addHolding(
     toPortfolio: ObjectId,
     input: AddHoldingInput,
@@ -98,6 +50,6 @@ export class HoldingsService {
           )
       );
 
-    return this.mergeHoldings(portfolio);
+    return this.mergePortfolioHoldings(portfolio);
   }
 }

@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Ticker } from '@baggers/sdk';
+import { Security } from '@baggers/sdk';
 
 export interface HoldingDetailsProps {
-  addingSymbol: Ticker;
+  addingSymbol: Security;
 
   addingHolding: AddHoldingInput;
 

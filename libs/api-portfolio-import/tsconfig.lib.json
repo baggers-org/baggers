@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "declaration": true,
+    "types": [],
+    "target": "es6"
+  },
+  "include": [
+    "**/*.ts",
+    "../api-portfolios/src/lib/entities/draft-portfolio.ts",
+    "../api-securities/src/lib/entities/imported-security.ts"
+  ],
+  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
+}

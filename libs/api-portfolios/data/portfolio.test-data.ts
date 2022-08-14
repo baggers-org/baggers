@@ -1,8 +1,9 @@
-import { TSLA, A, Tickers } from '@baggers/api-tickers';
+import { TSLA, A, Securities } from '@baggers/api-securities';
 import { User1, User2 } from '@baggers/api-users';
 import mongoose from 'mongoose';
 import { PortfolioFromDb, PopulatedPortfolio } from '../src/lib/entities';
 import { HoldingDirection, HoldingType, HoldingSource } from '../src/lib/enums';
+import { ImportedTransactions } from './transaction.test-data';
 
 export const Portfolio1: PortfolioFromDb = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),
@@ -15,7 +16,7 @@ export const Portfolio1: PortfolioFromDb = {
   cash: 1239.32,
   holdings: [
     {
-      ticker: TSLA._id,
+      security: TSLA._id,
       averagePrice: 383.9,
       costBasis: 3839,
       currency: 'USD',
@@ -26,7 +27,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: A._id,
+      security: A._id,
       averagePrice: 4794.2,
       costBasis: 47942,
       currency: 'USD',
@@ -37,7 +38,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: TSLA._id,
+      security: TSLA._id,
       averagePrice: 78.71725949878739,
       costBasis: 389493,
       currency: 'USD',
@@ -48,7 +49,7 @@ export const Portfolio1: PortfolioFromDb = {
       source: HoldingSource.broker,
     },
     {
-      ticker: A._id,
+      security: A._id,
       averagePrice: 9042.763533674339,
       costBasis: 84857293,
       currency: 'USD',
@@ -62,6 +63,19 @@ export const Portfolio1: PortfolioFromDb = {
   transactions: [],
 };
 
+export const PortfolioWithTransactions: PortfolioFromDb = {
+  _id: new mongoose.Types.ObjectId('62d31f1dc63873e235c99548'),
+  owner: User1._id,
+  private: false,
+  createdAt: new Date('21/01/2021'),
+  updatedAt: new Date('09/08/2022'),
+  name: 'Vanguard - Plaid isa',
+  description: '',
+  cash: 0,
+  holdings: [],
+  transactions: ImportedTransactions,
+};
+
 export const PublicPortfolio: PortfolioFromDb = {
   _id: new mongoose.Types.ObjectId('62d31f1dc63873e235c99546'),
   owner: User2._id,
@@ -73,7 +87,7 @@ export const PublicPortfolio: PortfolioFromDb = {
   cash: 230495.33,
   holdings: [
     {
-      ticker: TSLA._id,
+      security: TSLA._id,
       averagePrice: 383.9,
       costBasis: 3839,
       currency: 'USD',
@@ -84,7 +98,7 @@ export const PublicPortfolio: PortfolioFromDb = {
       source: HoldingSource.direct,
     },
     {
-      ticker: A._id,
+      security: A._id,
       averagePrice: 4794.2,
       costBasis: 47942,
       currency: 'USD',
@@ -114,7 +128,7 @@ export const getPopulated = (
     ...portfolio,
     holdings: portfolio.holdings.map((holding) => ({
       ...holding,
-      ticker: Tickers.find((t) => t._id === holding.ticker),
+      security: Securities.find((t) => t._id === holding.security),
     })),
   };
 };

@@ -1,17 +1,17 @@
-import { A } from '@baggers/api-tickers';
+import { A } from '@baggers/api-securities';
 import { TestSdk } from '../../../test-sdk';
 
-export const tickersFindByIdTest = () =>
-  describe('tickersFindById', () => {
-    it('should return a single ticker', async () => {
+export const securitiesFindByIdTest = () =>
+  describe('securitiesFindById', () => {
+    it('should return a single security', async () => {
       // Should allow unauth
       const sdk = TestSdk().build();
 
-      const { tickersFindById } = await sdk.tickersFindById({
+      const { securitiesFindById } = await sdk.securitiesFindById({
         _id: A._id,
       });
 
-      expect(tickersFindById).toMatchInlineSnapshot(`
+      expect(securitiesFindById).toMatchInlineSnapshot(`
         Object {
           "_id": "62988fced38076b635386a91",
           "cik": "0001090872",

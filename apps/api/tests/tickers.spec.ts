@@ -1,7 +1,7 @@
-import { tickersFindByIdTest } from './suites/tickers/queries/tickersFindById.test';
+import { securitiesFindByIdTest } from './suites/securities/queries/securitiesFindById.test';
 
-describe('Tickers', () => {
+describe('Securities', () => {
   describe('Queries', () => {
-    tickersFindByIdTest();
+    securitiesFindByIdTest();
   });
 });

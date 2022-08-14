@@ -1,4 +1,4 @@
-fragment AllTickerData on Ticker {
+fragment AllTickerData on Security {
   cik
   createdAt
   currency

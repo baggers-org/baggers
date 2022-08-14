@@ -11,7 +11,7 @@ describe('Portfolio holdings', () => {
   it('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
-      "Warren's Secret Portfolio",
+      "Warren's Secret Portfolio"
     );
 
     cy.findByRole('button', { name: 'confirm portfolio name' }).click();
@@ -20,7 +20,7 @@ describe('Portfolio holdings', () => {
 
     cy.findByText('I understand').click();
 
-    cy.findByPlaceholderText('Search tickers').type('ONDS');
+    cy.findByPlaceholderText('Search securities').type('ONDS');
 
     cy.findByText('ONDS').click();
 
@@ -38,11 +38,11 @@ describe('Portfolio holdings', () => {
 
       cy.findByLabelText('Return USD').should(
         'contain.text',
-        `+$${expectedReturnUsd.toFixed(2)}`,
+        `+$${expectedReturnUsd.toFixed(2)}`
       );
       cy.findByLabelText('Return percent').should(
         'contain.text',
-        `+${expectedReturnPercent.toFixed(2)}%`,
+        `+${expectedReturnPercent.toFixed(2)}%`
       );
 
       //Add the holding
@@ -99,7 +99,7 @@ describe('Portfolio holdings', () => {
 
     cy.url({ timeout: 15000 }).should(
       'eq',
-      `${Cypress.config('baseUrl')}/portfolios/created`,
+      `${Cypress.config('baseUrl')}/portfolios/created`
     );
 
     // Most recent one will be the default sort

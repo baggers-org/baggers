@@ -5,6 +5,10 @@ import { PortfolioFromDb, PortfolioSchema } from './entities/portfolio.entity';
 import { PortfoliosResolver } from './portfolios.resolver';
 import { HoldingMetricsService, PortfolioMetricsService } from './services';
 import { HoldingsService } from './services/holdings.service';
+import { PlaidClientModule } from '@baggers/plaid-client';
+import { PlaidItemsModule } from '@baggers/api-plaid-items';
+import { TransactionsUtilService } from './services/transactions-util.service';
+import { HoldingsUtilService } from './services/holdings-util.service';
 
 @Module({
   imports: [
@@ -14,13 +18,18 @@ import { HoldingsService } from './services/holdings.service';
         schema: PortfolioSchema,
       },
     ]),
+    PlaidClientModule,
+    PlaidItemsModule,
   ],
   providers: [
     PortfoliosResolver,
     PortfoliosService,
     HoldingsService,
+    HoldingsUtilService,
+    TransactionsUtilService,
     HoldingMetricsService,
     PortfolioMetricsService,
   ],
+  exports: [TransactionsUtilService],
 })
 export class PortfoliosModule {}

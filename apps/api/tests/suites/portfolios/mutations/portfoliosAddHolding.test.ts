@@ -1,5 +1,5 @@
 import { Portfolio1 } from '@baggers/api-portfolios';
-import { A, TSLA } from '@baggers/api-tickers';
+import { A, TSLA } from '@baggers/api-securities';
 import { HoldingDirection } from '@baggers/sdk';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
@@ -22,7 +22,7 @@ export const portfoliosAddHoldingTest = () =>
         _id,
         input: {
           direction: HoldingDirection.Long,
-          ticker: A._id,
+          security: A._id,
           quantity: 1,
           averagePrice: 105.4,
         },
@@ -42,12 +42,12 @@ export const portfoliosAddHoldingTest = () =>
       expect(portfolio.holdings[0].profitLossUsd).toBe(17.69);
       expect(portfolio.holdings[0].dailyProfitLossUsd).toBe(-4.47);
 
-      // Add the same ticker / direction / type again to check its merged
+      // Add the same security / direction / type again to check its merged
       await User1Sdk().portfoliosAddHolding({
         _id,
         input: {
           direction: HoldingDirection.Long,
-          ticker: A._id,
+          security: A._id,
           quantity: 4,
           averagePrice: 130.34,
         },
@@ -70,7 +70,7 @@ export const portfoliosAddHoldingTest = () =>
       await User1Sdk().portfoliosAddHolding({
         _id,
         input: {
-          ticker: TSLA._id,
+          security: TSLA._id,
           averagePrice: 100,
           quantity: 3,
           direction: HoldingDirection.Long,
@@ -89,7 +89,7 @@ export const portfoliosAddHoldingTest = () =>
         await User2Sdk().portfoliosAddHolding({
           _id: Portfolio1._id,
           input: {
-            ticker: TSLA._id,
+            security: TSLA._id,
             averagePrice: 200,
             direction: HoldingDirection.Short,
             quantity: 1,

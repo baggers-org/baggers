@@ -9,7 +9,7 @@ import {
   PopulatedPortfolioWithMetrics,
   PortfolioSummary,
 } from './entities/portfolio.entity';
-import { populateHoldingTickers } from './pipelines/populate-holding-tickers.pipeline';
+import { populateHoldingTickers } from './pipelines/populate-holding-securities.pipeline';
 import { populateOwner } from './pipelines/populate-owner';
 import { HoldingMetricsService, PortfolioMetricsService } from './services';
 import { Auth0AccessTokenPayload } from '@baggers/api-auth';

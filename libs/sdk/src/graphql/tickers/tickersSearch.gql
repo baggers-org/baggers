@@ -1,5 +1,5 @@
-query tickersSearch($searchTerm: String!) {
-  tickersSearch(searchTerm: $searchTerm) {
+query securitiesSearch($searchTerm: String!) {
+  securitiesSearch(searchTerm: $searchTerm) {
     _id
     ...AllTickerData
     quote {

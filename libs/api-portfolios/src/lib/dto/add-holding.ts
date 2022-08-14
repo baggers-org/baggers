@@ -5,7 +5,7 @@ import { HoldingDirection, HoldingType } from '../enums';
 @InputType()
 export class AddHoldingInput {
   @Field(() => ObjectIdScalar)
-  ticker: ObjectId;
+  security: ObjectId;
 
   @Field()
   quantity: number;

@@ -19,7 +19,7 @@ export class UsersService {
       {
         $set: createUserInput,
       },
-      { upsert: true, new: true },
+      { upsert: true, new: true }
     );
   }
 
@@ -31,7 +31,7 @@ export class UsersService {
       },
       {
         new: true,
-      },
+      }
     );
   }
 

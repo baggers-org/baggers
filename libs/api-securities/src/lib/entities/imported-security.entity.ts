@@ -1,0 +1,103 @@
+import { ObjectType } from '@nestjs/graphql';
+import { Security } from 'plaid';
+
+@ObjectType()
+export class ImportedSecurity implements Security {
+  [key: string]: object | any;
+  /**
+   * A unique, Plaid-specific identifier for the security, used to associate securities with holdings. Like all Plaid identifiers, the `security_id` is case sensitive.
+   * @type {string}
+   * @memberof Security
+   */
+  security_id: string;
+  /**
+   * 12-character ISIN, a globally unique securities identifier.
+   * @type {string}
+   * @memberof Security
+   */
+  isin: string | null;
+  /**
+   * 9-character CUSIP, an identifier assigned to North American securities.
+   * @type {string}
+   * @memberof Security
+   */
+  cusip: string | null;
+  /**
+   * 7-character SEDOL, an identifier assigned to securities in the UK.
+   * @type {string}
+   * @memberof Security
+   */
+  sedol: string | null;
+  /**
+   * An identifier given to the security by the institution
+   * @type {string}
+   * @memberof Security
+   */
+  institution_security_id: string | null;
+  /**
+   * If `institution_security_id` is present, this field indicates the Plaid `institution_id` of the institution to whom the identifier belongs.
+   * @type {string}
+   * @memberof Security
+   */
+  institution_id: string | null;
+  /**
+   * In certain cases, Plaid will provide the ID of another security whose performance resembles this security, typically when the original security has low volume, or when a private security can be modeled with a publicly traded security.
+   * @type {string}
+   * @memberof Security
+   */
+  proxy_security_id: string | null;
+  /**
+   * A descriptive name for the security, suitable for display.
+   * @type {string}
+   * @memberof Security
+   */
+  name: string | null;
+  /**
+   * The security’s trading symbol for publicly traded securities, and otherwise a short identifier if available.
+   * @type {string}
+   * @memberof Security
+   */
+  ticker_symbol: string | null;
+  /**
+   * Indicates that a security is a highly liquid asset and can be treated like cash.
+   * @type {boolean}
+   * @memberof Security
+   */
+  is_cash_equivalent: boolean | null;
+  /**
+   * The security type of the holding. Valid security types are:  `cash`: Cash, currency, and money market funds  `cryptocurrency`: Digital or virtual currencies  `derivative`: Options, warrants, and other derivative instruments  `equity`: Domestic and foreign equities  `etf`: Multi-asset exchange-traded investment funds  `fixed income`: Bonds and certificates of deposit (CDs)  `loan`: Loans and loan receivables  `mutual fund`: Open- and closed-end vehicles pooling funds of multiple investors  `other`: Unknown or other investment types
+   * @type {string}
+   * @memberof Security
+   */
+  type: string | null;
+  /**
+   * Price of the security at the close of the previous trading session. Null for non-public securities.   If the security is a foreign currency this field will be updated daily and will be priced in USD.   If the security is a cryptocurrency, this field will be updated multiple times a day. As crypto prices can fluctuate quickly and data may become stale sooner than other asset classes, please refer to update_datetime with the time when the price was last updated.
+   * @type {number}
+   * @memberof Security
+   */
+  close_price: number | null;
+  /**
+   * Date for which `close_price` is accurate. Always `null` if `close_price` is `null`.
+   * @type {string}
+   * @memberof Security
+   */
+  close_price_as_of: string | null;
+  /**
+   * Date and time at which close_price is accurate, in ISO 8601 format (YYYY-MM-DDTHH:mm:ssZ). Always null if close_price is null.
+   * @type {string}
+   * @memberof Security
+   */
+  update_datetime?: string | null;
+  /**
+   * The ISO-4217 currency code of the price given. Always `null` if `unofficial_currency_code` is non-`null`.
+   * @type {string}
+   * @memberof Security
+   */
+  iso_currency_code: string | null;
+  /**
+   * The unofficial currency code associated with the security. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s.
+   * @type {string}
+   * @memberof Security
+   */
+  unofficial_currency_code: string | null;
+}

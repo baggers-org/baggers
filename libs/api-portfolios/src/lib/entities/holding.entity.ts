@@ -5,13 +5,15 @@ import { Schema } from 'mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
 import { HoldingType } from '../enums/holding-type.enum';
-import { Ticker } from '@baggers/api-tickers';
+import { Security } from '@baggers/api-securities';
+import { Transaction } from './transaction';
+import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
 
 @ObjectType('HoldingWithoutMarketData')
 export class HoldingFromDb {
-  @Field(() => Ticker)
-  @Prop({ type: Schema.Types.ObjectId, ref: 'Ticker' })
-  ticker: Ticker | ObjectId;
+  @Field(() => Security)
+  @Prop({ type: Schema.Types.ObjectId, ref: 'Security' })
+  security: Security | ObjectId;
 
   @Prop({ default: 0.0 })
   averagePrice: number;
@@ -38,12 +40,28 @@ export class HoldingFromDb {
   quantity: number;
 
   @Field(() => HoldingType)
-  @Prop({ enum: HoldingType, type: String })
-  type: HoldingType;
+  @Prop({ enum: HoldingType, type: String, default: HoldingType.shares })
+  type?: HoldingType;
 
   @Field(() => HoldingSource)
   @Prop({ enum: HoldingSource, type: String })
   source: HoldingSource;
+
+  static fromTransaction(transaction: Transaction): HoldingFromDb {
+    const shortTypes = [InvestmentTransactionSubtype.SellShort];
+    return {
+      averagePrice: transaction.price,
+      costBasis: transaction.price * transaction.quantity,
+      direction: shortTypes.includes(transaction.subType)
+        ? HoldingDirection.short
+        : HoldingDirection.long,
+      quantity: transaction.quantity,
+      security: transaction.baggersSecurity,
+      source: transaction.plaidTransactionId
+        ? HoldingSource.broker
+        : HoldingSource.transactions,
+    };
+  }
 }
 
 @ObjectType()
@@ -61,14 +79,14 @@ export class HoldingWithMetrics extends HoldingFromDb {
 
 @ObjectType()
 export class PopulatedHolding extends HoldingFromDb {
-  @Field(() => Ticker)
-  ticker: Ticker;
+  @Field(() => Security)
+  security: Security;
 }
 
 // To our GraphQL - this is what will always be returned, the naming is just
 // a distinction to our API codebase
 @ObjectType('Holding')
 export class PopulatedHoldingWithMetrics extends HoldingWithMetrics {
-  @Field(() => Ticker)
-  ticker: Ticker;
+  @Field(() => Security)
+  security: Security;
 }

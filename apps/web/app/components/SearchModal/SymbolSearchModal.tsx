@@ -20,7 +20,7 @@ export const SymbolSearchModal: React.FC<SymbolSearchModalProps> = ({
     <BaseSearchModal<Symbol>
       getSearchHref={(term) => `/symbols/${term}?index`}
       searchInputProps={{
-        placeholder: t(`search_tickers`, `Search tickers`),
+        placeholder: t(`search_securities`, `Search securities`),
       }}
       renderResults={(results: Symbol[], onResultSelect) => {
         return (

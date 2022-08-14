@@ -8,7 +8,7 @@ input AddHoldingInput {
   currency: String = "USD"
   direction: HoldingDirection!
   quantity: Float!
-  ticker: ObjectId!
+  security: ObjectId!
   type: HoldingType = shares
 }
 
@@ -36,8 +36,8 @@ type Holding {
   profitLossPercent: Float!
   profitLossUsd: Float!
   quantity: Float!
+  security: Security!
   source: HoldingSource!
-  ticker: Ticker!
   type: HoldingType!
 }
 
@@ -65,13 +65,44 @@ type HoldingWithoutMarketData {
   currency: String
   direction: HoldingDirection
   quantity: Float!
+  security: Security!
   source: HoldingSource!
-  ticker: Ticker!
   type: HoldingType!
+}
+
+type ImportResponse {
+  importedIds: [ObjectId!]!
+}
+
+type ImportedSecurity {
+  close_price: Float!
+  close_price_as_of: String!
+  cusip: String!
+  institution_id: String!
+  institution_security_id: String!
+  is_cash_equivalent: Boolean!
+  isin: String!
+  iso_currency_code: String!
+  name: String!
+  proxy_security_id: String!
+  security_id: String!
+  security_symbol: String!
+  sedol: String!
+  type: String!
+  unofficial_currency_code: String!
+  update_datetime: String
+}
+
+type Institution {
+  _id: String!
+  logo: String
+  name: String!
+  url: String
 }
 
 type Mutation {
   portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioWithoutMarketData!
+  portfoliosBeginImport(publicToken: String!): ImportResponse!
   portfoliosInitEmpty: RecordId!
   portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!
@@ -84,6 +115,26 @@ type Mutation {
 """Mongo object id scalar type"""
 scalar ObjectId
 
+type PlaidItem {
+  _id: String!
+  accessToken: String
+  createdAt: DateTime
+  error: PlaidItemError
+  institution: Institution!
+  lastWebhookTime: DateTime!
+  owner: User!
+  updatedAt: DateTime
+}
+
+type PlaidItemError {
+  displayMessage: String!
+  documentationUrl: String!
+  errorCode: Float!
+  errorMessage: String!
+  errorType: String!
+  suggestedAction: String!
+}
+
 type PopulatedHolding {
   averagePrice: Float!
   brokerFees: Float
@@ -91,57 +142,63 @@ type PopulatedHolding {
   currency: String
   direction: HoldingDirection
   quantity: Float!
+  security: Security!
   source: HoldingSource!
-  ticker: Ticker!
   type: HoldingType!
 }
 
 type Portfolio {
   _id: ObjectId!
   cash: Float!
-  createdAt: DateTime!
-  description: String!
+  createdAt: DateTime
+  description: String
   holdings: [Holding!]!
   name: String!
   owner: User!
+  plaidAccountId: String
+  plaidItem: PlaidItem
   private: Boolean!
   totalValue: Float!
   transactions: [Transaction!]!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type PortfolioSummary {
   _id: ObjectId!
   cash: Float!
-  createdAt: DateTime!
-  description: String!
+  createdAt: DateTime
+  description: String
   name: String!
   owner: User!
+  plaidAccountId: String
+  plaidItem: PlaidItem
   private: Boolean!
   top5Holdings: [Holding!]!
   totalValue: Float!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
-"\n# Test\n"
 type PortfolioWithoutMarketData {
   _id: ObjectId!
   cash: Float!
-  createdAt: DateTime!
-  description: String!
+  createdAt: DateTime
+  description: String
   holdings: [HoldingWithoutMarketData!]!
   name: String!
   owner: User!
+  plaidAccountId: String
+  plaidItem: PlaidItem
   private: Boolean!
   transactions: [Transaction!]!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Query {
+  plaidLinkToken: String!
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
-  tickersFindById(_id: ObjectId!): Ticker!
-  tickersSearch(searchTerm: String!): [Ticker!]!
+  securitiesFindById(_id: ObjectId!): Security!
+  securitiesSearch(searchTerm: String!): [Security!]!
   usersFindById(_id: ID!): User!
 }
 
@@ -213,10 +270,10 @@ type RemoveMultipleResponse {
   deletedCount: Float!
 }
 
-type Ticker {
+type Security {
   _id: ObjectId!
   cik: String
-  createdAt: DateTime!
+  createdAt: DateTime
   currency: String!
   exchange: String!
   exchangeName: String!
@@ -227,17 +284,27 @@ type Ticker {
   region: String!
   symbol: String!
   symbolType: String!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Transaction {
+  baggersSecurity: Security
+  createdBy: User
   currency: String!
   date: DateTime!
+  importedId: String!
+  importedSecurity: ImportedSecurity!
   name: String!
   price: Float!
   quantity: Float!
+  source: TransactionSource!
   subType: TransactionSubtype!
   type: TransactionType!
+}
+
+enum TransactionSource {
+  broker
+  direct
 }
 
 enum TransactionSubtype {
@@ -271,9 +338,11 @@ enum TransactionSubtype {
   PendingDebit
   QualifiedDividend
   Rebalance
+  Request
   ReturnOfPrincipal
   Sell
   SellShort
+  Send
   ShortTermCapitalGain
   ShortTermCapitalGainReinvestment
   SpinOff
@@ -314,9 +383,9 @@ input UpdateUserInput {
 
 type User {
   _id: String!
-  createdAt: DateTime!
+  createdAt: DateTime
   displayName: String!
   emails: [String!]
   photos: [String!]!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }

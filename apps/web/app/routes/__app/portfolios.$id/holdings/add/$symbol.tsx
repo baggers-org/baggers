@@ -147,7 +147,7 @@ export default function AddHolding() {
             setIsTickerSearchOpen(true);
           }}
         >
-          {t(`change_ticker`, `Change ticker`)}
+          {t(`change_security`, `Change security`)}
         </Button>
       </Grid>
       <Grid item xs={12} display={{ xs: `grid`, md: `none` }} mb={2}>

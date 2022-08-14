@@ -1,14 +1,6 @@
 import { registerEnumType } from '@nestjs/graphql';
+import { InvestmentTransactionType } from 'plaid';
 
-export enum TransactionType {
-  Buy = `buy`,
-  Sell = `sell`,
-  Cancel = `cancel`,
-  Cash = `cash`,
-  Fee = `fee`,
-  Transfer = `transfer`,
-}
-
-registerEnumType(TransactionType, {
+registerEnumType(InvestmentTransactionType, {
   name: 'TransactionType',
 });

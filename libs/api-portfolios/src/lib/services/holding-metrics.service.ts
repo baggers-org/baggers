@@ -12,13 +12,13 @@ export class HoldingMetricsService {
 
   calculateMarketValue(holding: PopulatedHolding) {
     try {
-      return holding.quantity * holding.ticker.quote.latestPrice;
+      return holding.quantity * holding.security.quote.latestPrice;
     } catch (e) {
       throw new Error(
         'Tried to calculate market value for holding' +
           JSON.stringify(holding) +
-          ' and ticker ' +
-          JSON.stringify(holding.ticker)
+          ' and security ' +
+          JSON.stringify(holding.security)
       );
     }
   }
@@ -59,7 +59,7 @@ export class HoldingMetricsService {
 
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
-      return holding.quantity * holding.ticker.quote.change;
+      return holding.quantity * holding.security.quote.change;
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +

@@ -19,10 +19,17 @@
     "paths": {
       "@baggers/api-auth": ["libs/api-auth/src/index.ts"],
       "@baggers/api-env": ["libs/api-env/src/index.ts"],
+      "@baggers/api-institutions": ["libs/api-institutions/src/index.ts"],
+      "@baggers/api-plaid-items": ["libs/api-plaid-items/src/index.ts"],
+      "@baggers/api-plaid-link": ["libs/api-plaid-link/src/index.ts"],
+      "@baggers/api-portfolio-import": [
+        "libs/api-portfolio-import/src/index.ts"
+      ],
       "@baggers/api-portfolios": ["libs/api-portfolios/src/index.ts"],
       "@baggers/api-shared": ["libs/api-shared/src/index.ts"],
-      "@baggers/api-tickers": ["libs/api-tickers/src/index.ts"],
+      "@baggers/api-securities": ["libs/api-securities/src/index.ts"],
       "@baggers/api-users": ["libs/api-users/src/index.ts"],
+      "@baggers/plaid-client": ["libs/plaid-client/src/index.ts"],
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
       "~/*": ["./app/*", "./src/*"],
       "~test-sdk": ["apps/api/tests/test-sdk.ts"]

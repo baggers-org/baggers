@@ -1,5 +1,5 @@
-query tickersFindById($_id: ObjectId!) {
-  tickersFindById(_id: $_id) {
+query securitiesFindById($_id: ObjectId!) {
+  securitiesFindById(_id: $_id) {
     _id
     ...AllTickerData
     quote {
