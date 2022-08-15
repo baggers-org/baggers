@@ -1,5 +1,5 @@
-import { ObjectId } from '@baggers/api-shared';
-import { User1 } from '@baggers/api-users';
+import { ObjectId } from '~/shared';
+import { User1 } from '~/users';
 import { TestSdk } from '~test-sdk';
 
 export const portfoliosInitEmptyTests = () =>

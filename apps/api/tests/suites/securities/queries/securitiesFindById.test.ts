@@ -1,4 +1,4 @@
-import { A } from '@baggers/api-securities';
+import { A } from '~/securities';
 import { TestSdk } from '../../../test-sdk';
 
 export const securitiesFindByIdTest = () =>

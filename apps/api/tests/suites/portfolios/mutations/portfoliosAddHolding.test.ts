@@ -1,5 +1,5 @@
-import { Portfolio1 } from '@baggers/api-portfolios';
-import { A, TSLA } from '@baggers/api-securities';
+import { Portfolio1 } from '~/portfolios';
+import { A, TSLA } from '~/securities';
 import { HoldingDirection } from '@baggers/sdk';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 

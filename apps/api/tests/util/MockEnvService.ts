@@ -1,4 +1,4 @@
-import { env } from '@baggers/api-env';
+import { env } from '~/env';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

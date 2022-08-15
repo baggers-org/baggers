@@ -1,4 +1,4 @@
-import { User1, User2 } from '@baggers/api-users';
+import { User1, User2 } from '~/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const usersFindByIdTest = () =>

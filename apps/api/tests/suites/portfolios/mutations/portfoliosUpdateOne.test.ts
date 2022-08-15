@@ -1,4 +1,4 @@
-import { Portfolio1 } from '@baggers/api-portfolios';
+import { Portfolio1 } from '~/portfolios';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosUpdateOneTests = () =>

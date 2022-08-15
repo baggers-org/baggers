@@ -1,5 +1,5 @@
-import { Portfolio1, PublicPortfolio } from '@baggers/api-portfolios';
-import { User1, User2 } from '@baggers/api-users';
+import { Portfolio1, PublicPortfolio } from '~/portfolios';
+import { User1, User2 } from '~/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const portfoliosFindByIdTests = () =>

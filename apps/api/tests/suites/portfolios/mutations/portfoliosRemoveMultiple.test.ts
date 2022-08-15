@@ -1,4 +1,4 @@
-import { User1 } from '@baggers/api-users';
+import { User1 } from '~/users';
 import { TestSdk, User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosRemoveMultipleTests = () =>

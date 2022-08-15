@@ -1,11 +1,11 @@
-import { JwtAuthGuard } from '@baggers/api-auth';
+import { JwtAuthGuard } from '~/auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { createTestDb, TEST_DB_NAME } from './createTestDb';
 import { MockAuthGuard } from './MockAuthGuard';
 import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
-import { EnvService } from '@baggers/api-env';
+import { EnvService } from '~/env';
 import { MockEnvService } from './MockEnvService';
 import { setupApp } from '../../src/setupApp';
 

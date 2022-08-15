@@ -1,5 +1,5 @@
-import { PartialTokenPayload } from '@baggers/api-auth';
-import { CreateUserInput, User1, User2 } from '@baggers/api-users';
+import { PartialTokenPayload } from '~/auth';
+import { CreateUserInput, User1, User2 } from '~/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const usersFindOrCreateTest = () =>

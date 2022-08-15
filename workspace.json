@@ -2,17 +2,6 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "api-auth": "libs/api-auth",
-    "api-env": "libs/api-env",
-    "api-institutions": "libs/api-institutions",
-    "api-plaid-items": "libs/api-plaid-items",
-    "api-plaid-link": "libs/api-plaid-link",
-    "api-portfolio-import": "libs/api-portfolio-import",
-    "api-portfolios": "libs/api-portfolios",
-    "api-shared": "libs/api-shared",
-    "api-securities": "libs/api-securities",
-    "api-users": "libs/api-users",
-    "plaid-client": "libs/plaid-client",
     "sdk": "libs/sdk",
     "web": "apps/web"
   },

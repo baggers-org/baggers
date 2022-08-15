@@ -1,7 +1,7 @@
 import { Db } from 'mongodb';
-import { Users } from '@baggers/api-users';
-import { Securities } from '@baggers/api-securities';
-import { Portfolios } from '@baggers/api-portfolios';
+import { Users } from '~/users';
+import { Securities } from '~/securities';
+import { Portfolios } from '~/portfolios';
 
 /* eslint-disable */
 export const seedTestDb = async (db: Db) => {
