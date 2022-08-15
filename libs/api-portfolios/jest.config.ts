@@ -13,4 +13,13 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/libs/api-portfolios',
+  coveragePathIgnorePatterns: ['/node_modules', '/src/lib/entities/*'],
+  coverageThreshold: {
+    global: {
+      functions: 90,
+      lines: 90,
+      branches: 90,
+      statements: 90,
+    },
+  },
 };

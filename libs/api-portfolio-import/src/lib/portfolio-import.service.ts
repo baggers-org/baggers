@@ -30,19 +30,19 @@ export class PortfolioImportService {
     }
 
     const { accessToken, lastWebhookTime } = plaidItem;
+
     const response = await this.plaid.getTransactions(
       lastWebhookTime,
       accessToken
     );
 
     const { accounts } = response;
-    // We only want investment accounts
     const investmentAccounts = accounts.filter(
       (a) => a.type === AccountType.Investment
     );
 
     return investmentAccounts.map((account, index) => {
-      const cash = account.balances.available;
+      // const cash = account.balances.available;
       const name =
         account.name || account.official_name || 'imported portfolio ' + index;
 
@@ -51,9 +51,10 @@ export class PortfolioImportService {
           account.account_id
         ];
 
-      return {
+      return this.transactionsService.applyTransactions({
         _id: new ObjectId(),
-        cash,
+        // TODO: can we rely on transactions alone? - cash is 0 for now, and we will increment it in applyTransactions
+        cash: 0,
         plaidItem: plaidItem._id,
         private: true,
         description: `This portfolio has been imported from your broker`,
@@ -64,7 +65,7 @@ export class PortfolioImportService {
         plaidAccountId: account.account_id,
         name: name,
         transactions,
-      };
+      });
     });
   }
 

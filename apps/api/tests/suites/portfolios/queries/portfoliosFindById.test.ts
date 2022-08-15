@@ -60,8 +60,8 @@ export const portfoliosFindByIdTests = () =>
           "profitLossPercent": -98.64,
           "profitLossUsd": -83702216.44,
           "quantity": 9384,
-          "source": "broker",
           "security": null,
+          "source": "broker",
           "type": "shares",
         }
       `);
@@ -80,8 +80,8 @@ export const portfoliosFindByIdTests = () =>
           "profitLossPercent": 92.85,
           "profitLossUsd": 3564.7,
           "quantity": 10,
-          "source": "broker",
           "security": null,
+          "source": "broker",
           "type": "shares",
         }
       `);

@@ -6,12 +6,14 @@ import { Model } from 'mongoose';
 import { AddHoldingInput } from '../dto/add-holding';
 import { HoldingFromDb, PortfolioDocument, PortfolioFromDb } from '../entities';
 import { HoldingSource } from '../enums';
+import { HoldingsUtilService } from './holdings-util.service';
 
 @Injectable()
 export class HoldingsService {
   constructor(
     @InjectModel(PortfolioFromDb.name)
-    private portfolioModel: Model<PortfolioDocument>
+    private portfolioModel: Model<PortfolioDocument>,
+    private holdingsUtil: HoldingsUtilService
   ) {}
 
   async addHolding(
@@ -50,6 +52,6 @@ export class HoldingsService {
           )
       );
 
-    return this.mergePortfolioHoldings(portfolio);
+    return this.holdingsUtil.mergePortfolioHoldings(portfolio);
   }
 }

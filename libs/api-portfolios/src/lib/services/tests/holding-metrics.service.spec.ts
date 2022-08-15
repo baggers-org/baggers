@@ -1,5 +1,9 @@
 import { A } from '@baggers/api-securities';
 import { Test } from '@nestjs/testing';
+import {
+  getPopulated,
+  PublicPortfolio,
+} from 'libs/api-portfolios/data/portfolio.test-data';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingType } from '../../enums/holding-type.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
@@ -126,6 +130,51 @@ describe('HoldingMetricsService', () => {
       ).toThrowErrorMatchingInlineSnapshot(
         `"Tried to calculate dailyProfitLossUsd for holding{\\"averagePrice\\":2}"`
       );
+    });
+  });
+
+  describe('calculateHoldingMetrics', () => {
+    it('should calculate all holding metrics correctly', () => {
+      expect(
+        service
+          .calculateHoldingMetrics(getPopulated(PublicPortfolio))
+          .map((h) => ({ ...h, security: undefined }))
+      ).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "averagePrice": 383.9,
+            "brokerFees": 0,
+            "costBasis": 3839,
+            "currency": "USD",
+            "dailyProfitLossUsd": -178.9,
+            "direction": "long",
+            "exposure": 3.1,
+            "marketValue": 7403.7,
+            "profitLossPercent": 92.85,
+            "profitLossUsd": 3564.7,
+            "quantity": 10,
+            "security": undefined,
+            "source": "direct",
+            "type": "shares",
+          },
+          Object {
+            "averagePrice": 4794.2,
+            "brokerFees": 0,
+            "costBasis": 47942,
+            "currency": "USD",
+            "dailyProfitLossUsd": -44.7,
+            "direction": "long",
+            "exposure": 0.51,
+            "marketValue": 1230.9,
+            "profitLossPercent": -97.43,
+            "profitLossUsd": -46711.1,
+            "quantity": 10,
+            "security": undefined,
+            "source": "direct",
+            "type": "shares",
+          },
+        ]
+      `);
     });
   });
 });

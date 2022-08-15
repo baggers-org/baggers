@@ -38,7 +38,7 @@ type Holding {
   quantity: Float!
   security: Security!
   source: HoldingSource!
-  type: HoldingType!
+  type: HoldingType
 }
 
 enum HoldingDirection {
@@ -67,7 +67,7 @@ type HoldingWithoutMarketData {
   quantity: Float!
   security: Security!
   source: HoldingSource!
-  type: HoldingType!
+  type: HoldingType
 }
 
 type ImportResponse {
@@ -86,8 +86,8 @@ type ImportedSecurity {
   name: String!
   proxy_security_id: String!
   security_id: String!
-  security_symbol: String!
   sedol: String!
+  ticker_symbol: String!
   type: String!
   unofficial_currency_code: String!
   update_datetime: String
@@ -144,7 +144,7 @@ type PopulatedHolding {
   quantity: Float!
   security: Security!
   source: HoldingSource!
-  type: HoldingType!
+  type: HoldingType
 }
 
 type Portfolio {
@@ -288,23 +288,21 @@ type Security {
 }
 
 type Transaction {
+  amount: Float!
   baggersSecurity: Security
   createdBy: User
   currency: String!
   date: DateTime!
-  importedId: String!
+  fees: Float!
   importedSecurity: ImportedSecurity!
   name: String!
+
+  """This is the transaction_id from plaid"""
+  plaidTransactionId: String!
   price: Float!
   quantity: Float!
-  source: TransactionSource!
   subType: TransactionSubtype!
   type: TransactionType!
-}
-
-enum TransactionSource {
-  broker
-  direct
 }
 
 enum TransactionSubtype {
