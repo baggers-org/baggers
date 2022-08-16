@@ -1,61 +1,88 @@
 import { Injectable } from '@nestjs/common';
 import {
+  AccountBase,
+  AccountType,
   InvestmentsTransactionsGetResponse,
   InvestmentTransactionSubtype,
   InvestmentTransactionType,
 } from 'plaid';
-import { HoldingFromDb, PortfolioFromDb, Transaction } from '../entities';
+import { SecuritiesUtilService } from '~/securities/securities-util.service';
+import {
+  HoldingFromDb,
+  PortfolioFromDb,
+  Transaction,
+  UnmatchedTransaction,
+} from '../entities';
 import { HoldingsUtilService } from './holdings-util.service';
 
 @Injectable()
 export class TransactionsUtilService {
-  constructor(private holdingsUtil: HoldingsUtilService) {}
+  constructor(
+    private holdingsUtil: HoldingsUtilService,
+    private securitiesUtil: SecuritiesUtilService
+  ) {}
 
   /**
    * Returns a map of accountId to Transactions given a plaid response
    */
-  fromPlaidResponse(response: InvestmentsTransactionsGetResponse): {
-    [accountId: string]: Transaction[];
-  } {
+  async fromPlaidResponse(
+    response: InvestmentsTransactionsGetResponse
+  ): Promise<Map<AccountBase, Transaction[]>> {
     const { investment_transactions, securities, accounts } = response;
-    return accounts.reduce((acc, curr) => {
+
+    const unmatchedTransactions = investment_transactions.map((t) => {
+      const importedSecurity = securities.find(
+        (s) => s.security_id === t.security_id
+      );
       return {
-        [curr.account_id]: investment_transactions
-          .filter((t) => t.account_id === curr.account_id)
-          .map(
-            (t) =>
-              ({
-                name: t.name,
-                currency: t.iso_currency_code,
-                date: new Date(t.date),
-                price: t.price,
-                type: t.type,
-                subType: t.subtype,
-                quantity: t.quantity,
-                // TODO: find the baggers security using OpenFIGI
-                baggersSecurity: undefined,
-                plaidTransactionId: t.investment_transaction_id,
-                importedSecurity: securities.find(
-                  (s) => s.security_id === t.security_id
-                ),
-              } as Transaction)
-          ),
-      };
-    }, {});
+        name: t.name,
+        currency: t.iso_currency_code,
+        date: new Date(t.date),
+        price: t.price,
+        amount: t.amount,
+        type: t.type,
+        subType: t.subtype,
+        quantity: t.quantity,
+        plaidTransactionId: t.investment_transaction_id,
+        plaidAccountId: t.account_id,
+        importedSecurity,
+      } as UnmatchedTransaction;
+    });
+
+    const transactions = await this.matchTransactions(unmatchedTransactions);
+
+    const investmentAccounts = accounts.filter(
+      (a) => a.type === AccountType.Investment
+    );
+
+    return new Map(
+      investmentAccounts.map((a) => [
+        a,
+        transactions.filter((t) => t.plaidAccountId === a.account_id),
+      ])
+    );
   }
 
   /**
-   * Applies a transaction to a given portfolio and merges the resulting holdings.
+   * Givena list on "unmatched" transactions, ie. a transaction that has not yet been
+   * matched to a baggers security.
+   * This function will return a list of "matched" transactions.
+   *
+   * It is not a guarantee that every transaction will be matched, `baggersSecurity`
+   * can be undefined.
    */
-  applyTransaction(
-    portfolio: PortfolioFromDb,
-    transaction: Transaction
-  ): PortfolioFromDb {
-    const p = this.applyTransactionLazy(portfolio, transaction);
-    return {
-      ...p,
-      holdings: this.holdingsUtil.getMergedHoldings(p.holdings),
-    };
+  async matchTransactions(
+    unmatched: UnmatchedTransaction[]
+  ): Promise<Transaction[]> {
+    // Matched securities will not be the same length as the input array
+    const matchedSecurities =
+      await this.securitiesUtil.importedToBaggersSecurities(
+        unmatched.map((m) => m.importedSecurity)
+      );
+    return unmatched.map((unmatched) => ({
+      ...unmatched,
+      baggersSecurity: matchedSecurities.get(unmatched.importedSecurity),
+    }));
   }
 
   /**
@@ -65,7 +92,7 @@ export class TransactionsUtilService {
    * not waste too many CPU cycles merging on every transaction, and instead
    * we can merge just once at the very end.
    */
-  private applyTransactionLazy(
+  applyTransaction(
     portfolio: PortfolioFromDb,
     transaction: Transaction
   ): PortfolioFromDb {
@@ -91,7 +118,7 @@ export class TransactionsUtilService {
       .sort((t1, t2) => (t1.date > t2.date ? 1 : -1))
       .reduce(
         (portfolio, transaction) =>
-          this.applyTransactionLazy(portfolio, transaction),
+          this.applyTransaction(portfolio, transaction),
         portfolio
       );
   }

@@ -38,15 +38,13 @@ export class PortfolioImportService {
       (a) => a.type === AccountType.Investment
     );
 
+    const accountTransactions =
+      await this.transactionsService.fromPlaidResponse(response);
+
     return investmentAccounts.map((account, index) => {
       // const cash = account.balances.available;
       const name =
         account.name || account.official_name || 'imported portfolio ' + index;
-
-      const transactions =
-        this.transactionsService.fromPlaidResponse(response)[
-          account.account_id
-        ];
 
       return this.transactionsService.applyTransactions({
         _id: new ObjectId(),
@@ -61,7 +59,7 @@ export class PortfolioImportService {
         owner: plaidItem.owner,
         plaidAccountId: account.account_id,
         name: name,
-        transactions,
+        transactions: accountTransactions.get(account),
       });
     });
   }

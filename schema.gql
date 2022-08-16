@@ -297,6 +297,9 @@ type Transaction {
   importedSecurity: ImportedSecurity!
   name: String!
 
+  """This is the account_id from plaid"""
+  plaidAccountId: String!
+
   """This is the transaction_id from plaid"""
   plaidTransactionId: String!
   price: Float!

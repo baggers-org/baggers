@@ -9,9 +9,11 @@ import { PlaidClientModule } from '~/plaid-client';
 import { PlaidItemsModule } from '~/plaid-items';
 import { TransactionsUtilService } from './services/transactions-util.service';
 import { HoldingsUtilService } from './services/holdings-util.service';
+import { SecuritiesModule } from '~/securities';
 
 @Module({
   imports: [
+    SecuritiesModule,
     MongooseModule.forFeature([
       {
         name: PortfolioFromDb.name,

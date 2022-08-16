@@ -1,7 +1,7 @@
 import { ImportedSecurity, Security } from '~/securities';
 import { ObjectId } from '~/shared';
 import { User } from '~/users';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
 
@@ -55,7 +55,15 @@ export class Transaction {
   @Prop()
   plaidTransactionId?: string;
 
+  @Field({ description: 'This is the account_id from plaid' })
+  @Prop()
+  plaidAccountId?: string;
+
   @Field(() => User, { nullable: true })
   @Prop({ type: ObjectId, ref: 'User' })
   createdBy?: User;
 }
+
+export class UnmatchedTransaction extends OmitType(Transaction, [
+  'baggersSecurity',
+]) {}

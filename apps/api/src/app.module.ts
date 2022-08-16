@@ -7,7 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
-import { TickersModule } from '~/securities';
+import { SecuritiesModule } from '~/securities';
 import { ObjectIdScalar } from '~/shared';
 import { PortfoliosModule } from '~/portfolios';
 import { UsersModule } from '~/users';
@@ -15,6 +15,7 @@ import { AuthModule, JwtAuthGuard } from '~/auth';
 import { EnvironmentSchema, EnvModule } from '~/env';
 import { PlaidItemsModule } from '~/plaid-items';
 import { PlaidLinkModule } from '~/plaid-link';
+import { OpenFigiModule } from './open-figi/open-figi.module';
 
 @Module({
   imports: [
@@ -40,11 +41,12 @@ import { PlaidLinkModule } from '~/plaid-link';
     UsersModule,
     ConfigModule,
     EnvModule,
-    TickersModule,
+    SecuritiesModule,
     PortfoliosModule,
     PortfolioImportModule,
     PlaidItemsModule,
     PlaidLinkModule,
+    OpenFigiModule,
   ],
   controllers: [],
   providers: [

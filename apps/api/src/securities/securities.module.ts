@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
-import { TickersService } from './securities.service';
-import { TickersResolver } from './securities.resolver';
+import { SecuritiesService } from './securities.service';
+import { SecuritiesResolver } from './securities.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Security, SecuritySchema } from './entities/security.entity';
+import { OpenFigiModule } from '~/open-figi';
+import { SecuritiesUtilService } from './securities-util.service';
 
 @Module({
   imports: [
+    OpenFigiModule,
     MongooseModule.forFeature([
       {
         name: Security.name,
@@ -13,6 +16,7 @@ import { Security, SecuritySchema } from './entities/security.entity';
       },
     ]),
   ],
-  providers: [TickersResolver, TickersService],
+  providers: [SecuritiesResolver, SecuritiesService, SecuritiesUtilService],
+  exports: [SecuritiesUtilService],
 })
-export class TickersModule {}
+export class SecuritiesModule {}
