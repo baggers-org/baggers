@@ -5,15 +5,24 @@ query portfoliosCreated {
       displayName
       photos
     }
+    name
+    cash
+    private
+    description
     updatedAt
     createdAt
     totalValue
+    plaidAccountType
+    plaidAccountId
     top5Holdings {
       costBasis
       exposure
       marketValue
+      importedSecurity {
+        ...AllImportedSecurityData
+      }
       security {
-        symbol
+        ...SecuritySummary
       }
     }
   }

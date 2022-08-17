@@ -1,4 +1,5 @@
 import { portfoliosAddHoldingTest } from './suites/portfolios/mutations/portfoliosAddHolding.test';
+import { portfoliosBeginImportTests } from './suites/portfolios/mutations/portfoliosBeginImport.test';
 import { portfoliosInitEmptyTests } from './suites/portfolios/mutations/portfoliosInitEmpty.test';
 import { portfoliosRemoveMultipleTests } from './suites/portfolios/mutations/portfoliosRemoveMultiple.test';
 import { portfoliosRemoveOneTests } from './suites/portfolios/mutations/portfoliosRemoveOne.test';
@@ -13,6 +14,7 @@ describe('Portfolio', () => {
   });
 
   describe('Mutations', () => {
+    portfoliosBeginImportTests();
     portfoliosInitEmptyTests();
     portfoliosRemoveOneTests();
     portfoliosRemoveMultipleTests();

@@ -10,12 +10,11 @@ export class EnvService {
   constructor(private configService: ConfigService) {}
   get(path: keyof typeof env) {
     const value = this.configService.get(path);
-
     if (!value)
       throw Error(
         'EnvService - tried to access env key ' +
           path +
-          ' but it is not in the environment.',
+          ' but it is not in the environment.'
       );
 
     return value;

@@ -5,8 +5,6 @@ import { createTestDb, TEST_DB_NAME } from './createTestDb';
 import { MockAuthGuard } from './MockAuthGuard';
 import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
-import { EnvService } from '~/env';
-import { MockEnvService } from './MockEnvService';
 import { setupApp } from '../../src/setupApp';
 
 const setupTestDatabase = async () => {
@@ -29,8 +27,6 @@ export const setupTestApp = async (): Promise<INestApplication | null> => {
   })
     .overrideProvider(JwtAuthGuard)
     .useClass(MockAuthGuard)
-    .overrideProvider(EnvService)
-    .useClass(MockEnvService)
     .compile();
 
   const app = testingModule.createNestApplication();

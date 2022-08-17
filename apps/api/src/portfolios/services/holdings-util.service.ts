@@ -88,7 +88,7 @@ export class HoldingsUtilService {
   }
 
   upsertHolding(
-    holdings: HoldingFromDb[],
+    holdings: HoldingFromDb[] = [],
     holdingToUpsert: HoldingFromDb,
     updateFn: (holding: HoldingFromDb) => HoldingFromDb
   ): HoldingFromDb[] {
@@ -104,7 +104,7 @@ export class HoldingsUtilService {
   }
 
   updateHolding(
-    holdings: HoldingFromDb[],
+    holdings: HoldingFromDb[] = [],
     holdingToUpsert: HoldingFromDb,
     updateFn: (holding: HoldingFromDb) => HoldingFromDb
   ): HoldingFromDb[] {

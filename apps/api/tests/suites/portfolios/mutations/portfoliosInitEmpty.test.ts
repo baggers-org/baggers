@@ -37,6 +37,8 @@ export const portfoliosInitEmptyTests = () =>
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
           },
+          "plaidAccountId": null,
+          "plaidAccountType": null,
           "private": true,
           "totalValue": 0,
           "transactions": Array [],

@@ -1,27 +1,5 @@
 mutation portfoliosBeginImport($publicToken: String!) {
   portfoliosBeginImport(publicToken: $publicToken) {
-    _id
-    createdAt
-    portfolios {
-      name
-      cash
-      transactions {
-        name
-        price
-        quantity
-        subType
-        type
-        date
-        currency
-        baggersSecurity {
-          symbol
-          _id
-        }
-        importedSecurity {
-          security_symbol
-          name
-        }
-      }
-    }
+    importedIds
   }
 }

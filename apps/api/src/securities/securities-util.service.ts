@@ -3,6 +3,7 @@ import { FilterQuery } from 'mongoose';
 import { OpenFigiMappingResponse, OpenFigiService } from '~/open-figi';
 import { ImportedSecurity, Security, SecurityDocument } from './entities';
 import { SecuritiesService } from './securities.service';
+import { SecurityMap } from './types';
 
 @Injectable()
 export class SecuritiesUtilService {
@@ -10,6 +11,19 @@ export class SecuritiesUtilService {
     private openFigiService: OpenFigiService,
     private securitiesService: SecuritiesService
   ) {}
+
+  isImported(
+    security: Security | ImportedSecurity
+  ): security is ImportedSecurity {
+    return (security as ImportedSecurity).security_id !== undefined;
+  }
+  getPrice(security: Security | ImportedSecurity) {
+    if (this.isImported(security)) {
+      return security.close_price;
+    }
+
+    return security.quote.latestPrice;
+  }
 
   /**
    *
@@ -20,7 +34,7 @@ export class SecuritiesUtilService {
    */
   async importedToBaggersSecurities(
     imported: ImportedSecurity[]
-  ): Promise<Map<ImportedSecurity, Security>> {
+  ): Promise<SecurityMap> {
     const uniqImported = [
       ...new Map(imported.map((i) => [i.security_id, i])).values(),
     ];

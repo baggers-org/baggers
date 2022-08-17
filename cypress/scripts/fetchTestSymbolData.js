@@ -1,7 +1,11 @@
-const { MongoClient } = require('mongodb');
+const {
+  MongoClient
+} = require('mongodb');
 const dotenv = require('dotenv');
 
-const { writeFileSync } = require('fs');
+const {
+  writeFileSync
+} = require('fs');
 const path = require('path');
 const symbols = ['ONDS', 'TSLA', 'BRK.A'];
 const symbolFilter = {
@@ -29,7 +33,6 @@ async function fetchTestSymbolData(mongoUri) {
       .find(symbolFilter);
 
     await results.forEach((symbol) => {
-      console.log('Writing ', symbol.symbol);
 
       writeFileSync(
         `${path.join(__dirname, '../fixtures/', symbol.symbol)}.json`,

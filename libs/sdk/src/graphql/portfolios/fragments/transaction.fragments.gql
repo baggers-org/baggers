@@ -2,7 +2,17 @@ fragment AllTransactionData on Transaction {
   name
   date
   currency
+  security {
+    name
+    symbol
+  }
+  importedSecurity {
+    name
+    ticker_symbol
+  }
   quantity
+  amount
+  fees
   price
   type
   subType

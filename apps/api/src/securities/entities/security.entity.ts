@@ -10,7 +10,7 @@ export type SecurityDocument = Document & Security;
 @Schema()
 export class Security extends BaseDocument {
   @Prop()
-  symbol: string;
+  symbol?: string;
 
   @Prop()
   iexId?: string;
@@ -22,26 +22,29 @@ export class Security extends BaseDocument {
   cik?: string;
 
   @Prop()
-  name: string;
+  name?: string;
 
   @Prop()
-  symbolType: string;
+  symbolType?: string;
 
   @Prop()
-  exchange: string;
+  exchange?: string;
 
   @Prop()
-  exchangeName: string;
+  exchangeName?: string;
 
   @Prop()
-  region: string;
+  region?: string;
 
   @Prop()
-  currency: string;
+  currency?: string;
 
   @Field(() => Quote)
   @Prop()
   quote?: Quote;
+
+  // From plaid
+  close_price?: number;
 }
 
 export const SecuritySchema = SchemaFactory.createForClass(Security);

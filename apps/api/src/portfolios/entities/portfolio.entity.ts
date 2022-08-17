@@ -9,6 +9,7 @@ import {
 } from './holding.entity';
 import { Transaction } from './transaction';
 import { OwnedDocument } from '~/users';
+import { AccountType } from 'plaid';
 
 export type PortfolioDocument = PortfolioFromDb & Document;
 
@@ -41,6 +42,10 @@ export class PortfolioFromDb extends OwnedDocument {
   @Field(() => PlaidItem)
   @Prop({ type: String, ref: 'PlaidItem' })
   plaidItem?: PlaidItem | string;
+
+  @Field(() => AccountType)
+  @Prop({ enum: AccountType, type: String })
+  plaidAccountType?: AccountType;
 
   @Prop()
   plaidAccountId?: string;

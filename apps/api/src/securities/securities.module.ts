@@ -17,6 +17,6 @@ import { SecuritiesUtilService } from './securities-util.service';
     ]),
   ],
   providers: [SecuritiesResolver, SecuritiesService, SecuritiesUtilService],
-  exports: [SecuritiesUtilService],
+  exports: [SecuritiesUtilService, SecuritiesService],
 })
 export class SecuritiesModule {}

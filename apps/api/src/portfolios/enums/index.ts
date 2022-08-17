@@ -1,3 +1,4 @@
+export * from './account-type.enum';
 export * from './holding-direction.enum';
 export * from './holding-source.enum';
 export * from './holding-type.enum';

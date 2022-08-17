@@ -1,9 +1,9 @@
-import { Field, ObjectType, OmitType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { checkAdminMiddleware } from '~/auth';
 import { PlaidItemError } from './plaid-item-error.entity';
 import { Institution } from '~/institutions';
-import { OwnedDocument } from '~/users';
+import { User } from '~/users';
 
 export type PlaidItemDocument = PlaidItem & Document;
 /**
@@ -14,9 +14,13 @@ export type PlaidItemDocument = PlaidItem & Document;
  */
 @Schema()
 @ObjectType()
-export class PlaidItem extends OmitType(OwnedDocument, ['_id']) {
+export class PlaidItem {
   @Prop()
   _id: string;
+
+  @Field(() => User)
+  @Prop({ ref: 'User', type: () => String })
+  owner: User | string;
 
   @Prop()
   @Field(() => String, { middleware: [checkAdminMiddleware] })

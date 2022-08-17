@@ -1,6 +1,6 @@
-import { Portfolio1, PublicPortfolio } from '~/portfolios';
+import { ImportedPortfolio, Portfolio1, PublicPortfolio } from '~/portfolios';
 import { User1, User2 } from '~/users';
-import { TestSdk } from '../../../test-sdk';
+import { TestSdk, User1Sdk } from '../../../test-sdk';
 
 export const portfoliosFindByIdTests = () =>
   describe('portfoliosFindById', () => {
@@ -38,12 +38,23 @@ export const portfoliosFindByIdTests = () =>
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
           },
+          "plaidAccountId": null,
+          "plaidAccountType": null,
           "private": true,
-          "totalValue": 4828301.240000001,
+          "totalValue": 4828301.24,
           "transactions": undefined,
           "updatedAt": "2022-07-22T00:00:00.000Z",
         }
       `);
+      expect(portfolio.holdings).toHaveLength(4);
+
+      // Sorted by market value by default
+      expect(portfolio.holdings[0].marketValue).toBeGreaterThan(
+        portfolio.holdings[1].marketValue
+      );
+      expect(portfolio.holdings[1].marketValue).toBeGreaterThan(
+        portfolio.holdings[2].marketValue
+      );
 
       // Remove securities for smaller snapshots
       expect({ ...portfolio.holdings[1], security: null })
@@ -56,6 +67,8 @@ export const portfoliosFindByIdTests = () =>
           "dailyProfitLossUsd": -41946.48,
           "direction": "long",
           "exposure": 23.92,
+          "importedSecurity": null,
+          "institutionValue": null,
           "marketValue": 1155076.56,
           "profitLossPercent": -98.64,
           "profitLossUsd": -83702216.44,
@@ -76,6 +89,8 @@ export const portfoliosFindByIdTests = () =>
           "dailyProfitLossUsd": -178.9,
           "direction": "long",
           "exposure": 0.15,
+          "importedSecurity": null,
+          "institutionValue": null,
           "marketValue": 7403.7,
           "profitLossPercent": 92.85,
           "profitLossUsd": 3564.7,
@@ -141,5 +156,108 @@ export const portfoliosFindByIdTests = () =>
           "updatedAt": "2001-01-01T00:00:00.000Z",
         }
       `);
+    });
+
+    describe('imported portfolios', () => {
+      it('should display imported holdings that have not been found, alongside holdings that exist in our datbase', async () => {
+        const { portfoliosFindById: portfolio } =
+          await User1Sdk().portfoliosFindById({
+            _id: ImportedPortfolio._id,
+          });
+
+        expect(portfolio.holdings).toHaveLength(3);
+
+        expect(portfolio.holdings[0].marketValue).toBeGreaterThan(
+          portfolio.holdings[1].marketValue
+        );
+        expect(portfolio.holdings[1].marketValue).toBeGreaterThan(
+          portfolio.holdings[2].marketValue
+        );
+        const unmatchedHoldings = portfolio.holdings.filter((h) => !h.security);
+        // DBLTX
+        expect(unmatchedHoldings).toHaveLength(1);
+        expect(unmatchedHoldings[0]).toMatchInlineSnapshot(`
+          Object {
+            "averagePrice": 10,
+            "brokerFees": null,
+            "costBasis": 100,
+            "currency": null,
+            "dailyProfitLossUsd": null,
+            "direction": null,
+            "exposure": 2.38,
+            "importedSecurity": Object {
+              "close_price": 10.42,
+              "name": "DoubleLine Total Return Bond Fund",
+              "ticker_symbol": "DBLTX",
+            },
+            "institutionValue": 432,
+            "marketValue": 432,
+            "profitLossPercent": 332,
+            "profitLossUsd": 332,
+            "quantity": 10,
+            "security": null,
+            "source": "broker",
+            "type": null,
+          }
+        `);
+
+        const matchedHoldings = portfolio.holdings.filter((h) => h.security);
+        expect(matchedHoldings).toHaveLength(2);
+
+        expect(matchedHoldings[0].security.symbol).toBe('TSLA');
+        expect({
+          ...matchedHoldings[0],
+          security: null,
+        }).toMatchInlineSnapshot(`
+          Object {
+            "averagePrice": 1000,
+            "brokerFees": null,
+            "costBasis": 42,
+            "currency": null,
+            "dailyProfitLossUsd": -357.8,
+            "direction": null,
+            "exposure": 81.75,
+            "importedSecurity": null,
+            "institutionValue": null,
+            "marketValue": 14807.4,
+            "profitLossPercent": 35155.71,
+            "profitLossUsd": 14765.4,
+            "quantity": 20,
+            "security": null,
+            "source": "broker",
+            "type": null,
+          }
+        `);
+
+        // SBSI - has been matched, and also has imported security
+        expect({
+          ...matchedHoldings[1],
+          security: null,
+        }).toMatchInlineSnapshot(`
+          Object {
+            "averagePrice": 409,
+            "brokerFees": null,
+            "costBasis": 49,
+            "currency": null,
+            "dailyProfitLossUsd": -13.75,
+            "direction": null,
+            "exposure": 10.84,
+            "importedSecurity": Object {
+              "close_price": 34.73,
+              "name": "Southside Bancshares Inc.",
+              "ticker_symbol": "SBSI",
+            },
+            "institutionValue": 52300,
+            "marketValue": 1962.75,
+            "profitLossPercent": 3905.61,
+            "profitLossUsd": 1913.75,
+            "quantity": 50,
+            "security": null,
+            "source": "broker",
+            "type": null,
+          }
+        `);
+        expect(matchedHoldings[1].security.symbol).toBe('SBSI');
+      });
     });
   });

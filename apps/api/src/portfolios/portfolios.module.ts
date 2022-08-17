@@ -24,14 +24,14 @@ import { SecuritiesModule } from '~/securities';
     PlaidItemsModule,
   ],
   providers: [
+    PortfolioMetricsService,
     PortfoliosResolver,
     PortfoliosService,
     HoldingsService,
     HoldingsUtilService,
     TransactionsUtilService,
     HoldingMetricsService,
-    PortfolioMetricsService,
   ],
-  exports: [TransactionsUtilService],
+  exports: [PortfoliosService, TransactionsUtilService],
 })
 export class PortfoliosModule {}

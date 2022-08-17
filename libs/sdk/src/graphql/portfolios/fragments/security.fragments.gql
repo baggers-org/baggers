@@ -1,0 +1,31 @@
+fragment AllSecurityData on Security {
+  _id
+  name
+  symbol
+  symbolType
+  exchange
+  currency
+  exchangeName
+  region
+  quote {
+    ...AllQuoteData
+  }
+}
+
+fragment AllImportedSecurityData on ImportedSecurity {
+  close_price
+  name
+  ticker_symbol
+  type
+}
+
+fragment SecuritySummary on Security {
+  _id
+  name
+  symbol
+  exchangeName
+  region
+  quote {
+    latestPrice
+  }
+}

@@ -5,15 +5,25 @@ import { Schema } from 'mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
 import { HoldingType } from '../enums/holding-type.enum';
-import { Security } from '~/securities';
+import { ImportedSecurity, Security } from '~/securities';
 import { Transaction } from './transaction';
-import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import { InvestmentTransactionSubtype } from 'plaid';
 
 @ObjectType('HoldingWithoutMarketData')
 export class HoldingFromDb {
   @Field(() => Security)
   @Prop({ type: Schema.Types.ObjectId, ref: 'Security' })
-  security: Security | ObjectId;
+  security?: Security | ObjectId;
+
+  @Field(() => ImportedSecurity)
+  @Prop()
+  importedSecurity?: ImportedSecurity;
+
+  @Prop()
+  institutionValue?: number;
+
+  @Prop()
+  plaidAccountId?: string;
 
   @Prop({ default: 0.0 })
   averagePrice: number;
@@ -51,12 +61,13 @@ export class HoldingFromDb {
     const shortTypes = [InvestmentTransactionSubtype.SellShort];
     return {
       averagePrice: transaction.price,
-      costBasis: transaction.price * transaction.quantity,
+      costBasis:
+        transaction.price * transaction.quantity + (transaction.fees || 0),
       direction: shortTypes.includes(transaction.subType)
         ? HoldingDirection.short
         : HoldingDirection.long,
       quantity: transaction.quantity,
-      security: transaction.baggersSecurity,
+      security: transaction.security._id,
       source: transaction.plaidTransactionId
         ? HoldingSource.broker
         : HoldingSource.transactions,
@@ -65,7 +76,18 @@ export class HoldingFromDb {
 }
 
 @ObjectType()
-export class HoldingWithMetrics extends HoldingFromDb {
+export class PopulatedHolding extends HoldingFromDb {
+  @Field(() => Security)
+  security?: Security;
+}
+
+// To our GraphQL - this is what will always be returned, the naming is just
+// a distinction to our API codebase
+@ObjectType('Holding')
+export class PopulatedHoldingWithMetrics extends PopulatedHolding {
+  @Field(() => Security)
+  security?: Security;
+
   exposure: number;
 
   marketValue: number;
@@ -74,19 +96,5 @@ export class HoldingWithMetrics extends HoldingFromDb {
 
   profitLossPercent: number;
 
-  dailyProfitLossUsd: number;
-}
-
-@ObjectType()
-export class PopulatedHolding extends HoldingFromDb {
-  @Field(() => Security)
-  security: Security;
-}
-
-// To our GraphQL - this is what will always be returned, the naming is just
-// a distinction to our API codebase
-@ObjectType('Holding')
-export class PopulatedHoldingWithMetrics extends HoldingWithMetrics {
-  @Field(() => Security)
-  security: Security;
+  dailyProfitLossUsd?: number;
 }

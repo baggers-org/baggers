@@ -10,22 +10,16 @@ fragment AllHoldingData on Holding {
   averagePrice
   costBasis
   brokerFees
+  institutionValue
   direction
   quantity
   type
   source
   currency
+  importedSecurity {
+    ...AllImportedSecurityData
+  }
   security {
-    _id
-    name
-    symbol
-    symbolType
-    exchange
-    currency
-    exchangeName
-    region
-    quote {
-      ...AllQuoteData
-    }
+    ...AllSecurityData
   }
 }

@@ -45,7 +45,7 @@ export class Transaction {
 
   @Field(() => Security, { nullable: true })
   @Prop({ type: ObjectId, ref: 'Security' })
-  baggersSecurity?: Security | ObjectId;
+  security?: Security | ObjectId;
 
   @Field(() => ImportedSecurity)
   @Prop(() => ImportedSecurity)
@@ -63,7 +63,3 @@ export class Transaction {
   @Prop({ type: ObjectId, ref: 'User' })
   createdBy?: User;
 }
-
-export class UnmatchedTransaction extends OmitType(Transaction, [
-  'baggersSecurity',
-]) {}

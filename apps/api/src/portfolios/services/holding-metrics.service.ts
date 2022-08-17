@@ -11,16 +11,15 @@ export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    try {
+    if (holding.security) {
       return holding.quantity * holding.security.quote.latestPrice;
-    } catch (e) {
-      throw new Error(
-        'Tried to calculate market value for holding' +
-          JSON.stringify(holding) +
-          ' and security ' +
-          JSON.stringify(holding.security)
-      );
     }
+    if (holding.institutionValue) {
+      return holding.institutionValue;
+    }
+    throw Error(
+      'Holding does not have a quote / or it is imported and does not have an institution value'
+    );
   }
 
   calculateExposure(holding: PopulatedHolding, portfolioTotalValue: number) {
@@ -59,6 +58,7 @@ export class HoldingMetricsService {
 
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
+      if (!holding.security) return null;
       return holding.quantity * holding.security.quote.change;
     } catch (e) {
       throw new Error(
@@ -81,7 +81,7 @@ export class HoldingMetricsService {
         profitLossUsd: +this.calculateProfitLossUsd(holding).toFixed(2),
         profitLossPercent: +this.calculateProfitLossPercent(holding).toFixed(2),
         dailyProfitLossUsd:
-          +this.calculateDailyProfitLossUsd(holding).toFixed(2),
+          +this.calculateDailyProfitLossUsd(holding)?.toFixed(2) || null,
       };
     });
   }

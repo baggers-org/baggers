@@ -1,9 +1,18 @@
-import { TSLA, A, Securities } from '~/securities';
+import {
+  TSLA,
+  A,
+  Securities,
+  ImportedDBLTX,
+  ImportedSBSI,
+  SBSI,
+} from '~/securities';
 import { User1, User2 } from '~/users';
 import mongoose from 'mongoose';
 import { ImportedTransactions } from './transaction.test-data';
 import { PortfolioFromDb, PopulatedPortfolio } from '../entities';
 import { HoldingDirection, HoldingType, HoldingSource } from '../enums';
+import { ObjectId } from '~/shared';
+import { AccountType } from 'plaid';
 
 export const Portfolio1: PortfolioFromDb = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),
@@ -61,6 +70,41 @@ export const Portfolio1: PortfolioFromDb = {
     },
   ],
   transactions: [],
+};
+
+export const ImportedPortfolio: PortfolioFromDb = {
+  ...Portfolio1,
+  _id: new ObjectId('62d2cd45c63873e235c99535'),
+  name: 'Imported Portfolio Test',
+  plaidAccountType: AccountType.Investment,
+  holdings: [
+    {
+      averagePrice: 10,
+      costBasis: 100,
+      quantity: 10,
+      institutionValue: 432,
+      source: HoldingSource.broker,
+      importedSecurity: ImportedDBLTX,
+    },
+    {
+      averagePrice: 409,
+      costBasis: 49,
+      quantity: 50,
+      institutionValue: 52300,
+      source: HoldingSource.broker,
+      // This one can be linked
+      security: SBSI._id,
+      importedSecurity: ImportedSBSI,
+    },
+    // And some matched holdings, just for testing purposes as it should support both
+    {
+      averagePrice: 1000,
+      costBasis: 42,
+      quantity: 20,
+      source: HoldingSource.broker,
+      security: TSLA._id,
+    },
+  ],
 };
 
 export const PortfolioWithTransactions: PortfolioFromDb = {
@@ -137,4 +181,5 @@ export const Portfolios = [
   Portfolio1,
   PublicPortfolio,
   PortfolioWithNoHoldings,
+  ImportedPortfolio,
 ];

@@ -9,17 +9,9 @@ fragment PortfolioSummary on Portfolio {
   private
   createdAt
   updatedAt
+  plaidAccountId
+  plaidAccountType
   totalValue
-  #   performance {
-  #     ytdReturnPercent
-  #     ytdReturnDollars
-  #     dailyReturnPercent
-  #     dailyReturnDollars
-  #   }
-
-  #   plaid {
-  #     isLinked
-  #   }
 }
 
 fragment PortfolioTransactions on Portfolio {
@@ -37,16 +29,4 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioHoldings
   ...PortfolioTransactions
-  #   plaid {
-  #     isLinked
-  #     missingSecuritiesError {
-  #       message
-  #       missingSymbols {
-  #         symbol
-  #         name
-  #         exchange
-  #         figi
-  #       }
-  #     }
-  #   }
 }

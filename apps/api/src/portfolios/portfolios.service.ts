@@ -5,9 +5,9 @@ import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 import {
   PortfolioFromDb,
   PortfolioDocument,
-  PopulatedPortfolio,
   PopulatedPortfolioWithMetrics,
   PortfolioSummary,
+  PopulatedPortfolio,
 } from './entities/portfolio.entity';
 import { populateHoldingTickers } from './pipelines/populate-holding-securities.pipeline';
 import { populateOwner } from './pipelines/populate-owner';
@@ -29,6 +29,11 @@ export class PortfoliosService {
       owner: currentUser.sub,
     });
   }
+
+  insertMany(portfolios: PortfolioFromDb[]) {
+    return this.portfolioModel.insertMany(portfolios);
+  }
+
   getPortfolioWithMetrics(
     portfolio: PopulatedPortfolio
   ): PopulatedPortfolioWithMetrics {
@@ -37,55 +42,58 @@ export class PortfoliosService {
 
     return {
       ...portfolio,
-      holdings: holdingsWithMetrics,
+      holdings: holdingsWithMetrics.sort((h1, h2) =>
+        h1.marketValue > h2.marketValue ? -1 : 1
+      ),
       totalValue: this.portfolioMetricsService.calculateTotalValue(portfolio),
     };
   }
-
   async findById(
     _id: ObjectId,
     currentUser: Auth0AccessTokenPayload
   ): Promise<PopulatedPortfolioWithMetrics> {
-    const portfolios = await this.portfolioModel.aggregate<PopulatedPortfolio>([
-      {
-        $match: {
-          _id,
-          $or: [
-            {
-              private: false,
-            },
-            {
-              private: true,
-              owner: currentUser.sub,
-            },
-          ],
-        },
-      },
-      ...populateHoldingTickers,
-      ...populateOwner,
-    ]);
+    const portfolio = await this.portfolioModel
+      .findOne<PopulatedPortfolio>({
+        _id,
+        $or: [
+          {
+            private: false,
+          },
+          {
+            private: true,
+            owner: currentUser.sub,
+          },
+        ],
+      })
+      .orFail(
+        () => new NotFoundException('Could not find a portfolio with this id')
+      )
+      .populate({
+        path: 'holdings',
+        populate: { path: 'security', model: 'Security' },
+      })
+      .populate('owner')
+      .lean();
 
-    if (portfolios.length === 0) {
-      throw new NotFoundException('Could not find a portfolio with this id');
-    }
+    const portfolioWithMetrics = this.getPortfolioWithMetrics(portfolio);
 
-    return this.getPortfolioWithMetrics(portfolios.pop());
+    return portfolioWithMetrics;
   }
 
   async findCreated(
     byUser: Auth0AccessTokenPayload
   ): Promise<PortfolioSummary[]> {
     const portfolios = await this.portfolioModel
-      .aggregate<PopulatedPortfolio>([
-        {
-          $match: {
-            owner: byUser.sub,
-          },
-        },
-        ...populateHoldingTickers,
-        ...populateOwner,
-      ])
-      .sort({ updatedAt: -1 });
+      .find<PopulatedPortfolio>({
+        owner: byUser.sub,
+      })
+      .populate({
+        path: 'holdings',
+        populate: { path: 'security', model: 'Security' },
+      })
+      .populate('owner')
+      .sort({ updatedAt: -1 })
+      .lean();
 
     const portfoliosWithMetrics = portfolios.map((p) =>
       this.getPortfolioWithMetrics(p)

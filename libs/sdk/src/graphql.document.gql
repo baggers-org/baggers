@@ -1,3 +1,5 @@
+
+
 fragment AllHoldingData on Holding {
   # Market data fields
   marketValue
@@ -10,25 +12,20 @@ fragment AllHoldingData on Holding {
   averagePrice
   costBasis
   brokerFees
+  institutionValue
   direction
   quantity
   type
   source
   currency
+  importedSecurity {
+    ...AllImportedSecurityData
+  }
   security {
-    _id
-    name
-    symbol
-    symbolType
-    exchange
-    currency
-    exchangeName
-    region
-    quote {
-      ...AllQuoteData
-    }
+    ...AllSecurityData
   }
 }
+
 
 fragment PortfolioSummary on Portfolio {
   _id
@@ -41,17 +38,9 @@ fragment PortfolioSummary on Portfolio {
   private
   createdAt
   updatedAt
+  plaidAccountId
+  plaidAccountType
   totalValue
-  #   performance {
-  #     ytdReturnPercent
-  #     ytdReturnDollars
-  #     dailyReturnPercent
-  #     dailyReturnDollars
-  #   }
-
-  #   plaid {
-  #     isLinked
-  #   }
 }
 
 fragment PortfolioTransactions on Portfolio {
@@ -69,29 +58,62 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioHoldings
   ...PortfolioTransactions
-  #   plaid {
-  #     isLinked
-  #     missingSecuritiesError {
-  #       message
-  #       missingSymbols {
-  #         symbol
-  #         name
-  #         exchange
-  #         figi
-  #       }
-  #     }
-  #   }
 }
+
+
+fragment AllSecurityData on Security {
+  _id
+  name
+  symbol
+  symbolType
+  exchange
+  currency
+  exchangeName
+  region
+  quote {
+    ...AllQuoteData
+  }
+}
+
+fragment AllImportedSecurityData on ImportedSecurity {
+  close_price
+  name
+  ticker_symbol
+  type
+}
+
+fragment SecuritySummary on Security {
+  _id
+  name
+  symbol
+  exchangeName
+  region
+  quote {
+    latestPrice
+  }
+}
+
 
 fragment AllTransactionData on Transaction {
   name
   date
   currency
+  security {
+    name
+    symbol
+  }
+  importedSecurity {
+    name
+    ticker_symbol
+  }
   quantity
+  amount
+  fees
   price
   type
   subType
 }
+
 
 mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
   portfoliosAddHolding(_id: $_id, input: $input) {
@@ -105,33 +127,13 @@ mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
   }
 }
 
+
 mutation portfoliosBeginImport($publicToken: String!) {
   portfoliosBeginImport(publicToken: $publicToken) {
-    _id
-    createdAt
-    portfolios {
-      name
-      cash
-      transactions {
-        name
-        price
-        quantity
-        subType
-        type
-        date
-        currency
-        baggersSecurity {
-          symbol
-          _id
-        }
-        importedSecurity {
-          security_symbol
-          name
-        }
-      }
-    }
+    importedIds
   }
 }
+
 
 query portfoliosCreated {
   portfoliosCreated {
@@ -140,19 +142,30 @@ query portfoliosCreated {
       displayName
       photos
     }
+    name
+    cash
+    private
+    description
     updatedAt
     createdAt
     totalValue
+    plaidAccountType
+    plaidAccountId
     top5Holdings {
       costBasis
       exposure
       marketValue
+      importedSecurity {
+        ...AllImportedSecurityData
+      }
       security {
-        symbol
+        ...SecuritySummary
       }
     }
   }
 }
+
+
 
 query portfoliosFindById($_id: ObjectId!) {
   portfoliosFindById(_id: $_id) {
@@ -167,6 +180,7 @@ mutation portfoliosInitEmpty {
   }
 }
 
+
 mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   portfoliosRemoveMultiple(_ids: $_ids) {
     acknowledged
@@ -174,11 +188,13 @@ mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   }
 }
 
+
 mutation portfoliosRemoveOne($_id: ObjectId!) {
   portfoliosRemoveOne(_id: $_id) {
     _id
   }
 }
+
 
 mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
   portfoliosUpdateOne(_id: $_id, input: $input) {
@@ -191,6 +207,7 @@ mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
     updatedAt
   }
 }
+
 
 fragment AllQuoteData on Quote {
   avgTotalVolume
@@ -251,6 +268,7 @@ fragment AllQuoteData on Quote {
   ytdChange
 }
 
+
 fragment AllTickerData on Security {
   cik
   createdAt
@@ -266,6 +284,7 @@ fragment AllTickerData on Security {
   updatedAt
 }
 
+
 query securitiesFindById($_id: ObjectId!) {
   securitiesFindById(_id: $_id) {
     _id
@@ -275,6 +294,7 @@ query securitiesFindById($_id: ObjectId!) {
     }
   }
 }
+
 
 query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
@@ -286,6 +306,7 @@ query securitiesSearch($searchTerm: String!) {
   }
 }
 
+
 fragment FullUser on User {
   _id
   displayName
@@ -295,12 +316,14 @@ fragment FullUser on User {
   updatedAt
 }
 
+
 query usersFindById($_id: ID!) {
   usersFindById(_id: $_id) {
     _id
     ...FullUser
   }
 }
+
 
 mutation usersFindOrCreate($input: CreateUserInput!) {
   usersFindOrCreate(input: $input) {

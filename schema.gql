@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+enum AccountType {
+  Brokerage
+  Credit
+  Depository
+  Investment
+  Loan
+  Other
+}
+
 input AddHoldingInput {
   averagePrice: Float!
   brokerFees: Float = 0
@@ -29,14 +38,17 @@ type Holding {
   brokerFees: Float
   costBasis: Float!
   currency: String
-  dailyProfitLossUsd: Float!
+  dailyProfitLossUsd: Float
   direction: HoldingDirection
   exposure: Float!
+  importedSecurity: ImportedSecurity
+  institutionValue: Float
   marketValue: Float!
+  plaidAccountId: String
   profitLossPercent: Float!
   profitLossUsd: Float!
   quantity: Float!
-  security: Security!
+  security: Security
   source: HoldingSource!
   type: HoldingType
 }
@@ -64,8 +76,11 @@ type HoldingWithoutMarketData {
   costBasis: Float!
   currency: String
   direction: HoldingDirection
+  importedSecurity: ImportedSecurity
+  institutionValue: Float
+  plaidAccountId: String
   quantity: Float!
-  security: Security!
+  security: Security
   source: HoldingSource!
   type: HoldingType
 }
@@ -75,22 +90,34 @@ type ImportResponse {
 }
 
 type ImportedSecurity {
-  close_price: Float!
-  close_price_as_of: String!
-  cusip: String!
-  institution_id: String!
-  institution_security_id: String!
-  is_cash_equivalent: Boolean!
-  isin: String!
-  iso_currency_code: String!
-  name: String!
-  proxy_security_id: String!
+  close_price: Float
+  close_price_as_of: String
+  cusip: String
+  institution_id: String
+  institution_security_id: String
+  is_cash_equivalent: Boolean
+  isin: String
+  iso_currency_code: String
+  name: String
+  proxy_security_id: String
   security_id: String!
-  sedol: String!
-  ticker_symbol: String!
-  type: String!
-  unofficial_currency_code: String!
+  sedol: String
+  ticker_symbol: String
+  type: ImportedSecurityType
+  unofficial_currency_code: String
   update_datetime: String
+}
+
+enum ImportedSecurityType {
+  cash
+  cryptocurrency
+  derivative
+  equity
+  etf
+  fixed_income
+  loan
+  mutual_fund
+  other
 }
 
 type Institution {
@@ -118,12 +145,10 @@ scalar ObjectId
 type PlaidItem {
   _id: String!
   accessToken: String
-  createdAt: DateTime
   error: PlaidItemError
   institution: Institution!
   lastWebhookTime: DateTime!
   owner: User!
-  updatedAt: DateTime
 }
 
 type PlaidItemError {
@@ -141,8 +166,11 @@ type PopulatedHolding {
   costBasis: Float!
   currency: String
   direction: HoldingDirection
+  importedSecurity: ImportedSecurity
+  institutionValue: Float
+  plaidAccountId: String
   quantity: Float!
-  security: Security!
+  security: Security
   source: HoldingSource!
   type: HoldingType
 }
@@ -156,6 +184,7 @@ type Portfolio {
   name: String!
   owner: User!
   plaidAccountId: String
+  plaidAccountType: AccountType
   plaidItem: PlaidItem
   private: Boolean!
   totalValue: Float!
@@ -171,6 +200,7 @@ type PortfolioSummary {
   name: String!
   owner: User!
   plaidAccountId: String
+  plaidAccountType: AccountType
   plaidItem: PlaidItem
   private: Boolean!
   top5Holdings: [Holding!]!
@@ -187,6 +217,7 @@ type PortfolioWithoutMarketData {
   name: String!
   owner: User!
   plaidAccountId: String
+  plaidAccountType: AccountType
   plaidItem: PlaidItem
   private: Boolean!
   transactions: [Transaction!]!
@@ -273,23 +304,23 @@ type RemoveMultipleResponse {
 type Security {
   _id: ObjectId!
   cik: String
+  close_price: Float
   createdAt: DateTime
-  currency: String!
-  exchange: String!
-  exchangeName: String!
+  currency: String
+  exchange: String
+  exchangeName: String
   figi: String
   iexId: String
-  name: String!
+  name: String
   quote: Quote
-  region: String!
-  symbol: String!
-  symbolType: String!
+  region: String
+  symbol: String
+  symbolType: String
   updatedAt: DateTime
 }
 
 type Transaction {
   amount: Float!
-  baggersSecurity: Security
   createdBy: User
   currency: String!
   date: DateTime!
@@ -304,6 +335,7 @@ type Transaction {
   plaidTransactionId: String!
   price: Float!
   quantity: Float!
+  security: Security
   subType: TransactionSubtype!
   type: TransactionType!
 }

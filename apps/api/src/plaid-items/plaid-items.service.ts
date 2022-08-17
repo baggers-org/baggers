@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePlaidItemInput } from './dto/create-plaid-item.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { PlaidItem, PlaidItemDocument } from './entities';
@@ -22,6 +22,10 @@ export class PlaidItemsService {
   }
 
   async findById(id: string) {
-    return this.plaidItemsModel.findById(id);
+    return this.plaidItemsModel
+      .findById(id)
+      .orFail(
+        () => new NotFoundException('Could not find an item with this id')
+      );
   }
 }
