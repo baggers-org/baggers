@@ -1,11 +1,15 @@
 import { ObjectId, ObjectIdScalar } from '~/shared';
 import { Field, InputType } from '@nestjs/graphql';
-import { HoldingDirection, HoldingType } from '../enums';
+import { HoldingDirection } from '../enums';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 
 @InputType()
 export class AddHoldingInput {
   @Field(() => ObjectIdScalar)
   security: ObjectId;
+
+  @Field(() => SecurityType)
+  securityType: SecurityType;
 
   @Field()
   quantity: number;
@@ -16,12 +20,9 @@ export class AddHoldingInput {
   @Field({ defaultValue: 0 })
   brokerFees?: number;
 
-  @Field(() => HoldingType, { defaultValue: HoldingType.shares })
-  type: HoldingType;
-
   @Field(() => HoldingDirection)
   direction?: HoldingDirection;
 
-  @Field({ defaultValue: 'USD' })
-  currency?: string;
+  @Field()
+  currency: string;
 }

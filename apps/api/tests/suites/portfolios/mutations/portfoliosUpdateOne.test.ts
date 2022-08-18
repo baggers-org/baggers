@@ -22,7 +22,6 @@ export const portfoliosUpdateOneTests = () =>
       expect({ ...portfoliosUpdateOne, _id: undefined }).toMatchInlineSnapshot(`
         Object {
           "_id": undefined,
-          "cash": 2394,
           "createdAt": "2022-01-17T00:00:00.000Z",
           "description": "Description",
           "name": "My new portfolio",

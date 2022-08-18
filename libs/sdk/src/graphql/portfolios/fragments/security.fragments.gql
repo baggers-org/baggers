@@ -2,7 +2,7 @@ fragment AllSecurityData on Security {
   _id
   name
   symbol
-  symbolType
+  type
   exchange
   currency
   exchangeName

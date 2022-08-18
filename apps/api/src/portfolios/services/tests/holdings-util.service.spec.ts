@@ -1,10 +1,10 @@
 import { NET, TSLA } from '~/securities';
 import { Test } from '@nestjs/testing';
-import { HoldingFromDb } from '../../entities';
+import { Holding } from '../../entities';
 import { HoldingDirection } from '../../enums/holding-direction.enum';
 import { HoldingSource } from '../../enums/holding-source.enum';
-import { HoldingType } from '../../enums/holding-type.enum';
 import { HoldingsUtilService } from '../holdings-util.service';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 
 describe('Holdings Service', () => {
   let service: HoldingsUtilService;
@@ -16,24 +16,28 @@ describe('Holdings Service', () => {
   });
   describe('getMergedHoldings', () => {
     it('should work with duplicate LONG holdings', () => {
-      const preMerged = [
+      const preMerged: Holding[] = [
         {
+          _id: null,
           security: TSLA._id,
           averagePrice: 100,
           costBasis: 340,
           quantity: 3.4,
           source: HoldingSource.direct,
-          type: HoldingType.shares,
           direction: HoldingDirection.long,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         },
         {
+          _id: null,
           security: TSLA._id,
           averagePrice: 730,
           costBasis: 730,
           quantity: 1,
           source: HoldingSource.direct,
-          type: HoldingType.shares,
           direction: HoldingDirection.long,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         },
       ];
 
@@ -52,22 +56,28 @@ describe('Holdings Service', () => {
     });
 
     it('should work with duplicate SHORT holdings', () => {
-      const preMerged: HoldingFromDb[] = [
+      const preMerged: Holding[] = [
         {
+          _id: null,
           security: NET._id,
           averagePrice: 340,
           costBasis: 340,
           quantity: -1,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         },
         {
+          _id: null,
           security: NET._id,
           averagePrice: 340,
           costBasis: 340,
           quantity: -2,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         },
       ];
 

@@ -4,14 +4,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AddHoldingInput } from '../dto/add-holding';
-import { HoldingFromDb, PortfolioDocument, PortfolioFromDb } from '../entities';
+import { Holding, Portfolio, PortfolioDocument } from '../entities';
 import { HoldingSource } from '../enums';
 import { HoldingsUtilService } from './holdings-util.service';
 
 @Injectable()
 export class HoldingsService {
   constructor(
-    @InjectModel(PortfolioFromDb.name)
+    @InjectModel(Portfolio.name)
     private portfolioModel: Model<PortfolioDocument>,
     private holdingsUtil: HoldingsUtilService
   ) {}
@@ -21,8 +21,9 @@ export class HoldingsService {
     input: AddHoldingInput,
     currentUser: Auth0AccessTokenPayload
   ) {
-    const newHolding: HoldingFromDb = {
+    const newHolding: Holding = {
       ...input,
+      _id: new ObjectId(),
       costBasis: input.averagePrice * input.quantity + input.brokerFees,
       source: HoldingSource.direct,
     };

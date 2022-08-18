@@ -9,6 +9,6 @@ fragment AllTickerData on Security {
   name
   region
   symbol
-  symbolType
+  type
   updatedAt
 }

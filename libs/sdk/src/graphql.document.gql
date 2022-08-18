@@ -1,6 +1,7 @@
 
 
 fragment AllHoldingData on Holding {
+  _id
   # Market data fields
   marketValue
   exposure
@@ -15,7 +16,7 @@ fragment AllHoldingData on Holding {
   institutionValue
   direction
   quantity
-  type
+  securityType
   source
   currency
   importedSecurity {
@@ -38,8 +39,11 @@ fragment PortfolioSummary on Portfolio {
   private
   createdAt
   updatedAt
-  plaidAccountId
-  plaidAccountType
+  plaidAccount {
+    type
+    name
+    official_name
+  }
   totalValue
 }
 
@@ -65,7 +69,7 @@ fragment AllSecurityData on Security {
   _id
   name
   symbol
-  symbolType
+  type
   exchange
   currency
   exchangeName
@@ -149,11 +153,15 @@ query portfoliosCreated {
     updatedAt
     createdAt
     totalValue
-    plaidAccountType
-    plaidAccountId
+    plaidAccount {
+      type
+      subtype
+      name
+    }
     top5Holdings {
       costBasis
       exposure
+      securityType
       marketValue
       importedSecurity {
         ...AllImportedSecurityData
@@ -199,7 +207,6 @@ mutation portfoliosRemoveOne($_id: ObjectId!) {
 mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
   portfoliosUpdateOne(_id: $_id, input: $input) {
     _id
-    cash
     createdAt
     description
     name
@@ -280,7 +287,7 @@ fragment AllTickerData on Security {
   name
   region
   symbol
-  symbolType
+  type
   updatedAt
 }
 

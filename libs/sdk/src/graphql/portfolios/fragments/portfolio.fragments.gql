@@ -9,8 +9,11 @@ fragment PortfolioSummary on Portfolio {
   private
   createdAt
   updatedAt
-  plaidAccountId
-  plaidAccountType
+  plaidAccount {
+    type
+    name
+    official_name
+  }
   totalValue
 }
 

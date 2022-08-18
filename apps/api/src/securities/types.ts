@@ -1,3 +1,4 @@
-import { ImportedSecurity, Security } from './entities';
+import { Security } from './entities';
 
-export type SecurityMap = Map<ImportedSecurity, Security>;
+type PlaidSecurityId = string;
+export type SecurityMap = Map<PlaidSecurityId, Security | undefined>;

@@ -13,40 +13,46 @@ export const portfoliosCreatedTests = () =>
       expect(portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
         Array [
           Object {
-            "costBasis": 389493,
-            "exposure": 75.87,
-            "importedSecurity": null,
-            "marketValue": 3663350.76,
-            "security": Object {
-              "symbol": "TSLA",
-            },
-          },
-          Object {
-            "costBasis": 84857293,
-            "exposure": 23.92,
-            "importedSecurity": null,
-            "marketValue": 1155076.56,
-            "security": Object {
-              "symbol": "A",
-            },
-          },
-          Object {
             "costBasis": 3839,
-            "exposure": 0.15,
+            "exposure": 74.98237781954887,
             "importedSecurity": null,
             "marketValue": 7403.7,
             "security": Object {
+              "_id": "62989022d38076b6353967c3",
+              "exchangeName": "Nasdaq All Markets",
+              "name": "Tesla Inc",
+              "quote": Object {
+                "latestPrice": 740.37,
+              },
+              "region": "US",
               "symbol": "TSLA",
             },
+            "securityType": "equity",
+          },
+          Object {
+            "costBasis": null,
+            "exposure": 12.55144866476536,
+            "importedSecurity": null,
+            "marketValue": 1239.32,
+            "security": null,
+            "securityType": "cash",
           },
           Object {
             "costBasis": 47942,
-            "exposure": 0.03,
+            "exposure": 12.466173515685767,
             "importedSecurity": null,
             "marketValue": 1230.9,
             "security": Object {
+              "_id": "62988fced38076b635386a91",
+              "exchangeName": "New York Stock Exchange Inc",
+              "name": "Agilent Technologies Inc.",
+              "quote": Object {
+                "latestPrice": 123.09,
+              },
+              "region": "US",
               "symbol": "A",
             },
+            "securityType": "equity",
           },
         ]
       `);
@@ -71,32 +77,63 @@ export const portfoliosCreatedTests = () =>
         Array [
           Object {
             "costBasis": 42,
-            "exposure": 81.75,
+            "exposure": 81.74710039434306,
             "importedSecurity": null,
             "marketValue": 14807.4,
             "security": Object {
+              "_id": "62989022d38076b6353967c3",
+              "exchangeName": "Nasdaq All Markets",
+              "name": "Tesla Inc",
+              "quote": Object {
+                "latestPrice": 740.37,
+              },
+              "region": "US",
               "symbol": "TSLA",
             },
+            "securityType": "equity",
           },
           Object {
             "costBasis": 49,
-            "exposure": 10.84,
+            "exposure": 10.835738975039295,
             "importedSecurity": Object {
+              "close_price": 34.73,
+              "name": "Southside Bancshares Inc.",
               "ticker_symbol": "SBSI",
+              "type": "equity",
             },
-            "marketValue": 1962.75,
+            "marketValue": 1962.7500000000002,
             "security": Object {
+              "_id": "62a23959e5a9e9b88f85457a",
+              "exchangeName": "Nasdaq All Markets",
+              "name": "Southside Bancshares Inc",
+              "quote": Object {
+                "latestPrice": 39.255,
+              },
+              "region": "US",
               "symbol": "SBSI",
             },
+            "securityType": "equity",
+          },
+          Object {
+            "costBasis": null,
+            "exposure": 6.841904484292802,
+            "importedSecurity": null,
+            "marketValue": 1239.32,
+            "security": null,
+            "securityType": "cash",
           },
           Object {
             "costBasis": 100,
-            "exposure": 2.38,
+            "exposure": 2.3849391095233603,
             "importedSecurity": Object {
+              "close_price": 10.42,
+              "name": "DoubleLine Total Return Bond Fund",
               "ticker_symbol": "DBLTX",
+              "type": "mutual_fund",
             },
             "marketValue": 432,
             "security": null,
+            "securityType": "equity",
           },
         ]
       `);

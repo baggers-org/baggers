@@ -1,7 +1,6 @@
-import { A, SecuritiesService, SecuritiesServiceMock } from '~/securities';
+import { A, NET, SecuritiesService, SecuritiesServiceMock } from '~/securities';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
-import { HoldingType } from '../../enums/holding-type.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
 import { PortfolioMetricsService } from '../portfolio-metrics.service';
 import {
@@ -11,6 +10,8 @@ import {
 } from '~/portfolios/data';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { OpenFigiModule } from '~/open-figi';
+import { SecurityType } from '~/securities/enums/security-type.enum';
+import { HoldingDirection } from '~/portfolios/enums';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;
@@ -36,12 +37,14 @@ describe('HoldingMetricsService', () => {
     it('should calculate marketValue correctly', () => {
       expect(
         service.calculateMarketValue({
+          _id: null,
           averagePrice: 1,
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          type: HoldingType.shares,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         })
       ).toEqual(1230.9);
     });
@@ -59,12 +62,14 @@ describe('HoldingMetricsService', () => {
       expect(
         service.calculateExposure(
           {
+            _id: null,
             averagePrice: 1,
             costBasis: 1,
             quantity: 10,
             source: HoldingSource.broker,
             security: A,
-            type: HoldingType.shares,
+            securityType: SecurityType.equity,
+            currency: 'USD',
           },
           12039
         )
@@ -83,12 +88,14 @@ describe('HoldingMetricsService', () => {
     it('should calculate profitLossUsd correctly', () => {
       expect(
         service.calculateProfitLossUsd({
+          _id: null,
           averagePrice: 1,
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          type: HoldingType.shares,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         })
       ).toMatchInlineSnapshot(`1229.9`);
     });
@@ -105,12 +112,14 @@ describe('HoldingMetricsService', () => {
     it('should calculate profitLossPercent correctly', () => {
       expect(
         service.calculateProfitLossPercent({
+          _id: null,
           averagePrice: 1,
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          type: HoldingType.shares,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         })
       ).toMatchInlineSnapshot(`122990.00000000001`);
     });
@@ -127,12 +136,14 @@ describe('HoldingMetricsService', () => {
     it('should calculate dailyProfitLossUsd correctly', () => {
       expect(
         service.calculateDailyProfitLossUsd({
+          _id: null,
           averagePrice: 1,
           costBasis: 1,
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          type: HoldingType.shares,
+          securityType: SecurityType.equity,
+          currency: 'USD',
         })
       ).toMatchInlineSnapshot(`-44.699999999999996`);
     });
@@ -147,36 +158,51 @@ describe('HoldingMetricsService', () => {
       ).toMatchInlineSnapshot(`
         Array [
           Object {
+            "_id": "62d2cd45c63873e235c99531",
+            "currency": "USD",
+            "dailyProfitLossUsd": null,
+            "exposure": 12.55144866476536,
+            "marketValue": 1239.32,
+            "profitLossPercent": null,
+            "profitLossUsd": null,
+            "quantity": 1239.32,
+            "security": undefined,
+            "securityType": "cash",
+            "source": "direct",
+          },
+          Object {
+            "_id": "62d2cd45c63873e235c99532",
             "averagePrice": 383.9,
             "brokerFees": 0,
             "costBasis": 3839,
             "currency": "USD",
             "dailyProfitLossUsd": -178.9,
             "direction": "long",
-            "exposure": 3.1,
+            "exposure": 74.98237781954887,
             "marketValue": 7403.7,
-            "profitLossPercent": 92.85,
+            "profitLossPercent": 92.8549101328471,
             "profitLossUsd": 3564.7,
             "quantity": 10,
             "security": undefined,
-            "source": "direct",
-            "type": "shares",
+            "securityType": "equity",
+            "source": "broker",
           },
           Object {
+            "_id": "62d2cd45c63873e235c99533",
             "averagePrice": 4794.2,
             "brokerFees": 0,
             "costBasis": 47942,
             "currency": "USD",
-            "dailyProfitLossUsd": -44.7,
+            "dailyProfitLossUsd": -44.699999999999996,
             "direction": "long",
-            "exposure": 0.51,
+            "exposure": 12.466173515685767,
             "marketValue": 1230.9,
-            "profitLossPercent": -97.43,
+            "profitLossPercent": -97.43252263151308,
             "profitLossUsd": -46711.1,
             "quantity": 10,
             "security": undefined,
-            "source": "direct",
-            "type": "shares",
+            "securityType": "equity",
+            "source": "broker",
           },
         ]
       `);
@@ -187,10 +213,25 @@ describe('HoldingMetricsService', () => {
         .toMatchInlineSnapshot(`
         Array [
           Object {
+            "_id": "62d2cd45c63873e235c99531",
+            "currency": "USD",
+            "dailyProfitLossUsd": null,
+            "exposure": 6.841904484292802,
+            "marketValue": 1239.32,
+            "profitLossPercent": null,
+            "profitLossUsd": null,
+            "quantity": 1239.32,
+            "security": undefined,
+            "securityType": "cash",
+            "source": "direct",
+          },
+          Object {
+            "_id": "62d2cd45c63873e235c99567",
             "averagePrice": 10,
             "costBasis": 100,
+            "currency": "USD",
             "dailyProfitLossUsd": null,
-            "exposure": 2.38,
+            "exposure": 2.3849391095233603,
             "importedSecurity": Object {
               "close_price": 10.42,
               "close_price_as_of": null,
@@ -215,13 +256,16 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": 332,
             "quantity": 10,
             "security": undefined,
+            "securityType": "equity",
             "source": "broker",
           },
           Object {
+            "_id": "62d2cd45c63873e235c99569",
             "averagePrice": 409,
             "costBasis": 49,
-            "dailyProfitLossUsd": -13.75,
-            "exposure": 10.84,
+            "currency": "USD",
+            "dailyProfitLossUsd": -13.750000000000002,
+            "exposure": 10.835738975039295,
             "importedSecurity": Object {
               "close_price": 34.73,
               "close_price_as_of": null,
@@ -241,9 +285,9 @@ describe('HoldingMetricsService', () => {
               "update_datetime": null,
             },
             "institutionValue": 52300,
-            "marketValue": 1962.75,
-            "profitLossPercent": 3905.61,
-            "profitLossUsd": 1913.75,
+            "marketValue": 1962.7500000000002,
+            "profitLossPercent": 3905.6122448979595,
+            "profitLossUsd": 1913.7500000000002,
             "quantity": 50,
             "security": Object {
               "_id": "62a23959e5a9e9b88f85457a",
@@ -314,17 +358,20 @@ describe('HoldingMetricsService', () => {
               },
               "region": "US",
               "symbol": "SBSI",
-              "symbolType": "cs",
+              "type": "equity",
             },
+            "securityType": "equity",
             "source": "broker",
           },
           Object {
+            "_id": "62d2cd45c63873e235c99570",
             "averagePrice": 1000,
             "costBasis": 42,
+            "currency": "USD",
             "dailyProfitLossUsd": -357.8,
-            "exposure": 81.75,
+            "exposure": 81.74710039434306,
             "marketValue": 14807.4,
-            "profitLossPercent": 35155.71,
+            "profitLossPercent": 35155.71428571428,
             "profitLossUsd": 14765.4,
             "quantity": 20,
             "security": Object {
@@ -397,9 +444,10 @@ describe('HoldingMetricsService', () => {
               },
               "region": "US",
               "symbol": "TSLA",
-              "symbolType": "cs",
+              "type": "equity",
               "updatedAt": 2001-01-01T00:00:00.000Z,
             },
+            "securityType": "equity",
             "source": "broker",
           },
         ]

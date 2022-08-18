@@ -1,12 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { PortfolioDocument, HoldingFromDb } from '../entities';
+import { SecurityType } from '~/securities/enums/security-type.enum';
+import { ObjectId } from '~/shared';
+import { Holding, PortfolioDocument } from '../entities';
+import { HoldingDirection, HoldingSource } from '../enums';
 
 @Injectable()
 export class HoldingsUtilService {
+  createCashHolding(currency: string, amount: number): Holding {
+    return {
+      _id: new ObjectId(),
+      currency,
+      quantity: amount,
+      securityType: SecurityType.cash,
+      source: HoldingSource.transactions,
+      direction: HoldingDirection.long,
+    };
+  }
   /**
    * Given 2 holdings, returns the result of owning both holdings
    */
-  combineHoldings(holding1: HoldingFromDb, holding2: HoldingFromDb) {
+  combineHoldings(holding1: Holding, holding2: Holding) {
     if (holding1.direction !== holding2.direction)
       throw new Error(
         'These holdings cannot be combined they have different directions'
@@ -25,19 +38,21 @@ export class HoldingsUtilService {
   }
 
   findHoldingIndex(
-    holdingsToSearch: HoldingFromDb[],
-    holdingToFind: HoldingFromDb
+    holdingsToSearch: Holding[],
+    holdingToFind: Holding
   ): number {
     const holdingHash = this.hashHolding(holdingToFind);
     return holdingsToSearch.findIndex(
       (h) => this.hashHolding(h) === holdingHash
     );
   }
+  findCashHoldingIndex(holdings: Holding[], currency: string): number {
+    return holdings.findIndex(
+      (h) => h.currency === currency && h.securityType === SecurityType.cash
+    );
+  }
 
-  findHolding(
-    holdingsToSearch: HoldingFromDb[],
-    holdingToFind: HoldingFromDb
-  ): HoldingFromDb {
+  findHolding(holdingsToSearch: Holding[], holdingToFind: Holding): Holding {
     const holdingHash = this.hashHolding(holdingToFind);
     return holdingsToSearch.find((h) => this.hashHolding(h) === holdingHash);
   }
@@ -56,15 +71,54 @@ export class HoldingsUtilService {
     return portfolio;
   }
 
-  hashHolding(holding: HoldingFromDb) {
-    return `${holding.security}${holding.direction}${holding.type}`;
+  hashHolding(holding: Holding) {
+    let securityId: ObjectId | string;
+    const { security, importedSecurity } = holding;
+    if (security) {
+      if (security instanceof ObjectId) {
+        securityId = security;
+      } else {
+        securityId = holding.security._id;
+      }
+    } else if (importedSecurity) {
+      securityId = importedSecurity.security_id;
+    }
+    return `${securityId}${holding.direction}${holding.securityType}${holding.currency}`;
   }
 
   /**
+   *
+   * @param holdings
+   * @param amount  - Postive assumes a credit to the cash levels, negative assumes a debit to the cash levels
+   * @param currency
+   * @returns
+   */
+  modifyCashLevels(
+    holdings: Holding[],
+    amount: number,
+    currency: string
+  ): Holding[] {
+    const cashIndex = this.findCashHoldingIndex(holdings, currency);
+    const cashHolding: Holding = holdings[cashIndex];
+    if (!cashHolding) {
+      // Create the first cash holding
+      return [...holdings, this.createCashHolding(currency, amount)];
+    }
+
+    return [
+      ...holdings.slice(0, cashIndex),
+      {
+        ...cashHolding,
+        quantity: cashHolding.quantity + amount,
+      },
+      ...holdings.slice(cashIndex + 1, holdings.length),
+    ];
+  }
+  /**
    * Merges together duplicate holdings for the same security + direction
    */
-  getMergedHoldings(holdings: HoldingFromDb[]) {
-    const mergedHoldings: HoldingFromDb[] = [];
+  getMergedHoldings(holdings: Holding[]) {
+    const mergedHoldings: Holding[] = [];
 
     const seen = {};
 
@@ -88,10 +142,10 @@ export class HoldingsUtilService {
   }
 
   upsertHolding(
-    holdings: HoldingFromDb[] = [],
-    holdingToUpsert: HoldingFromDb,
-    updateFn: (holding: HoldingFromDb) => HoldingFromDb
-  ): HoldingFromDb[] {
+    holdings: Holding[] = [],
+    holdingToUpsert: Holding,
+    updateFn: (holding: Holding) => Holding
+  ): Holding[] {
     const existingIndex = this.findHoldingIndex(holdings, holdingToUpsert);
     if (existingIndex >= 0) {
       return [
@@ -104,10 +158,10 @@ export class HoldingsUtilService {
   }
 
   updateHolding(
-    holdings: HoldingFromDb[] = [],
-    holdingToUpsert: HoldingFromDb,
-    updateFn: (holding: HoldingFromDb) => HoldingFromDb
-  ): HoldingFromDb[] {
+    holdings: Holding[] = [],
+    holdingToUpsert: Holding,
+    updateFn: (holding: Holding) => Holding
+  ): Holding[] {
     const existingIndex = this.findHoldingIndex(holdings, holdingToUpsert);
     if (existingIndex >= 0) {
       return [

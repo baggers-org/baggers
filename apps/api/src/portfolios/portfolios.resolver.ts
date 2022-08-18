@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { PortfoliosService } from './portfolios.service';
 import {
   PopulatedPortfolioWithMetrics,
-  PortfolioFromDb,
+  Portfolio,
   PortfolioSummary,
 } from './entities/portfolio.entity';
 
@@ -17,8 +17,9 @@ import {
 } from '~/shared';
 import { AddHoldingInput } from './dto/add-holding';
 import { HoldingsService } from './services/holdings.service';
+import { UpdateResponse } from '~/shared/classes/update-response.entity';
 
-@Resolver(() => PortfolioFromDb)
+@Resolver(() => Portfolio)
 export class PortfoliosResolver {
   constructor(
     private readonly portfoliosService: PortfoliosService,
@@ -71,16 +72,16 @@ export class PortfoliosResolver {
     return this.portfoliosService.removeMultiple(_ids, currentUser);
   }
 
-  @Mutation(() => PortfolioFromDb, { name: 'portfoliosUpdateOne' })
-  update(
+  @Mutation(() => Portfolio, { name: 'portfoliosUpdateOne' })
+  async update(
     @Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId,
     @Args('input') input: UpdatePortfolioInput,
     @CurrentUser() currentUser: Auth0AccessTokenPayload
-  ) {
+  ): Promise<Portfolio> {
     return this.portfoliosService.updateOne(_id, input, currentUser);
   }
 
-  @Mutation(() => PortfolioFromDb, { name: 'portfoliosAddHolding' })
+  @Mutation(() => Portfolio, { name: 'portfoliosAddHolding' })
   addHolding(
     @Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId,
     @Args('input') input: AddHoldingInput,

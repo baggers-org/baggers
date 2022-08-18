@@ -1,14 +1,17 @@
 import { NET, TSLA } from '~/securities';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
 import { Transaction } from '../entities';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 
 export const ImportedTransactions: Transaction[] = [
   {
     name: 'DEPOSIT $100',
-    date: new Date(2022, 2, 4),
+    date: new Date(2022, 2, 1),
     amount: 100,
     currency: 'USD',
     type: InvestmentTransactionType.Cash,
+    quantity: 100,
+    securityType: SecurityType.cash,
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
@@ -21,6 +24,7 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: TSLA._id,
+    securityType: SecurityType.equity,
     type: InvestmentTransactionType.Buy,
   },
   {
@@ -32,6 +36,7 @@ export const ImportedTransactions: Transaction[] = [
     amount: -15,
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Sell,
+    securityType: SecurityType.equity,
     security: TSLA._id,
     type: InvestmentTransactionType.Sell,
   },
@@ -45,14 +50,17 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: NET._id,
+    securityType: SecurityType.equity,
     type: InvestmentTransactionType.Buy,
   },
   {
     name: 'DEPOSIT $5000',
     amount: 5000,
     currency: 'USD',
+    quantity: 0,
     date: new Date(2022, 3, 4),
     type: InvestmentTransactionType.Cash,
+    securityType: SecurityType.equity,
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
@@ -65,17 +73,17 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: NET._id,
+    securityType: SecurityType.equity,
     type: InvestmentTransactionType.Buy,
   },
   {
     name: 'WITHDRAW $2000',
     amount: -2000,
+    securityType: SecurityType.cash,
+    quantity: 0,
     currency: 'USD',
     date: new Date(2022, 3, 6),
     type: InvestmentTransactionType.Cash,
     subType: InvestmentTransactionSubtype.Withdrawal,
   },
 ];
-
-// TODO: come back here when we know how shorts should look
-export const ShortSellingTransactions: Transaction[] = [];

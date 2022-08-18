@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PortfoliosService } from './portfolios.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PortfolioFromDb, PortfolioSchema } from './entities/portfolio.entity';
+import { Portfolio, PortfolioSchema } from './entities/portfolio.entity';
 import { PortfoliosResolver } from './portfolios.resolver';
 import { HoldingMetricsService, PortfolioMetricsService } from './services';
 import { HoldingsService } from './services/holdings.service';
@@ -16,7 +16,7 @@ import { SecuritiesModule } from '~/securities';
     SecuritiesModule,
     MongooseModule.forFeature([
       {
-        name: PortfolioFromDb.name,
+        name: Portfolio.name,
         schema: PortfolioSchema,
       },
     ]),

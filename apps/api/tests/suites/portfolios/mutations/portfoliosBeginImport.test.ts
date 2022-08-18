@@ -6,7 +6,7 @@ import { User1Sdk } from '~test-sdk';
 
 jest.setTimeout(20000);
 export const portfoliosBeginImportTests = () =>
-  describe.only('portfoliosBeginImport', () => {
+  describe('portfoliosBeginImport', () => {
     let publicToken: string;
     let plaidClient: PlaidClientService;
     beforeAll(async () => {
@@ -57,7 +57,7 @@ export const portfoliosBeginImportTests = () =>
         });
         test('Plaid Checking', () => {
           const checking = created.find((c) => c.name === 'Plaid Checking');
-          expect(checking.totalValue).toEqual(100);
+          expect(checking.totalValue).toEqual(110);
           expect(checking.top5Holdings).toHaveLength(0);
           expect(checking.description).toMatchInlineSnapshot(
             `"Plaid Gold Standard 0% Interest Checking"`
@@ -75,7 +75,7 @@ export const portfoliosBeginImportTests = () =>
             Array [
               Object {
                 "costBasis": 40,
-                "exposure": 65.7,
+                "exposure": 65.70332959221848,
                 "importedSecurity": Object {
                   "close_price": 42.15,
                   "name": "iShares Inc MSCI Brazil",
@@ -84,10 +84,11 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 210.75,
                 "security": null,
+                "securityType": "etf",
               },
               Object {
                 "costBasis": 0.01,
-                "exposure": 34.29,
+                "exposure": 34.29355281207133,
                 "importedSecurity": Object {
                   "close_price": 0.011,
                   "name": "Nflx Feb 01'18 $355 Call",
@@ -96,10 +97,11 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 110,
                 "security": null,
+                "securityType": "derivative",
               },
               Object {
                 "costBasis": 1,
-                "exposure": 0,
+                "exposure": 0.003117595710188303,
                 "importedSecurity": Object {
                   "close_price": 1,
                   "name": "U S Dollar",
@@ -108,13 +110,14 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 0.01,
                 "security": null,
+                "securityType": "cash",
               },
             ]
           `);
           expect(ira.description).toMatchInlineSnapshot(
             `"This portfolio has been imported from your broker"`
           );
-          expect(ira.cash).toEqual(0);
+          expect(ira.cash).toEqual(0.01);
         });
         test('Plaid 401k', () => {
           const _401k = created.find((c) => c.name === 'Plaid 401k');
@@ -122,14 +125,14 @@ export const portfoliosBeginImportTests = () =>
           expect(_401k.description).toMatchInlineSnapshot(
             `"This portfolio has been imported from your broker"`
           );
-          expect(_401k.cash).toBe(0);
+          // expect(_401k.cash).toBe(12461.24268);
           expect(_401k.totalValue).toBe(25141.38);
           expect(_401k.top5Holdings).toHaveLength(5);
           expect(_401k.top5Holdings).toMatchInlineSnapshot(`
             Array [
               Object {
                 "costBasis": 1,
-                "exposure": 49.1,
+                "exposure": 49.10498150857272,
                 "importedSecurity": Object {
                   "close_price": 1,
                   "name": "U S Dollar",
@@ -138,17 +141,18 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 12345.67,
                 "security": null,
+                "securityType": "cash",
               },
               Object {
                 "costBasis": 30,
-                "exposure": 33.26,
+                "exposure": 33.257183973194785,
                 "importedSecurity": Object {
                   "close_price": 34.73,
                   "name": "Southside Bancshares Inc.",
                   "ticker_symbol": "SBSI",
                   "type": "equity",
                 },
-                "marketValue": 8361.32,
+                "marketValue": 8361.315,
                 "security": Object {
                   "_id": "62a23959e5a9e9b88f85457a",
                   "exchangeName": "Nasdaq All Markets",
@@ -159,42 +163,46 @@ export const portfoliosBeginImportTests = () =>
                   "region": "US",
                   "symbol": "SBSI",
                 },
+                "securityType": "equity",
               },
               Object {
                 "costBasis": 22,
-                "exposure": 7.38,
+                "exposure": 7.381754700815946,
                 "importedSecurity": Object {
                   "close_price": 24.5,
                   "name": "Cambiar International Equity Institutional",
                   "ticker_symbol": "CAMYX",
                   "type": "mutual_fund",
                 },
-                "marketValue": 1855.88,
+                "marketValue": 1855.875,
                 "security": null,
+                "securityType": "mutual_fund",
               },
               Object {
                 "costBasis": 15,
-                "exposure": 5.46,
+                "exposure": 5.463846853275357,
                 "importedSecurity": Object {
                   "close_price": 13.73,
                   "name": "NH PORTFOLIO 1055 (FIDELITY INDEX)",
                   "ticker_symbol": "NHX105509",
                   "type": "etf",
                 },
-                "marketValue": 1373.69,
+                "marketValue": 1373.6865,
                 "security": null,
+                "securityType": "etf",
               },
               Object {
                 "costBasis": 23,
-                "exposure": 2.53,
+                "exposure": 2.5309231235516902,
                 "importedSecurity": Object {
                   "close_price": 27,
                   "name": "Matthews Pacific Tiger Fund Insti Class",
                   "ticker_symbol": "MIPTX",
                   "type": "mutual_fund",
                 },
-                "marketValue": 636.31,
+                "marketValue": 636.309,
                 "security": null,
+                "securityType": "mutual_fund",
               },
             ]
           `);

@@ -1,5 +1,4 @@
 import { Test } from '@nestjs/testing';
-import { PlaidExampleResponse } from '~/plaid-client';
 import { PortfolioWithTransactions } from '~/portfolios/data';
 import { SecuritiesUtilServiceMock } from '~/securities';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
@@ -28,28 +27,47 @@ describe('TransactionsUtilService', () => {
         PortfolioWithTransactions
       );
 
-      expect(resultingPortfolio.holdings).toHaveLength(2);
+      expect(resultingPortfolio.holdings).toHaveLength(3);
       expect(resultingPortfolio.holdings).toMatchInlineSnapshot(`
         Array [
           Object {
-            "averagePrice": 1,
-            "costBasis": 5,
+            "_id": "61e4b180fd38cb916acdf8b8",
+            "currency": "USD",
             "direction": "long",
+            "quantity": 2095,
+            "securityType": "cash",
+            "source": "transactions",
+          },
+          Object {
+            "_id": "61e4b180fd38cb916acdf8b9",
+            "averagePrice": 1,
+            "brokerFees": undefined,
+            "costBasis": 5,
+            "currency": "USD",
+            "direction": "long",
+            "importedSecurity": undefined,
+            "plaidAccountId": undefined,
             "quantity": 5,
             "security": "62989022d38076b6353967c3",
+            "securityType": "equity",
             "source": "broker",
           },
           Object {
+            "_id": "61e4b180fd38cb916acdf8bc",
             "averagePrice": 91.82,
+            "brokerFees": undefined,
             "costBasis": 1010,
+            "currency": "USD",
             "direction": "long",
+            "importedSecurity": undefined,
+            "plaidAccountId": undefined,
             "quantity": 11,
             "security": "62a23958e5a9e9b88f853a67",
+            "securityType": "equity",
             "source": "broker",
           },
         ]
       `);
-      expect(resultingPortfolio.cash).toEqual(2095);
     });
 
     it.todo(

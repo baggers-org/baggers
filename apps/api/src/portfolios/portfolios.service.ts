@@ -3,14 +3,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
 import {
-  PortfolioFromDb,
   PortfolioDocument,
   PopulatedPortfolioWithMetrics,
   PortfolioSummary,
+  Portfolio,
   PopulatedPortfolio,
 } from './entities/portfolio.entity';
-import { populateHoldingTickers } from './pipelines/populate-holding-securities.pipeline';
-import { populateOwner } from './pipelines/populate-owner';
 import { HoldingMetricsService, PortfolioMetricsService } from './services';
 import { Auth0AccessTokenPayload } from '~/auth';
 import { ObjectId, RemoveMultipleResponse } from '~/shared';
@@ -18,7 +16,7 @@ import { ObjectId, RemoveMultipleResponse } from '~/shared';
 @Injectable()
 export class PortfoliosService {
   constructor(
-    @InjectModel(PortfolioFromDb.name)
+    @InjectModel(Portfolio.name)
     private portfolioModel: Model<PortfolioDocument>,
     private portfolioMetricsService: PortfolioMetricsService,
     private holdingMetricsService: HoldingMetricsService
@@ -30,7 +28,7 @@ export class PortfoliosService {
     });
   }
 
-  insertMany(portfolios: PortfolioFromDb[]) {
+  insertMany(portfolios: Portfolio[]) {
     return this.portfolioModel.insertMany(portfolios);
   }
 
@@ -45,6 +43,7 @@ export class PortfoliosService {
       holdings: holdingsWithMetrics.sort((h1, h2) =>
         h1.marketValue > h2.marketValue ? -1 : 1
       ),
+      cash: this.portfolioMetricsService.calculateCash(portfolio),
       totalValue: this.portfolioMetricsService.calculateTotalValue(portfolio),
     };
   }

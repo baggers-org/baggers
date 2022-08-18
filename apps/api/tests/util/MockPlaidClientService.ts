@@ -6,18 +6,18 @@ export class PlaidClientService {
     return 'test-link-token';
   }
 
-  async getItem(accessToken: string) {
-    const { data } = await this.client.itemGet({
-      access_token: accessToken,
-    });
+  // async getItem(accessToken: string) {
+  //   const { data } = await this.client.itemGet({
+  //     access_token: accessToken,
+  //   });
 
-    return data.item;
-  }
+  //   return data.item;
+  // }
 
-  async publicTokenExchange(publicToken: string) {
-    const { data } = await this.client.itemPublicTokenExchange({
-      public_token: publicToken,
-    });
-    return data;
-  }
+  // async publicTokenExchange(publicToken: string) {
+  //   const { data } = await this.client.itemPublicTokenExchange({
+  //     public_token: publicToken,
+  //   });
+  //   return data;
+  // }
 }

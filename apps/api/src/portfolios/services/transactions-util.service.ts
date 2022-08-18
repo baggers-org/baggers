@@ -1,23 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
-import { HoldingFromDb, PortfolioFromDb, Transaction } from '../entities';
+import { SecurityType } from '~/securities/enums/security-type.enum';
+import { Transaction, Holding, Portfolio } from '../entities';
 import { HoldingsUtilService } from './holdings-util.service';
 
 @Injectable()
 export class TransactionsUtilService {
   constructor(private holdingsUtil: HoldingsUtilService) {}
 
-  /**
-   * The inner brains of `applyTransaction` - the difference being that this method
-   * does not merge the resulting holdings.
-   * Intended for internal use only, by `applyTransactions` - this ensures we do
-   * not waste too many CPU cycles merging on every transaction, and instead
-   * we can merge just once at the very end.
-   */
-  applyTransaction(
-    portfolio: PortfolioFromDb,
-    transaction: Transaction
-  ): PortfolioFromDb {
+  applyTransaction(portfolio: Portfolio, transaction: Transaction): Portfolio {
     switch (transaction.type) {
       case InvestmentTransactionType.Buy: {
         return this.applyBuy(portfolio, transaction);
@@ -30,11 +21,8 @@ export class TransactionsUtilService {
       }
     }
   }
-  /**
-   * This method will apply all the transactions stored in the portfolio
-   * to itself, resulting in a new portfolio with the "correct" cash and holdings.
-   */
-  applyTransactions(portfolio: PortfolioFromDb): PortfolioFromDb {
+
+  applyTransactions(portfolio: Portfolio): Portfolio {
     const { transactions } = portfolio;
 
     return transactions
@@ -49,10 +37,7 @@ export class TransactionsUtilService {
   //=====
   // Apply specific transaction functions
 
-  applyBuy(
-    portfolio: PortfolioFromDb,
-    transaction: Transaction
-  ): PortfolioFromDb {
+  applyBuy(portfolio: Portfolio, transaction: Transaction): Portfolio {
     let { holdings } = portfolio;
     const { subType, amount, security } = transaction;
     // We ignore transactions that we have not matched
@@ -60,50 +45,54 @@ export class TransactionsUtilService {
       return portfolio;
     }
 
-    const transactionHolding = HoldingFromDb.fromTransaction(transaction);
+    const newHolding = Holding.fromTransaction(transaction);
 
     switch (subType) {
       case InvestmentTransactionSubtype.Buy: {
         holdings = this.holdingsUtil.upsertHolding(
           holdings,
-          transactionHolding,
+          newHolding,
           (holding) => {
-            return this.holdingsUtil.combineHoldings(
-              holding,
-              transactionHolding
-            );
+            return this.holdingsUtil.combineHoldings(newHolding, holding);
           }
         );
         break;
       }
     }
 
+    holdings = this.holdingsUtil.modifyCashLevels(
+      holdings,
+      // Positive amounti n the tranascation, represents a debit to the asset
+      // NOT the cash, so if its positive, it needs to be negated
+      -amount,
+      transaction.currency
+    );
+
     return {
       ...portfolio,
-      cash: portfolio.cash - amount,
       holdings,
     };
   }
 
-  applySell(
-    portfolio: PortfolioFromDb,
-    transaction: Transaction
-  ): PortfolioFromDb {
-    let { cash, holdings } = portfolio;
-    const { subType, amount, security } = transaction;
+  applySell(portfolio: Portfolio, transaction: Transaction): Portfolio {
+    let { holdings } = portfolio;
+    const { subType, security } = transaction;
 
     if (!security) {
       return portfolio;
     }
 
+    let newCash = 0;
+
     switch (subType) {
       case InvestmentTransactionSubtype.Sell: {
         holdings = this.holdingsUtil.updateHolding(
           holdings,
-          HoldingFromDb.fromTransaction(transaction),
+          Holding.fromTransaction(transaction),
           (holding) => {
             const newQuantity = holding.quantity + transaction.quantity;
-            cash -= amount;
+            // Sell will need to be negated
+            newCash = -transaction.amount;
             return {
               ...holding,
               quantity: newQuantity,
@@ -115,23 +104,30 @@ export class TransactionsUtilService {
         break;
       }
     }
+    holdings = this.holdingsUtil.modifyCashLevels(
+      holdings,
+      newCash,
+      transaction.currency
+    );
 
     return {
       ...portfolio,
-      cash,
       holdings,
     };
   }
 
-  applyCash(
-    portfolio: PortfolioFromDb,
-    transaction: Transaction
-  ): PortfolioFromDb {
-    const { cash } = portfolio;
+  applyCash(portfolio: Portfolio, transaction: Transaction): Portfolio {
     const { amount } = transaction;
+
+    const holdings = this.holdingsUtil.modifyCashLevels(
+      portfolio.holdings,
+      amount,
+      transaction.currency
+    );
+
     return {
       ...portfolio,
-      cash: cash + amount,
+      holdings,
     };
   }
 }

@@ -1,10 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { Security } from 'plaid';
-import { ImportedSecurityType } from '../enums/imported-security-type.enum';
+import { SecurityType } from '../enums/security-type.enum';
 
 @ObjectType()
-export class ImportedSecurity implements Security {
+export class ImportedSecurity {
   [key: string]: object | any;
   /**
    * A unique, Plaid-specific identifier for the security, used to associate securities with holdings. Like all Plaid identifiers, the `security_id` is case sensitive.
@@ -100,9 +100,9 @@ export class ImportedSecurity implements Security {
    * @type {string}
    * @memberof Security
    */
-  @Prop({ enum: ImportedSecurityType, type: String })
-  @Field(() => ImportedSecurityType, { nullable: true })
-  type: ImportedSecurityType | null;
+  @Prop({ enum: SecurityType, type: String })
+  @Field(() => SecurityType, { nullable: true })
+  type: SecurityType | null;
   /**
    * Price of the security at the close of the previous trading session. Null for non-public securities.   If the security is a foreign currency this field will be updated daily and will be priced in USD.   If the security is a cryptocurrency, this field will be updated multiple times a day. As crypto prices can fluctuate quickly and data may become stale sooner than other asset classes, please refer to update_datetime with the time when the price was last updated.
    * @type {number}
@@ -143,4 +143,11 @@ export class ImportedSecurity implements Security {
   @Prop()
   @Field({ nullable: true })
   unofficial_currency_code: string | null;
+
+  static fromPlaidSecurity(security: Security): ImportedSecurity {
+    return {
+      ...security,
+      type: SecurityType[security.type.replace(' ', '_')],
+    };
+  }
 }

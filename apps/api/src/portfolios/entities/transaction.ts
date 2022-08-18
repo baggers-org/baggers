@@ -4,8 +4,9 @@ import { User } from '~/users';
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 
-@ObjectType()
+@ObjectType('TransactionFromDb')
 export class Transaction {
   @Prop()
   @Field()
@@ -29,7 +30,7 @@ export class Transaction {
 
   @Prop()
   @Field()
-  quantity?: number;
+  quantity: number;
 
   @Prop()
   @Field()
@@ -45,11 +46,15 @@ export class Transaction {
 
   @Field(() => Security, { nullable: true })
   @Prop({ type: ObjectId, ref: 'Security' })
-  security?: Security | ObjectId;
+  security?: ObjectId | Security;
 
   @Field(() => ImportedSecurity)
   @Prop(() => ImportedSecurity)
   importedSecurity?: ImportedSecurity;
+
+  @Field(() => SecurityType)
+  @Prop({ enum: SecurityType, type: String })
+  securityType: SecurityType;
 
   @Field({ description: 'This is the transaction_id from plaid' })
   @Prop()
@@ -62,4 +67,16 @@ export class Transaction {
   @Field(() => User, { nullable: true })
   @Prop({ type: ObjectId, ref: 'User' })
   createdBy?: User;
+
+  static unpopulate(transaction: PopulatedTransaction): Transaction {
+    return {
+      ...transaction,
+      security: transaction.security._id,
+    };
+  }
+}
+@ObjectType('Transaction')
+export class PopulatedTransaction extends OmitType(Transaction, ['security']) {
+  @Field(() => Security, { nullable: true })
+  security?: Security;
 }

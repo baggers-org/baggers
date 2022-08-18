@@ -3,6 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Quote } from './quote.entity';
 import { BaseDocument } from '~/shared';
+import { SecurityType } from '../enums/security-type.enum';
 
 export type SecurityDocument = Document & Security;
 
@@ -24,8 +25,9 @@ export class Security extends BaseDocument {
   @Prop()
   name?: string;
 
-  @Prop()
-  symbolType?: string;
+  @Field(() => SecurityType)
+  @Prop({ enum: SecurityType, type: String })
+  type: SecurityType;
 
   @Prop()
   exchange?: string;

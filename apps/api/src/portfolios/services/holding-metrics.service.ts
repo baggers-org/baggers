@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 import {
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
 } from '../entities/holding.entity';
 import { PopulatedPortfolio } from '../entities/portfolio.entity';
+import { HoldingDirection } from '../enums';
 import { PortfolioMetricsService } from './portfolio-metrics.service';
 
 @Injectable()
@@ -11,9 +13,12 @@ export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
+    if (holding.securityType === SecurityType.cash) return holding.quantity;
+
     if (holding.security) {
       return holding.quantity * holding.security.quote.latestPrice;
     }
+
     if (holding.institutionValue) {
       return holding.institutionValue;
     }
@@ -71,17 +76,17 @@ export class HoldingMetricsService {
   calculateHoldingMetrics(
     portfolio: PopulatedPortfolio
   ): PopulatedHoldingWithMetrics[] {
+    // Remove all cash holdings from
     const totalValue =
       this.portfolioMetricsService.calculateTotalValue(portfolio);
     return portfolio.holdings.map((holding) => {
       return {
         ...holding,
-        marketValue: +this.calculateMarketValue(holding).toFixed(2),
-        exposure: +this.calculateExposure(holding, totalValue).toFixed(2),
-        profitLossUsd: +this.calculateProfitLossUsd(holding).toFixed(2),
-        profitLossPercent: +this.calculateProfitLossPercent(holding).toFixed(2),
-        dailyProfitLossUsd:
-          +this.calculateDailyProfitLossUsd(holding)?.toFixed(2) || null,
+        marketValue: +this.calculateMarketValue(holding) || null,
+        exposure: +this.calculateExposure(holding, totalValue),
+        profitLossUsd: +this.calculateProfitLossUsd(holding) || null,
+        profitLossPercent: +this.calculateProfitLossPercent(holding) || null,
+        dailyProfitLossUsd: +this.calculateDailyProfitLossUsd(holding) || null,
       };
     });
   }

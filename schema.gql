@@ -2,23 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-enum AccountType {
-  Brokerage
-  Credit
-  Depository
-  Investment
-  Loan
-  Other
-}
-
 input AddHoldingInput {
   averagePrice: Float!
   brokerFees: Float = 0
-  currency: String = "USD"
+  currency: String!
   direction: HoldingDirection!
   quantity: Float!
   security: ObjectId!
-  type: HoldingType = shares
+  securityType: SecurityType!
 }
 
 input CreateUserInput {
@@ -34,23 +25,26 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Holding {
-  averagePrice: Float!
+  _id: ObjectId!
+  averagePrice: Float
   brokerFees: Float
-  costBasis: Float!
-  currency: String
+  costBasis: Float
+  createdAt: DateTime
+  currency: String!
   dailyProfitLossUsd: Float
   direction: HoldingDirection
   exposure: Float!
   importedSecurity: ImportedSecurity
   institutionValue: Float
-  marketValue: Float!
+  marketValue: Float
   plaidAccountId: String
-  profitLossPercent: Float!
-  profitLossUsd: Float!
+  profitLossPercent: Float
+  profitLossUsd: Float
   quantity: Float!
   security: Security
+  securityType: SecurityType!
   source: HoldingSource!
-  type: HoldingType
+  updatedAt: DateTime
 }
 
 enum HoldingDirection {
@@ -58,31 +52,28 @@ enum HoldingDirection {
   short
 }
 
-enum HoldingSource {
-  broker
-  direct
-  transactions
-}
-
-enum HoldingType {
-  calls
-  puts
-  shares
-}
-
-type HoldingWithoutMarketData {
-  averagePrice: Float!
+type HoldingFromDb {
+  _id: ObjectId!
+  averagePrice: Float
   brokerFees: Float
-  costBasis: Float!
-  currency: String
+  costBasis: Float
+  createdAt: DateTime
+  currency: String!
   direction: HoldingDirection
   importedSecurity: ImportedSecurity
   institutionValue: Float
   plaidAccountId: String
   quantity: Float!
   security: Security
+  securityType: SecurityType!
   source: HoldingSource!
-  type: HoldingType
+  updatedAt: DateTime
+}
+
+enum HoldingSource {
+  broker
+  direct
+  transactions
 }
 
 type ImportResponse {
@@ -103,21 +94,9 @@ type ImportedSecurity {
   security_id: String!
   sedol: String
   ticker_symbol: String
-  type: ImportedSecurityType
+  type: SecurityType
   unofficial_currency_code: String
   update_datetime: String
-}
-
-enum ImportedSecurityType {
-  cash
-  cryptocurrency
-  derivative
-  equity
-  etf
-  fixed_income
-  loan
-  mutual_fund
-  other
 }
 
 type Institution {
@@ -128,12 +107,12 @@ type Institution {
 }
 
 type Mutation {
-  portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioWithoutMarketData!
+  portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioFromDb!
   portfoliosBeginImport(publicToken: String!): ImportResponse!
   portfoliosInitEmpty: RecordId!
   portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!
-  portfoliosUpdateOne(_id: ObjectId!, input: UpdatePortfolioInput!): PortfolioWithoutMarketData!
+  portfoliosUpdateOne(_id: ObjectId!, input: UpdatePortfolioInput!): PortfolioFromDb!
   usersFindOrCreate(input: CreateUserInput!): User!
   usersRemoveOne(_id: ID!): User!
   usersUpdateOne(input: UpdateUserInput!): User!
@@ -141,6 +120,33 @@ type Mutation {
 
 """Mongo object id scalar type"""
 scalar ObjectId
+
+type PlaidAccount {
+  account_id: String!
+  balances: PlaidAccountBalance!
+  name: String
+  official_name: String
+  subtype: String
+  type: PlaidAccountType
+}
+
+type PlaidAccountBalance {
+  available: Float
+  current: Float
+  iso_currency_code: String
+  last_updated_datetime: String
+  limit: Float
+  unofficial_currency_code: String
+}
+
+enum PlaidAccountType {
+  brokerage
+  credit
+  depository
+  investment
+  loan
+  other
+}
 
 type PlaidItem {
   _id: String!
@@ -161,18 +167,21 @@ type PlaidItemError {
 }
 
 type PopulatedHolding {
-  averagePrice: Float!
+  _id: ObjectId!
+  averagePrice: Float
   brokerFees: Float
-  costBasis: Float!
-  currency: String
+  costBasis: Float
+  createdAt: DateTime
+  currency: String!
   direction: HoldingDirection
   importedSecurity: ImportedSecurity
   institutionValue: Float
   plaidAccountId: String
   quantity: Float!
   security: Security
+  securityType: SecurityType!
   source: HoldingSource!
-  type: HoldingType
+  updatedAt: DateTime
 }
 
 type Portfolio {
@@ -183,12 +192,25 @@ type Portfolio {
   holdings: [Holding!]!
   name: String!
   owner: User!
-  plaidAccountId: String
-  plaidAccountType: AccountType
+  plaidAccount: PlaidAccount
   plaidItem: PlaidItem
   private: Boolean!
   totalValue: Float!
   transactions: [Transaction!]!
+  updatedAt: DateTime
+}
+
+type PortfolioFromDb {
+  _id: ObjectId!
+  createdAt: DateTime
+  description: String
+  holdings: [HoldingFromDb!]!
+  name: String!
+  owner: User!
+  plaidAccount: PlaidAccount
+  plaidItem: PlaidItem
+  private: Boolean!
+  transactions: [TransactionFromDb!]!
   updatedAt: DateTime
 }
 
@@ -199,28 +221,11 @@ type PortfolioSummary {
   description: String
   name: String!
   owner: User!
-  plaidAccountId: String
-  plaidAccountType: AccountType
+  plaidAccount: PlaidAccount
   plaidItem: PlaidItem
   private: Boolean!
   top5Holdings: [Holding!]!
   totalValue: Float!
-  updatedAt: DateTime
-}
-
-type PortfolioWithoutMarketData {
-  _id: ObjectId!
-  cash: Float!
-  createdAt: DateTime
-  description: String
-  holdings: [HoldingWithoutMarketData!]!
-  name: String!
-  owner: User!
-  plaidAccountId: String
-  plaidAccountType: AccountType
-  plaidItem: PlaidItem
-  private: Boolean!
-  transactions: [Transaction!]!
   updatedAt: DateTime
 }
 
@@ -315,8 +320,20 @@ type Security {
   quote: Quote
   region: String
   symbol: String
-  symbolType: String
+  type: SecurityType!
   updatedAt: DateTime
+}
+
+enum SecurityType {
+  cash
+  cryptocurrency
+  derivative
+  equity
+  etf
+  fixed_income
+  loan
+  mutual_fund
+  other
 }
 
 type Transaction {
@@ -336,6 +353,29 @@ type Transaction {
   price: Float!
   quantity: Float!
   security: Security
+  securityType: SecurityType!
+  subType: TransactionSubtype!
+  type: TransactionType!
+}
+
+type TransactionFromDb {
+  amount: Float!
+  createdBy: User
+  currency: String!
+  date: DateTime!
+  fees: Float!
+  importedSecurity: ImportedSecurity!
+  name: String!
+
+  """This is the account_id from plaid"""
+  plaidAccountId: String!
+
+  """This is the transaction_id from plaid"""
+  plaidTransactionId: String!
+  price: Float!
+  quantity: Float!
+  security: Security
+  securityType: SecurityType!
   subType: TransactionSubtype!
   type: TransactionType!
 }

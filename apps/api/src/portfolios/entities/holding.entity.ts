@@ -1,19 +1,23 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
-import { ObjectId } from 'mongodb';
 import { Schema } from 'mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
-import { HoldingType } from '../enums/holding-type.enum';
 import { ImportedSecurity, Security } from '~/securities';
+import { BaseDocument, ObjectId } from '~/shared';
+import { SecurityType } from '~/securities/enums/security-type.enum';
 import { Transaction } from './transaction';
 import { InvestmentTransactionSubtype } from 'plaid';
 
-@ObjectType('HoldingWithoutMarketData')
-export class HoldingFromDb {
+@ObjectType('HoldingFromDb')
+export class Holding extends BaseDocument {
   @Field(() => Security)
   @Prop({ type: Schema.Types.ObjectId, ref: 'Security' })
   security?: Security | ObjectId;
+
+  @Field(() => SecurityType)
+  @Prop({ enum: SecurityType, type: String })
+  securityType: SecurityType;
 
   @Field(() => ImportedSecurity)
   @Prop()
@@ -26,13 +30,13 @@ export class HoldingFromDb {
   plaidAccountId?: string;
 
   @Prop({ default: 0.0 })
-  averagePrice: number;
+  averagePrice?: number;
 
   @Prop({ default: 0.0 })
-  costBasis: number;
+  costBasis?: number;
 
-  @Prop({ default: `USD` })
-  currency?: string;
+  @Prop()
+  currency: string;
 
   @Prop({ default: 0.0 })
   brokerFees?: number;
@@ -45,40 +49,48 @@ export class HoldingFromDb {
   })
   direction?: HoldingDirection;
 
-  @Field()
   @Prop()
   quantity: number;
-
-  @Field(() => HoldingType)
-  @Prop({ enum: HoldingType, type: String, default: HoldingType.shares })
-  type?: HoldingType;
 
   @Field(() => HoldingSource)
   @Prop({ enum: HoldingSource, type: String })
   source: HoldingSource;
 
-  static fromTransaction(transaction: Transaction): HoldingFromDb {
+  static fromTransaction(transaction: Transaction): Holding {
     const shortTypes = [InvestmentTransactionSubtype.SellShort];
     return {
-      averagePrice: transaction.price,
+      _id: new ObjectId(),
+      averagePrice: transaction.price || 1,
+      brokerFees: transaction.fees,
+      plaidAccountId: transaction.plaidAccountId,
+      importedSecurity: transaction.importedSecurity,
+      currency: transaction.currency,
       costBasis:
-        transaction.price * transaction.quantity + (transaction.fees || 0),
+        transaction.price * transaction.quantity + (transaction.fees || 0) || 1,
       direction: shortTypes.includes(transaction.subType)
         ? HoldingDirection.short
         : HoldingDirection.long,
       quantity: transaction.quantity,
       security: transaction.security._id,
+      securityType: transaction.securityType,
       source: transaction.plaidTransactionId
         ? HoldingSource.broker
         : HoldingSource.transactions,
     };
   }
+
+  static unpopulate(holding: PopulatedHolding): Holding {
+    return {
+      ...holding,
+      security: holding.security._id,
+    };
+  }
 }
 
 @ObjectType()
-export class PopulatedHolding extends HoldingFromDb {
-  @Field(() => Security)
-  security?: Security;
+export class PopulatedHolding extends Holding {
+  @Field(() => Security, { nullable: true })
+  security?: Security | null;
 }
 
 // To our GraphQL - this is what will always be returned, the naming is just
@@ -90,11 +102,11 @@ export class PopulatedHoldingWithMetrics extends PopulatedHolding {
 
   exposure: number;
 
-  marketValue: number;
+  marketValue?: number;
 
-  profitLossUsd: number;
+  profitLossUsd?: number;
 
-  profitLossPercent: number;
+  profitLossPercent?: number;
 
   dailyProfitLossUsd?: number;
 }

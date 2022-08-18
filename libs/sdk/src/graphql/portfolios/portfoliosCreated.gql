@@ -12,11 +12,15 @@ query portfoliosCreated {
     updatedAt
     createdAt
     totalValue
-    plaidAccountType
-    plaidAccountId
+    plaidAccount {
+      type
+      subtype
+      name
+    }
     top5Holdings {
       costBasis
       exposure
+      securityType
       marketValue
       importedSecurity {
         ...AllImportedSecurityData

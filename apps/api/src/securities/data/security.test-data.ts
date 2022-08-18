@@ -1,6 +1,7 @@
 import { ObjectId } from '~/shared';
 import mongoose from 'mongoose';
 import { Security } from '../entities';
+import { SecurityType } from '../enums/security-type.enum';
 
 export const A: Security = {
   _id: new mongoose.Types.ObjectId('62988fced38076b635386a91'),
@@ -15,7 +16,7 @@ export const A: Security = {
   iexId: 'IEX_46574843354B2D52',
   name: 'Agilent Technologies Inc.',
   region: 'US',
-  symbolType: 'cs',
+  type: SecurityType.equity,
   quote: {
     avgTotalVolume: 2116779,
     calculationPrice: 'close',
@@ -146,7 +147,7 @@ export const NET: Security = {
   },
   region: 'US',
   symbol: 'NET',
-  symbolType: 'cs',
+  type: SecurityType.equity,
   updatedAt: null,
 };
 export const TSLA: Security = {
@@ -162,7 +163,7 @@ export const TSLA: Security = {
   iexId: 'IEX_5132594E314E2D52',
   name: 'Tesla Inc',
   region: 'US',
-  symbolType: 'cs',
+  type: SecurityType.equity,
   quote: {
     avgTotalVolume: 31432975,
     calculationPrice: 'close',
@@ -234,7 +235,7 @@ export const SBSI: Security = {
   iexId: 'IEX_473930304A432D52',
   name: 'Southside Bancshares Inc',
   region: 'US',
-  symbolType: 'cs',
+  type: SecurityType.equity,
   quote: {
     avgTotalVolume: 83484,
     calculationPrice: 'tops',

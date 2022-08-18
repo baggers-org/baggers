@@ -1,12 +1,12 @@
 query searchSymbols($search: String!) {
-  searchSymbols(search: $search){
+  searchSymbols(search: $search) {
     symbol
     _id
     name
     exchange
     exchangeName
     region
-    symbolType
+    type
     iexId
     figi
     cik

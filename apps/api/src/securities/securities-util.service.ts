@@ -18,11 +18,14 @@ export class SecuritiesUtilService {
     return (security as ImportedSecurity).security_id !== undefined;
   }
   getPrice(security: Security | ImportedSecurity) {
-    if (this.isImported(security)) {
-      return security.close_price;
+    try {
+      if (this.isImported(security)) {
+        return security.close_price;
+      }
+      return security.quote.latestPrice;
+    } catch (e) {
+      return 1;
     }
-
-    return security.quote.latestPrice;
   }
 
   /**
@@ -90,7 +93,7 @@ export class SecuritiesUtilService {
         // Use the lookup map to work backwards and link up the securities
         const { figi, symbol } = lookupMap.get(imported);
         return [
-          imported,
+          imported.security_id,
           matchedSecurities.find(
             (security) => security.figi === figi || security.symbol === symbol
           ),

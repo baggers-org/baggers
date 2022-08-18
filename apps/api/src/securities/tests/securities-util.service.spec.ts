@@ -43,7 +43,7 @@ describe('Securities Util Service', () => {
       ]);
 
       // We can import SBSI successfully because we have listed it in our data/security.test-data.ts
-      expect(securities.get(ImportedSBSI)).toEqual(SBSI);
+      expect(securities.get(ImportedSBSI.security_id)).toEqual(SBSI);
     });
 
     it('when OpenFIGI returns figis, but the symbol does not exist in our database, this function should return undefined', async () => {
@@ -65,7 +65,7 @@ describe('Securities Util Service', () => {
         ImportedDBLTX,
         ImportedDBLTX,
       ]);
-      expect(securities.get(ImportedDBLTX)).toBeUndefined();
+      expect(securities.get(ImportedDBLTX.security_id)).toBeUndefined();
     });
 
     describe('Failures', () => {
@@ -80,7 +80,7 @@ describe('Securities Util Service', () => {
           ImportedSBSI,
         ]);
 
-        expect(securities.get(ImportedSBSI)).toEqual(SBSI);
+        expect(securities.get(ImportedSBSI.security_id)).toEqual(SBSI);
       });
 
       it('when OpenFIGI is unavailable we should still resort to searching our database', async () => {
@@ -89,7 +89,7 @@ describe('Securities Util Service', () => {
           ImportedSBSI,
         ]);
 
-        expect(securities.get(ImportedSBSI)).toEqual(SBSI);
+        expect(securities.get(ImportedSBSI.security_id)).toEqual(SBSI);
       });
     });
   });

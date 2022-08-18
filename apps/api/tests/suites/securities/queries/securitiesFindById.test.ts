@@ -82,7 +82,7 @@ export const securitiesFindByIdTest = () =>
           },
           "region": "US",
           "symbol": "A",
-          "symbolType": "cs",
+          "type": "equity",
           "updatedAt": "2001-01-01T00:00:00.000Z",
         }
       `);

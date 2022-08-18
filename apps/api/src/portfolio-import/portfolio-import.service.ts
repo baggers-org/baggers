@@ -1,11 +1,12 @@
 import { Auth0AccessTokenPayload } from '~/auth';
-import { PlaidItem, PlaidItemsService } from '~/plaid-items';
+import { PlaidAccount, PlaidItem, PlaidItemsService } from '~/plaid-items';
 import {
-  HoldingFromDb,
   HoldingSource,
-  PortfolioFromDb,
   PortfoliosService,
   Transaction,
+  Holding,
+  Portfolio,
+  PlaidAccountType,
 } from '~/portfolios';
 import { ObjectId } from '~/shared';
 import { PlaidClientService } from '~/plaid-client';
@@ -18,6 +19,7 @@ import { ImportResponse } from './dto';
 import { ImportedSecurity } from '~/securities';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { SecurityMap } from '~/securities/types';
+import { writeFileSync } from 'fs';
 
 @Injectable()
 export class PortfolioImportService {
@@ -35,10 +37,16 @@ export class PortfolioImportService {
     const { investment_transactions, securities } = response;
 
     return investment_transactions.map((t) => {
-      const importedSecurity = securities.find(
+      const plaidSecurity = securities.find(
         (s) => s.security_id === t.security_id
       );
-      return {
+
+      const importedSecurity =
+        ImportedSecurity.fromPlaidSecurity(plaidSecurity);
+
+      const security = securityMap.get(importedSecurity.security_id);
+
+      const transaction: Transaction = {
         name: t.name,
         currency: t.iso_currency_code,
         date: new Date(t.date),
@@ -48,25 +56,32 @@ export class PortfolioImportService {
         subType: t.subtype,
         fees: t.fees,
         quantity: t.quantity,
+        security: security?._id,
         plaidTransactionId: t.investment_transaction_id,
         plaidAccountId: t.account_id,
+        securityType: security?.type || importedSecurity?.type,
         importedSecurity,
-        security: securityMap.get(importedSecurity),
-      } as Transaction;
+      };
+      return transaction;
     });
   }
 
   importHoldings(
     response: InvestmentsHoldingsGetResponse,
     securityMap: SecurityMap
-  ): HoldingFromDb[] {
+  ): Holding[] {
     const { holdings, securities } = response;
 
     return holdings.map((t) => {
-      const importedSecurity = securities.find(
+      const plaidSecurity = securities.find(
         (s) => s.security_id === t.security_id
       );
-      return {
+      const importedSecurity =
+        ImportedSecurity.fromPlaidSecurity(plaidSecurity);
+
+      const security = securityMap.get(importedSecurity.security_id);
+
+      const holding: Holding = {
         averagePrice: t.cost_basis / t.quantity,
         costBasis: t.cost_basis,
         quantity: t.quantity,
@@ -74,17 +89,20 @@ export class PortfolioImportService {
         institutionValue: t.institution_value,
         source: HoldingSource.broker,
         importedSecurity,
-        security: securityMap.get(importedSecurity),
-      } as HoldingFromDb;
+        currency: t.iso_currency_code,
+        security: security?._id,
+        securityType: security?.type || importedSecurity?.type,
+        _id: new ObjectId(),
+      };
+
+      return holding;
     });
   }
 
   /**
    * This function will look at a plaid item and
    */
-  async getPortfoliosFromItem(
-    item: string | PlaidItem
-  ): Promise<PortfolioFromDb[]> {
+  async getPortfoliosFromItem(item: string | PlaidItem): Promise<Portfolio[]> {
     let plaidItem: PlaidItem;
 
     if (typeof item === 'string') {
@@ -102,8 +120,12 @@ export class PortfolioImportService {
     const holdingsResponse = await this.plaid.getHoldings(accessToken);
 
     const importedSecurities: ImportedSecurity[] = [
-      ...transactionsResponse.securities,
-      ...holdingsResponse.securities,
+      ...transactionsResponse.securities.map((s) =>
+        ImportedSecurity.fromPlaidSecurity(s)
+      ),
+      ...holdingsResponse.securities.map((s) =>
+        ImportedSecurity.fromPlaidSecurity(s)
+      ),
     ];
     const securityMap =
       await this.securitiesService.importedToBaggersSecurities(
@@ -117,28 +139,31 @@ export class PortfolioImportService {
       const name =
         account.name || account.official_name || 'imported portfolio ' + index;
 
-      return {
+      const holdings: Holding[] = this.importHoldings(
+        holdingsResponse,
+        securityMap
+      ).filter((h) => h.plaidAccountId === account.account_id);
+
+      const portfolio: Portfolio = {
         _id: new ObjectId(),
-        cash: account.balances.available || 0,
         plaidItem: plaidItem._id,
         private: true,
         description:
           account.official_name ||
           'This portfolio has been imported from your broker',
-        holdings: this.importHoldings(holdingsResponse, securityMap).filter(
-          (h) => h.plaidAccountId === account.account_id
-        ),
         updatedAt: new Date(),
         createdAt: new Date(),
         owner: plaidItem.owner,
-        plaidAccountId: account.account_id,
-        plaidAccountType: account.type,
+        plaidAccount: account as unknown as PlaidAccount,
         name: name,
+        holdings,
         transactions: this.importTransactions(
           transactionsResponse,
           securityMap
         ).filter((t) => t.plaidAccountId === account.account_id),
-      } as PortfolioFromDb;
+      };
+
+      return portfolio;
     });
 
     return portfolios;
@@ -168,12 +193,11 @@ export class PortfolioImportService {
     );
 
     const portfolios = await this.getPortfoliosFromItem(item);
+
     await this.portfoliosService.insertMany(portfolios);
 
     return {
       importedIds: portfolios.map((p) => p._id),
     };
   }
-
-  importPortfolios(plaidItemId: string, currentUser: Auth0AccessTokenPayload) {}
 }

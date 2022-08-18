@@ -1,31 +1,31 @@
 fragment AllHoldingData on Holding {
-      _id
-      # Market data fields
-      marketValue
-      exposure
-      profitLossUsd
-      profitLossPercent
-      dailyProfitLossUsd
-      #
+  _id
+  # Market data fields
+  marketValue
+  exposure
+  profitLossUsd
+  profitLossPercent
+  dailyProfitLossUsd
+  #
 
-      averagePrice
-      costBasis
-      brokerFees
-      quantity
-      type
-      source
-      currency
-      symbol {
-        _id
-        name
-        symbol
-        symbolType
-        exchange
-        currency
-        exchangeName
-        region
-        quote {
-          ...AllQuoteData
-        }
-      }
+  averagePrice
+  costBasis
+  brokerFees
+  quantity
+  type
+  source
+  currency
+  symbol {
+    _id
+    name
+    symbol
+    type
+    exchange
+    currency
+    exchangeName
+    region
+    quote {
+      ...AllQuoteData
+    }
+  }
 }
