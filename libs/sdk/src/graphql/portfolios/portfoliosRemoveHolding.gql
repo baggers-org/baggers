@@ -1,0 +1,6 @@
+mutation portfoliosRemoveHolding(
+  $portfolioId: ObjectId!
+  $holdingId: ObjectId!
+) {
+  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
+}

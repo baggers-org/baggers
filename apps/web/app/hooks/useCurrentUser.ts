@@ -1,5 +1,5 @@
 import { useMatches } from '@remix-run/react';
-import { User } from '~/generated/graphql';
+import { User } from '@baggers/sdk';
 
 export const useCurrentUser = (): User | undefined => {
   const matches = useMatches();

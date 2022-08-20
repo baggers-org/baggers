@@ -3,10 +3,10 @@ import { Skeleton, Tooltip } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
 import { useTranslation } from 'react-i18next';
-import { HoldingSource } from '~/generated/graphql';
+import { HoldingSource } from '@baggers/sdk';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
-import { SymbolLogo } from '../SymbolLogo';
+import { SecurityLogo } from '../SecurityLogo';
 import { UseTableColumnProps } from './types';
 
 export const useTableColumns = ({
@@ -16,12 +16,12 @@ export const useTableColumns = ({
 
   return [
     {
-      field: `symbol`,
+      field: `security`,
       headerName: t(`instrument`, `Instrument`),
       flex: 1,
-      valueGetter: ({ row }) => row?.symbol?.symbol,
+      valueGetter: ({ row }) => row?.security?.security,
       renderCell: ({ row }) =>
-        row?.symbol ? <SymbolLogo symbol={row.symbol} /> : <Skeleton />,
+        row?.security ? <SecurityLogo security={row.security} /> : <Skeleton />,
     },
     {
       field: `marketValue`,
@@ -42,22 +42,22 @@ export const useTableColumns = ({
       headerName: t(`averagePrice`, `Average price`),
     },
     {
-      field: `symbol.quote.latestPrice`,
-      valueGetter: ({ row }) => row.symbol.quote.latestPrice,
+      field: `security.quote.latestPrice`,
+      valueGetter: ({ row }) => row.security.quote.latestPrice,
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
-        return formatCurrency(row?.symbol?.quote?.latestPrice);
+        return formatCurrency(row?.security?.quote?.latestPrice);
       },
     },
     {
       field: `change%`,
-      valueGetter: ({ row }) => row.symbol.quote.changePercent,
+      valueGetter: ({ row }) => row.security.quote.changePercent,
       headerName: `${t(`change`, `Change`)} %`,
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <PriceTag value={row.symbol.quote.changePercent * 100} isPercent />
+          <PriceTag value={row.security.quote.changePercent * 100} isPercent />
         );
       },
     },
@@ -93,7 +93,7 @@ export const useTableColumns = ({
             <Tooltip
               title={t(
                 `direct_tooltip`,
-                `This holding has been added manually and will not contribute to analytics`,
+                `This holding has been added manually and will not contribute to analytics`
               )}
             >
               <GroupAdd
@@ -108,7 +108,7 @@ export const useTableColumns = ({
             <Tooltip
               title={t(
                 `broker_tooltip`,
-                `This holding has been added via a linked brokerage account and is contributing to analytics.`,
+                `This holding has been added via a linked brokerage account and is contributing to analytics.`
               )}
             >
               <AddLink
@@ -123,7 +123,7 @@ export const useTableColumns = ({
             <Tooltip
               title={t(
                 `transaction_tooltip`,
-                `This holding has been generated from transaction data and is contributing to analytics.`,
+                `This holding has been generated from transaction data and is contributing to analytics.`
               )}
             >
               <PlaylistAdd

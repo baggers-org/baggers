@@ -17,9 +17,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./apps/ui/app/*", "./apps/api/src/*"],
-      "~test-sdk": ["apps/api/tests/test-sdk.ts"],
-      "@baggers/sdk": ["libs/sdk/src/index.ts"]
+      "@baggers/sdk": ["libs/sdk/src/index.ts"],
+      "~/*": ["./apps/web/app/*", "./apps/api/src/*"],
+      "~test-sdk": ["apps/api/tests/test-sdk.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

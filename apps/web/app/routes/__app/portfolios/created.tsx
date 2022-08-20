@@ -7,7 +7,11 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import { MyPortfoliosSummaryQuery, Portfolio } from '~/generated/graphql';
+import {
+  Portfolio,
+  PortfoliosCreatedQuery,
+  PortfolioSummary,
+} from '@baggers/sdk';
 import { useTranslation } from 'react-i18next';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';
@@ -29,14 +33,14 @@ export const action: ActionFunction = async ({ request }) => {
   const intent = formData.get(`intent`);
 
   if (intent === `delete`) {
-    const ids = formData.getAll(`portfolio`);
-    await sdk.deletePortfolios({ ids });
+    const _ids = formData.getAll(`portfolio`);
+    await sdk.portfoliosRemoveMultiple({ _ids });
     return json({}, { headers });
   }
 
   if (intent === `create`) {
-    const { createPortfolio } = await sdk.createPortfolio();
-    return redirect(`/portfolios/${createPortfolio.record._id}/holdings`, {
+    const { portfoliosInitEmpty } = await sdk.portfoliosInitEmpty();
+    return redirect(`/portfolios/${portfoliosInitEmpty._id}/holdings`, {
       headers,
     });
   }
@@ -44,7 +48,7 @@ export const action: ActionFunction = async ({ request }) => {
   return json({ error: `method not supported ` }, { status: 405 });
 };
 export default function CreatedPortfoliosPage() {
-  const data = useLoaderData<MyPortfoliosSummaryQuery>();
+  const data = useLoaderData<PortfoliosCreatedQuery>();
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -73,7 +77,9 @@ export default function CreatedPortfoliosPage() {
             {t(`upload_csv`, `Upload CSV`)}
           </Button>
         </Stack>
-        <PortfolioCardList portfolios={data?.myPortfolios as Portfolio[]} />
+        <PortfolioCardList
+          portfolios={data?.portfoliosCreated as PortfolioSummary[]}
+        />
       </Stack>
     </Form>
   );

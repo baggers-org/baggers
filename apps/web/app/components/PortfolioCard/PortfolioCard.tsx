@@ -29,15 +29,15 @@ import {
 import { formatCurrency } from '~/util';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
-import { MyPortfoliosSummaryQuery } from '~/generated/graphql';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 import { PortfolioTags } from '../PortfolioTags';
 import { NoDataChart } from './components/NoDataChart';
+import { PortfoliosCreatedQuery } from '@baggers/sdk';
 
 export type PortfolioCardProps = {
-  portfolio: MyPortfoliosSummaryQuery['myPortfolios'][number];
+  portfolio: PortfoliosCreatedQuery['portfoliosCreated'][number];
   isSelectable?: boolean;
   onSelect?: (_id: string) => void;
   selected?: boolean;
@@ -114,7 +114,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               </Stack>
             </Stack>
             <Box height={100} ml={-1} top={0} width="100%" zIndex={0}>
-              {portfolio?.holdings?.length ? (
+              {portfolio?.top5Holdings?.length ? (
                 <PortfolioCardChart />
               ) : (
                 <NoDataChart />
@@ -128,7 +128,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               width="100%"
               mb={2}
             >
-              {portfolio?.holdings?.length ? (
+              {portfolio?.top5Holdings?.length ? (
                 <Stack
                   display="flex"
                   width="100%"
@@ -138,21 +138,9 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                   textAlign="center"
                   mb={1}
                 >
-                  <PriceTag
-                    value={portfolio?.performance?.dailyReturnPercent}
-                    label="Today"
-                    isPercent
-                  />
-                  <PriceTag
-                    value={portfolio?.performance?.ytdReturnPercent}
-                    label="YTD"
-                    isPercent
-                  />
-                  <PriceTag
-                    value={portfolio?.performance?.ytdReturnPercent}
-                    label="All time"
-                    isPercent
-                  />
+                  <PriceTag value={12.5} label="Today" isPercent />
+                  <PriceTag value={50.6} label="YTD" isPercent />
+                  <PriceTag value={485} label="All time" isPercent />
                 </Stack>
               ) : (
                 <Typography variant="caption">
@@ -163,7 +151,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                 {formatCurrency(portfolio?.totalValue || 0)}
               </Typography>
             </Stack>
-            {portfolio.holdings.length ? (
+            {portfolio.top5Holdings.length ? (
               <>
                 <Divider sx={{ my: 2 }} />
                 <PortfolioTags portfolio={portfolio} />
@@ -172,13 +160,14 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                   {t(`top_holdings`, `Top Holdings`)}
                 </Typography>
                 <List>
-                  {portfolio?.holdings?.slice(0, 2).map((holding) => (
+                  {portfolio?.top5Holdings?.slice(0, 2).map((holding) => (
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar />
                       </ListItemAvatar>
                       <ListItemText>
-                        {holding.symbol.symbol}
+                        {holding?.security?.symbol ||
+                          holding?.importedSecurity?.ticker_symbol}
                         {` `}
                         {(holding.exposure * 100).toFixed(2)}%
                       </ListItemText>

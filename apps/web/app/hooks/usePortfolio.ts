@@ -1,10 +1,10 @@
 import { useMatches } from '@remix-run/react';
-import { Portfolio, PortfolioQuery } from '~/generated/graphql';
+import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/sdk';
 
 export const usePortfolio = () => {
-  const { portfolio } = useMatches().find(
-    (m) => m.id === `routes/__app/portfolios.$id`,
-  )?.data as PortfolioQuery;
+  const { portfoliosFindById } = useMatches().find(
+    (m) => m.id === `routes/__app/portfolios.$id`
+  )?.data as PortfoliosFindByIdQuery;
 
-  return portfolio as Portfolio;
+  return portfoliosFindById as Portfolio;
 };

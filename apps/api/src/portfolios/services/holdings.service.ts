@@ -55,4 +55,26 @@ export class HoldingsService {
 
     return this.holdingsUtil.mergePortfolioHoldings(portfolio);
   }
+
+  async removeHolding(
+    portfolioId: ObjectId,
+    holdingId: ObjectId,
+    currentUser: Auth0AccessTokenPayload
+  ) {
+    const res = await this.portfolioModel
+      .findOneAndUpdate(
+        {
+          _id: portfolioId,
+          owner: currentUser.sub,
+        },
+        {
+          $pull: { holdings: { _id: holdingId } },
+          $set: {
+            updatedAt: Date.now(),
+          },
+        }
+      )
+      .orFail(() => new NotFoundException(`Could not remove the holding`));
+    return res._id;
+  }
 }

@@ -22,7 +22,7 @@ interface DocumentProps {
 }
 
 LicenseInfo.setLicenseKey(
-  `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`,
+  `4a6b8c9caa0a5fc46de58b6ff509111cT1JERVI6MzUwNTUsRVhQSVJZPTE2NzI0MjUwMzUwMDAsS0VZVkVSU0lPTj0x`
 );
 
 const Document = withEmotionCache(
@@ -48,7 +48,7 @@ const Document = withEmotionCache(
     const theme = useTheme();
 
     return (
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning={true}>
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -83,7 +83,7 @@ const Document = withEmotionCache(
         </body>
       </html>
     );
-  },
+  }
 );
 
 // https://remix.run/api/conventions#default-export

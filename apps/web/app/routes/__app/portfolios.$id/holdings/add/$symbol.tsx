@@ -19,59 +19,62 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ValidatedForm, validationError } from 'remix-validated-form';
 import { AddHoldingForm } from '~/components/AddHoldingForm';
-import { AddHoldingSymbolCard } from '~/components/AddHoldingSymbolCard';
 import { AreaChart } from '~/components/Charts/AreaChart';
-import { SymbolSearchModal } from '~/components/SearchModal';
-import { HistoricalRange, Symbol } from '~/generated/graphql';
+import { SecuritySearchModal } from '~/components/SearchModal';
+import { Security, SecurityType } from '@baggers/sdk';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
+import { AddHoldingSecurityCard } from '~/components/AddHoldingSecurityCard';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const headers = new Headers();
   const sdk = await authenticatedSdk(request, headers);
   const formData = Object.fromEntries(await request.formData());
 
-  const { symbol, id } = params;
+  const { security, id } = params;
 
   const { data, error } = await AddHoldingValidator.validate(formData);
 
   if (error) return validationError(error);
 
-  await sdk.addHolding({
-    portfolioId: id,
-    record: {
+  await sdk.portfoliosAddHolding({
+    _id: id,
+    input: {
+      security,
+      securityType: SecurityType.Equity,
       ...data,
-      symbol,
     },
   });
 
   return redirect(`/portfolios/${id}/holdings`, { headers });
 };
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { symbol: symbolId } = params;
+  const { security: securityId } = params;
 
   const sdk = await authenticatedSdk(request);
 
-  const { symbol } = await sdk.symbol({ symbolId });
-  const { chartPriceRange } = await sdk.chartPriceRange({
-    symbolId,
-    range: HistoricalRange.LastYear,
+  const { securitiesFindById: security } = await sdk.securitiesFindById({
+    _id: securityId,
   });
+  // const { chartPriceRange } = await sdk.chartPriceRange({
+  //   securityId,
+  //   range: HistoricalRange.LastYear,
+  // });
 
   // map chart data to proper format
-  const chart = chartPriceRange.map((interval) => ({
-    time: interval.date,
-    value: interval.close,
-  }));
+  // const chart = chartPriceRange.map((interval) => ({
+  //   time: interval.date,
+  //   value: interval.close,
+  // }));
 
-  return { symbol, chart };
+  return { security, chart: [] };
 };
 export default function AddHolding() {
   const { t } = useTranslation(`holdings`);
 
-  const { symbol, chart } = useLoaderData<{
-    symbol: Symbol;
+  const { security, chart } = useLoaderData<{
+    security: Security;
     chart: { time: string; value: number }[];
   }>();
 
@@ -89,8 +92,8 @@ export default function AddHolding() {
         <Typography variant="h5" color="textSecondary">
           {t(`adding_holding_in`, `Adding holding in`)}
         </Typography>
-        <AddHoldingSymbolCard
-          addingSymbol={symbol}
+        <AddHoldingSecurityCard
+          addingSecurity={security as Security}
           loading={state === `loading`}
         />
         <Paper
@@ -158,13 +161,13 @@ export default function AddHolding() {
           {t(`holding_information`, `Holding information`)}
         </Typography>
         <ValidatedForm validator={AddHoldingValidator} method="post">
-          <AddHoldingForm addingSymbol={symbol} />
+          <AddHoldingForm addingSecurity={security as Security} />
         </ValidatedForm>
       </Grid>
 
-      <SymbolSearchModal
+      <SecuritySearchModal
         open={isTickerSearchOpen}
-        defaultValue={symbol.symbol}
+        defaultValue={security.symbol as string}
         onResultSelect={(s) => {
           if (s) {
             setIsTickerSearchOpen(false);

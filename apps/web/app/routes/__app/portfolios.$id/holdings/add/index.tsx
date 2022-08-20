@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate, useTransition } from '@remix-run/react';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SymbolSearchModal } from '~/components/SearchModal';
+import { SecuritySearchModal } from '~/components/SearchModal';
 import { useIdParam } from '~/hooks';
 
 export const loader: LoaderFunction = ({ request }) => {
@@ -27,13 +27,13 @@ export default function AddHoldingSearch() {
   return (
     <>
       {transition.state === `loading` ? <CircularProgress /> : null}
-      <SymbolSearchModal
+      <SecuritySearchModal
         defaultValue={defaultSearch}
         open={isTickerSearchOpen}
-        onResultSelect={(symbol) => {
-          if (symbol) {
+        onResultSelect={(security) => {
+          if (security) {
             setIsTickerSearchOpen(false);
-            navigate(`/portfolios/${id}/holdings/add/${symbol._id}`);
+            navigate(`/portfolios/${id}/holdings/add/${security._id}`);
           }
         }}
         modalTitle={t(`add_a_holding_in`, `Add a holding in`)}

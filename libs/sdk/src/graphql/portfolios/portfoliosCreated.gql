@@ -2,8 +2,7 @@ query portfoliosCreated {
   portfoliosCreated {
     _id
     owner {
-      displayName
-      photos
+      ...FullUser
     }
     name
     cash
@@ -13,9 +12,7 @@ query portfoliosCreated {
     createdAt
     totalValue
     plaidAccount {
-      type
-      subtype
-      name
+      ...FullPlaidAccount
     }
     top5Holdings {
       costBasis

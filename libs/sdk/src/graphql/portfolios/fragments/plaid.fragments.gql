@@ -1,0 +1,11 @@
+fragment FullPlaidAccount on PlaidAccount {
+  type
+  name
+  subtype
+  official_name
+  account_id
+  balances {
+    current
+    available
+  }
+}

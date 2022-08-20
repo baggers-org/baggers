@@ -1,23 +1,22 @@
+import { getSdk, User } from '@baggers/sdk';
 import { LoaderFunction, redirect } from '@remix-run/server-runtime';
 import { GraphQLClient } from 'graphql-request';
 import { baggersApiAuthenticator, refreshTokens, Tokens } from './auth.server';
-import { getSdk, User } from './generated/graphql';
-import { apiBaseUrl } from './graphql/sdk.server';
 import { commitSession, getSession } from './session.server';
 
 type PolicyCallback<PolicyResult> = (
-  input: PolicyResult,
+  input: PolicyResult
 ) => Promise<ReturnType<LoaderFunction>>;
 
 export type Policy<PolicyResult> = (
   request: Request,
-  callback: PolicyCallback<PolicyResult>,
+  callback: PolicyCallback<PolicyResult>
 ) => Promise<ReturnType<LoaderFunction>>;
 
 const refreshTokensAndSetCookie = async (
   request: Request,
   headers: Headers,
-  refreshToken: string,
+  refreshToken: string
 ) => {
   const newTokens = await refreshTokens(refreshToken);
   const session = await getSession(request.headers.get(`cookie`));
@@ -46,16 +45,20 @@ const refreshTokensAndSetCookie = async (
 const getCypressUser = async (request: Request) => {
   const cypressHeader = request.headers.get(`X-Cypress`);
   if (!cypressHeader) throw Error(`No cypress header found`);
+  const { API_URI } = process.env;
+
+  if (!API_URI) throw Error('API URI not found');
+
   const user: User & Tokens = JSON.parse(cypressHeader);
   // Create the test user in the db if he does not exist
-  const { findOrCreateUser } = await getSdk(
-    new GraphQLClient(apiBaseUrl, {
+  const { usersFindOrCreate } = await getSdk(
+    new GraphQLClient(`${API_URI}/graphql`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
-    }),
-  ).findOrCreateUser({
-    record: {
+    })
+  ).usersFindOrCreate({
+    input: {
       _id: user._id,
       displayName: user.displayName,
       emails: user.emails,
@@ -63,7 +66,7 @@ const getCypressUser = async (request: Request) => {
     },
   });
 
-  return { ...findOrCreateUser.record, ...user };
+  return { ...usersFindOrCreate, ...user };
 };
 /**
  * Checks if a user is authenticated.
@@ -79,7 +82,7 @@ const getCypressUser = async (request: Request) => {
  */
 export const authenticate = async (
   request: Request,
-  headers?: Headers,
+  headers?: Headers
 ): Promise<User & Tokens> => {
   let user: User & Tokens;
   const cypressUserHeader = request.headers.get(`X-Cypress`);
@@ -96,7 +99,7 @@ export const authenticate = async (
     return refreshTokensAndSetCookie(
       request,
       headers || new Headers(),
-      user.refreshToken,
+      user.refreshToken
     );
   }
 
@@ -108,7 +111,7 @@ export const authenticate = async (
  */
 export const isAuthenticated = async (
   request: Request,
-  headers?: Headers,
+  headers?: Headers
 ): Promise<(User & Tokens) | null> => {
   let user: (User & Tokens) | null;
   const cypressUserHeader = request.headers.get(`X-Cypress`);
@@ -123,7 +126,7 @@ export const isAuthenticated = async (
     return refreshTokensAndSetCookie(
       request,
       headers || new Headers(),
-      user.refreshToken,
+      user.refreshToken
     );
   }
 

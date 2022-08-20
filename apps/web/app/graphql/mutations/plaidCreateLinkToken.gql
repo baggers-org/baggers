@@ -1,7 +1,0 @@
-mutation plaidCreateLinkToken {
-  plaidCreateLinkToken {
-    link_token
-    expiration
-    request_id
-  }
-}

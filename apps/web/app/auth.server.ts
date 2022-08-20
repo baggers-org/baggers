@@ -1,8 +1,7 @@
+import { CreateUserInput, getSdk, User } from '@baggers/sdk';
 import { GraphQLClient } from 'graphql-request';
 import { Authenticator } from 'remix-auth';
 import { Auth0Strategy } from 'remix-auth-auth0';
-import { FindOrCreateUserInput, getSdk, User } from './generated/graphql';
-import { apiBaseUrl } from './graphql/sdk.server';
 import { sessionStorage } from './session.server';
 
 export interface Tokens {
@@ -29,7 +28,7 @@ if (!AUTH0_AUDIENCE) throw new Error(`Missing Auth0 audience.`);
 if (!AUTH0_CALLBACK_URL) throw new Error(`Missing Auth0 redirect uri.`);
 if (!API_URI) throw new Error(`Missing API_URI.`);
 
-console.log(AUTH0_SCOPE, AUTH0_AUDIENCE);
+console.log(AUTH0_DOMAIN, AUTH0_CLIENT_ID);
 
 export const auth0 = {
   clientID: AUTH0_CLIENT_ID,
@@ -43,7 +42,7 @@ export const auth0 = {
 
 // This authenticator will be used for
 export const baggersApiAuthenticator = new Authenticator<User & Tokens>(
-  sessionStorage,
+  sessionStorage
 );
 
 /**
@@ -68,7 +67,7 @@ const auth0Strategy = new Auth0Strategy(
       throw Error(`Auth0 userinfo error`);
     }
 
-    const user: FindOrCreateUserInput = {
+    const user: CreateUserInput = {
       _id: profile.id,
       displayName: profile.displayName,
       emails: profile.emails.map((e) => e.value),
@@ -76,16 +75,16 @@ const auth0Strategy = new Auth0Strategy(
     };
 
     try {
-      const { findOrCreateUser: result } = await getSdk(
-        new GraphQLClient(apiBaseUrl, {
+      const { usersFindOrCreate } = await getSdk(
+        new GraphQLClient(`${API_URI}/graphql`, {
           headers: {
             authorization: `Bearer ${accessToken}`,
           },
-        }),
-      ).findOrCreateUser({ record: user });
+        })
+      ).usersFindOrCreate({ input: user });
 
       return {
-        ...result.record,
+        ...usersFindOrCreate,
         accessToken,
         refreshToken,
         expires: getExpires(expires_in),
@@ -94,7 +93,7 @@ const auth0Strategy = new Auth0Strategy(
       console.error(e);
       throw Error(`There was an error fetching the user. `);
     }
-  },
+  }
 );
 
 baggersApiAuthenticator.use(auth0Strategy);

@@ -1,7 +1,7 @@
 import { withZod } from '@remix-validated-form/with-zod';
 import { z } from 'zod';
 import { zfd } from 'zod-form-data';
-import { HoldingDirection, HoldingType } from '~/generated/graphql';
+import { HoldingDirection } from '@baggers/sdk';
 
 export const AddHoldingSchema = zfd.formData({
   averagePrice: zfd.numeric(),
@@ -11,10 +11,7 @@ export const AddHoldingSchema = zfd.formData({
 
     .default(HoldingDirection.Long),
   quantity: zfd.numeric(),
-  type: zfd
-    .text(z.enum([HoldingType.Shares, HoldingType.Calls, HoldingType.Puts]))
-    .optional()
-    .default(HoldingType.Shares),
+  currency: z.string().default('USD'),
 });
 
 export const AddHoldingValidator = withZod(AddHoldingSchema);

@@ -6,11 +6,10 @@ import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
 import { useFetcher, useNavigate, useParams } from '@remix-run/react';
 import { HoldingsTable } from '~/components';
-import { ErrorBoundaryComponent } from '@remix-run/react/routeModules';
-import { Holding } from '~/generated/graphql';
+import { Holding } from '@baggers/sdk';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
-import { MissingSecuritiesError } from '~/components/MissingSecuritiesError';
 import { usePortfolio } from '~/hooks/usePortfolio';
+import { ErrorBoundaryComponent } from '@remix-run/server-runtime';
 
 export default function Holdings() {
   const portfolio = usePortfolio();
@@ -18,9 +17,8 @@ export default function Holdings() {
   const { holdings } = portfolio;
   const { id } = useParams();
 
-  const [density, setDensity] = useState<DataGridProProps['density']>(
-    `standard`,
-  );
+  const [density, setDensity] =
+    useState<DataGridProProps['density']>(`standard`);
 
   const navigate = useNavigate();
   const fetcher = useFetcher();
@@ -36,7 +34,6 @@ export default function Holdings() {
 
   return (
     <Grid container>
-      <MissingSecuritiesError portfolio={portfolio} />
       <Grid
         container
         item
@@ -72,7 +69,7 @@ export default function Holdings() {
                 {
                   holding_id: pos._id,
                 },
-                { action: `/portfolios/${id}/holdings/remove`, method: `post` },
+                { action: `/portfolios/${id}/holdings/remove`, method: `post` }
               )
             }
           />

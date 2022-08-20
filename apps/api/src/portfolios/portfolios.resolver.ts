@@ -17,7 +17,6 @@ import {
 } from '~/shared';
 import { AddHoldingInput } from './dto/add-holding';
 import { HoldingsService } from './services/holdings.service';
-import { UpdateResponse } from '~/shared/classes/update-response.entity';
 
 @Resolver(() => Portfolio)
 export class PortfoliosResolver {
@@ -88,5 +87,18 @@ export class PortfoliosResolver {
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     return this.holdingsService.addHolding(_id, input, currentUser);
+  }
+
+  @Mutation(() => ObjectIdScalar, { name: 'portfoliosRemoveHolding' })
+  async removeHolding(
+    @Args('portfolioId', { type: () => ObjectIdScalar }) portfolioId: ObjectId,
+    @Args('holdingId', { type: () => ObjectIdScalar }) holdingId: ObjectId,
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ): Promise<mongoose.Types.ObjectId> {
+    return this.holdingsService.removeHolding(
+      portfolioId,
+      holdingId,
+      currentUser
+    );
   }
 }

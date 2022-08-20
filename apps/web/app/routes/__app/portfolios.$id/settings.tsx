@@ -8,7 +8,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const sdk = await authenticatedSdk(request);
 
   if (request.method === `DELETE`) {
-    await sdk.deletePortfolio({ id: params.id });
+    await sdk.portfoliosRemoveOne({ _id: params.id });
 
     return redirect(`/portfolios/created`, { headers });
   }

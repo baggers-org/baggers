@@ -1,5 +1,10 @@
 
 
+query plaidLinkToken {
+  plaidLinkToken
+}
+
+
 fragment AllHoldingData on Holding {
   _id
   # Market data fields
@@ -28,6 +33,19 @@ fragment AllHoldingData on Holding {
 }
 
 
+fragment FullPlaidAccount on PlaidAccount {
+  type
+  name
+  subtype
+  official_name
+  account_id
+  balances {
+    current
+    available
+  }
+}
+
+
 fragment PortfolioSummary on Portfolio {
   _id
   cash
@@ -40,9 +58,7 @@ fragment PortfolioSummary on Portfolio {
   createdAt
   updatedAt
   plaidAccount {
-    type
-    name
-    official_name
+    ...FullPlaidAccount
   }
   totalValue
 }
@@ -143,8 +159,7 @@ query portfoliosCreated {
   portfoliosCreated {
     _id
     owner {
-      displayName
-      photos
+      ...FullUser
     }
     name
     cash
@@ -154,9 +169,7 @@ query portfoliosCreated {
     createdAt
     totalValue
     plaidAccount {
-      type
-      subtype
-      name
+      ...FullPlaidAccount
     }
     top5Holdings {
       costBasis
@@ -186,6 +199,14 @@ mutation portfoliosInitEmpty {
   portfoliosInitEmpty {
     _id
   }
+}
+
+
+mutation portfoliosRemoveHolding(
+  $portfolioId: ObjectId!
+  $holdingId: ObjectId!
+) {
+  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
 }
 
 

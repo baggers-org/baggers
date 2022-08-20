@@ -9,13 +9,13 @@ export const formatCurrency = (value: number, currency = `USD`) => {
 
 /**
  *
- * Returns the currency symbol given the code
+ * Returns the currency security given the code
  * @param code The Currency code, e.g USD, GBP
- * @returns symbol - e.g $, £
+ * @returns security - e.g $, £
  */
-export const formatCurrencySymbol = (code?: string | null): string => {
+export const formatCurrencySecurity = (code?: string | null): string => {
   if (!code) {
-    console.error(`formatCurrencySymbol - Failed to format `, code);
+    console.error(`formatCurrencySecurity - Failed to format `, code);
     return `$`;
   }
   const sym = new Intl.NumberFormat(`en-US`, {
@@ -26,7 +26,7 @@ export const formatCurrencySymbol = (code?: string | null): string => {
     ?.find((part) => part.type === `currency`)?.value;
 
   if (!sym) {
-    console.error(`formatCurrencySymbol - Failed to format `, code);
+    console.error(`formatCurrencySecurity - Failed to format `, code);
     return `$`;
   }
 
@@ -34,4 +34,4 @@ export const formatCurrencySymbol = (code?: string | null): string => {
 };
 
 export const renderQuotePrice = (quote: any) =>
-  `${formatCurrencySymbol(quote?.currency)}${quote.latestPrice}`;
+  `${formatCurrencySecurity(quote?.currency)}${quote.latestPrice}`;

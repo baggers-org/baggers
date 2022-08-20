@@ -36,7 +36,7 @@
         }
       }
     },
-    "serve": {
+    "dev": {
       "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "api:build"

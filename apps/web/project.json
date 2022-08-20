@@ -13,6 +13,9 @@
           "apps/web/**/*.ts"
         ]
       }
+    },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
     }
   }
 }

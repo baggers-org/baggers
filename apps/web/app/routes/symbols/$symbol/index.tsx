@@ -6,7 +6,9 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const { symbol } = params;
   if (!symbol) return null;
 
-  const { searchSymbols } = await sdk.searchSymbols({ search: symbol });
+  const { securitiesSearch } = await sdk.securitiesSearch({
+    searchTerm: symbol,
+  });
 
-  return searchSymbols;
+  return securitiesSearch;
 };

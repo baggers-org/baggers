@@ -6,14 +6,14 @@ import {
   json,
 } from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
-import { Portfolio, PortfolioQuery } from '~/generated/graphql';
+import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/sdk';
 import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { id } = params;
   const sdk = await unauthenticatedSdk(request);
 
-  return sdk.portfolio({ id });
+  return sdk.portfoliosFindById({ _id: id });
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -21,8 +21,8 @@ export const action: ActionFunction = async ({ params, request }) => {
   const sdk = await authenticatedSdk(request, headers);
 
   if (request.method === `PATCH`) {
-    const response = await sdk.updatePortfolio({
-      id: params.id,
+    const response = await sdk.portfoliosUpdateOne({
+      _id: params.id,
       input: {
         ...Object.fromEntries(await request.formData()),
       },
@@ -34,14 +34,14 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function PortfoloLayout() {
-  const { portfolio } = useLoaderData<PortfolioQuery>();
+  const { portfoliosFindById } = useLoaderData<PortfoliosFindByIdQuery>();
 
-  const needsToSetName = !portfolio?.name;
+  const needsToSetName = !portfoliosFindById?.name;
 
   return (
     <Container maxWidth="xl">
       <Grid container>
-        <PortfolioHeader portfolio={portfolio as Portfolio} />
+        <PortfolioHeader portfolio={portfoliosFindById as Portfolio} />
         {!needsToSetName ? (
           <>
             <Grid item xs={12} mb={5}>

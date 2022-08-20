@@ -6,7 +6,7 @@ export class CreateUserInput {
 
   displayName: string;
 
-  emails: string[];
+  emails?: string[];
 
-  photos: string[];
+  photos?: string[];
 }

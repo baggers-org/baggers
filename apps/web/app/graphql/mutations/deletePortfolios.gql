@@ -1,5 +1,0 @@
-mutation deletePortfolios($ids: [ObjectId!]!) {
-  deletePortfolios(_ids: $ids) {
-    deletedCount
-  }
-}

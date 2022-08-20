@@ -1,3 +1,9 @@
+import {
+  AddHoldingInput,
+  HoldingDirection,
+  Security,
+  SecurityType,
+} from '@baggers/sdk';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import {
   Box,
@@ -13,32 +19,27 @@ import {
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'remix-validated-form';
-import {
-  AddHoldingInput,
-  HoldingDirection,
-  HoldingType,
-  Symbol,
-} from '~/generated/graphql';
+
 import { ValidatedTextField } from '~/validation/components/ValidatedTextField';
 import { ValidatedSelect } from '~/validation/components/ValidatedTextField/ValidatedSelect';
-import { useTranslatedHoldingType } from '../AddHoldingDrawer/HoldingDetails/util';
 import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
 
 export type AddHoldingFormProps = {
-  addingSymbol: Symbol;
+  addingSecurity: Security;
 };
 export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
-  addingSymbol,
+  addingSecurity,
 }) => {
   const { t } = useTranslation(`holdings`);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [holdingDetails, setHoldingDetails] = useState<AddHoldingInput>({
-    symbol: addingSymbol._id,
+    security: addingSecurity._id,
     direction: HoldingDirection.Long,
     quantity: 1,
-    type: HoldingType.Shares,
+    currency: 'USD',
+    securityType: SecurityType.Equity,
     brokerFees: 0,
     averagePrice: 0,
   });
@@ -46,11 +47,11 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
-    if (!addingSymbol?.quote?.latestPrice || !holdingDetails.averagePrice)
+    if (!addingSecurity?.quote?.latestPrice || !holdingDetails.averagePrice)
       return { holdingReturn: 0, fxReturn: 0 };
     const costBasis = holdingDetails.averagePrice * holdingDetails.quantity;
     const marketValue =
-      addingSymbol.quote.latestPrice * holdingDetails.quantity;
+      addingSecurity.quote.latestPrice * holdingDetails.quantity;
 
     const plUsd = marketValue - costBasis;
     const plPercent = (plUsd / costBasis) * 100;
@@ -61,7 +62,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
       profitLossUsd: plUsd,
       profitLossPercent: plPercent,
     };
-  }, [holdingDetails, addingSymbol]);
+  }, [holdingDetails, addingSecurity]);
 
   return (
     <>
@@ -69,9 +70,9 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
-              {t(`how_many`, `How many`)} <strong>{addingSymbol.symbol}</strong>
+              {t(`how_many_units`, `How many units`)}{' '}
+              <strong>{addingSecurity.symbol}</strong>
               {` `}
-              {useTranslatedHoldingType(holdingDetails.type)}
               {` `}
               {holdingDetails?.direction === `long`
                 ? t(`did_you_buy?`, `did you buy?`)
@@ -127,11 +128,9 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
           <Grid item xs={12}>
             <FormLabel>
               {t(
-                `what_is_your_average_price_per`,
-                `What is your average price per`,
+                `what_is_your_average_price_per_unit`,
+                `What is your average price per unit`
               )}
-              {` `}
-              {useTranslatedHoldingType(holdingDetails.type, 1)}?
             </FormLabel>
           </Grid>
           <Grid item xs={12} mt={1}>
@@ -173,7 +172,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
               <FormLabel>
                 {t(`tell_us_about_your`, `Tell us about your`)}
                 {` `}
-                <strong>{addingSymbol.symbol} </strong>
+                <strong>{addingSecurity.symbol} </strong>
                 {t(`holding`, `holding.`)}
               </FormLabel>
             </Grid>

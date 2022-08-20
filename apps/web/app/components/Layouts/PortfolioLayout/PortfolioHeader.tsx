@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material';
 import { EditableTypography } from '~/components';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
-import { Portfolio } from '~/generated/graphql';
+import { Portfolio } from '@baggers/sdk';
 import { useFetcher } from '@remix-run/react';
 
 export type PortfolioHeaderProps = {
@@ -33,11 +33,11 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
         isSubmitting={!!fetcher.submission}
         confirmButtonAriaLabel={t(
           `confirm_portfolio_name`,
-          `confirm portfolio name`,
+          `confirm portfolio name`
         )}
         cancelButtonAriaLabel={t(
           `cancel_portfolio_edit`,
-          `cancel portfolio edit`,
+          `cancel portfolio edit`
         )}
         placeholder={t(`enter_portfolio_title`, `Enter portfolio title`)}
         onFinishEdit={(name) => fetcher.submit({ name }, { method: `patch` })}

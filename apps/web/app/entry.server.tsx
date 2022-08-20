@@ -1,7 +1,6 @@
 import i18next from 'i18next';
 import { renderToString } from 'react-dom/server';
-import { initReactI18next } from 'react-i18next';
-import { RemixI18NextProvider } from 'remix-i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import createEmotionServer from '@emotion/server/create-instance';
@@ -19,10 +18,8 @@ export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
+  remixContext: EntryContext
 ) {
-  // Here you also ned to initialize i18next using initReactI18next, you should
-  // use the same configuration as in your client side.
   await i18next.use(initReactI18next).init({
     supportedLngs: [`en`, `es`],
     defaultNS: `common`,
@@ -39,12 +36,10 @@ export default async function handleRequest(
   const MuiRemixServer = () => (
     <CacheProvider value={cache}>
       <ThemeProvider defaultMode={theme}>
-        <RemixI18NextProvider i18n={i18next}>
-          <GlobalStyles />
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <RemixServer context={remixContext} url={request.url} />
-        </RemixI18NextProvider>
+        <GlobalStyles />
+        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <CssBaseline />
+        <RemixServer context={remixContext} url={request.url} />
       </ThemeProvider>
     </CacheProvider>
   );
@@ -66,7 +61,7 @@ export default async function handleRequest(
   // Add the emotion style tags after the insertion point meta tag
   const markup = html.replace(
     /<meta(\s)*name="emotion-insertion-point"(\s)*content="emotion-insertion-point"(\s)*\/>/,
-    `<meta name="emotion-insertion-point" content="emotion-insertion-point"/>${stylesHTML}`,
+    `<meta name="emotion-insertion-point" content="emotion-insertion-point"/>${stylesHTML}`
   );
 
   responseHeaders.set(`Content-Type`, `text/html`);

@@ -4,14 +4,14 @@ import { json, LoaderFunction } from '@remix-run/server-runtime';
 // hitting IEX with our token. Malicious user could ramp up our bill
 // massively
 export const loader: LoaderFunction = async ({ params, request }) => {
-  const { symbol } = params;
+  const { security } = params;
 
   const requestParams = new URL(request.url).searchParams;
 
   const url = new URL(
-    `${process.env.IEX_BASE_URL}stock/${symbol}/chart/${params[`*`]}?${
+    `${process.env.IEX_BASE_URL}stock/${security}/chart/${params[`*`]}?${
       requestParams?.toString() || ``
-    }`,
+    }`
   );
 
   if (!process.env.IEX_TOKEN) {
@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
       {
         message: `IEX TOKEN not found in env. `,
       },
-      { status: 403 },
+      { status: 403 }
     );
   }
   url.searchParams.append(`token`, process.env.IEX_TOKEN);
@@ -32,6 +32,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 
   console.error(res);
   return json({
-    message: `There was an error fetching the chart for ${symbol}`,
+    message: `There was an error fetching the chart for ${security}`,
   });
 };

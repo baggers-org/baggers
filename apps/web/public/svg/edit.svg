@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="164px" height="138px" viewBox="0 0 164 138" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icons / PencilSheet</title>
+    <g id="Portfolios---Holdings-Tab---Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="No-positions" transform="translate(-325.000000, -444.000000)">
+            <g id="Group-3" transform="translate(230.000000, 328.000000)">
+                <g id="Group" transform="translate(0.000000, 101.000000)">
+                    <g id="Icons-/-PencilSheet" transform="translate(95.000000, 15.000000)">
+                        <path d="M51.4832438,138 C96.6946654,138 164,108.24742 164,70.3981708 C164,32.5489217 107.20399,-8.93389255 74.2392513,1.68865474 C41.2745127,12.311202 0,17.7277937 0,55.5770429 C0,93.426292 6.27182216,138 51.4832438,138 Z" id="Oval" fill="#FF9800"></path>
+                        <g id="Group" transform="translate(27.000000, 17.300000)" fill="#000000" fill-opacity="0.54" fill-rule="nonzero">
+                            <g id="Icons/EditFilled">
+                                <path d="M12.4999998,71.8754168 L12.4999998,87.5004168 L28.1249999,87.5004168 L74.2083334,41.4169166 L58.5833334,25.7919166 L12.4999998,71.8754168 Z M86.2916668,29.3335832 C87.9166668,27.7085832 87.9166668,25.0835832 86.2916668,23.4585832 L76.5416667,13.7085832 C74.9166668,12.0835832 72.2916668,12.0835832 70.6666668,13.7085832 L63.0416667,21.3335832 L78.6666668,36.9585833 L86.2916668,29.3335832 Z" id="EditFilled"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

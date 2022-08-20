@@ -121,6 +121,8 @@ export class PortfoliosService {
     _ids: ObjectId[],
     currentUser: Auth0AccessTokenPayload
   ): Promise<RemoveMultipleResponse> {
+    console.log('In here');
+
     return this.portfolioModel
       .remove({
         owner: currentUser.sub,

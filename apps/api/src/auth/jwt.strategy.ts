@@ -13,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   constructor(private envService: EnvService) {
     const domain = envService.get('AUTH0_DOMAIN');
+
     const apiUrl = envService.get('API_URI');
     const audience = `${apiUrl}/graphql`;
     const issuer = `https://${domain}/`;

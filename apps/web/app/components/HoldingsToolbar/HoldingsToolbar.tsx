@@ -2,7 +2,7 @@ import { Add } from '@mui/icons-material';
 import { Grid, Button } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Portfolio } from '~/generated/graphql';
+import { Portfolio } from '@baggers/sdk';
 
 export type HoldingsToolbarProps = {
   portfolio: Portfolio;

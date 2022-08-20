@@ -1,11 +1,11 @@
 import { Box } from '@mui/system';
 import { useLocation } from '@remix-run/react';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { AppBar } from '~/components/AppBar';
 import { Footer } from '~/components/Footer';
 
-export const AppLayout: React.FC = ({ children }) => {
+export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation();
 
   return (

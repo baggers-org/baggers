@@ -1,10 +1,20 @@
-import { RemixI18Next, FileSystemBackend } from 'remix-i18next';
+import Backend from 'i18next-fs-backend';
+import { join, resolve } from 'path';
+import { RemixI18Next } from 'remix-i18next';
+import { i18nConfig } from './i18n';
 
-// You will need to provide a backend to load your translations, here we use the
-// file system one and tell it where to find the translations.
-const backend = new FileSystemBackend(`./public/locales`);
-
-export const i18n = new RemixI18Next(backend, {
-  fallbackLng: `en`, // here configure your default (fallback) language
-  supportedLanguages: [`en`, `es`], // here configure your supported languages
+export const i18next = new RemixI18Next({
+  detection: {
+    supportedLanguages: i18nConfig.supportedLanguages,
+    fallbackLanguage: i18nConfig.fallbackLng,
+  },
+  i18next: {
+    ...i18nConfig,
+    backend: {
+      loadhPath: resolve(
+        join(__dirname, '../public/locales/{{lng}}/{{ns}}.json')
+      ),
+    },
+  },
+  backend: Backend,
 });

@@ -1,12 +1,12 @@
 import { Grid } from '@mui/material';
 import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
-import { Portfolio } from '~/generated/graphql';
+import { PortfolioSummary } from '@baggers/sdk';
 import { PortfolioCard } from '../PortfolioCard/PortfolioCard';
 import { PortfolioCardToolbar } from '../PortfolioCardToolbar';
 
 export type PortfolioCardListProps = {
-  portfolios: Portfolio[];
+  portfolios: PortfolioSummary[];
 };
 export const PortfolioCardList: React.FC<PortfolioCardListProps> = ({
   portfolios,

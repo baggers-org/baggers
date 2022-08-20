@@ -1,1 +1,1 @@
-export * from './SymbolSearchModal';
+export * from './SecuritySearchModal';
