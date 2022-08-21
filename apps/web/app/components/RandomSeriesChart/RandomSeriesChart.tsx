@@ -1,16 +1,21 @@
 import { Box } from '@mui/system';
-import React, { Children, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  Children,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { RandomSeriesContext } from './context';
 
 export interface SeriesChartProps {
   width?: number | string;
   height?: number | string;
 }
-export const RandomSeriesChart: React.FC<SeriesChartProps> = ({
-  height = `100%`,
-  width = `100%`,
-  children,
-}) => {
+export const RandomSeriesChart: React.FC<
+  PropsWithChildren<SeriesChartProps>
+> = ({ height = `100%`, width = `100%`, children }) => {
   const [size, setSize] = useState<
     | {
         width: number;
@@ -34,7 +39,7 @@ export const RandomSeriesChart: React.FC<SeriesChartProps> = ({
     () => ({
       size,
     }),
-    [size],
+    [size]
   );
   return (
     <Box sx={{ height, width }} ref={containerRef}>
