@@ -4,6 +4,7 @@ import '@testing-library/cypress/add-commands';
 import '@cypress/skip-test/';
 
 declare global {
+  //eslint-disable-next-line
   namespace Cypress {
     interface Chainable {
       /**

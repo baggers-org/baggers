@@ -28,10 +28,11 @@ describe('TransactionsUtilService', () => {
       );
 
       expect(resultingPortfolio.holdings).toHaveLength(3);
-      expect(resultingPortfolio.holdings).toMatchInlineSnapshot(`
+      expect(resultingPortfolio.holdings.map((h) => ({ ...h, _id: null })))
+        .toMatchInlineSnapshot(`
         Array [
           Object {
-            "_id": "61e4b180fd38cb916acdf8b8",
+            "_id": null,
             "currency": "USD",
             "direction": "long",
             "quantity": 2095,
@@ -39,7 +40,7 @@ describe('TransactionsUtilService', () => {
             "source": "transactions",
           },
           Object {
-            "_id": "61e4b180fd38cb916acdf8b9",
+            "_id": null,
             "averagePrice": 1,
             "brokerFees": undefined,
             "costBasis": 5,
@@ -53,7 +54,7 @@ describe('TransactionsUtilService', () => {
             "source": "broker",
           },
           Object {
-            "_id": "61e4b180fd38cb916acdf8bc",
+            "_id": null,
             "averagePrice": 91.82,
             "brokerFees": undefined,
             "costBasis": 1010,

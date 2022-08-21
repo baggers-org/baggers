@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
-import { SecurityType } from '~/securities/enums/security-type.enum';
 import { Transaction, Holding, Portfolio } from '../entities';
 import { HoldingsUtilService } from './holdings-util.service';
 

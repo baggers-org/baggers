@@ -1,7 +1,6 @@
 import { ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { PlaidAccountType } from '../enums';
-import { PlaidAccountSubtype } from '../enums/plaid-account-subtype.enum';
 import { PlaidAccountBalance } from './plaid-account-balance.entity';
 
 @ObjectType()
