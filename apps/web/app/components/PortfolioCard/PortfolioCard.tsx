@@ -169,7 +169,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
                         {holding?.security?.symbol ||
                           holding?.importedSecurity?.ticker_symbol}
                         {` `}
-                        {(holding.exposure * 100).toFixed(2)}%
+                        {holding.exposure.toFixed(2)}%
                       </ListItemText>
                     </ListItem>
                   ))}

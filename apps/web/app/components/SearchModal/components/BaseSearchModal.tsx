@@ -119,7 +119,7 @@ export function BaseSearchModal<TResult extends Record<string, unknown>>({
             />
           </fetcher.Form>
 
-          <Box height="30%" maxHeight={600} overflow="scroll">
+          <Box>
             {fetcher.data && fetcher.state === `idle` ? (
               <Typography textAlign="left" mt={3}>
                 {fetcher.data?.length} results.

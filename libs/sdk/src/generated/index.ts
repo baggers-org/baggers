@@ -29,12 +29,74 @@ export type AddHoldingInput = {
   securityType: SecurityType;
 };
 
+export enum AscDesc {
+  Asc = 'asc',
+  Desc = 'desc'
+}
+
+export type Chart = {
+  __typename?: 'Chart';
+  change: Scalars['Float'];
+  changeOverTime: Scalars['Float'];
+  changePercent: Scalars['Float'];
+  close: Scalars['Float'];
+  date: Scalars['String'];
+  fClose: Scalars['Float'];
+  fHigh: Scalars['Float'];
+  fLow: Scalars['Float'];
+  fOpen: Scalars['Float'];
+  fVolume: Scalars['Float'];
+  high: Scalars['Float'];
+  id: Scalars['String'];
+  key: Scalars['String'];
+  label: Scalars['String'];
+  low: Scalars['Float'];
+  marketChangeOverTime: Scalars['Float'];
+  open: Scalars['Float'];
+  subkey: Scalars['String'];
+  symbol: Scalars['String'];
+  uClose: Scalars['Float'];
+  uHigh: Scalars['Float'];
+  uLow: Scalars['Float'];
+  uOpen: Scalars['Float'];
+  uVolume: Scalars['Float'];
+  updated: Scalars['Float'];
+  volume: Scalars['Float'];
+};
+
+export type ChartPriceRangeOptions = {
+  chartByDay?: InputMaybe<Scalars['Boolean']>;
+  chartCloseOnly?: InputMaybe<Scalars['Boolean']>;
+  chartInterval?: InputMaybe<Scalars['Float']>;
+  chartLast?: InputMaybe<Scalars['Float']>;
+  chartSimplify?: InputMaybe<Scalars['Boolean']>;
+  displayPercent?: InputMaybe<Scalars['Float']>;
+  includeToday?: InputMaybe<Scalars['Boolean']>;
+  sort?: InputMaybe<AscDesc>;
+};
+
 export type CreateUserInput = {
   _id: Scalars['String'];
   displayName: Scalars['String'];
   emails?: InputMaybe<Array<Scalars['String']>>;
   photos?: InputMaybe<Array<Scalars['String']>>;
 };
+
+export enum HistoricalRange {
+  Last2Years = 'Last2Years',
+  Last3Months = 'Last3Months',
+  Last5Days = 'Last5Days',
+  Last5Days10MinuteIntervals = 'Last5Days10MinuteIntervals',
+  Last5Years = 'Last5Years',
+  Last6Months = 'Last6Months',
+  LastMonth = 'LastMonth',
+  LastMonth30MinuteIntervals = 'LastMonth30MinuteIntervals',
+  LastYear = 'LastYear',
+  YearToDate = 'YearToDate',
+  Date = 'date',
+  Dynamic = 'dynamic',
+  Max = 'max'
+}
 
 export type Holding = {
   __typename?: 'Holding';
@@ -313,12 +375,20 @@ export type PortfolioSummary = {
 
 export type Query = {
   __typename?: 'Query';
+  chartSecurityPrice: Array<Chart>;
   plaidLinkToken: Scalars['String'];
   portfoliosCreated: Array<PortfolioSummary>;
   portfoliosFindById: Portfolio;
   securitiesFindById: Security;
   securitiesSearch: Array<Security>;
   usersFindById: User;
+};
+
+
+export type QueryChartSecurityPriceArgs = {
+  options?: InputMaybe<ChartPriceRangeOptions>;
+  range: HistoricalRange;
+  securityId: Scalars['ObjectId'];
 };
 
 
@@ -569,12 +639,21 @@ export type User = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type ChartSecurityPriceQueryVariables = Exact<{
+  range: HistoricalRange;
+  securityId: Scalars['ObjectId'];
+  options?: InputMaybe<ChartPriceRangeOptions>;
+}>;
+
+
+export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Chart', change: number, changeOverTime: number, changePercent: number, close: number, date: string, fClose: number, fHigh: number, fLow: number, fOpen: number, fVolume: number, high: number, id: string, key: string, label: string, low: number, marketChangeOverTime: number, open: number, subkey: string, symbol: string, uClose: number, uHigh: number, uLow: number, uOpen: number, uVolume: number, updated: number, volume: number }> };
+
 export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PlaidLinkTokenQuery = { __typename?: 'Query', plaidLinkToken: string };
 
-export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, type: SecurityType, exchange?: string | null, currency?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null };
+export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null };
 
 export type FullPlaidAccountFragment = { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } };
 
@@ -582,15 +661,9 @@ export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cas
 
 export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> };
 
-export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, type: SecurityType, exchange?: string | null, currency?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }> };
+export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }> };
 
-export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, type: SecurityType, exchange?: string | null, currency?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> };
-
-export type AllSecurityDataFragment = { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, type: SecurityType, exchange?: string | null, currency?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null };
-
-export type AllImportedSecurityDataFragment = { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null };
-
-export type SecuritySummaryFragment = { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', latestPrice?: number | null } | null };
+export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> };
 
 export type AllTransactionDataFragment = { __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } };
 
@@ -619,7 +692,7 @@ export type PortfoliosFindByIdQueryVariables = Exact<{
 }>;
 
 
-export type PortfoliosFindByIdQuery = { __typename?: 'Query', portfoliosFindById: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, type: SecurityType, exchange?: string | null, currency?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> } };
+export type PortfoliosFindByIdQuery = { __typename?: 'Query', portfoliosFindById: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> } };
 
 export type PortfoliosInitEmptyMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -658,21 +731,25 @@ export type PortfoliosUpdateOneMutation = { __typename?: 'Mutation', portfoliosU
 
 export type AllQuoteDataFragment = { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null };
 
-export type AllTickerDataFragment = { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, type: SecurityType, updatedAt?: any | null };
+export type AllSecurityDataFragment = { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null };
+
+export type AllImportedSecurityDataFragment = { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null };
+
+export type SecuritySummaryFragment = { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', latestPrice?: number | null } | null };
 
 export type SecuritiesFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
 
-export type SecuritiesFindByIdQuery = { __typename?: 'Query', securitiesFindById: { __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, type: SecurityType, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } };
+export type SecuritiesFindByIdQuery = { __typename?: 'Query', securitiesFindById: { __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } };
 
 export type SecuritiesSearchQueryVariables = Exact<{
   searchTerm: Scalars['String'];
 }>;
 
 
-export type SecuritiesSearchQuery = { __typename?: 'Query', securitiesSearch: Array<{ __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, type: SecurityType, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null }> };
+export type SecuritiesSearchQuery = { __typename?: 'Query', securitiesSearch: Array<{ __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null }> };
 
 export type FullUserFragment = { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null };
 
@@ -802,17 +879,20 @@ export const AllQuoteDataFragmentDoc = gql`
     `;
 export const AllSecurityDataFragmentDoc = gql`
     fragment AllSecurityData on Security {
-  _id
-  name
-  symbol
-  type
-  exchange
+  cik
+  createdAt
   currency
+  exchange
   exchangeName
+  figi
+  iexId
+  name
   region
+  symbol
   quote {
     ...AllQuoteData
   }
+  updatedAt
 }
     ${AllQuoteDataFragmentDoc}`;
 export const AllHoldingDataFragmentDoc = gql`
@@ -897,20 +977,36 @@ export const SecuritySummaryFragmentDoc = gql`
   }
 }
     `;
-export const AllTickerDataFragmentDoc = gql`
-    fragment AllTickerData on Security {
-  cik
-  createdAt
-  currency
-  exchange
-  exchangeName
-  figi
-  iexId
-  name
-  region
-  symbol
-  type
-  updatedAt
+export const ChartSecurityPriceDocument = gql`
+    query chartSecurityPrice($range: HistoricalRange!, $securityId: ObjectId!, $options: ChartPriceRangeOptions) {
+  chartSecurityPrice(range: $range, securityId: $securityId, options: $options) {
+    change
+    changeOverTime
+    changePercent
+    close
+    date
+    fClose
+    fHigh
+    fLow
+    fOpen
+    fVolume
+    high
+    id
+    key
+    label
+    low
+    marketChangeOverTime
+    open
+    subkey
+    symbol
+    uClose
+    uHigh
+    uLow
+    uOpen
+    uVolume
+    updated
+    volume
+  }
 }
     `;
 export const PlaidLinkTokenDocument = gql`
@@ -1024,25 +1120,25 @@ export const SecuritiesFindByIdDocument = gql`
     query securitiesFindById($_id: ObjectId!) {
   securitiesFindById(_id: $_id) {
     _id
-    ...AllTickerData
+    ...AllSecurityData
     quote {
       ...AllQuoteData
     }
   }
 }
-    ${AllTickerDataFragmentDoc}
+    ${AllSecurityDataFragmentDoc}
 ${AllQuoteDataFragmentDoc}`;
 export const SecuritiesSearchDocument = gql`
     query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
     _id
-    ...AllTickerData
+    ...AllSecurityData
     quote {
       ...AllQuoteData
     }
   }
 }
-    ${AllTickerDataFragmentDoc}
+    ${AllSecurityDataFragmentDoc}
 ${AllQuoteDataFragmentDoc}`;
 export const UsersFindByIdDocument = gql`
     query usersFindById($_id: ID!) {
@@ -1068,6 +1164,9 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    chartSecurityPrice(variables: ChartSecurityPriceQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ChartSecurityPriceQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ChartSecurityPriceQuery>(ChartSecurityPriceDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'chartSecurityPrice', 'query');
+    },
     plaidLinkToken(variables?: PlaidLinkTokenQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PlaidLinkTokenQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PlaidLinkTokenQuery>(PlaidLinkTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'plaidLinkToken', 'query');
     },

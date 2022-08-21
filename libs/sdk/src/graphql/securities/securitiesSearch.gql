@@ -1,7 +1,7 @@
 query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
     _id
-    ...AllTickerData
+    ...AllSecurityData
     quote {
       ...AllQuoteData
     }

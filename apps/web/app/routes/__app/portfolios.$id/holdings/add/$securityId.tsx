@@ -21,7 +21,7 @@ import { ValidatedForm, validationError } from 'remix-validated-form';
 import { AddHoldingForm } from '~/components/AddHoldingForm';
 import { AreaChart } from '~/components/Charts/AreaChart';
 import { SecuritySearchModal } from '~/components/SearchModal';
-import { Security, SecurityType } from '@baggers/sdk';
+import { HistoricalRange, Security, SecurityType } from '@baggers/sdk';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
@@ -32,7 +32,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const sdk = await authenticatedSdk(request, headers);
   const formData = Object.fromEntries(await request.formData());
 
-  const { security, id } = params;
+  const { securityId, id } = params;
 
   const { data, error } = await AddHoldingValidator.validate(formData);
 
@@ -41,7 +41,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   await sdk.portfoliosAddHolding({
     _id: id,
     input: {
-      security,
+      security: securityId,
       securityType: SecurityType.Equity,
       ...data,
     },
@@ -50,25 +50,24 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect(`/portfolios/${id}/holdings`, { headers });
 };
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { security: securityId } = params;
+  const { securityId } = params;
 
   const sdk = await authenticatedSdk(request);
 
   const { securitiesFindById: security } = await sdk.securitiesFindById({
     _id: securityId,
   });
-  // const { chartPriceRange } = await sdk.chartPriceRange({
-  //   securityId,
-  //   range: HistoricalRange.LastYear,
-  // });
+  const { chartSecurityPrice } = await sdk.chartSecurityPrice({
+    securityId,
+    range: HistoricalRange.LastYear,
+  });
 
-  // map chart data to proper format
-  // const chart = chartPriceRange.map((interval) => ({
-  //   time: interval.date,
-  //   value: interval.close,
-  // }));
+  const chart = chartSecurityPrice.map((interval) => ({
+    time: interval.date,
+    value: interval.close,
+  }));
 
-  return { security, chart: [] };
+  return { security, chart };
 };
 export default function AddHolding() {
   const { t } = useTranslation(`holdings`);

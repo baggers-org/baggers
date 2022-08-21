@@ -2,8 +2,8 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "demo": "apps/demo",
     "sdk": "libs/sdk",
+    "type-util": "libs/type-util",
     "web": "apps/web"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

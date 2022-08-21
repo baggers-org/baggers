@@ -1,4 +1,4 @@
-import { A, NET, SecuritiesService, SecuritiesServiceMock } from '~/securities';
+import { A, SecuritiesService, SecuritiesServiceMock } from '~/securities';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
@@ -11,7 +11,6 @@ import {
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { OpenFigiModule } from '~/open-figi';
 import { SecurityType } from '~/securities/enums/security-type.enum';
-import { HoldingDirection } from '~/portfolios/enums';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;

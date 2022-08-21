@@ -18,6 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
+      "@baggers/type-util": ["libs/type-util/src/index.ts"],
       "~/*": ["./apps/web/app/*", "./apps/api/src/*"],
       "~test-sdk": ["apps/api/tests/test-sdk.ts"]
     }

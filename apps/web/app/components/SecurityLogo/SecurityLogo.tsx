@@ -1,14 +1,28 @@
-import { Security } from '@baggers/sdk';
-import { Stack, Avatar, Link, AvatarProps, Skeleton } from '@mui/material';
+import { ImportedSecurity, Security, SecurityType } from '@baggers/sdk';
+import {
+  Stack,
+  Avatar,
+  Link,
+  AvatarProps,
+  Skeleton,
+  useTheme,
+} from '@mui/material';
 import { Link as RemixLink } from '@remix-run/react';
 import React, { useMemo } from 'react';
+import { isImportedSecurity } from '@baggers/type-util';
+import {
+  AttachMoneyOutlined,
+  AttachMoneyTwoTone,
+  SavingsOutlined,
+} from '@mui/icons-material';
 
 export type SecurityLogoProps = {
-  security: Security;
+  security: Security | ImportedSecurity;
   includeSecurityLink?: boolean;
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
 } & Omit<AvatarProps, 'security'>;
+
 export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   security,
   includeSecurityLink = true,
@@ -16,6 +30,7 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   loading,
   ...avatarProps
 }) => {
+  const theme = useTheme();
   const { width, height } = useMemo(() => {
     if (size === `md`)
       return {
@@ -33,6 +48,21 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
     };
   }, [size]);
 
+  let symbol;
+  if (isImportedSecurity(security)) {
+    symbol = security.ticker_symbol;
+  } else {
+    symbol = security.symbol;
+  }
+
+  if (security.type === SecurityType.Cash) {
+    return (
+      <>
+        <SavingsOutlined />
+        {security.name}
+      </>
+    );
+  }
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       {!loading ? (
@@ -44,7 +74,7 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
           }}
           {...avatarProps}
         >
-          {security?.symbol?.slice(0, 2)}
+          {symbol?.slice(0, 2)}
         </Avatar>
       ) : (
         <Skeleton variant="circular">
@@ -53,9 +83,7 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
       )}
       {includeSecurityLink ? (
         <Link sx={{ fontWeight: `bold` }}>
-          <RemixLink to={`/stock/${security?.symbol}`}>
-            {security?.symbol}
-          </RemixLink>
+          <RemixLink to={`/stock/${symbol}`}>{symbol}</RemixLink>
         </Link>
       ) : null}
     </Stack>

@@ -16,6 +16,9 @@ import { EnvironmentSchema, EnvModule } from '~/env';
 import { PlaidItemsModule } from '~/plaid-items';
 import { PlaidLinkModule } from '~/plaid-link';
 import { OpenFigiModule } from './open-figi/open-figi.module';
+import { ChartsModule } from './charts/charts.module';
+import { IexService } from './iex/iex.service';
+import { IexModule } from './iex/iex.module';
 
 @Module({
   imports: [
@@ -47,6 +50,8 @@ import { OpenFigiModule } from './open-figi/open-figi.module';
     PlaidItemsModule,
     PlaidLinkModule,
     OpenFigiModule,
+    ChartsModule,
+    IexModule,
   ],
   controllers: [],
   providers: [
@@ -55,6 +60,7 @@ import { OpenFigiModule } from './open-figi/open-figi.module';
       useExisting: JwtAuthGuard,
     },
     JwtAuthGuard,
+    IexService,
   ],
 })
 export class AppModule {}

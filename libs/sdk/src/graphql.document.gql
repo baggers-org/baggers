@@ -1,5 +1,45 @@
 
 
+query chartSecurityPrice(
+  $range: HistoricalRange!
+  $securityId: ObjectId!
+  $options: ChartPriceRangeOptions
+) {
+  chartSecurityPrice(
+    range: $range
+    securityId: $securityId
+    options: $options
+  ) {
+    change
+    changeOverTime
+    changePercent
+    close
+    date
+    fClose
+    fHigh
+    fLow
+    fOpen
+    fVolume
+    high
+    id
+    key
+    label
+    low
+    marketChangeOverTime
+    open
+    subkey
+    symbol
+    uClose
+    uHigh
+    uLow
+    uOpen
+    uVolume
+    updated
+    volume
+  }
+}
+
+
 query plaidLinkToken {
   plaidLinkToken
 }
@@ -78,39 +118,6 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioSummary
   ...PortfolioHoldings
   ...PortfolioTransactions
-}
-
-
-fragment AllSecurityData on Security {
-  _id
-  name
-  symbol
-  type
-  exchange
-  currency
-  exchangeName
-  region
-  quote {
-    ...AllQuoteData
-  }
-}
-
-fragment AllImportedSecurityData on ImportedSecurity {
-  close_price
-  name
-  ticker_symbol
-  type
-}
-
-fragment SecuritySummary on Security {
-  _id
-  name
-  symbol
-  exchangeName
-  region
-  quote {
-    latestPrice
-  }
 }
 
 
@@ -297,7 +304,7 @@ fragment AllQuoteData on Quote {
 }
 
 
-fragment AllTickerData on Security {
+fragment AllSecurityData on Security {
   cik
   createdAt
   currency
@@ -308,15 +315,35 @@ fragment AllTickerData on Security {
   name
   region
   symbol
-  type
+  quote {
+    ...AllQuoteData
+  }
   updatedAt
+}
+
+fragment AllImportedSecurityData on ImportedSecurity {
+  close_price
+  name
+  ticker_symbol
+  type
+}
+
+fragment SecuritySummary on Security {
+  _id
+  name
+  symbol
+  exchangeName
+  region
+  quote {
+    latestPrice
+  }
 }
 
 
 query securitiesFindById($_id: ObjectId!) {
   securitiesFindById(_id: $_id) {
     _id
-    ...AllTickerData
+    ...AllSecurityData
     quote {
       ...AllQuoteData
     }
@@ -327,7 +354,7 @@ query securitiesFindById($_id: ObjectId!) {
 query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
     _id
-    ...AllTickerData
+    ...AllSecurityData
     quote {
       ...AllQuoteData
     }

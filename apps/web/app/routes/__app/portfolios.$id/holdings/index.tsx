@@ -15,6 +15,9 @@ export default function Holdings() {
   const portfolio = usePortfolio();
 
   const { holdings } = portfolio;
+
+  console.log(holdings);
+
   const { id } = useParams();
 
   const [density, setDensity] =

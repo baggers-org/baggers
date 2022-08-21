@@ -5,7 +5,6 @@ import {
   PopulatedHoldingWithMetrics,
 } from '../entities/holding.entity';
 import { PopulatedPortfolio } from '../entities/portfolio.entity';
-import { HoldingDirection } from '../enums';
 import { PortfolioMetricsService } from './portfolio-metrics.service';
 
 @Injectable()

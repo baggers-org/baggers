@@ -6,7 +6,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   const sdk = await authenticatedSdk(request, headers);
   const { holding_id } = Object.fromEntries(await request.formData());
 
-  const response = sdk.portfoliosRemoveHolding({
+  const response = await sdk.portfoliosRemoveHolding({
     portfolioId: params.id,
     holdingId: holding_id,
   });

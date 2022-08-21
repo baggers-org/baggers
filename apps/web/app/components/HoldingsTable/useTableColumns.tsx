@@ -19,9 +19,11 @@ export const useTableColumns = ({
       field: `security`,
       headerName: t(`instrument`, `Instrument`),
       flex: 1,
-      valueGetter: ({ row }) => row?.security?.security,
-      renderCell: ({ row }) =>
-        row?.security ? <SecurityLogo security={row.security} /> : <Skeleton />,
+      valueGetter: ({ row }) =>
+        row?.security?.symbol || row.importedSecurity.ticker_symbol,
+      renderCell: ({ row }) => (
+        <SecurityLogo security={row.security || row.importedSecurity} />
+      ),
     },
     {
       field: `marketValue`,
@@ -43,7 +45,8 @@ export const useTableColumns = ({
     },
     {
       field: `security.quote.latestPrice`,
-      valueGetter: ({ row }) => row.security.quote.latestPrice,
+      valueGetter: ({ row }) =>
+        row.security?.quote.latestPrice || row.importedSecurity?.close_price,
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
@@ -52,12 +55,15 @@ export const useTableColumns = ({
     },
     {
       field: `change%`,
-      valueGetter: ({ row }) => row.security.quote.changePercent,
+      valueGetter: ({ row }) => row.security?.quote.changePercent || 'Unknown',
       headerName: `${t(`change`, `Change`)} %`,
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <PriceTag value={row.security.quote.changePercent * 100} isPercent />
+          <PriceTag
+            value={row?.security?.quote?.changePercent * 100}
+            isPercent
+          />
         );
       },
     },
