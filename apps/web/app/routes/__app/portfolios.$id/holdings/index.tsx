@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Grid, IconButton, Paper, Typography } from '@mui/material';
 import { Compress, Expand, MoreVert } from '@mui/icons-material';
@@ -15,8 +15,6 @@ export default function Holdings() {
   const portfolio = usePortfolio();
 
   const { holdings } = portfolio;
-
-  console.log(holdings);
 
   const { id } = useParams();
 

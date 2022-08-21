@@ -1,12 +1,8 @@
-const {
-  MongoClient
-} = require('mongodb');
-const dotenv = require('dotenv');
+import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
+import path from 'path';
+import { writeFileSync } from 'fs';
 
-const {
-  writeFileSync
-} = require('fs');
-const path = require('path');
 const symbols = ['ONDS', 'TSLA', 'BRK.A'];
 const symbolFilter = {
   symbol: {
@@ -22,26 +18,23 @@ if (!process.env.CI) {
   });
 }
 
-async function fetchTestSymbolData(mongoUri) {
+export async function fetchTestSymbolData(mongoUri) {
   const client = new MongoClient(mongoUri);
   try {
     await client.connect();
 
     const results = await client
       .db('baggers')
-      .collection('symbols')
+      .collection('securities')
       .find(symbolFilter);
 
     await results.forEach((symbol) => {
-
       writeFileSync(
         `${path.join(__dirname, '../fixtures/', symbol.symbol)}.json`,
-        JSON.stringify(symbol),
+        JSON.stringify(symbol)
       );
     });
   } finally {
     client.close();
   }
 }
-
-fetchTestSymbolData(process.env.CYPRESS_ATLAS_CLUSTER_URI);

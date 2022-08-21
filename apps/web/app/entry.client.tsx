@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { hydrateRoot } from 'react-dom/client';
+import { hydrate } from 'react-dom';
 import { initReactI18next } from 'react-i18next';
 import { RemixBrowser } from '@remix-run/react';
 import { ThemeProvider } from '~/styles/ThemeProvider';
@@ -32,10 +32,8 @@ i18next
     // I recommend you to always disable react.useSuspense for i18next
     react: { useSuspense: false },
   })
-  .then(() =>
-    // then hydrate your app wrapped in the RemixI18NextProvider
-    hydrateRoot(
-      document,
+  .then(() => {
+    const ClientApp = (
       <ClientCacheProvider>
         <ThemeProvider>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -45,5 +43,7 @@ i18next
           </LocalizationProvider>
         </ThemeProvider>
       </ClientCacheProvider>
-    )
-  );
+    );
+    // TODO: switch to hydrateRoot when remix works with, as we get hydration errors currently in cypress
+    return hydrate(ClientApp, document);
+  });

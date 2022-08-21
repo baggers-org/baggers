@@ -3,6 +3,16 @@
   "sourceRoot": "apps/web",
   "projectType": "application",
   "targets": {
+    "dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        "^dev"
+      ],
+      "options": {
+        "command": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
+        "cwd": "apps/web"
+      }
+    },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": [

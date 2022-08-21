@@ -6,7 +6,6 @@ import {
   Transaction,
   Holding,
   Portfolio,
-  PlaidAccountType,
 } from '~/portfolios';
 import { ObjectId } from '~/shared';
 import { PlaidClientService } from '~/plaid-client';
@@ -19,7 +18,6 @@ import { ImportResponse } from './dto';
 import { ImportedSecurity } from '~/securities';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { SecurityMap } from '~/securities/types';
-import { writeFileSync } from 'fs';
 
 @Injectable()
 export class PortfolioImportService {
@@ -137,7 +135,7 @@ export class PortfolioImportService {
     const portfolios = accounts.map((account, index) => {
       // const cash = account.balances.available;
       const name =
-        account.name || account.official_name || 'imported portfolio ' + index;
+        account.official_name || account.name || 'imported portfolio ' + index;
 
       const holdings: Holding[] = this.importHoldings(
         holdingsResponse,

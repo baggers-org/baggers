@@ -8,6 +8,7 @@ describe('Portfolio holdings', () => {
   beforeEach(() => {
     cy.visit('/portfolios/created');
   });
+
   it('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
@@ -17,8 +18,6 @@ describe('Portfolio holdings', () => {
     cy.findByRole('button', { name: 'confirm portfolio name' }).click();
 
     cy.findByText('Add holding').click();
-
-    cy.findByText('I understand').click();
 
     cy.findByPlaceholderText('Search securities').type('ONDS');
 
@@ -50,7 +49,6 @@ describe('Portfolio holdings', () => {
       cy.wait('@addHolding');
 
       // Check the table row is correct
-      cy.wait(1000);
       const firstRow = () => cy.findAllByRole('row').eq(1);
 
       firstRow()
@@ -63,7 +61,7 @@ describe('Portfolio holdings', () => {
         .find('[data-field="averagePrice"]')
         .should('contain.text', `$6.50`);
       firstRow()
-        .find('[data-field="symbol.quote.latestPrice"]')
+        .find('[data-field="security.quote.latestPrice"]')
         .should('contain.text', `$${onds.quote.latestPrice}`);
       firstRow()
         .find('[data-field="profitLossPercent"]')
@@ -74,6 +72,11 @@ describe('Portfolio holdings', () => {
 
       // Should have a direct holding source
       cy.findByLabelText('direct holding source');
+
+      cy.findByText('Settings').click();
+
+      cy.findByText('Delete portfolio').click();
+      cy.findByText('Yes delete it').click();
     });
   });
 
@@ -103,9 +106,7 @@ describe('Portfolio holdings', () => {
     );
 
     // Most recent one will be the default sort
-    cy.findAllByText('Vanguard - Plaid isa').first().click();
-
-    cy.findByText('$34,220,543.24');
+    cy.findAllByText('Plaid isa').first().click();
 
     cy.findByText('Total Rows: 5');
 
