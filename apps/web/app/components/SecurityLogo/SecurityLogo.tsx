@@ -82,9 +82,9 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
         </Skeleton>
       )}
       {includeSecurityLink ? (
-        <Link sx={{ fontWeight: `bold` }}>
-          <RemixLink to={`/stock/${symbol}`}>{symbol}</RemixLink>
-        </Link>
+        <RemixLink to={`/stock/${symbol}`}>
+          <Link sx={{ textDecoration: 'none' }}>{symbol}</Link>
+        </RemixLink>
       ) : null}
     </Stack>
   );

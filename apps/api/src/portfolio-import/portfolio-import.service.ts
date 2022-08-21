@@ -135,7 +135,7 @@ export class PortfolioImportService {
     const portfolios = accounts.map((account, index) => {
       // const cash = account.balances.available;
       const name =
-        account.official_name || account.name || 'imported portfolio ' + index;
+        account.name || account.official_name || 'imported portfolio ' + index;
 
       const holdings: Holding[] = this.importHoldings(
         holdingsResponse,

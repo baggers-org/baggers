@@ -23,7 +23,7 @@ export class MockAuthGuard implements CanActivate {
     const { req } = context.getArgs()[2];
 
     // We can switch user by passing the user id as the auth token
-    const authHeader = req.headers.authorisation;
+    const authHeader = req.headers.authorization;
     if (authHeader) {
       req.user = payloads.find((u) => u.sub === authHeader) || {
         sub: authHeader,

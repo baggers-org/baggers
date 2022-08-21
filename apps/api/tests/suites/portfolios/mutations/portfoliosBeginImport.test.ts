@@ -36,6 +36,7 @@ export const portfoliosBeginImportTests = () =>
 
         // Grab the portfolios
         const { portfoliosCreated } = await User1Sdk().portfoliosCreated();
+
         created = portfoliosCreated
           .filter((created) => ids.includes(created._id))
           .map((c) => ({ ...c, _id: 'dummy', plaidAccountId: 'dummy' }));

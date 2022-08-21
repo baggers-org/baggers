@@ -106,7 +106,7 @@ describe('Portfolio holdings', () => {
     );
 
     // Most recent one will be the default sort
-    cy.findAllByText('Plaid isa').first().click();
+    cy.findAllByText('isa').first().click();
 
     cy.findByText('Total Rows: 5');
 
