@@ -1,5 +1,5 @@
 import { AddLink, Delete, GroupAdd, PlaylistAdd } from '@mui/icons-material';
-import { Skeleton, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
 
 import { useTranslation } from 'react-i18next';

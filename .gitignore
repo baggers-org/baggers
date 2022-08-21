@@ -40,6 +40,7 @@ testem.log
 Thumbs.db
 
 .env*
+!.env.test
 # Remix files
 apps/**/build
 apps/**/.cache

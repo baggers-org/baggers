@@ -29,6 +29,13 @@ jobs:
         run: npx nx affected --target=type-check --parallel=3
       - name: Test
         run: npx nx affected --target=test --parallel=3
+        env:
+          OPEN_FIGI_KEY: ${{ secrets.OPEN_FIGI_KEY }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_CLIENT_SECRET: ${{ secrets.PLAID_CLIENT_SECRET }}
+          IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
+          IEX_TOKEN: ${{ secrets.IEX_TOKEN }}
   deploy:
     runs-on: ubuntu-latest
     name: Deploy Affected
@@ -48,79 +55,46 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
-  # deployUi:
-  #   name: 'Deploy UI to staging'
-  #   needs: test
-  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-  #   runs-on: ubuntu-latest
-  #   environment: 'Staging'
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: 'Deploy ui'
-  #       uses: superfly/flyctl-actions@master
-  #       env:
-  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-  #         FLY_PROJECT_PATH: packages/ui
-  #       with:
-  #         args: 'deploy -c fly.staging.toml'
-  # deployApi:
-  #   name: 'Deploy API to staging'
-  #   needs: test
-  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-  #   runs-on: ubuntu-latest
-  #   environment: 'Staging'
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: 'Deploy API'
-  #       uses: superfly/flyctl-actions@master
-  #       env:
-  #         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-  #         FLY_PROJECT_PATH: packages/api
-  #       with:
-  #         args: 'deploy -c fly.staging.toml'
+  cypress-chrome:
+    name: 'Cypress - chrome'
+    needs:
+      - deploy
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
+        env:
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
 
-  # cypress-chrome:
-  #   name: 'Cypress - chrome'
-  #   needs:
-  #     - deployApi
-  #     - deployUi
-  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: 'yarn install'
-  #     - run: 'yarn e2e:chrome'
-  #       env:
-  #         CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
-  #         CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
-  #         CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
-  #         CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
-  #         CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
-  #         CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
-  #         CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
-  #         CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
-  #         CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
-  #         CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
-
-  # cypress-firefox:
-  #   name: 'Cypress - firefox'
-  #   needs:
-  #     - deployApi
-  #     - deployUi
-  #   if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - run: 'yarn install'
-  #     - run: 'yarn e2e:firefox'
-  #       env:
-  #         CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
-  #         CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
-  #         CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
-  #         CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
-  #         CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
-  #         CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
-  #         CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
-  #         CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
-  #         CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
-  #         CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
+  cypress-firefox:
+    name: 'Cypress - firefox'
+    needs:
+      - deploy
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm ci
+      - run: nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
+        env:
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}

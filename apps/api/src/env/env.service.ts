@@ -10,7 +10,7 @@ export class EnvService {
   constructor(private configService: ConfigService) {}
   get(path: keyof typeof env) {
     const value = this.configService.get(path);
-    if (!value)
+    if (!value && process.env.NODE_ENV === 'production')
       throw Error(
         'EnvService - tried to access env key ' +
           path +

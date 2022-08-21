@@ -29,7 +29,8 @@ const themer = new ThemeBuilder({
     `0px 2px 6px #0000000A`,
   ],
   typography: {
-    fontFamily: `Poppins`,
+    fontFamily:
+      '-apple-system,BlinkMacSystemFont,Trebuchet MS,Roboto,Ubuntu,sans-serif',
     h1: {
       fontFamily: `Plus Jakarta Sans`,
     },

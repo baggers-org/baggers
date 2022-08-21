@@ -13,6 +13,7 @@ export const HoldingsTable: React.FC<
       initialState={{
         sorting: { sortModel: [{ field: `marketValue`, sort: `desc` }] },
       }}
+      sx={{ fontSize: '1rem' }}
       density={density}
       columns={useTableColumns({ ...tableColumnProps })}
       getRowId={(row) => row._id}
