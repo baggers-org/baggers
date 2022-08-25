@@ -9,7 +9,7 @@ if (!process.env.CI) {
   dotenv.config({ path: '../web/.env' });
 }
 
-fetchTestSymbolData(process.env.ATLAS_CLUSTER_URI);
+fetchTestSymbolData(process.env.CYPRESS_ATLAS_CLUSTER_URI);
 
 const {
   CYPRESS_FF_USER,
