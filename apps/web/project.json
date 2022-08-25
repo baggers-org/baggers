@@ -34,6 +34,17 @@
     },
     "type-check": {
       "executor": "./tools/executors/ts-check:ts-check"
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "flyctl deploy -c apps/web/fly.staging.toml"
+      },
+      "configurations": {
+        "production": {
+          "command": "flyctl delpoy -c apps/web/fly.toml"
+        }
+      }
     }
   }
 }
