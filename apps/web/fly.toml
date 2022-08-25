@@ -7,8 +7,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-dockerfile = '../../Dockerfile'
-build-target = 'web'
+image = "danbaggers/baggers-ui:latest"
 
 [env]
 port = 3000
