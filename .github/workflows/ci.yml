@@ -54,6 +54,7 @@ jobs:
       - run: npx nx affected --target=deploy --parallel=2 --output-style=stream
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          BUILDKIT: 1
 
   cypress-chrome:
     name: 'Cypress - chrome'
