@@ -51,7 +51,7 @@ jobs:
           main-branch-name: develop
       - name: Install
         run: npm ci
-      - run: npx nx affected --target=deploy --parallel=3
+      - run: npx nx affected --target=deploy --parallel=2 --output-style=stream
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
