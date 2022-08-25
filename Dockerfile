@@ -6,7 +6,7 @@ RUN mkdir /baggers
 WORKDIR /baggers
 
 FROM base as deps
-ADD package.json package-lock.json nx.json workspace.json tsconfig.base.json ./
+ADD . .
 RUN npm ci
 
 # Build the API 
@@ -28,7 +28,6 @@ CMD ["node", "main.js"]
 # Build the web application
 FROM base as web-build
 ADD apps/web ./apps/web
-
 RUN npm run build web --configuration=production
 
 FROM base as web
