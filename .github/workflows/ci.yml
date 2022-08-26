@@ -93,7 +93,8 @@ jobs:
   cypress-firefox:
     name: 'Cypress - firefox'
     needs:
-      - deploy
+      - deployUi
+      - deployApi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
