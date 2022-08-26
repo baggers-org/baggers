@@ -7,7 +7,8 @@ kill_timeout = 5
 processes = []
 
 [build]
-image = "danbaggers/baggers-api:latest"
+dockerfile = '../../Dockerfile'
+build-target = 'api'
 
 [env]
   PORT = "8080"

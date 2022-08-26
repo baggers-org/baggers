@@ -1,27 +1,43 @@
-## API BUILD
-FROM danbaggers/baggers-deps:latest as api-build
+FROM node:18-bullseye-slim as base
+
+RUN apt-get update && apt-get install git -y
+
+RUN mkdir /baggers
+WORKDIR /baggers
+
+FROM base as base-deps
+ADD package.json package-lock.json ./
+RUN npm ci
+ADD . .
+
+# Build the API 
+FROM base-deps as api-build
 ADD apps/api ./apps/api
+
 RUN npm run build api --configuration=production
 
-## API runnable
-FROM danbaggers/baggers-base:latest as api
+FROM base as api
+
 WORKDIR /baggers-api
 COPY --from=api-build /baggers/dist/apps/api  /baggers-api/
 COPY --from=base-deps /baggers/package-lock.json  /baggers-api/
+
 RUN npm ci
 CMD ["node", "main.js"]
 
 
-## Web build
-FROM danbaggers/baggers-deps:latest as web-build
+# Build the web application
+FROM base-deps as web-build
 ADD apps/web ./apps/web
 RUN npm run build web --configuration=production
 
-## Web runnable
-FROM danbaggers/baggers-base:latest as web
+FROM base as web
+
 WORKDIR /baggers-web
 COPY --from=web-build /baggers/dist/apps/web  /baggers-web/
+
 # TODO: we are installing all dependencies in the UI container
 COPY --from=base-deps /baggers/package.json /baggers/package-lock.json  /baggers-web/
+
 RUN npm ci
 CMD ["npx", "remix-serve", "build"]

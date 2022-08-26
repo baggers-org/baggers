@@ -5,8 +5,8 @@ import { fetchTestSymbolData } from './src/scripts/fetchTestSymbolData';
 import dotenv from 'dotenv';
 
 if (!process.env.CI) {
-  dotenv.config({ path: '../api/.env' });
-  dotenv.config({ path: '../web/.env' });
+  dotenv.config({ path: 'apps/web/.env' });
+  dotenv.config({ path: 'apps/api/.env' });
 }
 
 fetchTestSymbolData(process.env.CYPRESS_ATLAS_CLUSTER_URI);
