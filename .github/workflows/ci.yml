@@ -40,7 +40,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy Affected
-    needs: test
+    # needs: test
     environment: Staging
     steps:
       - uses: actions/checkout@v2
