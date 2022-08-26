@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "resolveJsonModule": true,
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@baggers/sdk": ["libs/sdk/src/index.ts"],
+      "@baggers/type-util": ["libs/type-util/src/index.ts"],
+      "~/*": ["./apps/web/app/*", "./apps/api/src/*"],
+      "~test-sdk": ["apps/api/tests/test-sdk.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

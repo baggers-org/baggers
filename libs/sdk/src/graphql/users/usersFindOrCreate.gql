@@ -1,0 +1,6 @@
+mutation usersFindOrCreate($input: CreateUserInput!) {
+  usersFindOrCreate(input: $input) {
+    _id
+    ...FullUser
+  }
+}

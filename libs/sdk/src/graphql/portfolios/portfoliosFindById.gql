@@ -1,0 +1,7 @@
+
+query portfoliosFindById($_id: ObjectId!) {
+  portfoliosFindById(_id: $_id) {
+    _id
+    ...AllPortfolioData
+  }
+}

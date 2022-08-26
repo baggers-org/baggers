@@ -1,0 +1,38 @@
+query chartSecurityPrice(
+  $range: HistoricalRange!
+  $securityId: ObjectId!
+  $options: ChartPriceRangeOptions
+) {
+  chartSecurityPrice(
+    range: $range
+    securityId: $securityId
+    options: $options
+  ) {
+    change
+    changeOverTime
+    changePercent
+    close
+    date
+    fClose
+    fHigh
+    fLow
+    fOpen
+    fVolume
+    high
+    id
+    key
+    label
+    low
+    marketChangeOverTime
+    open
+    subkey
+    symbol
+    uClose
+    uHigh
+    uLow
+    uOpen
+    uVolume
+    updated
+    volume
+  }
+}

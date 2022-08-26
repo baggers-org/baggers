@@ -1,0 +1,9 @@
+query securitiesSearch($searchTerm: String!) {
+  securitiesSearch(searchTerm: $searchTerm) {
+    _id
+    ...AllSecurityData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}

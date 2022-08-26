@@ -1,0 +1,34 @@
+fragment AllSecurityData on Security {
+  cik
+  createdAt
+  currency
+  exchange
+  exchangeName
+  figi
+  iexId
+  name
+  region
+  symbol
+  quote {
+    ...AllQuoteData
+  }
+  updatedAt
+}
+
+fragment AllImportedSecurityData on ImportedSecurity {
+  close_price
+  name
+  ticker_symbol
+  type
+}
+
+fragment SecuritySummary on Security {
+  _id
+  name
+  symbol
+  exchangeName
+  region
+  quote {
+    latestPrice
+  }
+}

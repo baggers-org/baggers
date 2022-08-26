@@ -1,0 +1,33 @@
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  createdAt
+  updatedAt
+  plaidAccount {
+    ...FullPlaidAccount
+  }
+  totalValue
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+}

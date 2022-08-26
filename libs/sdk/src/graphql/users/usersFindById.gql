@@ -1,0 +1,6 @@
+query usersFindById($_id: ID!) {
+  usersFindById(_id: $_id) {
+    _id
+    ...FullUser
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/web",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [
+        "^dev"
+      ],
+      "options": {
+        "command": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
+        "cwd": "apps/web"
+      }
+    },
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [],
+      "options": {
+        "command": "cross-env NODE_ENV=production NODE_OPTIONS='-r ./esbuild-overrides' remix build",
+        "cwd": "apps/web"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/web/**/*.ts"
+        ]
+      }
+    },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "flyctl deploy -c apps/web/fly.staging.toml"
+      },
+      "configurations": {
+        "production": {
+          "command": "flyctl delpoy -c apps/web/fly.toml"
+        }
+      }
+    }
+  }
+}

@@ -3,35 +3,33 @@ name: CD
 on:
   push:
     branches:
-      - "develop"
-    
+      - 'develop'
 
 jobs:
   deployUi:
-    name: "Deploy UI"
+    name: 'Deploy UI'
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    environment: "Production"
+    environment: 'Production'
     steps:
       - uses: actions/checkout@v2
-      - name: "Deploy ui"
+      - name: 'Deploy ui'
         uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          FLY_PROJECT_PATH: packages/ui
         with:
-          args: "deploy"
+          args: 'deploy -c apps/web/fly.toml'
+
   deployApi:
-    name: "Deploy API"
+    name: 'Deploy API'
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    environment: "Production"
+    environment: 'Production'
     steps:
       - uses: actions/checkout@v2
-      - name: "Deploy API"
+      - name: 'Deploy API'
         uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          FLY_PROJECT_PATH: packages/api
         with:
-          args: "deploy"
+          args: 'deploy -c apps/api/fly.toml'

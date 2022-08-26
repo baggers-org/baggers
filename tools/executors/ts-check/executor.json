@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "ts-check": {
+      "implementation": "./ts-check.js",
+      "schema": "./schema.json",
+      "description": "Runs `tsCheck`."
+    }
+  }
+}

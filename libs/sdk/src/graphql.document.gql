@@ -1,0 +1,388 @@
+
+
+query chartSecurityPrice(
+  $range: HistoricalRange!
+  $securityId: ObjectId!
+  $options: ChartPriceRangeOptions
+) {
+  chartSecurityPrice(
+    range: $range
+    securityId: $securityId
+    options: $options
+  ) {
+    change
+    changeOverTime
+    changePercent
+    close
+    date
+    fClose
+    fHigh
+    fLow
+    fOpen
+    fVolume
+    high
+    id
+    key
+    label
+    low
+    marketChangeOverTime
+    open
+    subkey
+    symbol
+    uClose
+    uHigh
+    uLow
+    uOpen
+    uVolume
+    updated
+    volume
+  }
+}
+
+
+query plaidLinkToken {
+  plaidLinkToken
+}
+
+
+fragment AllHoldingData on Holding {
+  _id
+  # Market data fields
+  marketValue
+  exposure
+  profitLossUsd
+  profitLossPercent
+  dailyProfitLossUsd
+  #
+
+  averagePrice
+  costBasis
+  brokerFees
+  institutionValue
+  direction
+  quantity
+  securityType
+  source
+  currency
+  importedSecurity {
+    ...AllImportedSecurityData
+  }
+  security {
+    ...AllSecurityData
+  }
+}
+
+
+fragment FullPlaidAccount on PlaidAccount {
+  type
+  name
+  subtype
+  official_name
+  account_id
+  balances {
+    current
+    available
+  }
+}
+
+
+fragment PortfolioSummary on Portfolio {
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  createdAt
+  updatedAt
+  plaidAccount {
+    ...FullPlaidAccount
+  }
+  totalValue
+}
+
+fragment PortfolioTransactions on Portfolio {
+  transactions {
+    ...AllTransactionData
+  }
+}
+fragment PortfolioHoldings on Portfolio {
+  holdings {
+    ...AllHoldingData
+  }
+}
+
+fragment AllPortfolioData on Portfolio {
+  ...PortfolioSummary
+  ...PortfolioHoldings
+  ...PortfolioTransactions
+}
+
+
+fragment AllTransactionData on Transaction {
+  name
+  date
+  currency
+  security {
+    name
+    symbol
+  }
+  importedSecurity {
+    name
+    ticker_symbol
+  }
+  quantity
+  amount
+  fees
+  price
+  type
+  subType
+}
+
+
+mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
+  portfoliosAddHolding(_id: $_id, input: $input) {
+    _id
+    holdings {
+      averagePrice
+      brokerFees
+      costBasis
+      quantity
+    }
+  }
+}
+
+
+mutation portfoliosBeginImport($publicToken: String!) {
+  portfoliosBeginImport(publicToken: $publicToken) {
+    importedIds
+  }
+}
+
+
+query portfoliosCreated {
+  portfoliosCreated {
+    _id
+    owner {
+      ...FullUser
+    }
+    name
+    cash
+    private
+    description
+    updatedAt
+    createdAt
+    totalValue
+    plaidAccount {
+      ...FullPlaidAccount
+    }
+    top5Holdings {
+      costBasis
+      exposure
+      securityType
+      marketValue
+      importedSecurity {
+        ...AllImportedSecurityData
+      }
+      security {
+        ...SecuritySummary
+      }
+    }
+  }
+}
+
+
+
+query portfoliosFindById($_id: ObjectId!) {
+  portfoliosFindById(_id: $_id) {
+    _id
+    ...AllPortfolioData
+  }
+}
+
+mutation portfoliosInitEmpty {
+  portfoliosInitEmpty {
+    _id
+  }
+}
+
+
+mutation portfoliosRemoveHolding(
+  $portfolioId: ObjectId!
+  $holdingId: ObjectId!
+) {
+  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
+}
+
+
+mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
+  portfoliosRemoveMultiple(_ids: $_ids) {
+    acknowledged
+    deletedCount
+  }
+}
+
+
+mutation portfoliosRemoveOne($_id: ObjectId!) {
+  portfoliosRemoveOne(_id: $_id) {
+    _id
+  }
+}
+
+
+mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
+  portfoliosUpdateOne(_id: $_id, input: $input) {
+    _id
+    createdAt
+    description
+    name
+    private
+    updatedAt
+  }
+}
+
+
+fragment AllQuoteData on Quote {
+  avgTotalVolume
+  calculationPrice
+  change
+  changePercent
+  companyName
+  close
+  closeSource
+  closeTime
+  currency
+  delayedPrice
+  delayedPriceTime
+  extendedPrice
+  extendedChange
+  extendedChangePercent
+  extendedPriceTime
+  high
+  highSource
+  highTime
+  iexAskPrice
+  iexAskSize
+  iexBidPrice
+  iexBidSize
+  iexClose
+  iexCloseTime
+  iexLastUpdated
+  iexOpen
+  iexOpenTime
+  iexRealtimePrice
+  iexRealtimeSize
+  iexMarketPercent
+  iexVolume
+  isUSMarketOpen
+  lastTradeTime
+  latestPrice
+  latestSource
+  latestTime
+  latestUpdate
+  latestVolume
+  low
+  lowTime
+  lowSource
+  marketCap
+  oddLotDelayedPrice
+  oddLotDelayedPriceTime
+  open
+  openSource
+  openTime
+  peRatio
+  previousClose
+  previousVolume
+  primaryExchange
+  symbol
+  week52High
+  week52Low
+  volume
+  ytdChange
+}
+
+
+fragment AllSecurityData on Security {
+  cik
+  createdAt
+  currency
+  exchange
+  exchangeName
+  figi
+  iexId
+  name
+  region
+  symbol
+  quote {
+    ...AllQuoteData
+  }
+  updatedAt
+}
+
+fragment AllImportedSecurityData on ImportedSecurity {
+  close_price
+  name
+  ticker_symbol
+  type
+}
+
+fragment SecuritySummary on Security {
+  _id
+  name
+  symbol
+  exchangeName
+  region
+  quote {
+    latestPrice
+  }
+}
+
+
+query securitiesFindById($_id: ObjectId!) {
+  securitiesFindById(_id: $_id) {
+    _id
+    ...AllSecurityData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+
+
+query securitiesSearch($searchTerm: String!) {
+  securitiesSearch(searchTerm: $searchTerm) {
+    _id
+    ...AllSecurityData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
+
+
+fragment FullUser on User {
+  _id
+  displayName
+  emails
+  photos
+  createdAt
+  updatedAt
+}
+
+
+query usersFindById($_id: ID!) {
+  usersFindById(_id: $_id) {
+    _id
+    ...FullUser
+  }
+}
+
+
+mutation usersFindOrCreate($input: CreateUserInput!) {
+  usersFindOrCreate(input: $input) {
+    _id
+    ...FullUser
+  }
+}

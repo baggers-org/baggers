@@ -1,5 +1,0 @@
-mutation plaidImportPortfolios($input: PlaidImportPortfoliosInput!) {
-  plaidImportPortfolios(input: $input) {
-    ok
-  }
-}

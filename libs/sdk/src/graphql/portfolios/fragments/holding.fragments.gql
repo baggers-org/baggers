@@ -1,0 +1,26 @@
+fragment AllHoldingData on Holding {
+  _id
+  # Market data fields
+  marketValue
+  exposure
+  profitLossUsd
+  profitLossPercent
+  dailyProfitLossUsd
+  #
+
+  averagePrice
+  costBasis
+  brokerFees
+  institutionValue
+  direction
+  quantity
+  securityType
+  source
+  currency
+  importedSecurity {
+    ...AllImportedSecurityData
+  }
+  security {
+    ...AllSecurityData
+  }
+}

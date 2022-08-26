@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "projects": {
+    "api": "apps/api",
+    "e2e": "apps/e2e",
+    "sdk": "libs/sdk",
+    "type-util": "libs/type-util",
+    "web": "apps/web"
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
+}

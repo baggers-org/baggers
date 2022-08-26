@@ -1,0 +1,9 @@
+query securitiesFindById($_id: ObjectId!) {
+  securitiesFindById(_id: $_id) {
+    _id
+    ...AllSecurityData
+    quote {
+      ...AllQuoteData
+    }
+  }
+}
