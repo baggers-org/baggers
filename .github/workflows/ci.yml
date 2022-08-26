@@ -37,26 +37,34 @@ jobs:
           IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
           IEX_TOKEN: ${{ secrets.IEX_TOKEN }}
 
-  deploy:
+  deployUi:
+    name: 'Deploy UI to staging'
+    needs: test
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    name: Deploy Affected
-    # needs: test
-    environment: Staging
+    environment: 'Staging'
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: develop
-
-      - name: Install
-        run: npm ci
-      - run: npx nx affected --target=deploy --parallel=2 --output-style=stream
+      - name: 'Deploy ui'
+        uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          DOCKER_BUILDKIT: 1
+        with:
+          args: 'deploy -c apps/web/fly.staging.toml'
+  deployApi:
+    name: 'Deploy API to staging'
+    needs: test
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    environment: 'Staging'
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Deploy API'
+        uses: superfly/flyctl-actions@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        with:
+          args: 'deploy -c apps/api/fly.staging.toml'
 
   cypress-chrome:
     name: 'Cypress - chrome'
