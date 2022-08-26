@@ -51,6 +51,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         with:
           args: 'deploy -c apps/web/fly.staging.toml'
+
   deployApi:
     name: 'Deploy API to staging'
     needs: test
