@@ -1,4 +1,3 @@
-import { ImportedSecurity, Security } from '@baggers/sdk';
 import {
   Stack,
   Avatar,
@@ -10,19 +9,20 @@ import {
 } from '@mui/material';
 import { Link as RemixLink } from '@remix-run/react';
 import React, { useMemo } from 'react';
-import { isImportedSecurity } from '@baggers/type-util';
 import { Help } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 
 export type SecurityLogoProps = {
-  security: Security | ImportedSecurity;
+  symbol: string;
+  existsInDatabase: boolean;
   includeSecurityLink?: boolean;
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
 } & Omit<AvatarProps, 'security'>;
 
 export const SecurityLogo: React.FC<SecurityLogoProps> = ({
-  security,
+  symbol,
+  existsInDatabase,
   includeSecurityLink = true,
   size = `sm`,
   loading,
@@ -47,18 +47,8 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
     };
   }, [size]);
 
-  let symbol: string | undefined | null;
-  let matched = false;
-
-  if (isImportedSecurity(security)) {
-    symbol = security.ticker_symbol;
-  } else {
-    matched = true;
-    symbol = security.symbol;
-  }
-
   const securityLink = useMemo(() => {
-    if (matched) {
+    if (existsInDatabase) {
       return (
         <RemixLink to={`/stock/${symbol}`}>
           <Link>{symbol}</Link>
@@ -66,7 +56,11 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
       );
     }
     return (
-      <Tooltip title={t('We could not find this security in our database.')}>
+      <Tooltip
+        title={t(
+          'We could not find this security in our database. Market data will be read from your broker, and may be out of date.'
+        )}
+      >
         <Link
           sx={{
             color: theme.palette.text.disabled,
@@ -81,7 +75,7 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
         </Link>
       </Tooltip>
     );
-  }, [symbol, matched]);
+  }, [symbol, existsInDatabase]);
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>

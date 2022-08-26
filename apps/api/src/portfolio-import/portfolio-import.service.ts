@@ -13,6 +13,7 @@ import { Injectable } from '@nestjs/common';
 import {
   InvestmentsHoldingsGetResponse,
   InvestmentsTransactionsGetResponse,
+  InvestmentTransactionSubtype,
 } from 'plaid';
 import { ImportResponse } from './dto';
 import { ImportedSecurity } from '~/securities';

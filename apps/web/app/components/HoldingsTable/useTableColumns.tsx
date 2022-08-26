@@ -8,6 +8,7 @@ import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
 import { UseTableColumnProps } from './types';
+import { getSecuritySymbol } from '~/util/getSecuritySymbol';
 
 export const useTableColumns = ({
   onRemoveHolding,
@@ -22,7 +23,10 @@ export const useTableColumns = ({
       valueGetter: ({ row }) =>
         row?.security?.symbol || row.importedSecurity.ticker_symbol,
       renderCell: ({ row }) => (
-        <SecurityLogo security={row.security || row.importedSecurity} />
+        <SecurityLogo
+          symbol={getSecuritySymbol(row.security || row.importedSecurity)}
+          existsInDatabase={!!row.security}
+        />
       ),
     },
     {

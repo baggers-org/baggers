@@ -127,12 +127,10 @@ fragment AllTransactionData on Transaction {
   date
   currency
   security {
-    name
-    symbol
+    ...AllSecurityData
   }
   importedSecurity {
-    name
-    ticker_symbol
+    ...AllImportedSecurityData
   }
   quantity
   amount
@@ -326,6 +324,7 @@ fragment AllImportedSecurityData on ImportedSecurity {
   close_price
   name
   ticker_symbol
+  currency
   type
 }
 

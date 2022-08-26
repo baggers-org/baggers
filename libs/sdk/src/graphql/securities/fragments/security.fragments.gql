@@ -19,6 +19,7 @@ fragment AllImportedSecurityData on ImportedSecurity {
   close_price
   name
   ticker_symbol
+  currency
   type
 }
 

@@ -144,12 +144,12 @@ type ImportResponse {
 type ImportedSecurity {
   close_price: Float
   close_price_as_of: String
+  currency: String
   cusip: String
   institution_id: String
   institution_security_id: String
   is_cash_equivalent: Boolean
   isin: String
-  iso_currency_code: String
   name: String
   proxy_security_id: String
 
