@@ -1,4 +1,5 @@
 fragment AllTransactionData on Transaction {
+  _id
   name
   date
   currency

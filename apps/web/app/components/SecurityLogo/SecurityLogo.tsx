@@ -1,20 +1,9 @@
 import { ImportedSecurity, Security, SecurityType } from '@baggers/sdk';
-import {
-  Stack,
-  Avatar,
-  Link,
-  AvatarProps,
-  Skeleton,
-  useTheme,
-} from '@mui/material';
+import { Stack, Avatar, Link, AvatarProps, Skeleton } from '@mui/material';
 import { Link as RemixLink } from '@remix-run/react';
 import React, { useMemo } from 'react';
 import { isImportedSecurity } from '@baggers/type-util';
-import {
-  AttachMoneyOutlined,
-  AttachMoneyTwoTone,
-  SavingsOutlined,
-} from '@mui/icons-material';
+import { Help, SavingsOutlined } from '@mui/icons-material';
 
 export type SecurityLogoProps = {
   security: Security | ImportedSecurity;
@@ -30,7 +19,6 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   loading,
   ...avatarProps
 }) => {
-  const theme = useTheme();
   const { width, height } = useMemo(() => {
     if (size === `md`)
       return {
@@ -49,9 +37,11 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   }, [size]);
 
   let symbol;
+  let matched = false;
   if (isImportedSecurity(security)) {
     symbol = security.ticker_symbol;
   } else {
+    matched = true;
     symbol = security.symbol;
   }
 
@@ -81,7 +71,13 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
           <Avatar sx={{ width, height }} />
         </Skeleton>
       )}
-      {includeSecurityLink ? (
+      {!matched && (
+        <>
+          {symbol}
+          <Help />
+        </>
+      )}
+      {includeSecurityLink && matched ? (
         <RemixLink to={`/stock/${symbol}`}>
           <Link sx={{ textDecoration: 'none' }}>{symbol}</Link>
         </RemixLink>

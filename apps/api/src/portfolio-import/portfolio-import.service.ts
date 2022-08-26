@@ -45,6 +45,7 @@ export class PortfolioImportService {
       const security = securityMap.get(importedSecurity.security_id);
 
       const transaction: Transaction = {
+        _id: new ObjectId(),
         name: t.name,
         currency: t.iso_currency_code,
         date: new Date(t.date),
@@ -80,8 +81,8 @@ export class PortfolioImportService {
       const security = securityMap.get(importedSecurity.security_id);
 
       const holding: Holding = {
-        averagePrice: t.cost_basis / t.quantity,
-        costBasis: t.cost_basis,
+        averagePrice: t.cost_basis,
+        costBasis: t.cost_basis * t.quantity,
         quantity: t.quantity,
         plaidAccountId: t.account_id,
         institutionValue: t.institution_value,

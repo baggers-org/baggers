@@ -436,6 +436,7 @@ enum SecurityType {
 }
 
 type Transaction {
+  _id: ObjectId!
   amount: Float!
   createdBy: User
   currency: String!
@@ -458,6 +459,7 @@ type Transaction {
 }
 
 type TransactionFromDb {
+  _id: ObjectId!
   amount: Float!
   createdBy: User
   currency: String!

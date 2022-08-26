@@ -29,15 +29,17 @@ export const PriceTag: React.FC<PriceTagProps> = ({
     return theme.palette.text.primary;
   };
 
-  const formattedValue = isPercent
-    ? `${value.toFixed(2)}%`
-    : formatCurrency(value);
+  const formattedValue =
+    isPercent && value ? `${value.toFixed(2)}%` : formatCurrency(value);
   return (
     <Stack>
       {label}
-      <Typography variant="subtitle1" color={getColor()} {...props}>
-        {value > 0 ? `+${formattedValue}` : formattedValue}
-      </Typography>
+      {!value && 'N/A'}
+      {value ? (
+        <Typography variant="subtitle1" color={getColor()} {...props}>
+          {value > 0 ? `+${formattedValue}` : formattedValue}
+        </Typography>
+      ) : null}
     </Stack>
   );
 };

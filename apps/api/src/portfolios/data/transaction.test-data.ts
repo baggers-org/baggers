@@ -2,9 +2,11 @@ import { NET, TSLA } from '~/securities';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
 import { Transaction } from '../entities';
 import { SecurityType } from '~/securities/enums/security-type.enum';
+import { ObjectId } from '~/shared';
 
 export const ImportedTransactions: Transaction[] = [
   {
+    _id: new ObjectId('62d2cd45c63873e235c99531'),
     name: 'DEPOSIT $100',
     date: new Date(2022, 2, 1),
     amount: 100,
@@ -15,6 +17,7 @@ export const ImportedTransactions: Transaction[] = [
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99532'),
     name: 'BUY Tesla Inc.',
     currency: 'USD',
     date: new Date(2022, 2, 3),
@@ -28,6 +31,7 @@ export const ImportedTransactions: Transaction[] = [
     type: InvestmentTransactionType.Buy,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99533'),
     name: 'Sell Tesla Inc.',
     date: new Date(2022, 2, 4),
     currency: 'USD',
@@ -41,6 +45,7 @@ export const ImportedTransactions: Transaction[] = [
     type: InvestmentTransactionType.Sell,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99534'),
     name: 'BUY NET.',
     currency: 'USD',
     date: new Date(2022, 3, 3),
@@ -54,6 +59,7 @@ export const ImportedTransactions: Transaction[] = [
     type: InvestmentTransactionType.Buy,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99535'),
     name: 'DEPOSIT $5000',
     amount: 5000,
     currency: 'USD',
@@ -64,6 +70,7 @@ export const ImportedTransactions: Transaction[] = [
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99536'),
     name: 'BUY NET.',
     currency: 'USD',
     date: new Date(2022, 3, 5),
@@ -77,6 +84,7 @@ export const ImportedTransactions: Transaction[] = [
     type: InvestmentTransactionType.Buy,
   },
   {
+    _id: new ObjectId('62d2cd45c63873e235c99537'),
     name: 'WITHDRAW $2000',
     amount: -2000,
     securityType: SecurityType.cash,

@@ -1,5 +1,5 @@
 import { ImportedSecurity, Security } from '~/securities';
-import { ObjectId } from '~/shared';
+import { ObjectId, ObjectIdScalar } from '~/shared';
 import { User } from '~/users';
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
@@ -8,6 +8,10 @@ import { SecurityType } from '~/securities/enums/security-type.enum';
 
 @ObjectType('TransactionFromDb')
 export class Transaction {
+  @Prop()
+  @Field(() => ObjectIdScalar)
+  _id: ObjectId;
+
   @Prop()
   @Field()
   name: string;
