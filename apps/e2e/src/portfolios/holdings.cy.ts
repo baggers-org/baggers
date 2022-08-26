@@ -48,6 +48,8 @@ describe('Portfolio holdings', () => {
       cy.findByText('Add holding').click();
       cy.wait('@addHolding');
 
+      // eslint-disable-next-line
+      cy.wait(1000);
       // Check the table row is correct
       const firstRow = () => cy.findAllByRole('row').eq(1);
 

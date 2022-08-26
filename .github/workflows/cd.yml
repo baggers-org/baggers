@@ -6,21 +6,30 @@ on:
       - 'develop'
 
 jobs:
-  deploy:
+  deployUi:
+    name: 'Deploy UI'
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
-    name: Deploy Affected
-    environment: Production
+    environment: 'Production'
     steps:
       - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: develop
-      - name: Install
-        run: npm ci
-      - run: npx nx affected --target=deploy --parallel=2 --output-style=stream --configuration=production
+      - name: 'Deploy ui'
+        uses: superfly/flyctl-actions@master
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-          DOCKER_BUILDKIT: 1
+        with:
+          args: 'deploy -c apps/web/fly.toml'
+
+  deployApi:
+    name: 'Deploy API'
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    environment: 'Production'
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Deploy API'
+        uses: superfly/flyctl-actions@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        with:
+          args: 'deploy -c apps/api/fly.toml'

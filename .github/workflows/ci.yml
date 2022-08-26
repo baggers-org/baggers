@@ -51,6 +51,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         with:
           args: 'deploy -c apps/web/fly.staging.toml'
+
   deployApi:
     name: 'Deploy API to staging'
     needs: test
@@ -69,7 +70,8 @@ jobs:
   cypress-chrome:
     name: 'Cypress - chrome'
     needs:
-      - deploy
+      - deployUi
+      - deployApi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +93,8 @@ jobs:
   cypress-firefox:
     name: 'Cypress - firefox'
     needs:
-      - deploy
+      - deployUi
+      - deployApi
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
