@@ -1,3 +1,4 @@
 FROM danbaggers/baggers-base:latest
-ADD . .
+ADD package.json package-lock.json ./
 RUN npm ci
+ADD . .
