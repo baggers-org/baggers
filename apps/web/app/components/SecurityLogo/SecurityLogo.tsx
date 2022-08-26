@@ -1,9 +1,18 @@
-import { ImportedSecurity, Security, SecurityType } from '@baggers/sdk';
-import { Stack, Avatar, Link, AvatarProps, Skeleton } from '@mui/material';
+import { ImportedSecurity, Security } from '@baggers/sdk';
+import {
+  Stack,
+  Avatar,
+  Link,
+  AvatarProps,
+  Skeleton,
+  useTheme,
+  Tooltip,
+} from '@mui/material';
 import { Link as RemixLink } from '@remix-run/react';
 import React, { useMemo } from 'react';
 import { isImportedSecurity } from '@baggers/type-util';
-import { Help, SavingsOutlined } from '@mui/icons-material';
+import { Help } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
 
 export type SecurityLogoProps = {
   security: Security | ImportedSecurity;
@@ -19,6 +28,8 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   loading,
   ...avatarProps
 }) => {
+  const theme = useTheme();
+  const { t } = useTranslation('common');
   const { width, height } = useMemo(() => {
     if (size === `md`)
       return {
@@ -36,8 +47,9 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
     };
   }, [size]);
 
-  let symbol;
+  let symbol: string | undefined | null;
   let matched = false;
+
   if (isImportedSecurity(security)) {
     symbol = security.ticker_symbol;
   } else {
@@ -45,14 +57,32 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
     symbol = security.symbol;
   }
 
-  if (security.type === SecurityType.Cash) {
+  const securityLink = useMemo(() => {
+    if (matched) {
+      return (
+        <RemixLink to={`/stock/${symbol}`}>
+          <Link>{symbol}</Link>
+        </RemixLink>
+      );
+    }
     return (
-      <>
-        <SavingsOutlined />
-        {security.name}
-      </>
+      <Tooltip title={t('We could not find this security in our database.')}>
+        <Link
+          sx={{
+            color: theme.palette.text.disabled,
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'help',
+          }}
+        >
+          {symbol}
+          <Help sx={{ fontSize: 12, ml: 1 }} />
+        </Link>
+      </Tooltip>
     );
-  }
+  }, [symbol, matched]);
+
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
       {!loading ? (
@@ -71,17 +101,8 @@ export const SecurityLogo: React.FC<SecurityLogoProps> = ({
           <Avatar sx={{ width, height }} />
         </Skeleton>
       )}
-      {!matched && (
-        <>
-          {symbol}
-          <Help />
-        </>
-      )}
-      {includeSecurityLink && matched ? (
-        <RemixLink to={`/stock/${symbol}`}>
-          <Link sx={{ textDecoration: 'none' }}>{symbol}</Link>
-        </RemixLink>
-      ) : null}
+
+      {includeSecurityLink ? securityLink : null}
     </Stack>
   );
 };

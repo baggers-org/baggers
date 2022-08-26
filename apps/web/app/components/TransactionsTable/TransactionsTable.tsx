@@ -67,8 +67,12 @@ export const TransactionsTable: React.FC<{
         {
           headerName: t('security', 'Security'),
           field: 'security.symbol',
+          flex: 1,
           renderCell: ({ row }) => (
-            <SecurityLogo security={row.security || row.importedSecurity} />
+            <SecurityLogo
+              security={row.security || row.importedSecurity}
+              includeSecurityLink
+            />
           ),
         },
       ]}
