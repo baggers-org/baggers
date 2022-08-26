@@ -49,16 +49,20 @@ jobs:
           push: true
           file: Dockerfile.base
           tags: danbaggers/baggers-base:latest
+          cache-from: type=registry, ref=danbaggers/baggers-base:latest
+          cache-to: type=inline
       - name: Build deps image
         uses: docker/build-push-action@v3
         with:
           push: true
           file: Dockerfile.deps
           tags: danbaggers/baggers-deps:latest
+          cache-from: type=registry, ref=danbaggers/baggers-deps:latest
+          cache-to: type=inline
   deploy:
     runs-on: ubuntu-latest
     name: Deploy Affected
-    # needs: test
+    needs: test
     environment: Staging
     steps:
       - uses: actions/checkout@v2
