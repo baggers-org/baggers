@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 export type SecurityLogoProps = {
   symbol: string;
-  existsInDatabase: boolean;
+  existsInDatabase?: boolean;
   includeSecurityLink?: boolean;
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
@@ -22,7 +22,7 @@ export type SecurityLogoProps = {
 
 export const SecurityLogo: React.FC<SecurityLogoProps> = ({
   symbol,
-  existsInDatabase,
+  existsInDatabase = true,
   includeSecurityLink = true,
   size = `sm`,
   loading,
