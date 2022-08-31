@@ -72,9 +72,6 @@ describe('Portfolio holdings', () => {
         .find('[data-field="profitLossUsd"]')
         .should('contain.text', `+$${expectedReturnUsd.toFixed(2)}`);
 
-      // Should have a direct holding source
-      cy.findByLabelText('direct holding source');
-
       cy.findByText('Settings').click();
 
       cy.findByText('Delete portfolio').click();
@@ -111,8 +108,5 @@ describe('Portfolio holdings', () => {
     cy.findAllByText('Isa').first().click();
 
     cy.findByText('Total Rows: 5');
-
-    // All of these holdings should have a broker holding source
-    cy.findAllByLabelText('broker holding source').should('have.length', 5);
   });
 });
