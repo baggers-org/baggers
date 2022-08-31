@@ -71,6 +71,10 @@ export class PortfoliosService {
         path: 'holdings',
         populate: { path: 'security', model: 'Security' },
       })
+      .populate({
+        path: 'transactions',
+        populate: { path: 'security', model: 'Security' },
+      })
       .populate('owner')
       .lean();
 

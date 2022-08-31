@@ -39,7 +39,10 @@ export const SecuritySearchResult: React.FC<SecuritySearchResultProps> = ({
         }}
       >
         <ListItemAvatar>
-          <SecurityLogo security={inputSecurity} includeSecurityLink={false} />
+          <SecurityLogo
+            symbol={inputSecurity.symbol as string}
+            includeSecurityLink={false}
+          />
         </ListItemAvatar>
         <ListItemText
           sx={{ minWidth: `100px`, whiteSpace: `nowrap`, flexWrap: `nowrap` }}

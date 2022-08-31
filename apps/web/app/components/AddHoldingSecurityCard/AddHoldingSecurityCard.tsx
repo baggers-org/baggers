@@ -27,7 +27,7 @@ export const AddHoldingSecurityCard: React.FC<AddHoldingSecurityCardProps> = ({
           justifyContent="space-between"
         >
           <SecurityLogo
-            security={addingSecurity}
+            symbol={addingSecurity.symbol as string}
             includeSecurityLink={false}
             loading={loading}
           />

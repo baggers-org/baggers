@@ -134,7 +134,7 @@ export class ImportedSecurity {
    */
   @Prop()
   @Field({ nullable: true })
-  iso_currency_code: string | null;
+  currency: string | null;
   /**
    * The unofficial currency code associated with the security. Always `null` if `iso_currency_code` is non-`null`. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `iso_currency_code`s.
    * @type {string}
@@ -148,6 +148,7 @@ export class ImportedSecurity {
     return {
       ...security,
       type: SecurityType[security.type.replace(' ', '_')],
+      currency: security.iso_currency_code,
     };
   }
 }

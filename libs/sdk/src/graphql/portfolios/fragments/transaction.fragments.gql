@@ -1,14 +1,13 @@
 fragment AllTransactionData on Transaction {
+  _id
   name
   date
   currency
   security {
-    name
-    symbol
+    ...AllSecurityData
   }
   importedSecurity {
-    name
-    ticker_symbol
+    ...AllImportedSecurityData
   }
   quantity
   amount

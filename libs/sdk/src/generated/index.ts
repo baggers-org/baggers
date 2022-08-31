@@ -3,9 +3,15 @@ import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -31,7 +37,7 @@ export type AddHoldingInput = {
 
 export enum AscDesc {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type Chart = {
@@ -95,7 +101,7 @@ export enum HistoricalRange {
   YearToDate = 'YearToDate',
   Date = 'date',
   Dynamic = 'dynamic',
-  Max = 'max'
+  Max = 'max',
 }
 
 export type Holding = {
@@ -124,7 +130,7 @@ export type Holding = {
 
 export enum HoldingDirection {
   Long = 'long',
-  Short = 'short'
+  Short = 'short',
 }
 
 export type HoldingFromDb = {
@@ -149,7 +155,7 @@ export type HoldingFromDb = {
 export enum HoldingSource {
   Broker = 'broker',
   Direct = 'direct',
-  Transactions = 'transactions'
+  Transactions = 'transactions',
 }
 
 export type ImportResponse = {
@@ -161,14 +167,15 @@ export type ImportedSecurity = {
   __typename?: 'ImportedSecurity';
   close_price?: Maybe<Scalars['Float']>;
   close_price_as_of?: Maybe<Scalars['String']>;
+  currency?: Maybe<Scalars['String']>;
   cusip?: Maybe<Scalars['String']>;
   institution_id?: Maybe<Scalars['String']>;
   institution_security_id?: Maybe<Scalars['String']>;
   is_cash_equivalent?: Maybe<Scalars['Boolean']>;
   isin?: Maybe<Scalars['String']>;
-  iso_currency_code?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   proxy_security_id?: Maybe<Scalars['String']>;
+  /** A unique, Plaid-specific identifier for the security, used to associate securities with holdings. Like all Plaid identifiers, the `security_id` is case sensitive. */
   security_id: Scalars['String'];
   sedol?: Maybe<Scalars['String']>;
   ticker_symbol?: Maybe<Scalars['String']>;
@@ -199,49 +206,40 @@ export type Mutation = {
   usersUpdateOne: User;
 };
 
-
 export type MutationPortfoliosAddHoldingArgs = {
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 };
 
-
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
 };
-
 
 export type MutationPortfoliosRemoveHoldingArgs = {
   holdingId: Scalars['ObjectId'];
   portfolioId: Scalars['ObjectId'];
 };
 
-
 export type MutationPortfoliosRemoveMultipleArgs = {
   _ids: Array<Scalars['ObjectId']>;
 };
 
-
 export type MutationPortfoliosRemoveOneArgs = {
   _id: Scalars['ObjectId'];
 };
-
 
 export type MutationPortfoliosUpdateOneArgs = {
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 };
 
-
 export type MutationUsersFindOrCreateArgs = {
   input: CreateUserInput;
 };
 
-
 export type MutationUsersRemoveOneArgs = {
   _id: Scalars['ID'];
 };
-
 
 export type MutationUsersUpdateOneArgs = {
   input: UpdateUserInput;
@@ -249,9 +247,12 @@ export type MutationUsersUpdateOneArgs = {
 
 export type PlaidAccount = {
   __typename?: 'PlaidAccount';
+  /** Plaid’s unique identifier for the account. This value will not change unless Plaid can\'t reconcile the account with the data returned by the financial institution. This may occur, for example, when the name of the account changes. If this happens a new `account_id` will be assigned to the account.  The `account_id` can also change if the `access_token` is deleted and the same credentials that were used to generate that `access_token` are used to generate a new `access_token` on a later date. In that case, the new `account_id` will be different from the old `account_id`.  If an account with a specific `account_id` disappears instead of changing, the account is likely closed. Closed accounts are not returned by the Plaid API.  Like all Plaid identifiers, the `account_id` is case sensitive. */
   account_id: Scalars['String'];
   balances: PlaidAccountBalance;
+  /** The name of the account, either assigned by the user or by the financial institution itself */
   name?: Maybe<Scalars['String']>;
+  /** The official name of the account as given by the financial institution */
   official_name?: Maybe<Scalars['String']>;
   subtype?: Maybe<Scalars['String']>;
   type?: Maybe<PlaidAccountType>;
@@ -259,11 +260,17 @@ export type PlaidAccount = {
 
 export type PlaidAccountBalance = {
   __typename?: 'PlaidAccountBalance';
+  /** The amount of funds available to be withdrawn from the account, as determined by the financial institution.  For `credit`-type accounts, the `available` balance typically equals the `limit` less the `current` balance, less any pending outflows plus any pending inflows.  For `depository`-type accounts, the `available` balance typically equals the `current` balance less any pending outflows plus any pending inflows. For `depository`-type accounts, the `available` balance does not include the overdraft limit.  For `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the `available` balance is the total cash available to withdraw as presented by the institution.  Note that not all institutions calculate the `available`  balance. In the event that `available` balance is unavailable, Plaid will return an `available` balance value of `null`.  Available balance may be cached and is not guaranteed to be up-to-date in realtime unless the value was returned by `/accounts/balance/get`.  If `current` is `null` this field is guaranteed not to be `null`. */
   available?: Maybe<Scalars['Float']>;
+  /** The total amount of funds in or owed by the account.  For `credit`-type accounts, a positive balance indicates the amount owed; a negative amount indicates the lender owing the account holder.  For `loan`-type accounts, the current balance is the principal remaining on the loan, except in the case of student loan accounts at Sallie Mae (`ins_116944`). For Sallie Mae student loans, the account\'s balance includes both principal and any outstanding interest.  For `investment`-type accounts (or `brokerage`-type accounts for API versions 2018-05-22 and earlier), the current balance is the total value of assets as presented by the institution.  Note that balance information may be cached unless the value was returned by `/accounts/balance/get`; if the Item is enabled for Transactions, the balance will be at least as recent as the most recent Transaction update. If you require realtime balance information, use the `available` balance as provided by `/accounts/balance/get`.  When returned by `/accounts/balance/get`, this field may be `null`. When this happens, `available` is guaranteed not to be `null`. */
   current?: Maybe<Scalars['Float']>;
+  /** The ISO-4217 currency code of the balance. Always null if `unofficial_currency_code` is non-null. */
   iso_currency_code?: Maybe<Scalars['String']>;
+  /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format (`YYYY-MM-DDTHH:mm:ssZ`) indicating the last time that the balance for the given account has been updated  This is currently only provided when the `min_last_updated_datetime` is passed when calling `/accounts/balance/get` for `ins_128026` (Capital One). */
   last_updated_datetime?: Maybe<Scalars['String']>;
+  /** For `credit`-type accounts, this represents the credit limit.  For `depository`-type accounts, this represents the pre-arranged overdraft limit, which is common for current (checking) accounts in Europe.  In North America, this field is typically only available for `credit`-type accounts. */
   limit?: Maybe<Scalars['Float']>;
+  /** The unofficial currency code associated with the balance. Always null if `iso_currency_code` is non-null. Unofficial currency codes are used for currencies that do not have official ISO currency codes, such as cryptocurrencies and the currencies of certain countries.  See the [currency code schema](https://plaid.com/docs/api/accounts#currency-code-schema) for a full listing of supported `unofficial_currency_code`s. */
   unofficial_currency_code?: Maybe<Scalars['String']>;
 };
 
@@ -273,7 +280,7 @@ export enum PlaidAccountType {
   Depository = 'depository',
   Investment = 'investment',
   Loan = 'loan',
-  Other = 'other'
+  Other = 'other',
 }
 
 export type PlaidItem = {
@@ -374,28 +381,23 @@ export type Query = {
   usersFindById: User;
 };
 
-
 export type QueryChartSecurityPriceArgs = {
   options?: InputMaybe<ChartPriceRangeOptions>;
   range: HistoricalRange;
   securityId: Scalars['ObjectId'];
 };
 
-
 export type QueryPortfoliosFindByIdArgs = {
   _id: Scalars['ObjectId'];
 };
-
 
 export type QuerySecuritiesFindByIdArgs = {
   _id: Scalars['ObjectId'];
 };
 
-
 export type QuerySecuritiesSearchArgs = {
   searchTerm: Scalars['String'];
 };
-
 
 export type QueryUsersFindByIdArgs = {
   _id: Scalars['ID'];
@@ -500,11 +502,12 @@ export enum SecurityType {
   FixedIncome = 'fixed_income',
   Loan = 'loan',
   MutualFund = 'mutual_fund',
-  Other = 'other'
+  Other = 'other',
 }
 
 export type Transaction = {
   __typename?: 'Transaction';
+  _id: Scalars['ObjectId'];
   amount: Scalars['Float'];
   createdBy?: Maybe<User>;
   currency: Scalars['String'];
@@ -526,6 +529,7 @@ export type Transaction = {
 
 export type TransactionFromDb = {
   __typename?: 'TransactionFromDb';
+  _id: Scalars['ObjectId'];
   amount: Scalars['Float'];
   createdBy?: Maybe<User>;
   currency: Scalars['String'];
@@ -592,7 +596,7 @@ export enum TransactionSubtype {
   TransferFee = 'TransferFee',
   TrustFee = 'TrustFee',
   UnqualifiedGain = 'UnqualifiedGain',
-  Withdrawal = 'Withdrawal'
+  Withdrawal = 'Withdrawal',
 }
 
 export enum TransactionType {
@@ -601,7 +605,7 @@ export enum TransactionType {
   Cash = 'Cash',
   Fee = 'Fee',
   Sell = 'Sell',
-  Transfer = 'Transfer'
+  Transfer = 'Transfer',
 }
 
 export type UpdatePortfolioInput = {
@@ -635,570 +639,2122 @@ export type ChartSecurityPriceQueryVariables = Exact<{
   options?: InputMaybe<ChartPriceRangeOptions>;
 }>;
 
+export type ChartSecurityPriceQuery = {
+  __typename?: 'Query';
+  chartSecurityPrice: Array<{
+    __typename?: 'Chart';
+    change: number;
+    changeOverTime: number;
+    changePercent: number;
+    close: number;
+    date: string;
+    fClose: number;
+    fHigh: number;
+    fLow: number;
+    fOpen: number;
+    fVolume: number;
+    high: number;
+    id: string;
+    key: string;
+    label: string;
+    low: number;
+    marketChangeOverTime: number;
+    open: number;
+    subkey: string;
+    symbol: string;
+    uClose: number;
+    uHigh: number;
+    uLow: number;
+    uOpen: number;
+    uVolume: number;
+    updated: number;
+    volume: number;
+  }>;
+};
 
-export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Chart', change: number, changeOverTime: number, changePercent: number, close: number, date: string, fClose: number, fHigh: number, fLow: number, fOpen: number, fVolume: number, high: number, id: string, key: string, label: string, low: number, marketChangeOverTime: number, open: number, subkey: string, symbol: string, uClose: number, uHigh: number, uLow: number, uOpen: number, uVolume: number, updated: number, volume: number }> };
+export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never; }>;
+export type PlaidLinkTokenQuery = {
+  __typename?: 'Query';
+  plaidLinkToken: string;
+};
 
+export type AllHoldingDataFragment = {
+  __typename?: 'Holding';
+  _id: any;
+  marketValue?: number | null;
+  exposure: number;
+  profitLossUsd?: number | null;
+  profitLossPercent?: number | null;
+  dailyProfitLossUsd?: number | null;
+  averagePrice?: number | null;
+  costBasis?: number | null;
+  brokerFees?: number | null;
+  institutionValue?: number | null;
+  direction?: HoldingDirection | null;
+  quantity: number;
+  securityType: SecurityType;
+  source: HoldingSource;
+  currency: string;
+  importedSecurity?: {
+    __typename?: 'ImportedSecurity';
+    close_price?: number | null;
+    name?: string | null;
+    ticker_symbol?: string | null;
+    currency?: string | null;
+    type?: SecurityType | null;
+  } | null;
+  security?: {
+    __typename?: 'Security';
+    cik?: string | null;
+    createdAt?: any | null;
+    currency?: string | null;
+    exchange?: string | null;
+    exchangeName?: string | null;
+    figi?: string | null;
+    iexId?: string | null;
+    name?: string | null;
+    region?: string | null;
+    symbol?: string | null;
+    updatedAt?: any | null;
+    quote?: {
+      __typename?: 'Quote';
+      avgTotalVolume?: number | null;
+      calculationPrice?: string | null;
+      change?: number | null;
+      changePercent?: number | null;
+      companyName: string;
+      close?: number | null;
+      closeSource?: string | null;
+      closeTime?: number | null;
+      currency?: string | null;
+      delayedPrice?: number | null;
+      delayedPriceTime?: number | null;
+      extendedPrice?: number | null;
+      extendedChange?: number | null;
+      extendedChangePercent?: number | null;
+      extendedPriceTime?: number | null;
+      high?: number | null;
+      highSource?: string | null;
+      highTime?: number | null;
+      iexAskPrice?: number | null;
+      iexAskSize?: number | null;
+      iexBidPrice?: number | null;
+      iexBidSize?: number | null;
+      iexClose?: number | null;
+      iexCloseTime?: number | null;
+      iexLastUpdated?: number | null;
+      iexOpen?: number | null;
+      iexOpenTime?: number | null;
+      iexRealtimePrice?: number | null;
+      iexRealtimeSize?: number | null;
+      iexMarketPercent?: number | null;
+      iexVolume?: number | null;
+      isUSMarketOpen?: boolean | null;
+      lastTradeTime?: number | null;
+      latestPrice?: number | null;
+      latestSource?: string | null;
+      latestTime?: string | null;
+      latestUpdate?: number | null;
+      latestVolume?: number | null;
+      low?: number | null;
+      lowTime?: number | null;
+      lowSource?: string | null;
+      marketCap?: number | null;
+      oddLotDelayedPrice?: number | null;
+      oddLotDelayedPriceTime?: number | null;
+      open?: number | null;
+      openSource?: string | null;
+      openTime?: number | null;
+      peRatio?: number | null;
+      previousClose?: number | null;
+      previousVolume?: number | null;
+      primaryExchange?: string | null;
+      symbol?: string | null;
+      week52High?: number | null;
+      week52Low?: number | null;
+      volume?: number | null;
+      ytdChange?: number | null;
+    } | null;
+  } | null;
+};
 
-export type PlaidLinkTokenQuery = { __typename?: 'Query', plaidLinkToken: string };
+export type FullPlaidAccountFragment = {
+  __typename?: 'PlaidAccount';
+  type?: PlaidAccountType | null;
+  name?: string | null;
+  subtype?: string | null;
+  official_name?: string | null;
+  account_id: string;
+  balances: {
+    __typename?: 'PlaidAccountBalance';
+    current?: number | null;
+    available?: number | null;
+  };
+};
 
-export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null };
+export type PortfolioSummaryFragment = {
+  __typename?: 'Portfolio';
+  _id: any;
+  cash: number;
+  name: string;
+  description?: string | null;
+  private: boolean;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  totalValue: number;
+  owner: {
+    __typename?: 'User';
+    _id: string;
+    displayName: string;
+    emails?: Array<string> | null;
+    photos: Array<string>;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  };
+  plaidAccount?: {
+    __typename?: 'PlaidAccount';
+    type?: PlaidAccountType | null;
+    name?: string | null;
+    subtype?: string | null;
+    official_name?: string | null;
+    account_id: string;
+    balances: {
+      __typename?: 'PlaidAccountBalance';
+      current?: number | null;
+      available?: number | null;
+    };
+  } | null;
+};
 
-export type FullPlaidAccountFragment = { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } };
+export type PortfolioTransactionsFragment = {
+  __typename?: 'Portfolio';
+  transactions: Array<{
+    __typename?: 'Transaction';
+    _id: any;
+    name: string;
+    date: any;
+    currency: string;
+    quantity: number;
+    amount: number;
+    fees: number;
+    price: number;
+    type: TransactionType;
+    subType: TransactionSubtype;
+    security?: {
+      __typename?: 'Security';
+      cik?: string | null;
+      createdAt?: any | null;
+      currency?: string | null;
+      exchange?: string | null;
+      exchangeName?: string | null;
+      figi?: string | null;
+      iexId?: string | null;
+      name?: string | null;
+      region?: string | null;
+      symbol?: string | null;
+      updatedAt?: any | null;
+      quote?: {
+        __typename?: 'Quote';
+        avgTotalVolume?: number | null;
+        calculationPrice?: string | null;
+        change?: number | null;
+        changePercent?: number | null;
+        companyName: string;
+        close?: number | null;
+        closeSource?: string | null;
+        closeTime?: number | null;
+        currency?: string | null;
+        delayedPrice?: number | null;
+        delayedPriceTime?: number | null;
+        extendedPrice?: number | null;
+        extendedChange?: number | null;
+        extendedChangePercent?: number | null;
+        extendedPriceTime?: number | null;
+        high?: number | null;
+        highSource?: string | null;
+        highTime?: number | null;
+        iexAskPrice?: number | null;
+        iexAskSize?: number | null;
+        iexBidPrice?: number | null;
+        iexBidSize?: number | null;
+        iexClose?: number | null;
+        iexCloseTime?: number | null;
+        iexLastUpdated?: number | null;
+        iexOpen?: number | null;
+        iexOpenTime?: number | null;
+        iexRealtimePrice?: number | null;
+        iexRealtimeSize?: number | null;
+        iexMarketPercent?: number | null;
+        iexVolume?: number | null;
+        isUSMarketOpen?: boolean | null;
+        lastTradeTime?: number | null;
+        latestPrice?: number | null;
+        latestSource?: string | null;
+        latestTime?: string | null;
+        latestUpdate?: number | null;
+        latestVolume?: number | null;
+        low?: number | null;
+        lowTime?: number | null;
+        lowSource?: string | null;
+        marketCap?: number | null;
+        oddLotDelayedPrice?: number | null;
+        oddLotDelayedPriceTime?: number | null;
+        open?: number | null;
+        openSource?: string | null;
+        openTime?: number | null;
+        peRatio?: number | null;
+        previousClose?: number | null;
+        previousVolume?: number | null;
+        primaryExchange?: string | null;
+        symbol?: string | null;
+        week52High?: number | null;
+        week52Low?: number | null;
+        volume?: number | null;
+        ytdChange?: number | null;
+      } | null;
+    } | null;
+    importedSecurity: {
+      __typename?: 'ImportedSecurity';
+      close_price?: number | null;
+      name?: string | null;
+      ticker_symbol?: string | null;
+      currency?: string | null;
+      type?: SecurityType | null;
+    };
+  }>;
+};
 
-export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null };
+export type PortfolioHoldingsFragment = {
+  __typename?: 'Portfolio';
+  holdings: Array<{
+    __typename?: 'Holding';
+    _id: any;
+    marketValue?: number | null;
+    exposure: number;
+    profitLossUsd?: number | null;
+    profitLossPercent?: number | null;
+    dailyProfitLossUsd?: number | null;
+    averagePrice?: number | null;
+    costBasis?: number | null;
+    brokerFees?: number | null;
+    institutionValue?: number | null;
+    direction?: HoldingDirection | null;
+    quantity: number;
+    securityType: SecurityType;
+    source: HoldingSource;
+    currency: string;
+    importedSecurity?: {
+      __typename?: 'ImportedSecurity';
+      close_price?: number | null;
+      name?: string | null;
+      ticker_symbol?: string | null;
+      currency?: string | null;
+      type?: SecurityType | null;
+    } | null;
+    security?: {
+      __typename?: 'Security';
+      cik?: string | null;
+      createdAt?: any | null;
+      currency?: string | null;
+      exchange?: string | null;
+      exchangeName?: string | null;
+      figi?: string | null;
+      iexId?: string | null;
+      name?: string | null;
+      region?: string | null;
+      symbol?: string | null;
+      updatedAt?: any | null;
+      quote?: {
+        __typename?: 'Quote';
+        avgTotalVolume?: number | null;
+        calculationPrice?: string | null;
+        change?: number | null;
+        changePercent?: number | null;
+        companyName: string;
+        close?: number | null;
+        closeSource?: string | null;
+        closeTime?: number | null;
+        currency?: string | null;
+        delayedPrice?: number | null;
+        delayedPriceTime?: number | null;
+        extendedPrice?: number | null;
+        extendedChange?: number | null;
+        extendedChangePercent?: number | null;
+        extendedPriceTime?: number | null;
+        high?: number | null;
+        highSource?: string | null;
+        highTime?: number | null;
+        iexAskPrice?: number | null;
+        iexAskSize?: number | null;
+        iexBidPrice?: number | null;
+        iexBidSize?: number | null;
+        iexClose?: number | null;
+        iexCloseTime?: number | null;
+        iexLastUpdated?: number | null;
+        iexOpen?: number | null;
+        iexOpenTime?: number | null;
+        iexRealtimePrice?: number | null;
+        iexRealtimeSize?: number | null;
+        iexMarketPercent?: number | null;
+        iexVolume?: number | null;
+        isUSMarketOpen?: boolean | null;
+        lastTradeTime?: number | null;
+        latestPrice?: number | null;
+        latestSource?: string | null;
+        latestTime?: string | null;
+        latestUpdate?: number | null;
+        latestVolume?: number | null;
+        low?: number | null;
+        lowTime?: number | null;
+        lowSource?: string | null;
+        marketCap?: number | null;
+        oddLotDelayedPrice?: number | null;
+        oddLotDelayedPriceTime?: number | null;
+        open?: number | null;
+        openSource?: string | null;
+        openTime?: number | null;
+        peRatio?: number | null;
+        previousClose?: number | null;
+        previousVolume?: number | null;
+        primaryExchange?: string | null;
+        symbol?: string | null;
+        week52High?: number | null;
+        week52Low?: number | null;
+        volume?: number | null;
+        ytdChange?: number | null;
+      } | null;
+    } | null;
+  }>;
+};
 
-export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> };
+export type AllPortfolioDataFragment = {
+  __typename?: 'Portfolio';
+  _id: any;
+  cash: number;
+  name: string;
+  description?: string | null;
+  private: boolean;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+  totalValue: number;
+  owner: {
+    __typename?: 'User';
+    _id: string;
+    displayName: string;
+    emails?: Array<string> | null;
+    photos: Array<string>;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  };
+  plaidAccount?: {
+    __typename?: 'PlaidAccount';
+    type?: PlaidAccountType | null;
+    name?: string | null;
+    subtype?: string | null;
+    official_name?: string | null;
+    account_id: string;
+    balances: {
+      __typename?: 'PlaidAccountBalance';
+      current?: number | null;
+      available?: number | null;
+    };
+  } | null;
+  holdings: Array<{
+    __typename?: 'Holding';
+    _id: any;
+    marketValue?: number | null;
+    exposure: number;
+    profitLossUsd?: number | null;
+    profitLossPercent?: number | null;
+    dailyProfitLossUsd?: number | null;
+    averagePrice?: number | null;
+    costBasis?: number | null;
+    brokerFees?: number | null;
+    institutionValue?: number | null;
+    direction?: HoldingDirection | null;
+    quantity: number;
+    securityType: SecurityType;
+    source: HoldingSource;
+    currency: string;
+    importedSecurity?: {
+      __typename?: 'ImportedSecurity';
+      close_price?: number | null;
+      name?: string | null;
+      ticker_symbol?: string | null;
+      currency?: string | null;
+      type?: SecurityType | null;
+    } | null;
+    security?: {
+      __typename?: 'Security';
+      cik?: string | null;
+      createdAt?: any | null;
+      currency?: string | null;
+      exchange?: string | null;
+      exchangeName?: string | null;
+      figi?: string | null;
+      iexId?: string | null;
+      name?: string | null;
+      region?: string | null;
+      symbol?: string | null;
+      updatedAt?: any | null;
+      quote?: {
+        __typename?: 'Quote';
+        avgTotalVolume?: number | null;
+        calculationPrice?: string | null;
+        change?: number | null;
+        changePercent?: number | null;
+        companyName: string;
+        close?: number | null;
+        closeSource?: string | null;
+        closeTime?: number | null;
+        currency?: string | null;
+        delayedPrice?: number | null;
+        delayedPriceTime?: number | null;
+        extendedPrice?: number | null;
+        extendedChange?: number | null;
+        extendedChangePercent?: number | null;
+        extendedPriceTime?: number | null;
+        high?: number | null;
+        highSource?: string | null;
+        highTime?: number | null;
+        iexAskPrice?: number | null;
+        iexAskSize?: number | null;
+        iexBidPrice?: number | null;
+        iexBidSize?: number | null;
+        iexClose?: number | null;
+        iexCloseTime?: number | null;
+        iexLastUpdated?: number | null;
+        iexOpen?: number | null;
+        iexOpenTime?: number | null;
+        iexRealtimePrice?: number | null;
+        iexRealtimeSize?: number | null;
+        iexMarketPercent?: number | null;
+        iexVolume?: number | null;
+        isUSMarketOpen?: boolean | null;
+        lastTradeTime?: number | null;
+        latestPrice?: number | null;
+        latestSource?: string | null;
+        latestTime?: string | null;
+        latestUpdate?: number | null;
+        latestVolume?: number | null;
+        low?: number | null;
+        lowTime?: number | null;
+        lowSource?: string | null;
+        marketCap?: number | null;
+        oddLotDelayedPrice?: number | null;
+        oddLotDelayedPriceTime?: number | null;
+        open?: number | null;
+        openSource?: string | null;
+        openTime?: number | null;
+        peRatio?: number | null;
+        previousClose?: number | null;
+        previousVolume?: number | null;
+        primaryExchange?: string | null;
+        symbol?: string | null;
+        week52High?: number | null;
+        week52Low?: number | null;
+        volume?: number | null;
+        ytdChange?: number | null;
+      } | null;
+    } | null;
+  }>;
+  transactions: Array<{
+    __typename?: 'Transaction';
+    _id: any;
+    name: string;
+    date: any;
+    currency: string;
+    quantity: number;
+    amount: number;
+    fees: number;
+    price: number;
+    type: TransactionType;
+    subType: TransactionSubtype;
+    security?: {
+      __typename?: 'Security';
+      cik?: string | null;
+      createdAt?: any | null;
+      currency?: string | null;
+      exchange?: string | null;
+      exchangeName?: string | null;
+      figi?: string | null;
+      iexId?: string | null;
+      name?: string | null;
+      region?: string | null;
+      symbol?: string | null;
+      updatedAt?: any | null;
+      quote?: {
+        __typename?: 'Quote';
+        avgTotalVolume?: number | null;
+        calculationPrice?: string | null;
+        change?: number | null;
+        changePercent?: number | null;
+        companyName: string;
+        close?: number | null;
+        closeSource?: string | null;
+        closeTime?: number | null;
+        currency?: string | null;
+        delayedPrice?: number | null;
+        delayedPriceTime?: number | null;
+        extendedPrice?: number | null;
+        extendedChange?: number | null;
+        extendedChangePercent?: number | null;
+        extendedPriceTime?: number | null;
+        high?: number | null;
+        highSource?: string | null;
+        highTime?: number | null;
+        iexAskPrice?: number | null;
+        iexAskSize?: number | null;
+        iexBidPrice?: number | null;
+        iexBidSize?: number | null;
+        iexClose?: number | null;
+        iexCloseTime?: number | null;
+        iexLastUpdated?: number | null;
+        iexOpen?: number | null;
+        iexOpenTime?: number | null;
+        iexRealtimePrice?: number | null;
+        iexRealtimeSize?: number | null;
+        iexMarketPercent?: number | null;
+        iexVolume?: number | null;
+        isUSMarketOpen?: boolean | null;
+        lastTradeTime?: number | null;
+        latestPrice?: number | null;
+        latestSource?: string | null;
+        latestTime?: string | null;
+        latestUpdate?: number | null;
+        latestVolume?: number | null;
+        low?: number | null;
+        lowTime?: number | null;
+        lowSource?: string | null;
+        marketCap?: number | null;
+        oddLotDelayedPrice?: number | null;
+        oddLotDelayedPriceTime?: number | null;
+        open?: number | null;
+        openSource?: string | null;
+        openTime?: number | null;
+        peRatio?: number | null;
+        previousClose?: number | null;
+        previousVolume?: number | null;
+        primaryExchange?: string | null;
+        symbol?: string | null;
+        week52High?: number | null;
+        week52Low?: number | null;
+        volume?: number | null;
+        ytdChange?: number | null;
+      } | null;
+    } | null;
+    importedSecurity: {
+      __typename?: 'ImportedSecurity';
+      close_price?: number | null;
+      name?: string | null;
+      ticker_symbol?: string | null;
+      currency?: string | null;
+      type?: SecurityType | null;
+    };
+  }>;
+};
 
-export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }> };
-
-export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> };
-
-export type AllTransactionDataFragment = { __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } };
+export type AllTransactionDataFragment = {
+  __typename?: 'Transaction';
+  _id: any;
+  name: string;
+  date: any;
+  currency: string;
+  quantity: number;
+  amount: number;
+  fees: number;
+  price: number;
+  type: TransactionType;
+  subType: TransactionSubtype;
+  security?: {
+    __typename?: 'Security';
+    cik?: string | null;
+    createdAt?: any | null;
+    currency?: string | null;
+    exchange?: string | null;
+    exchangeName?: string | null;
+    figi?: string | null;
+    iexId?: string | null;
+    name?: string | null;
+    region?: string | null;
+    symbol?: string | null;
+    updatedAt?: any | null;
+    quote?: {
+      __typename?: 'Quote';
+      avgTotalVolume?: number | null;
+      calculationPrice?: string | null;
+      change?: number | null;
+      changePercent?: number | null;
+      companyName: string;
+      close?: number | null;
+      closeSource?: string | null;
+      closeTime?: number | null;
+      currency?: string | null;
+      delayedPrice?: number | null;
+      delayedPriceTime?: number | null;
+      extendedPrice?: number | null;
+      extendedChange?: number | null;
+      extendedChangePercent?: number | null;
+      extendedPriceTime?: number | null;
+      high?: number | null;
+      highSource?: string | null;
+      highTime?: number | null;
+      iexAskPrice?: number | null;
+      iexAskSize?: number | null;
+      iexBidPrice?: number | null;
+      iexBidSize?: number | null;
+      iexClose?: number | null;
+      iexCloseTime?: number | null;
+      iexLastUpdated?: number | null;
+      iexOpen?: number | null;
+      iexOpenTime?: number | null;
+      iexRealtimePrice?: number | null;
+      iexRealtimeSize?: number | null;
+      iexMarketPercent?: number | null;
+      iexVolume?: number | null;
+      isUSMarketOpen?: boolean | null;
+      lastTradeTime?: number | null;
+      latestPrice?: number | null;
+      latestSource?: string | null;
+      latestTime?: string | null;
+      latestUpdate?: number | null;
+      latestVolume?: number | null;
+      low?: number | null;
+      lowTime?: number | null;
+      lowSource?: string | null;
+      marketCap?: number | null;
+      oddLotDelayedPrice?: number | null;
+      oddLotDelayedPriceTime?: number | null;
+      open?: number | null;
+      openSource?: string | null;
+      openTime?: number | null;
+      peRatio?: number | null;
+      previousClose?: number | null;
+      previousVolume?: number | null;
+      primaryExchange?: string | null;
+      symbol?: string | null;
+      week52High?: number | null;
+      week52Low?: number | null;
+      volume?: number | null;
+      ytdChange?: number | null;
+    } | null;
+  } | null;
+  importedSecurity: {
+    __typename?: 'ImportedSecurity';
+    close_price?: number | null;
+    name?: string | null;
+    ticker_symbol?: string | null;
+    currency?: string | null;
+    type?: SecurityType | null;
+  };
+};
 
 export type PortfoliosAddHoldingMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 }>;
 
-
-export type PortfoliosAddHoldingMutation = { __typename?: 'Mutation', portfoliosAddHolding: { __typename?: 'PortfolioFromDb', _id: any, holdings: Array<{ __typename?: 'HoldingFromDb', averagePrice?: number | null, brokerFees?: number | null, costBasis?: number | null, quantity: number }> } };
+export type PortfoliosAddHoldingMutation = {
+  __typename?: 'Mutation';
+  portfoliosAddHolding: {
+    __typename?: 'PortfolioFromDb';
+    _id: any;
+    holdings: Array<{
+      __typename?: 'HoldingFromDb';
+      averagePrice?: number | null;
+      brokerFees?: number | null;
+      costBasis?: number | null;
+      quantity: number;
+    }>;
+  };
+};
 
 export type PortfoliosBeginImportMutationVariables = Exact<{
   publicToken: Scalars['String'];
 }>;
 
+export type PortfoliosBeginImportMutation = {
+  __typename?: 'Mutation';
+  portfoliosBeginImport: {
+    __typename?: 'ImportResponse';
+    importedIds: Array<any>;
+  };
+};
 
-export type PortfoliosBeginImportMutation = { __typename?: 'Mutation', portfoliosBeginImport: { __typename?: 'ImportResponse', importedIds: Array<any> } };
+export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never }>;
 
-export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, name: string, cash: number, private: boolean, description?: string | null, updatedAt?: any | null, createdAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, top5Holdings: Array<{ __typename?: 'Holding', costBasis?: number | null, exposure: number, securityType: SecurityType, marketValue?: number | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', latestPrice?: number | null } | null } | null }> }> };
+export type PortfoliosCreatedQuery = {
+  __typename?: 'Query';
+  portfoliosCreated: Array<{
+    __typename?: 'PortfolioSummary';
+    _id: any;
+    name: string;
+    cash: number;
+    private: boolean;
+    description?: string | null;
+    updatedAt?: any | null;
+    createdAt?: any | null;
+    totalValue: number;
+    owner: {
+      __typename?: 'User';
+      _id: string;
+      displayName: string;
+      emails?: Array<string> | null;
+      photos: Array<string>;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    };
+    plaidAccount?: {
+      __typename?: 'PlaidAccount';
+      type?: PlaidAccountType | null;
+      name?: string | null;
+      subtype?: string | null;
+      official_name?: string | null;
+      account_id: string;
+      balances: {
+        __typename?: 'PlaidAccountBalance';
+        current?: number | null;
+        available?: number | null;
+      };
+    } | null;
+    top5Holdings: Array<{
+      __typename?: 'Holding';
+      costBasis?: number | null;
+      exposure: number;
+      securityType: SecurityType;
+      marketValue?: number | null;
+      importedSecurity?: {
+        __typename?: 'ImportedSecurity';
+        close_price?: number | null;
+        name?: string | null;
+        ticker_symbol?: string | null;
+        currency?: string | null;
+        type?: SecurityType | null;
+      } | null;
+      security?: {
+        __typename?: 'Security';
+        _id: any;
+        name?: string | null;
+        symbol?: string | null;
+        exchangeName?: string | null;
+        region?: string | null;
+        quote?: { __typename?: 'Quote'; latestPrice?: number | null } | null;
+      } | null;
+    }>;
+  }>;
+};
 
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
+export type PortfoliosFindByIdQuery = {
+  __typename?: 'Query';
+  portfoliosFindById: {
+    __typename?: 'Portfolio';
+    _id: any;
+    cash: number;
+    name: string;
+    description?: string | null;
+    private: boolean;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+    totalValue: number;
+    owner: {
+      __typename?: 'User';
+      _id: string;
+      displayName: string;
+      emails?: Array<string> | null;
+      photos: Array<string>;
+      createdAt?: any | null;
+      updatedAt?: any | null;
+    };
+    plaidAccount?: {
+      __typename?: 'PlaidAccount';
+      type?: PlaidAccountType | null;
+      name?: string | null;
+      subtype?: string | null;
+      official_name?: string | null;
+      account_id: string;
+      balances: {
+        __typename?: 'PlaidAccountBalance';
+        current?: number | null;
+        available?: number | null;
+      };
+    } | null;
+    holdings: Array<{
+      __typename?: 'Holding';
+      _id: any;
+      marketValue?: number | null;
+      exposure: number;
+      profitLossUsd?: number | null;
+      profitLossPercent?: number | null;
+      dailyProfitLossUsd?: number | null;
+      averagePrice?: number | null;
+      costBasis?: number | null;
+      brokerFees?: number | null;
+      institutionValue?: number | null;
+      direction?: HoldingDirection | null;
+      quantity: number;
+      securityType: SecurityType;
+      source: HoldingSource;
+      currency: string;
+      importedSecurity?: {
+        __typename?: 'ImportedSecurity';
+        close_price?: number | null;
+        name?: string | null;
+        ticker_symbol?: string | null;
+        currency?: string | null;
+        type?: SecurityType | null;
+      } | null;
+      security?: {
+        __typename?: 'Security';
+        cik?: string | null;
+        createdAt?: any | null;
+        currency?: string | null;
+        exchange?: string | null;
+        exchangeName?: string | null;
+        figi?: string | null;
+        iexId?: string | null;
+        name?: string | null;
+        region?: string | null;
+        symbol?: string | null;
+        updatedAt?: any | null;
+        quote?: {
+          __typename?: 'Quote';
+          avgTotalVolume?: number | null;
+          calculationPrice?: string | null;
+          change?: number | null;
+          changePercent?: number | null;
+          companyName: string;
+          close?: number | null;
+          closeSource?: string | null;
+          closeTime?: number | null;
+          currency?: string | null;
+          delayedPrice?: number | null;
+          delayedPriceTime?: number | null;
+          extendedPrice?: number | null;
+          extendedChange?: number | null;
+          extendedChangePercent?: number | null;
+          extendedPriceTime?: number | null;
+          high?: number | null;
+          highSource?: string | null;
+          highTime?: number | null;
+          iexAskPrice?: number | null;
+          iexAskSize?: number | null;
+          iexBidPrice?: number | null;
+          iexBidSize?: number | null;
+          iexClose?: number | null;
+          iexCloseTime?: number | null;
+          iexLastUpdated?: number | null;
+          iexOpen?: number | null;
+          iexOpenTime?: number | null;
+          iexRealtimePrice?: number | null;
+          iexRealtimeSize?: number | null;
+          iexMarketPercent?: number | null;
+          iexVolume?: number | null;
+          isUSMarketOpen?: boolean | null;
+          lastTradeTime?: number | null;
+          latestPrice?: number | null;
+          latestSource?: string | null;
+          latestTime?: string | null;
+          latestUpdate?: number | null;
+          latestVolume?: number | null;
+          low?: number | null;
+          lowTime?: number | null;
+          lowSource?: string | null;
+          marketCap?: number | null;
+          oddLotDelayedPrice?: number | null;
+          oddLotDelayedPriceTime?: number | null;
+          open?: number | null;
+          openSource?: string | null;
+          openTime?: number | null;
+          peRatio?: number | null;
+          previousClose?: number | null;
+          previousVolume?: number | null;
+          primaryExchange?: string | null;
+          symbol?: string | null;
+          week52High?: number | null;
+          week52Low?: number | null;
+          volume?: number | null;
+          ytdChange?: number | null;
+        } | null;
+      } | null;
+    }>;
+    transactions: Array<{
+      __typename?: 'Transaction';
+      _id: any;
+      name: string;
+      date: any;
+      currency: string;
+      quantity: number;
+      amount: number;
+      fees: number;
+      price: number;
+      type: TransactionType;
+      subType: TransactionSubtype;
+      security?: {
+        __typename?: 'Security';
+        cik?: string | null;
+        createdAt?: any | null;
+        currency?: string | null;
+        exchange?: string | null;
+        exchangeName?: string | null;
+        figi?: string | null;
+        iexId?: string | null;
+        name?: string | null;
+        region?: string | null;
+        symbol?: string | null;
+        updatedAt?: any | null;
+        quote?: {
+          __typename?: 'Quote';
+          avgTotalVolume?: number | null;
+          calculationPrice?: string | null;
+          change?: number | null;
+          changePercent?: number | null;
+          companyName: string;
+          close?: number | null;
+          closeSource?: string | null;
+          closeTime?: number | null;
+          currency?: string | null;
+          delayedPrice?: number | null;
+          delayedPriceTime?: number | null;
+          extendedPrice?: number | null;
+          extendedChange?: number | null;
+          extendedChangePercent?: number | null;
+          extendedPriceTime?: number | null;
+          high?: number | null;
+          highSource?: string | null;
+          highTime?: number | null;
+          iexAskPrice?: number | null;
+          iexAskSize?: number | null;
+          iexBidPrice?: number | null;
+          iexBidSize?: number | null;
+          iexClose?: number | null;
+          iexCloseTime?: number | null;
+          iexLastUpdated?: number | null;
+          iexOpen?: number | null;
+          iexOpenTime?: number | null;
+          iexRealtimePrice?: number | null;
+          iexRealtimeSize?: number | null;
+          iexMarketPercent?: number | null;
+          iexVolume?: number | null;
+          isUSMarketOpen?: boolean | null;
+          lastTradeTime?: number | null;
+          latestPrice?: number | null;
+          latestSource?: string | null;
+          latestTime?: string | null;
+          latestUpdate?: number | null;
+          latestVolume?: number | null;
+          low?: number | null;
+          lowTime?: number | null;
+          lowSource?: string | null;
+          marketCap?: number | null;
+          oddLotDelayedPrice?: number | null;
+          oddLotDelayedPriceTime?: number | null;
+          open?: number | null;
+          openSource?: string | null;
+          openTime?: number | null;
+          peRatio?: number | null;
+          previousClose?: number | null;
+          previousVolume?: number | null;
+          primaryExchange?: string | null;
+          symbol?: string | null;
+          week52High?: number | null;
+          week52Low?: number | null;
+          volume?: number | null;
+          ytdChange?: number | null;
+        } | null;
+      } | null;
+      importedSecurity: {
+        __typename?: 'ImportedSecurity';
+        close_price?: number | null;
+        name?: string | null;
+        ticker_symbol?: string | null;
+        currency?: string | null;
+        type?: SecurityType | null;
+      };
+    }>;
+  };
+};
 
-export type PortfoliosFindByIdQuery = { __typename?: 'Query', portfoliosFindById: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, securityType: SecurityType, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null } | null, security?: { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price: number, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', name?: string | null, symbol?: string | null } | null, importedSecurity: { __typename?: 'ImportedSecurity', name?: string | null, ticker_symbol?: string | null } }> } };
+export type PortfoliosInitEmptyMutationVariables = Exact<{
+  [key: string]: never;
+}>;
 
-export type PortfoliosInitEmptyMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PortfoliosInitEmptyMutation = { __typename?: 'Mutation', portfoliosInitEmpty: { __typename?: 'RecordId', _id: string } };
+export type PortfoliosInitEmptyMutation = {
+  __typename?: 'Mutation';
+  portfoliosInitEmpty: { __typename?: 'RecordId'; _id: string };
+};
 
 export type PortfoliosRemoveHoldingMutationVariables = Exact<{
   portfolioId: Scalars['ObjectId'];
   holdingId: Scalars['ObjectId'];
 }>;
 
-
-export type PortfoliosRemoveHoldingMutation = { __typename?: 'Mutation', portfoliosRemoveHolding: any };
+export type PortfoliosRemoveHoldingMutation = {
+  __typename?: 'Mutation';
+  portfoliosRemoveHolding: any;
+};
 
 export type PortfoliosRemoveMultipleMutationVariables = Exact<{
   _ids: Array<Scalars['ObjectId']> | Scalars['ObjectId'];
 }>;
 
-
-export type PortfoliosRemoveMultipleMutation = { __typename?: 'Mutation', portfoliosRemoveMultiple: { __typename?: 'RemoveMultipleResponse', acknowledged: boolean, deletedCount: number } };
+export type PortfoliosRemoveMultipleMutation = {
+  __typename?: 'Mutation';
+  portfoliosRemoveMultiple: {
+    __typename?: 'RemoveMultipleResponse';
+    acknowledged: boolean;
+    deletedCount: number;
+  };
+};
 
 export type PortfoliosRemoveOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-
-export type PortfoliosRemoveOneMutation = { __typename?: 'Mutation', portfoliosRemoveOne: { __typename?: 'RecordId', _id: string } };
+export type PortfoliosRemoveOneMutation = {
+  __typename?: 'Mutation';
+  portfoliosRemoveOne: { __typename?: 'RecordId'; _id: string };
+};
 
 export type PortfoliosUpdateOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 }>;
 
+export type PortfoliosUpdateOneMutation = {
+  __typename?: 'Mutation';
+  portfoliosUpdateOne: {
+    __typename?: 'PortfolioFromDb';
+    _id: any;
+    createdAt?: any | null;
+    description?: string | null;
+    name: string;
+    private: boolean;
+    updatedAt?: any | null;
+  };
+};
 
-export type PortfoliosUpdateOneMutation = { __typename?: 'Mutation', portfoliosUpdateOne: { __typename?: 'PortfolioFromDb', _id: any, createdAt?: any | null, description?: string | null, name: string, private: boolean, updatedAt?: any | null } };
+export type AllQuoteDataFragment = {
+  __typename?: 'Quote';
+  avgTotalVolume?: number | null;
+  calculationPrice?: string | null;
+  change?: number | null;
+  changePercent?: number | null;
+  companyName: string;
+  close?: number | null;
+  closeSource?: string | null;
+  closeTime?: number | null;
+  currency?: string | null;
+  delayedPrice?: number | null;
+  delayedPriceTime?: number | null;
+  extendedPrice?: number | null;
+  extendedChange?: number | null;
+  extendedChangePercent?: number | null;
+  extendedPriceTime?: number | null;
+  high?: number | null;
+  highSource?: string | null;
+  highTime?: number | null;
+  iexAskPrice?: number | null;
+  iexAskSize?: number | null;
+  iexBidPrice?: number | null;
+  iexBidSize?: number | null;
+  iexClose?: number | null;
+  iexCloseTime?: number | null;
+  iexLastUpdated?: number | null;
+  iexOpen?: number | null;
+  iexOpenTime?: number | null;
+  iexRealtimePrice?: number | null;
+  iexRealtimeSize?: number | null;
+  iexMarketPercent?: number | null;
+  iexVolume?: number | null;
+  isUSMarketOpen?: boolean | null;
+  lastTradeTime?: number | null;
+  latestPrice?: number | null;
+  latestSource?: string | null;
+  latestTime?: string | null;
+  latestUpdate?: number | null;
+  latestVolume?: number | null;
+  low?: number | null;
+  lowTime?: number | null;
+  lowSource?: string | null;
+  marketCap?: number | null;
+  oddLotDelayedPrice?: number | null;
+  oddLotDelayedPriceTime?: number | null;
+  open?: number | null;
+  openSource?: string | null;
+  openTime?: number | null;
+  peRatio?: number | null;
+  previousClose?: number | null;
+  previousVolume?: number | null;
+  primaryExchange?: string | null;
+  symbol?: string | null;
+  week52High?: number | null;
+  week52Low?: number | null;
+  volume?: number | null;
+  ytdChange?: number | null;
+};
 
-export type AllQuoteDataFragment = { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null };
+export type AllSecurityDataFragment = {
+  __typename?: 'Security';
+  cik?: string | null;
+  createdAt?: any | null;
+  currency?: string | null;
+  exchange?: string | null;
+  exchangeName?: string | null;
+  figi?: string | null;
+  iexId?: string | null;
+  name?: string | null;
+  region?: string | null;
+  symbol?: string | null;
+  updatedAt?: any | null;
+  quote?: {
+    __typename?: 'Quote';
+    avgTotalVolume?: number | null;
+    calculationPrice?: string | null;
+    change?: number | null;
+    changePercent?: number | null;
+    companyName: string;
+    close?: number | null;
+    closeSource?: string | null;
+    closeTime?: number | null;
+    currency?: string | null;
+    delayedPrice?: number | null;
+    delayedPriceTime?: number | null;
+    extendedPrice?: number | null;
+    extendedChange?: number | null;
+    extendedChangePercent?: number | null;
+    extendedPriceTime?: number | null;
+    high?: number | null;
+    highSource?: string | null;
+    highTime?: number | null;
+    iexAskPrice?: number | null;
+    iexAskSize?: number | null;
+    iexBidPrice?: number | null;
+    iexBidSize?: number | null;
+    iexClose?: number | null;
+    iexCloseTime?: number | null;
+    iexLastUpdated?: number | null;
+    iexOpen?: number | null;
+    iexOpenTime?: number | null;
+    iexRealtimePrice?: number | null;
+    iexRealtimeSize?: number | null;
+    iexMarketPercent?: number | null;
+    iexVolume?: number | null;
+    isUSMarketOpen?: boolean | null;
+    lastTradeTime?: number | null;
+    latestPrice?: number | null;
+    latestSource?: string | null;
+    latestTime?: string | null;
+    latestUpdate?: number | null;
+    latestVolume?: number | null;
+    low?: number | null;
+    lowTime?: number | null;
+    lowSource?: string | null;
+    marketCap?: number | null;
+    oddLotDelayedPrice?: number | null;
+    oddLotDelayedPriceTime?: number | null;
+    open?: number | null;
+    openSource?: string | null;
+    openTime?: number | null;
+    peRatio?: number | null;
+    previousClose?: number | null;
+    previousVolume?: number | null;
+    primaryExchange?: string | null;
+    symbol?: string | null;
+    week52High?: number | null;
+    week52Low?: number | null;
+    volume?: number | null;
+    ytdChange?: number | null;
+  } | null;
+};
 
-export type AllSecurityDataFragment = { __typename?: 'Security', cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null };
+export type AllImportedSecurityDataFragment = {
+  __typename?: 'ImportedSecurity';
+  close_price?: number | null;
+  name?: string | null;
+  ticker_symbol?: string | null;
+  currency?: string | null;
+  type?: SecurityType | null;
+};
 
-export type AllImportedSecurityDataFragment = { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, type?: SecurityType | null };
-
-export type SecuritySummaryFragment = { __typename?: 'Security', _id: any, name?: string | null, symbol?: string | null, exchangeName?: string | null, region?: string | null, quote?: { __typename?: 'Quote', latestPrice?: number | null } | null };
+export type SecuritySummaryFragment = {
+  __typename?: 'Security';
+  _id: any;
+  name?: string | null;
+  symbol?: string | null;
+  exchangeName?: string | null;
+  region?: string | null;
+  quote?: { __typename?: 'Quote'; latestPrice?: number | null } | null;
+};
 
 export type SecuritiesFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-
-export type SecuritiesFindByIdQuery = { __typename?: 'Query', securitiesFindById: { __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null } };
+export type SecuritiesFindByIdQuery = {
+  __typename?: 'Query';
+  securitiesFindById: {
+    __typename?: 'Security';
+    _id: any;
+    cik?: string | null;
+    createdAt?: any | null;
+    currency?: string | null;
+    exchange?: string | null;
+    exchangeName?: string | null;
+    figi?: string | null;
+    iexId?: string | null;
+    name?: string | null;
+    region?: string | null;
+    symbol?: string | null;
+    updatedAt?: any | null;
+    quote?: {
+      __typename?: 'Quote';
+      avgTotalVolume?: number | null;
+      calculationPrice?: string | null;
+      change?: number | null;
+      changePercent?: number | null;
+      companyName: string;
+      close?: number | null;
+      closeSource?: string | null;
+      closeTime?: number | null;
+      currency?: string | null;
+      delayedPrice?: number | null;
+      delayedPriceTime?: number | null;
+      extendedPrice?: number | null;
+      extendedChange?: number | null;
+      extendedChangePercent?: number | null;
+      extendedPriceTime?: number | null;
+      high?: number | null;
+      highSource?: string | null;
+      highTime?: number | null;
+      iexAskPrice?: number | null;
+      iexAskSize?: number | null;
+      iexBidPrice?: number | null;
+      iexBidSize?: number | null;
+      iexClose?: number | null;
+      iexCloseTime?: number | null;
+      iexLastUpdated?: number | null;
+      iexOpen?: number | null;
+      iexOpenTime?: number | null;
+      iexRealtimePrice?: number | null;
+      iexRealtimeSize?: number | null;
+      iexMarketPercent?: number | null;
+      iexVolume?: number | null;
+      isUSMarketOpen?: boolean | null;
+      lastTradeTime?: number | null;
+      latestPrice?: number | null;
+      latestSource?: string | null;
+      latestTime?: string | null;
+      latestUpdate?: number | null;
+      latestVolume?: number | null;
+      low?: number | null;
+      lowTime?: number | null;
+      lowSource?: string | null;
+      marketCap?: number | null;
+      oddLotDelayedPrice?: number | null;
+      oddLotDelayedPriceTime?: number | null;
+      open?: number | null;
+      openSource?: string | null;
+      openTime?: number | null;
+      peRatio?: number | null;
+      previousClose?: number | null;
+      previousVolume?: number | null;
+      primaryExchange?: string | null;
+      symbol?: string | null;
+      week52High?: number | null;
+      week52Low?: number | null;
+      volume?: number | null;
+      ytdChange?: number | null;
+    } | null;
+  };
+};
 
 export type SecuritiesSearchQueryVariables = Exact<{
   searchTerm: Scalars['String'];
 }>;
 
+export type SecuritiesSearchQuery = {
+  __typename?: 'Query';
+  securitiesSearch: Array<{
+    __typename?: 'Security';
+    _id: any;
+    cik?: string | null;
+    createdAt?: any | null;
+    currency?: string | null;
+    exchange?: string | null;
+    exchangeName?: string | null;
+    figi?: string | null;
+    iexId?: string | null;
+    name?: string | null;
+    region?: string | null;
+    symbol?: string | null;
+    updatedAt?: any | null;
+    quote?: {
+      __typename?: 'Quote';
+      avgTotalVolume?: number | null;
+      calculationPrice?: string | null;
+      change?: number | null;
+      changePercent?: number | null;
+      companyName: string;
+      close?: number | null;
+      closeSource?: string | null;
+      closeTime?: number | null;
+      currency?: string | null;
+      delayedPrice?: number | null;
+      delayedPriceTime?: number | null;
+      extendedPrice?: number | null;
+      extendedChange?: number | null;
+      extendedChangePercent?: number | null;
+      extendedPriceTime?: number | null;
+      high?: number | null;
+      highSource?: string | null;
+      highTime?: number | null;
+      iexAskPrice?: number | null;
+      iexAskSize?: number | null;
+      iexBidPrice?: number | null;
+      iexBidSize?: number | null;
+      iexClose?: number | null;
+      iexCloseTime?: number | null;
+      iexLastUpdated?: number | null;
+      iexOpen?: number | null;
+      iexOpenTime?: number | null;
+      iexRealtimePrice?: number | null;
+      iexRealtimeSize?: number | null;
+      iexMarketPercent?: number | null;
+      iexVolume?: number | null;
+      isUSMarketOpen?: boolean | null;
+      lastTradeTime?: number | null;
+      latestPrice?: number | null;
+      latestSource?: string | null;
+      latestTime?: string | null;
+      latestUpdate?: number | null;
+      latestVolume?: number | null;
+      low?: number | null;
+      lowTime?: number | null;
+      lowSource?: string | null;
+      marketCap?: number | null;
+      oddLotDelayedPrice?: number | null;
+      oddLotDelayedPriceTime?: number | null;
+      open?: number | null;
+      openSource?: string | null;
+      openTime?: number | null;
+      peRatio?: number | null;
+      previousClose?: number | null;
+      previousVolume?: number | null;
+      primaryExchange?: string | null;
+      symbol?: string | null;
+      week52High?: number | null;
+      week52Low?: number | null;
+      volume?: number | null;
+      ytdChange?: number | null;
+    } | null;
+  }>;
+};
 
-export type SecuritiesSearchQuery = { __typename?: 'Query', securitiesSearch: Array<{ __typename?: 'Security', _id: any, cik?: string | null, createdAt?: any | null, currency?: string | null, exchange?: string | null, exchangeName?: string | null, figi?: string | null, iexId?: string | null, name?: string | null, region?: string | null, symbol?: string | null, updatedAt?: any | null, quote?: { __typename?: 'Quote', avgTotalVolume?: number | null, calculationPrice?: string | null, change?: number | null, changePercent?: number | null, companyName: string, close?: number | null, closeSource?: string | null, closeTime?: number | null, currency?: string | null, delayedPrice?: number | null, delayedPriceTime?: number | null, extendedPrice?: number | null, extendedChange?: number | null, extendedChangePercent?: number | null, extendedPriceTime?: number | null, high?: number | null, highSource?: string | null, highTime?: number | null, iexAskPrice?: number | null, iexAskSize?: number | null, iexBidPrice?: number | null, iexBidSize?: number | null, iexClose?: number | null, iexCloseTime?: number | null, iexLastUpdated?: number | null, iexOpen?: number | null, iexOpenTime?: number | null, iexRealtimePrice?: number | null, iexRealtimeSize?: number | null, iexMarketPercent?: number | null, iexVolume?: number | null, isUSMarketOpen?: boolean | null, lastTradeTime?: number | null, latestPrice?: number | null, latestSource?: string | null, latestTime?: string | null, latestUpdate?: number | null, latestVolume?: number | null, low?: number | null, lowTime?: number | null, lowSource?: string | null, marketCap?: number | null, oddLotDelayedPrice?: number | null, oddLotDelayedPriceTime?: number | null, open?: number | null, openSource?: string | null, openTime?: number | null, peRatio?: number | null, previousClose?: number | null, previousVolume?: number | null, primaryExchange?: string | null, symbol?: string | null, week52High?: number | null, week52Low?: number | null, volume?: number | null, ytdChange?: number | null } | null }> };
-
-export type FullUserFragment = { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null };
+export type FullUserFragment = {
+  __typename?: 'User';
+  _id: string;
+  displayName: string;
+  emails?: Array<string> | null;
+  photos: Array<string>;
+  createdAt?: any | null;
+  updatedAt?: any | null;
+};
 
 export type UsersFindByIdQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-
-export type UsersFindByIdQuery = { __typename?: 'Query', usersFindById: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };
+export type UsersFindByIdQuery = {
+  __typename?: 'Query';
+  usersFindById: {
+    __typename?: 'User';
+    _id: string;
+    displayName: string;
+    emails?: Array<string> | null;
+    photos: Array<string>;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  };
+};
 
 export type UsersFindOrCreateMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
-
-export type UsersFindOrCreateMutation = { __typename?: 'Mutation', usersFindOrCreate: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };
+export type UsersFindOrCreateMutation = {
+  __typename?: 'Mutation';
+  usersFindOrCreate: {
+    __typename?: 'User';
+    _id: string;
+    displayName: string;
+    emails?: Array<string> | null;
+    photos: Array<string>;
+    createdAt?: any | null;
+    updatedAt?: any | null;
+  };
+};
 
 export const FullUserFragmentDoc = gql`
-    fragment FullUser on User {
-  _id
-  displayName
-  emails
-  photos
-  createdAt
-  updatedAt
-}
-    `;
-export const FullPlaidAccountFragmentDoc = gql`
-    fragment FullPlaidAccount on PlaidAccount {
-  type
-  name
-  subtype
-  official_name
-  account_id
-  balances {
-    current
-    available
-  }
-}
-    `;
-export const PortfolioSummaryFragmentDoc = gql`
-    fragment PortfolioSummary on Portfolio {
-  _id
-  cash
-  owner {
-    ...FullUser
-  }
-  name
-  description
-  private
-  createdAt
-  updatedAt
-  plaidAccount {
-    ...FullPlaidAccount
-  }
-  totalValue
-}
-    ${FullUserFragmentDoc}
-${FullPlaidAccountFragmentDoc}`;
-export const AllImportedSecurityDataFragmentDoc = gql`
-    fragment AllImportedSecurityData on ImportedSecurity {
-  close_price
-  name
-  ticker_symbol
-  type
-}
-    `;
-export const AllQuoteDataFragmentDoc = gql`
-    fragment AllQuoteData on Quote {
-  avgTotalVolume
-  calculationPrice
-  change
-  changePercent
-  companyName
-  close
-  closeSource
-  closeTime
-  currency
-  delayedPrice
-  delayedPriceTime
-  extendedPrice
-  extendedChange
-  extendedChangePercent
-  extendedPriceTime
-  high
-  highSource
-  highTime
-  iexAskPrice
-  iexAskSize
-  iexBidPrice
-  iexBidSize
-  iexClose
-  iexCloseTime
-  iexLastUpdated
-  iexOpen
-  iexOpenTime
-  iexRealtimePrice
-  iexRealtimeSize
-  iexMarketPercent
-  iexVolume
-  isUSMarketOpen
-  lastTradeTime
-  latestPrice
-  latestSource
-  latestTime
-  latestUpdate
-  latestVolume
-  low
-  lowTime
-  lowSource
-  marketCap
-  oddLotDelayedPrice
-  oddLotDelayedPriceTime
-  open
-  openSource
-  openTime
-  peRatio
-  previousClose
-  previousVolume
-  primaryExchange
-  symbol
-  week52High
-  week52Low
-  volume
-  ytdChange
-}
-    `;
-export const AllSecurityDataFragmentDoc = gql`
-    fragment AllSecurityData on Security {
-  cik
-  createdAt
-  currency
-  exchange
-  exchangeName
-  figi
-  iexId
-  name
-  region
-  symbol
-  quote {
-    ...AllQuoteData
-  }
-  updatedAt
-}
-    ${AllQuoteDataFragmentDoc}`;
-export const AllHoldingDataFragmentDoc = gql`
-    fragment AllHoldingData on Holding {
-  _id
-  marketValue
-  exposure
-  profitLossUsd
-  profitLossPercent
-  dailyProfitLossUsd
-  averagePrice
-  costBasis
-  brokerFees
-  institutionValue
-  direction
-  quantity
-  securityType
-  source
-  currency
-  importedSecurity {
-    ...AllImportedSecurityData
-  }
-  security {
-    ...AllSecurityData
-  }
-}
-    ${AllImportedSecurityDataFragmentDoc}
-${AllSecurityDataFragmentDoc}`;
-export const PortfolioHoldingsFragmentDoc = gql`
-    fragment PortfolioHoldings on Portfolio {
-  holdings {
-    ...AllHoldingData
-  }
-}
-    ${AllHoldingDataFragmentDoc}`;
-export const AllTransactionDataFragmentDoc = gql`
-    fragment AllTransactionData on Transaction {
-  name
-  date
-  currency
-  security {
-    name
-    symbol
-  }
-  importedSecurity {
-    name
-    ticker_symbol
-  }
-  quantity
-  amount
-  fees
-  price
-  type
-  subType
-}
-    `;
-export const PortfolioTransactionsFragmentDoc = gql`
-    fragment PortfolioTransactions on Portfolio {
-  transactions {
-    ...AllTransactionData
-  }
-}
-    ${AllTransactionDataFragmentDoc}`;
-export const AllPortfolioDataFragmentDoc = gql`
-    fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
-  ...PortfolioHoldings
-  ...PortfolioTransactions
-}
-    ${PortfolioSummaryFragmentDoc}
-${PortfolioHoldingsFragmentDoc}
-${PortfolioTransactionsFragmentDoc}`;
-export const SecuritySummaryFragmentDoc = gql`
-    fragment SecuritySummary on Security {
-  _id
-  name
-  symbol
-  exchangeName
-  region
-  quote {
-    latestPrice
-  }
-}
-    `;
-export const ChartSecurityPriceDocument = gql`
-    query chartSecurityPrice($range: HistoricalRange!, $securityId: ObjectId!, $options: ChartPriceRangeOptions) {
-  chartSecurityPrice(range: $range, securityId: $securityId, options: $options) {
-    change
-    changeOverTime
-    changePercent
-    close
-    date
-    fClose
-    fHigh
-    fLow
-    fOpen
-    fVolume
-    high
-    id
-    key
-    label
-    low
-    marketChangeOverTime
-    open
-    subkey
-    symbol
-    uClose
-    uHigh
-    uLow
-    uOpen
-    uVolume
-    updated
-    volume
-  }
-}
-    `;
-export const PlaidLinkTokenDocument = gql`
-    query plaidLinkToken {
-  plaidLinkToken
-}
-    `;
-export const PortfoliosAddHoldingDocument = gql`
-    mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
-  portfoliosAddHolding(_id: $_id, input: $input) {
+  fragment FullUser on User {
     _id
-    holdings {
-      averagePrice
-      brokerFees
-      costBasis
-      quantity
+    displayName
+    emails
+    photos
+    createdAt
+    updatedAt
+  }
+`;
+export const FullPlaidAccountFragmentDoc = gql`
+  fragment FullPlaidAccount on PlaidAccount {
+    type
+    name
+    subtype
+    official_name
+    account_id
+    balances {
+      current
+      available
     }
   }
-}
-    `;
-export const PortfoliosBeginImportDocument = gql`
-    mutation portfoliosBeginImport($publicToken: String!) {
-  portfoliosBeginImport(publicToken: $publicToken) {
-    importedIds
-  }
-}
-    `;
-export const PortfoliosCreatedDocument = gql`
-    query portfoliosCreated {
-  portfoliosCreated {
+`;
+export const PortfolioSummaryFragmentDoc = gql`
+  fragment PortfolioSummary on Portfolio {
     _id
+    cash
     owner {
       ...FullUser
     }
     name
-    cash
-    private
     description
-    updatedAt
+    private
     createdAt
-    totalValue
+    updatedAt
     plaidAccount {
       ...FullPlaidAccount
     }
-    top5Holdings {
-      costBasis
-      exposure
-      securityType
-      marketValue
-      importedSecurity {
-        ...AllImportedSecurityData
-      }
-      security {
-        ...SecuritySummary
-      }
-    }
+    totalValue
   }
-}
-    ${FullUserFragmentDoc}
-${FullPlaidAccountFragmentDoc}
-${AllImportedSecurityDataFragmentDoc}
-${SecuritySummaryFragmentDoc}`;
-export const PortfoliosFindByIdDocument = gql`
-    query portfoliosFindById($_id: ObjectId!) {
-  portfoliosFindById(_id: $_id) {
-    _id
-    ...AllPortfolioData
-  }
-}
-    ${AllPortfolioDataFragmentDoc}`;
-export const PortfoliosInitEmptyDocument = gql`
-    mutation portfoliosInitEmpty {
-  portfoliosInitEmpty {
-    _id
-  }
-}
-    `;
-export const PortfoliosRemoveHoldingDocument = gql`
-    mutation portfoliosRemoveHolding($portfolioId: ObjectId!, $holdingId: ObjectId!) {
-  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
-}
-    `;
-export const PortfoliosRemoveMultipleDocument = gql`
-    mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
-  portfoliosRemoveMultiple(_ids: $_ids) {
-    acknowledged
-    deletedCount
-  }
-}
-    `;
-export const PortfoliosRemoveOneDocument = gql`
-    mutation portfoliosRemoveOne($_id: ObjectId!) {
-  portfoliosRemoveOne(_id: $_id) {
-    _id
-  }
-}
-    `;
-export const PortfoliosUpdateOneDocument = gql`
-    mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
-  portfoliosUpdateOne(_id: $_id, input: $input) {
-    _id
-    createdAt
-    description
+  ${FullUserFragmentDoc}
+  ${FullPlaidAccountFragmentDoc}
+`;
+export const AllImportedSecurityDataFragmentDoc = gql`
+  fragment AllImportedSecurityData on ImportedSecurity {
+    close_price
     name
-    private
+    ticker_symbol
+    currency
+    type
+  }
+`;
+export const AllQuoteDataFragmentDoc = gql`
+  fragment AllQuoteData on Quote {
+    avgTotalVolume
+    calculationPrice
+    change
+    changePercent
+    companyName
+    close
+    closeSource
+    closeTime
+    currency
+    delayedPrice
+    delayedPriceTime
+    extendedPrice
+    extendedChange
+    extendedChangePercent
+    extendedPriceTime
+    high
+    highSource
+    highTime
+    iexAskPrice
+    iexAskSize
+    iexBidPrice
+    iexBidSize
+    iexClose
+    iexCloseTime
+    iexLastUpdated
+    iexOpen
+    iexOpenTime
+    iexRealtimePrice
+    iexRealtimeSize
+    iexMarketPercent
+    iexVolume
+    isUSMarketOpen
+    lastTradeTime
+    latestPrice
+    latestSource
+    latestTime
+    latestUpdate
+    latestVolume
+    low
+    lowTime
+    lowSource
+    marketCap
+    oddLotDelayedPrice
+    oddLotDelayedPriceTime
+    open
+    openSource
+    openTime
+    peRatio
+    previousClose
+    previousVolume
+    primaryExchange
+    symbol
+    week52High
+    week52Low
+    volume
+    ytdChange
+  }
+`;
+export const AllSecurityDataFragmentDoc = gql`
+  fragment AllSecurityData on Security {
+    cik
+    createdAt
+    currency
+    exchange
+    exchangeName
+    figi
+    iexId
+    name
+    region
+    symbol
+    quote {
+      ...AllQuoteData
+    }
     updatedAt
   }
-}
-    `;
+  ${AllQuoteDataFragmentDoc}
+`;
+export const AllHoldingDataFragmentDoc = gql`
+  fragment AllHoldingData on Holding {
+    _id
+    marketValue
+    exposure
+    profitLossUsd
+    profitLossPercent
+    dailyProfitLossUsd
+    averagePrice
+    costBasis
+    brokerFees
+    institutionValue
+    direction
+    quantity
+    securityType
+    source
+    currency
+    importedSecurity {
+      ...AllImportedSecurityData
+    }
+    security {
+      ...AllSecurityData
+    }
+  }
+  ${AllImportedSecurityDataFragmentDoc}
+  ${AllSecurityDataFragmentDoc}
+`;
+export const PortfolioHoldingsFragmentDoc = gql`
+  fragment PortfolioHoldings on Portfolio {
+    holdings {
+      ...AllHoldingData
+    }
+  }
+  ${AllHoldingDataFragmentDoc}
+`;
+export const AllTransactionDataFragmentDoc = gql`
+  fragment AllTransactionData on Transaction {
+    _id
+    name
+    date
+    currency
+    security {
+      ...AllSecurityData
+    }
+    importedSecurity {
+      ...AllImportedSecurityData
+    }
+    quantity
+    amount
+    fees
+    price
+    type
+    subType
+  }
+  ${AllSecurityDataFragmentDoc}
+  ${AllImportedSecurityDataFragmentDoc}
+`;
+export const PortfolioTransactionsFragmentDoc = gql`
+  fragment PortfolioTransactions on Portfolio {
+    transactions {
+      ...AllTransactionData
+    }
+  }
+  ${AllTransactionDataFragmentDoc}
+`;
+export const AllPortfolioDataFragmentDoc = gql`
+  fragment AllPortfolioData on Portfolio {
+    ...PortfolioSummary
+    ...PortfolioHoldings
+    ...PortfolioTransactions
+  }
+  ${PortfolioSummaryFragmentDoc}
+  ${PortfolioHoldingsFragmentDoc}
+  ${PortfolioTransactionsFragmentDoc}
+`;
+export const SecuritySummaryFragmentDoc = gql`
+  fragment SecuritySummary on Security {
+    _id
+    name
+    symbol
+    exchangeName
+    region
+    quote {
+      latestPrice
+    }
+  }
+`;
+export const ChartSecurityPriceDocument = gql`
+  query chartSecurityPrice(
+    $range: HistoricalRange!
+    $securityId: ObjectId!
+    $options: ChartPriceRangeOptions
+  ) {
+    chartSecurityPrice(
+      range: $range
+      securityId: $securityId
+      options: $options
+    ) {
+      change
+      changeOverTime
+      changePercent
+      close
+      date
+      fClose
+      fHigh
+      fLow
+      fOpen
+      fVolume
+      high
+      id
+      key
+      label
+      low
+      marketChangeOverTime
+      open
+      subkey
+      symbol
+      uClose
+      uHigh
+      uLow
+      uOpen
+      uVolume
+      updated
+      volume
+    }
+  }
+`;
+export const PlaidLinkTokenDocument = gql`
+  query plaidLinkToken {
+    plaidLinkToken
+  }
+`;
+export const PortfoliosAddHoldingDocument = gql`
+  mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
+    portfoliosAddHolding(_id: $_id, input: $input) {
+      _id
+      holdings {
+        averagePrice
+        brokerFees
+        costBasis
+        quantity
+      }
+    }
+  }
+`;
+export const PortfoliosBeginImportDocument = gql`
+  mutation portfoliosBeginImport($publicToken: String!) {
+    portfoliosBeginImport(publicToken: $publicToken) {
+      importedIds
+    }
+  }
+`;
+export const PortfoliosCreatedDocument = gql`
+  query portfoliosCreated {
+    portfoliosCreated {
+      _id
+      owner {
+        ...FullUser
+      }
+      name
+      cash
+      private
+      description
+      updatedAt
+      createdAt
+      totalValue
+      plaidAccount {
+        ...FullPlaidAccount
+      }
+      top5Holdings {
+        costBasis
+        exposure
+        securityType
+        marketValue
+        importedSecurity {
+          ...AllImportedSecurityData
+        }
+        security {
+          ...SecuritySummary
+        }
+      }
+    }
+  }
+  ${FullUserFragmentDoc}
+  ${FullPlaidAccountFragmentDoc}
+  ${AllImportedSecurityDataFragmentDoc}
+  ${SecuritySummaryFragmentDoc}
+`;
+export const PortfoliosFindByIdDocument = gql`
+  query portfoliosFindById($_id: ObjectId!) {
+    portfoliosFindById(_id: $_id) {
+      _id
+      ...AllPortfolioData
+    }
+  }
+  ${AllPortfolioDataFragmentDoc}
+`;
+export const PortfoliosInitEmptyDocument = gql`
+  mutation portfoliosInitEmpty {
+    portfoliosInitEmpty {
+      _id
+    }
+  }
+`;
+export const PortfoliosRemoveHoldingDocument = gql`
+  mutation portfoliosRemoveHolding(
+    $portfolioId: ObjectId!
+    $holdingId: ObjectId!
+  ) {
+    portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
+  }
+`;
+export const PortfoliosRemoveMultipleDocument = gql`
+  mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
+    portfoliosRemoveMultiple(_ids: $_ids) {
+      acknowledged
+      deletedCount
+    }
+  }
+`;
+export const PortfoliosRemoveOneDocument = gql`
+  mutation portfoliosRemoveOne($_id: ObjectId!) {
+    portfoliosRemoveOne(_id: $_id) {
+      _id
+    }
+  }
+`;
+export const PortfoliosUpdateOneDocument = gql`
+  mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
+    portfoliosUpdateOne(_id: $_id, input: $input) {
+      _id
+      createdAt
+      description
+      name
+      private
+      updatedAt
+    }
+  }
+`;
 export const SecuritiesFindByIdDocument = gql`
-    query securitiesFindById($_id: ObjectId!) {
-  securitiesFindById(_id: $_id) {
-    _id
-    ...AllSecurityData
-    quote {
-      ...AllQuoteData
+  query securitiesFindById($_id: ObjectId!) {
+    securitiesFindById(_id: $_id) {
+      _id
+      ...AllSecurityData
+      quote {
+        ...AllQuoteData
+      }
     }
   }
-}
-    ${AllSecurityDataFragmentDoc}
-${AllQuoteDataFragmentDoc}`;
+  ${AllSecurityDataFragmentDoc}
+  ${AllQuoteDataFragmentDoc}
+`;
 export const SecuritiesSearchDocument = gql`
-    query securitiesSearch($searchTerm: String!) {
-  securitiesSearch(searchTerm: $searchTerm) {
-    _id
-    ...AllSecurityData
-    quote {
-      ...AllQuoteData
+  query securitiesSearch($searchTerm: String!) {
+    securitiesSearch(searchTerm: $searchTerm) {
+      _id
+      ...AllSecurityData
+      quote {
+        ...AllQuoteData
+      }
     }
   }
-}
-    ${AllSecurityDataFragmentDoc}
-${AllQuoteDataFragmentDoc}`;
+  ${AllSecurityDataFragmentDoc}
+  ${AllQuoteDataFragmentDoc}
+`;
 export const UsersFindByIdDocument = gql`
-    query usersFindById($_id: ID!) {
-  usersFindById(_id: $_id) {
-    _id
-    ...FullUser
-  }
-}
-    ${FullUserFragmentDoc}`;
-export const UsersFindOrCreateDocument = gql`
-    mutation usersFindOrCreate($input: CreateUserInput!) {
-  usersFindOrCreate(input: $input) {
-    _id
-    ...FullUser
-  }
-}
-    ${FullUserFragmentDoc}`;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    chartSecurityPrice(variables: ChartSecurityPriceQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ChartSecurityPriceQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ChartSecurityPriceQuery>(ChartSecurityPriceDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'chartSecurityPrice', 'query');
-    },
-    plaidLinkToken(variables?: PlaidLinkTokenQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PlaidLinkTokenQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PlaidLinkTokenQuery>(PlaidLinkTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'plaidLinkToken', 'query');
-    },
-    portfoliosAddHolding(variables: PortfoliosAddHoldingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosAddHoldingMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosAddHoldingMutation>(PortfoliosAddHoldingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosAddHolding', 'mutation');
-    },
-    portfoliosBeginImport(variables: PortfoliosBeginImportMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosBeginImportMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosBeginImportMutation>(PortfoliosBeginImportDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosBeginImport', 'mutation');
-    },
-    portfoliosCreated(variables?: PortfoliosCreatedQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosCreatedQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosCreatedQuery>(PortfoliosCreatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosCreated', 'query');
-    },
-    portfoliosFindById(variables: PortfoliosFindByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosFindByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosFindByIdQuery>(PortfoliosFindByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosFindById', 'query');
-    },
-    portfoliosInitEmpty(variables?: PortfoliosInitEmptyMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosInitEmptyMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosInitEmptyMutation>(PortfoliosInitEmptyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosInitEmpty', 'mutation');
-    },
-    portfoliosRemoveHolding(variables: PortfoliosRemoveHoldingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosRemoveHoldingMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosRemoveHoldingMutation>(PortfoliosRemoveHoldingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosRemoveHolding', 'mutation');
-    },
-    portfoliosRemoveMultiple(variables: PortfoliosRemoveMultipleMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosRemoveMultipleMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosRemoveMultipleMutation>(PortfoliosRemoveMultipleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosRemoveMultiple', 'mutation');
-    },
-    portfoliosRemoveOne(variables: PortfoliosRemoveOneMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosRemoveOneMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosRemoveOneMutation>(PortfoliosRemoveOneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosRemoveOne', 'mutation');
-    },
-    portfoliosUpdateOne(variables: PortfoliosUpdateOneMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosUpdateOneMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosUpdateOneMutation>(PortfoliosUpdateOneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosUpdateOne', 'mutation');
-    },
-    securitiesFindById(variables: SecuritiesFindByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SecuritiesFindByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SecuritiesFindByIdQuery>(SecuritiesFindByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'securitiesFindById', 'query');
-    },
-    securitiesSearch(variables: SecuritiesSearchQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<SecuritiesSearchQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<SecuritiesSearchQuery>(SecuritiesSearchDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'securitiesSearch', 'query');
-    },
-    usersFindById(variables: UsersFindByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UsersFindByIdQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UsersFindByIdQuery>(UsersFindByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'usersFindById', 'query');
-    },
-    usersFindOrCreate(variables: UsersFindOrCreateMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UsersFindOrCreateMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<UsersFindOrCreateMutation>(UsersFindOrCreateDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'usersFindOrCreate', 'mutation');
+  query usersFindById($_id: ID!) {
+    usersFindById(_id: $_id) {
+      _id
+      ...FullUser
     }
+  }
+  ${FullUserFragmentDoc}
+`;
+export const UsersFindOrCreateDocument = gql`
+  mutation usersFindOrCreate($input: CreateUserInput!) {
+    usersFindOrCreate(input: $input) {
+      _id
+      ...FullUser
+    }
+  }
+  ${FullUserFragmentDoc}
+`;
+
+export type SdkFunctionWrapper = <T>(
+  action: (requestHeaders?: Record<string, string>) => Promise<T>,
+  operationName: string,
+  operationType?: string
+) => Promise<T>;
+
+const defaultWrapper: SdkFunctionWrapper = (
+  action,
+  _operationName,
+  _operationType
+) => action();
+
+export function getSdk(
+  client: GraphQLClient,
+  withWrapper: SdkFunctionWrapper = defaultWrapper
+) {
+  return {
+    chartSecurityPrice(
+      variables: ChartSecurityPriceQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<ChartSecurityPriceQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<ChartSecurityPriceQuery>(
+            ChartSecurityPriceDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'chartSecurityPrice',
+        'query'
+      );
+    },
+    plaidLinkToken(
+      variables?: PlaidLinkTokenQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PlaidLinkTokenQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PlaidLinkTokenQuery>(
+            PlaidLinkTokenDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'plaidLinkToken',
+        'query'
+      );
+    },
+    portfoliosAddHolding(
+      variables: PortfoliosAddHoldingMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosAddHoldingMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosAddHoldingMutation>(
+            PortfoliosAddHoldingDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosAddHolding',
+        'mutation'
+      );
+    },
+    portfoliosBeginImport(
+      variables: PortfoliosBeginImportMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosBeginImportMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosBeginImportMutation>(
+            PortfoliosBeginImportDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosBeginImport',
+        'mutation'
+      );
+    },
+    portfoliosCreated(
+      variables?: PortfoliosCreatedQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosCreatedQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosCreatedQuery>(
+            PortfoliosCreatedDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosCreated',
+        'query'
+      );
+    },
+    portfoliosFindById(
+      variables: PortfoliosFindByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosFindByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosFindByIdQuery>(
+            PortfoliosFindByIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosFindById',
+        'query'
+      );
+    },
+    portfoliosInitEmpty(
+      variables?: PortfoliosInitEmptyMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosInitEmptyMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosInitEmptyMutation>(
+            PortfoliosInitEmptyDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosInitEmpty',
+        'mutation'
+      );
+    },
+    portfoliosRemoveHolding(
+      variables: PortfoliosRemoveHoldingMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosRemoveHoldingMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosRemoveHoldingMutation>(
+            PortfoliosRemoveHoldingDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosRemoveHolding',
+        'mutation'
+      );
+    },
+    portfoliosRemoveMultiple(
+      variables: PortfoliosRemoveMultipleMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosRemoveMultipleMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosRemoveMultipleMutation>(
+            PortfoliosRemoveMultipleDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosRemoveMultiple',
+        'mutation'
+      );
+    },
+    portfoliosRemoveOne(
+      variables: PortfoliosRemoveOneMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosRemoveOneMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosRemoveOneMutation>(
+            PortfoliosRemoveOneDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosRemoveOne',
+        'mutation'
+      );
+    },
+    portfoliosUpdateOne(
+      variables: PortfoliosUpdateOneMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<PortfoliosUpdateOneMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<PortfoliosUpdateOneMutation>(
+            PortfoliosUpdateOneDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'portfoliosUpdateOne',
+        'mutation'
+      );
+    },
+    securitiesFindById(
+      variables: SecuritiesFindByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<SecuritiesFindByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<SecuritiesFindByIdQuery>(
+            SecuritiesFindByIdDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'securitiesFindById',
+        'query'
+      );
+    },
+    securitiesSearch(
+      variables: SecuritiesSearchQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<SecuritiesSearchQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<SecuritiesSearchQuery>(
+            SecuritiesSearchDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'securitiesSearch',
+        'query'
+      );
+    },
+    usersFindById(
+      variables: UsersFindByIdQueryVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UsersFindByIdQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UsersFindByIdQuery>(UsersFindByIdDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'usersFindById',
+        'query'
+      );
+    },
+    usersFindOrCreate(
+      variables: UsersFindOrCreateMutationVariables,
+      requestHeaders?: Dom.RequestInit['headers']
+    ): Promise<UsersFindOrCreateMutation> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<UsersFindOrCreateMutation>(
+            UsersFindOrCreateDocument,
+            variables,
+            { ...requestHeaders, ...wrappedRequestHeaders }
+          ),
+        'usersFindOrCreate',
+        'mutation'
+      );
+    },
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;

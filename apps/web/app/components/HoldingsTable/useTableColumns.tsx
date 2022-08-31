@@ -8,6 +8,7 @@ import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
 import { UseTableColumnProps } from './types';
+import { getSecuritySymbol } from '~/util/getSecuritySymbol';
 
 export const useTableColumns = ({
   onRemoveHolding,
@@ -18,11 +19,14 @@ export const useTableColumns = ({
     {
       field: `security`,
       headerName: t(`instrument`, `Instrument`),
-      flex: 1,
+      flex: 2,
       valueGetter: ({ row }) =>
         row?.security?.symbol || row.importedSecurity.ticker_symbol,
       renderCell: ({ row }) => (
-        <SecurityLogo security={row.security || row.importedSecurity} />
+        <SecurityLogo
+          symbol={getSecuritySymbol(row.security || row.importedSecurity)}
+          existsInDatabase={!!row.security}
+        />
       ),
     },
     {
@@ -30,6 +34,15 @@ export const useTableColumns = ({
       renderCell: ({ row }) => formatCurrency(row?.marketValue),
       flex: 1,
       headerName: t(`marketValue`, `Market value`),
+    },
+    {
+      field: 'quantity',
+      headerName: t(`quantity`, `Quantity`),
+    },
+    {
+      field: 'exposure',
+      renderCell: ({ row }) => `${row.exposure.toFixed(2)}%`,
+      headerName: t(`exposure`, `Exposure`),
     },
     {
       field: `costBasis`,
@@ -50,7 +63,9 @@ export const useTableColumns = ({
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
-        return formatCurrency(row?.security?.quote?.latestPrice);
+        return formatCurrency(
+          row?.security?.quote?.latestPrice || row.importedSecurity?.close_price
+        );
       },
     },
     {
@@ -60,10 +75,7 @@ export const useTableColumns = ({
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <PriceTag
-            value={row?.security?.quote?.changePercent * 100}
-            isPercent
-          />
+          <PriceTag value={row?.security?.quote?.changePercent} isPercent />
         );
       },
     },
@@ -141,21 +153,6 @@ export const useTableColumns = ({
 
         return null;
       },
-    },
-    {
-      field: `actions`,
-      width: 79,
-      type: `actions`,
-
-      // eslint-disable-next-line
-      // @ts-ignore
-      getActions: ({ row: holding }) => [
-        <GridActionsCellItem
-          icon={<Delete />}
-          label={t(`remove_holding`, `Remove holding`)}
-          onClick={() => onRemoveHolding?.(holding)}
-        />,
-      ],
     },
   ];
 };
