@@ -275,6 +275,7 @@ export const portfoliosFindByIdTests = () =>
             "exposure": 10.835738975039295,
             "importedSecurity": Object {
               "close_price": 34.73,
+              "currency": "USD",
               "name": "Southside Bancshares Inc.",
               "ticker_symbol": "SBSI",
               "type": "equity",

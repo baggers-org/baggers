@@ -75,10 +75,11 @@ export const portfoliosBeginImportTests = () =>
           expect(ira.top5Holdings).toMatchInlineSnapshot(`
             Array [
               Object {
-                "costBasis": 40,
+                "costBasis": 200,
                 "exposure": 65.70332959221848,
                 "importedSecurity": Object {
                   "close_price": 42.15,
+                  "currency": "USD",
                   "name": "iShares Inc MSCI Brazil",
                   "ticker_symbol": "EWZ",
                   "type": "etf",
@@ -88,10 +89,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "etf",
               },
               Object {
-                "costBasis": 0.01,
+                "costBasis": 100,
                 "exposure": 34.29355281207133,
                 "importedSecurity": Object {
                   "close_price": 0.011,
+                  "currency": "USD",
                   "name": "Nflx Feb 01'18 $355 Call",
                   "ticker_symbol": "NFLX180201C00355000",
                   "type": "derivative",
@@ -101,10 +103,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "derivative",
               },
               Object {
-                "costBasis": 1,
+                "costBasis": 0.01,
                 "exposure": 0.003117595710188303,
                 "importedSecurity": Object {
                   "close_price": 1,
+                  "currency": "USD",
                   "name": "U S Dollar",
                   "ticker_symbol": null,
                   "type": "cash",
@@ -132,10 +135,11 @@ export const portfoliosBeginImportTests = () =>
           expect(_401k.top5Holdings).toMatchInlineSnapshot(`
             Array [
               Object {
-                "costBasis": 1,
+                "costBasis": 12345.67,
                 "exposure": 49.10498150857272,
                 "importedSecurity": Object {
                   "close_price": 1,
+                  "currency": "USD",
                   "name": "U S Dollar",
                   "ticker_symbol": null,
                   "type": "cash",
@@ -145,10 +149,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "cash",
               },
               Object {
-                "costBasis": 30,
+                "costBasis": 6390,
                 "exposure": 33.257183973194785,
                 "importedSecurity": Object {
                   "close_price": 34.73,
+                  "currency": "USD",
                   "name": "Southside Bancshares Inc.",
                   "ticker_symbol": "SBSI",
                   "type": "equity",
@@ -167,10 +172,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "equity",
               },
               Object {
-                "costBasis": 22,
+                "costBasis": 1666.5,
                 "exposure": 7.381754700815946,
                 "importedSecurity": Object {
                   "close_price": 24.5,
+                  "currency": "USD",
                   "name": "Cambiar International Equity Institutional",
                   "ticker_symbol": "CAMYX",
                   "type": "mutual_fund",
@@ -180,10 +186,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "mutual_fund",
               },
               Object {
-                "costBasis": 15,
+                "costBasis": 1500.75,
                 "exposure": 5.463846853275357,
                 "importedSecurity": Object {
                   "close_price": 13.73,
+                  "currency": "USD",
                   "name": "NH PORTFOLIO 1055 (FIDELITY INDEX)",
                   "ticker_symbol": "NHX105509",
                   "type": "etf",
@@ -193,10 +200,11 @@ export const portfoliosBeginImportTests = () =>
                 "securityType": "etf",
               },
               Object {
-                "costBasis": 23,
+                "costBasis": 542.041,
                 "exposure": 2.5309231235516902,
                 "importedSecurity": Object {
                   "close_price": 27,
+                  "currency": "USD",
                   "name": "Matthews Pacific Tiger Fund Insti Class",
                   "ticker_symbol": "MIPTX",
                   "type": "mutual_fund",

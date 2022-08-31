@@ -97,6 +97,7 @@ export const portfoliosCreatedTests = () =>
             "exposure": 10.835738975039295,
             "importedSecurity": Object {
               "close_price": 34.73,
+              "currency": "USD",
               "name": "Southside Bancshares Inc.",
               "ticker_symbol": "SBSI",
               "type": "equity",
@@ -127,6 +128,7 @@ export const portfoliosCreatedTests = () =>
             "exposure": 2.3849391095233603,
             "importedSecurity": Object {
               "close_price": 10.42,
+              "currency": "USD",
               "name": "DoubleLine Total Return Bond Fund",
               "ticker_symbol": "DBLTX",
               "type": "mutual_fund",
