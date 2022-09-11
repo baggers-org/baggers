@@ -1,4 +1,4 @@
-import { Alert, List, ModalProps } from '@mui/material';
+import { Alert, AlertTitle, List, ModalProps } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Security } from '@baggers/sdk';
 import {
@@ -35,7 +35,12 @@ export const SecuritySearchModal: React.FC<SecuritySearchModalProps> = ({
           </List>
         );
       }}
-      renderNoResults={() => <Alert>no data lol</Alert>}
+      renderNoResults={() => (
+        <Alert color="warning">
+          <AlertTitle>No results</AlertTitle>We could not find a security
+          matching this search term.
+        </Alert>
+      )}
       capitalise
       {...baseProps}
     />

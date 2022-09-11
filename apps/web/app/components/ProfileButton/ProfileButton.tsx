@@ -20,8 +20,7 @@ import { Form } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { ColorModeContext } from '~/styles';
 
-export type ProfileButtonProps = {};
-export const ProfileButton: React.FC<ProfileButtonProps> = () => {
+export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();
   const theme = useTheme();
   const profilePhoto = user?.photos?.[0];

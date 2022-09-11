@@ -28,6 +28,7 @@
       ],
       "options": {
         "lintFilePatterns": [
+          "apps/web/**/*.tsx",
           "apps/web/**/*.ts"
         ]
       }

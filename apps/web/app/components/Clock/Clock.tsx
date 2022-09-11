@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, Typography } from '@mui/material';
 import { formatInTimeZone } from 'date-fns-tz';
 
-export type ClockProps = {};
-export const Clock: React.FC<ClockProps> = () => {
+export const Clock: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   useEffect(() => {
     setInterval(() => {

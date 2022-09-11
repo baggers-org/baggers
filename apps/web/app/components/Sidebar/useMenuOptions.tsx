@@ -1,10 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import {
-  AxisX,
-  ChartCandle,
-  Folder,
-  LayoutDashboard,
-} from 'tabler-icons-react';
+import { ChartCandle, Folder, LayoutDashboard } from 'tabler-icons-react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export interface MenuOption {

@@ -111,7 +111,7 @@ export const Sidebar = () => {
             {options.map((option) => (
               <ListItemButton
                 selected={activeTab === option.value}
-                onClick={() => navigate(option.href)}
+                onClick={() => navigate(option.href || '')}
                 sx={{ mt: 4 }}
               >
                 <Avatar

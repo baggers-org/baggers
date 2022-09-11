@@ -1,6 +1,6 @@
 import i18next from 'i18next';
 import { renderToString } from 'react-dom/server';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { initReactI18next } from 'react-i18next';
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import createEmotionServer from '@emotion/server/create-instance';

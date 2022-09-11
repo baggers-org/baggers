@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   darken,
-  Grid,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -14,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import { Form } from '@remix-run/react';
 import { RandomSeriesChart } from '../RandomSeriesChart/RandomSeriesChart';
 import { RandomLine } from '../RandomSeriesChart/components/RandomLine';
-import { GradientBackground } from '../GradientBackground';
 
 export const CallToAction: React.FC = () => {
   const { t } = useTranslation(`landing_page`);
