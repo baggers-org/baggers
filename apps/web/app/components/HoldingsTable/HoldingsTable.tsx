@@ -5,7 +5,7 @@ import { HoldingsTableProps, UseTableColumnProps } from './types';
 
 export const HoldingsTable: React.FC<
   HoldingsTableProps & UseTableColumnProps
-> = ({ holdings, density, ...tableColumnProps }) => {
+> = ({ holdings, density }) => {
   console.log(holdings);
 
   return (
@@ -21,7 +21,7 @@ export const HoldingsTable: React.FC<
       }}
       sx={{ fontSize: '1rem' }}
       density={density}
-      columns={useTableColumns({ ...tableColumnProps })}
+      columns={useTableColumns()}
       getRowId={(row) => row._id}
     />
   );

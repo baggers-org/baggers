@@ -11,7 +11,7 @@ export const useSubMenu = (): {
 
   const { t } = useTranslation('common');
 
-  if (pathname.startsWith('/portfolios/')) {
+  if (pathname.startsWith('/portfolios/') && pathname.split('/').length <= 3) {
     return {
       title: t('portfolios', 'Portfolios'),
       options: [

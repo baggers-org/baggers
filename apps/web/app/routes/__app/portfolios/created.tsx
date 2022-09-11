@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const meta: MetaFunction = () => ({
-  title: `Baggers - Created portfolios`,
+  title: `Your portfolios`,
 });
 
 export const action: ActionFunction = async ({ request }) => {

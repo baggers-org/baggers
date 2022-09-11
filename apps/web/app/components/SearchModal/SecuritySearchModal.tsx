@@ -37,8 +37,9 @@ export const SecuritySearchModal: React.FC<SecuritySearchModalProps> = ({
       }}
       renderNoResults={() => (
         <Alert color="warning">
-          <AlertTitle>No results</AlertTitle>We could not find a security
-          matching this search term.
+          <AlertTitle>
+            No results - we could not find a security matching this search term.
+          </AlertTitle>
         </Alert>
       )}
       capitalise

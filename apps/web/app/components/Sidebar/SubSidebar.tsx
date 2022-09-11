@@ -27,7 +27,7 @@ export const SubSidebar = () => {
       {subMenu?.options.length ? (
         <motion.div
           style={{
-            width: 220,
+            width: 200,
             background:
               theme.palette.mode === 'light'
                 ? darken(theme.palette.background.paper, 0.02)
@@ -35,9 +35,8 @@ export const SubSidebar = () => {
             boxShadow: theme.shadows[1],
           }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
         >
-          <Box position="fixed" width={220}>
+          <Box position="fixed" width={200}>
             <Typography variant="h5" textAlign="center" sx={{ mt: 2, mb: 1 }}>
               {subMenu?.title}
             </Typography>
