@@ -1,13 +1,23 @@
-import React, { PropsWithChildren, useContext, useMemo, useState } from 'react';
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 
-export const SidebarContext = React.createContext({
+export interface SubMenuOption {
+  label: string;
+  icon?: any;
+  href: string;
+}
+export const SidebarContext = React.createContext<{
+  isExpanded: boolean;
+  setIsExpanded?: Dispatch<SetStateAction<boolean>>;
+}>({
   isExpanded: true,
-  setIsExpanded: (expanded: boolean) => {
-    //
-    return expanded;
-  },
 });
-
 export const SidebarProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 

@@ -8,10 +8,10 @@ import {
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export interface MenuOption {
-  label: string;
-  href: string;
-  icon: any;
-  value: string;
+  label?: string;
+  href?: string;
+  icon?: any;
+  value?: string;
 }
 
 export const useMenuOptions = (): MenuOption[] => {
