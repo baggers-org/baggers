@@ -1,8 +1,8 @@
 import { Box } from '@mui/system';
 import React, { PropsWithChildren } from 'react';
 
-import { Sidebar } from '~/components/AppBar/Sidebar';
-import { useSubMenu } from '~/components/AppBar/useSubMenu';
+import { Sidebar } from '~/components/Sidebar/Sidebar';
+import { useSubMenu } from '~/components/Sidebar/useSubMenu';
 import { Footer } from '~/components/Footer';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {

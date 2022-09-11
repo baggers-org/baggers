@@ -12,7 +12,7 @@ import { GlobalStyles } from './styles';
 import { getInitialNamespaces } from 'remix-i18next';
 import Backend from 'i18next-fs-backend';
 import { i18nConfig } from './i18n';
-import { SidebarProvider } from './components/AppBar/Sidebar.context';
+import { SidebarProvider } from './components/Sidebar/Sidebar.context';
 
 // intialize i18next using initReactI18next and configuring it
 i18next

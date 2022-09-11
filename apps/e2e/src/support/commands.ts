@@ -36,7 +36,7 @@ Cypress.Commands.add('login', (username?: string, password?: string) => {
   const client_id = Cypress.env('Auth0ClientId');
   const client_secret = Cypress.env('Auth0ClientSecret');
   const audience = Cypress.env('Auth0Audience');
-  const scope = Cypress.env('Auth0Scope');
+  const scope = 'openid profile email offline_access';
 
   cy.request({
     method: 'POST',
