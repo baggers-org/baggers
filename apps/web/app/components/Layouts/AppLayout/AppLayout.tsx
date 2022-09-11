@@ -1,26 +1,22 @@
-import { Box } from '@mui/system';
-import { useLocation } from '@remix-run/react';
+import { Box, Stack } from '@mui/system';
 import React, { PropsWithChildren } from 'react';
 
-import { AppBar } from '~/components/AppBar';
+import { Sidebar } from '~/components/AppBar/Sidebar';
 import { Footer } from '~/components/Footer';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  const { pathname } = useLocation();
-
   return (
-    <>
-      <AppBar />
+    <Stack direction="row" spacing={0}>
+      <Sidebar />
       <Box
         sx={{
-          mt: pathname === `/` ? 0 : 12,
-          minHeight: `100vh`,
-          mb: 32,
+          minHeight: '100vh',
+          width: '100%',
         }}
       >
         <main>{children}</main>
+        <Footer />
       </Box>
-      <Footer />
-    </>
+    </Stack>
   );
 };

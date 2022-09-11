@@ -42,7 +42,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   if (!user) {
     return (
       <Form method="post" action="/auth/auth0">
-        <Button type="submit" variant="outlined" color="secondary">
+        <Button type="submit" variant="text">
           {t(`login`, `Login`)}
         </Button>
       </Form>
@@ -56,6 +56,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
       </IconButton>
       <Menu
         anchorEl={anchorEl}
+        dir="top"
         open={open}
         onClose={handleClose}
         onClick={handleClose}

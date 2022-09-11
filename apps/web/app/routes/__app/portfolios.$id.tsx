@@ -8,6 +8,7 @@ import {
 import { PortfolioHeader, PortfolioTabs } from '~/components';
 import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/sdk';
 import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
+import { PageLayout } from '~/components/Layouts/PageLayout';
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { id } = params;
@@ -39,7 +40,7 @@ export default function PortfoloLayout() {
   const needsToSetName = !portfoliosFindById?.name;
 
   return (
-    <Container maxWidth="xl">
+    <PageLayout>
       <Grid container>
         <PortfolioHeader portfolio={portfoliosFindById as Portfolio} />
         {!needsToSetName ? (
@@ -51,6 +52,6 @@ export default function PortfoloLayout() {
           </>
         ) : null}
       </Grid>
-    </Container>
+    </PageLayout>
   );
 }

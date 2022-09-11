@@ -6,16 +6,21 @@ export type GradientBackgroundProps = {};
 export const GradientBackground: React.FC<GradientBackgroundProps> = () => {
   const theme = useTheme();
   const gradient = useMemo(() => {
-    return `linear-gradient(${darken(theme.palette.primary.dark, 0.9)},${
-      theme.palette.primary.main
-    } , ${theme.palette.background.default})`;
+    if (theme.palette.mode === 'dark') {
+      return `linear-gradient(${darken(
+        theme.palette.primary.main,
+        0.75
+      )}, ${darken(theme.palette.primary.main, 0.82)})`;
+    }
+    return `linear-gradient(${darken(theme.palette.primary.main, 0.6)}, ${
+      theme.palette.primary.dark
+    })`;
   }, [theme]);
   return (
     <Fade in>
       <Box
         width="100%"
-        height={{ xs: `60vh` }}
-        position="absolute"
+        height={{ xs: `420px` }}
         zIndex={-1}
         sx={{ background: gradient }}
       />

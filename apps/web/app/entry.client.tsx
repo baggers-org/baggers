@@ -12,6 +12,7 @@ import { GlobalStyles } from './styles';
 import { getInitialNamespaces } from 'remix-i18next';
 import Backend from 'i18next-fs-backend';
 import { i18nConfig } from './i18n';
+import { SidebarProvider } from './components/AppBar/Sidebar.context';
 
 // intialize i18next using initReactI18next and configuring it
 i18next
@@ -36,11 +37,13 @@ i18next
     const ClientApp = (
       <ClientCacheProvider>
         <ThemeProvider>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <CssBaseline />
-            <GlobalStyles />
-            <RemixBrowser />
-          </LocalizationProvider>
+          <SidebarProvider>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <CssBaseline />
+              <GlobalStyles />
+              <RemixBrowser />
+            </LocalizationProvider>
+          </SidebarProvider>
         </ThemeProvider>
       </ClientCacheProvider>
     );

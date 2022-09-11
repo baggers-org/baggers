@@ -1,5 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import { Dashboard, Folder, LineAxis } from '@mui/icons-material';
+import {
+  AxisX,
+  ChartCandle,
+  Folder,
+  LayoutDashboard,
+} from 'tabler-icons-react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export interface MenuOption {
@@ -17,20 +22,20 @@ export const useMenuOptions = (): MenuOption[] => {
   const defaultOptions: MenuOption[] = [
     {
       label: user ? t(`dashboard`, `Dashboard`) : t(`home`, `Home`),
-      icon: <Dashboard />,
+      icon: <LayoutDashboard size={24} />,
       href: `/`,
       value: `/`,
     },
     {
       label: t(`charts`, `Charts`),
       href: `/charts`,
-      icon: <LineAxis />,
+      icon: <ChartCandle size={24} />,
       value: `/charts`,
     },
     {
       label: t(`portfolios`, `Portfolios`),
       href: `/portfolios/created`,
-      icon: <Folder />,
+      icon: <Folder size={24} />,
       value: `/portfolios`,
     },
   ];

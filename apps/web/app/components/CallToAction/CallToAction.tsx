@@ -1,5 +1,14 @@
-import React from 'react';
-import { alpha, Box, Button, Grid, Typography, useTheme } from '@mui/material';
+import React, { useMemo } from 'react';
+import {
+  alpha,
+  Box,
+  Button,
+  Container,
+  darken,
+  Grid,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
 import { Form } from '@remix-run/react';
@@ -11,14 +20,25 @@ export const CallToAction: React.FC = () => {
   const { t } = useTranslation(`landing_page`);
   const theme = useTheme();
 
+  const gradient = useMemo(() => {
+    if (theme.palette.mode === 'dark') {
+      return `linear-gradient(${darken(
+        theme.palette.primary.main,
+        0.75
+      )}, ${darken(theme.palette.primary.main, 0.82)})`;
+    }
+    return `linear-gradient(${darken(theme.palette.primary.main, 0.6)}, ${
+      theme.palette.primary.dark
+    })`;
+  }, [theme]);
+
   return (
     <>
-      <GradientBackground />
-
-      <Box position="absolute" width="100%" height={300} zIndex={-1}>
+      <Box width="100%" height={450} zIndex={-1} sx={{ background: gradient }}>
         <RandomSeriesChart>
           <RandomLine
             lineWidth={6}
+            height={200}
             volatility={0.1}
             numberOfPoints={120}
             animate={{
@@ -29,6 +49,7 @@ export const CallToAction: React.FC = () => {
           <RandomLine
             lineWidth={3}
             volatility={0.05}
+            height={200}
             numberOfPoints={120}
             animate={{
               duration: 1200,
@@ -37,28 +58,24 @@ export const CallToAction: React.FC = () => {
           />
         </RandomSeriesChart>
       </Box>
-      <Grid px={{ xs: 2, md: 10 }} textAlign={{ xs: `center`, md: `left` }}>
-        <Grid item xs={12} lg={9} xl={7}>
+      <Container maxWidth="xl">
+        <Box position="absolute" top={0}>
           <Typography
             variant="h1"
             fontWeight="600"
             color="white"
-            pt={{ xs: 15, md: 20 }}
-            fontSize={{ xs: 50, md: 72 }}
+            fontSize={{ xs: 40, md: 65 }}
+            pt={{ xs: 15, md: 7 }}
             maxWidth={{ xs: `100%`, lg: `75%` }}
           >
             {t(`cta_title`, `The last portfolio tracker you'll ever need.`)}
           </Typography>
-        </Grid>
-        <Grid item md={5}>
           <Typography variant="h4" mt={5} color="white">
             {t(
               `cta_description`,
-              `Track your investments across thousands of brokers.`,
+              `Track your investments across thousands of brokers.`
             )}
           </Typography>
-        </Grid>
-        <Grid item>
           <Form action="/auth/auth0" method="post">
             <Button
               variant="contained"
@@ -70,8 +87,8 @@ export const CallToAction: React.FC = () => {
               {t(`join_now`, `Join now`)}
             </Button>
           </Form>
-        </Grid>
-      </Grid>
+        </Box>
+      </Container>
     </>
   );
 };
