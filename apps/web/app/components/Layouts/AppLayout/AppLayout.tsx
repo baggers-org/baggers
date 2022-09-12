@@ -7,7 +7,6 @@ import { Footer } from '~/components/Footer';
 import { useIsMobile } from '~/hooks';
 import { MobileNavbar } from '~/components/MobileNavbar';
 import { MobileSubNavbar } from '~/components/MobileNavbar/MobileSubNavbar';
-import { MobileProfileBar } from '~/components/MobileNavbar/MobileProfileBar';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const subMenu = useSubMenu();

@@ -1,6 +1,6 @@
 import { darken, lighten, Tab, Tabs, useTheme } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
-import { AnimatePresence, motion, useScroll } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useSubMenu } from '../Sidebar/useSubMenu';
 import { MobileProfileBar } from './MobileProfileBar';
