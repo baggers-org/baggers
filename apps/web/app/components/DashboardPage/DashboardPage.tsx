@@ -1,7 +1,6 @@
 import React from 'react';
-import { GradientBackground } from '../GradientBackground';
+import NotImplemented from '../Layouts/NotImplemented';
 
-export type DashboardPageProps = {};
-export const DashboardPage: React.FC<DashboardPageProps> = () => {
-  return <GradientBackground />;
+export const DashboardPage: React.FC = () => {
+  return <NotImplemented />;
 };

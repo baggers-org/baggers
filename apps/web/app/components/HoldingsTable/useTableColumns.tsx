@@ -1,18 +1,15 @@
-import { AddLink, Delete, GroupAdd, PlaylistAdd } from '@mui/icons-material';
+import { AddLink, GroupAdd, PlaylistAdd } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
-import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid-pro';
+import { GridColDef } from '@mui/x-data-grid-pro';
 
 import { useTranslation } from 'react-i18next';
 import { HoldingSource } from '@baggers/sdk';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
-import { UseTableColumnProps } from './types';
 import { getSecuritySymbol } from '~/util/getSecuritySymbol';
 
-export const useTableColumns = ({
-  onRemoveHolding,
-}: UseTableColumnProps): GridColDef[] => {
+export const useTableColumns = (): GridColDef[] => {
   const { t } = useTranslation(`holdings`);
 
   return [

@@ -1,14 +1,12 @@
 import { Box, Divider, Link, Typography } from '@mui/material';
 import React from 'react';
 
-export type FooterProps = {};
-export const Footer: React.FC<FooterProps> = () => {
+export const Footer: React.FC = () => {
   return (
-    <Box display={{ xs: `none`, md: `flex` }}>
+    <Box display={{ xs: `none`, md: `flex` }} mt={50} mb={5}>
       <Divider />
       <Box
         display="flex"
-        p={6}
         width="100%"
         justifyContent="center"
         flexDirection="column"

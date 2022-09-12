@@ -87,6 +87,7 @@ describe('Portfolio holdings', () => {
     cy.frameLoaded();
 
     cy.iframe().findByText('Continue').click();
+    cy.iframe().findByText('Allow').click();
 
     cy.iframe().findByText('Vanguard').click();
 

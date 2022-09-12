@@ -7,11 +7,7 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import {
-  Portfolio,
-  PortfoliosCreatedQuery,
-  PortfolioSummary,
-} from '@baggers/sdk';
+import { PortfoliosCreatedQuery, PortfolioSummary } from '@baggers/sdk';
 import { useTranslation } from 'react-i18next';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';
@@ -23,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const meta: MetaFunction = () => ({
-  title: `Baggers - Created portfolios`,
+  title: `Your portfolios`,
 });
 
 export const action: ActionFunction = async ({ request }) => {

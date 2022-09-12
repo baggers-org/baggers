@@ -8,6 +8,8 @@ jobs:
     name: 'Lint + Typecheck'
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_INSTALL_BINARY: 0
     steps:
       - uses: actions/checkout@v2
         with:
@@ -43,6 +45,8 @@ jobs:
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     environment: 'Staging'
+    env:
+      CYPRESS_INSTALL_BINARY: 0
     steps:
       - uses: actions/checkout@v2
       - name: 'Deploy ui'
@@ -58,6 +62,8 @@ jobs:
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     environment: 'Staging'
+    env:
+      CYPRESS_INSTALL_BINARY: 0
     steps:
       - uses: actions/checkout@v2
       - name: 'Deploy API'

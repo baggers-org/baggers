@@ -20,8 +20,7 @@ import { Form } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { ColorModeContext } from '~/styles';
 
-export type ProfileButtonProps = {};
-export const ProfileButton: React.FC<ProfileButtonProps> = () => {
+export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();
   const theme = useTheme();
   const profilePhoto = user?.photos?.[0];
@@ -42,7 +41,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
   if (!user) {
     return (
       <Form method="post" action="/auth/auth0">
-        <Button type="submit" variant="outlined" color="secondary">
+        <Button type="submit" variant="text">
           {t(`login`, `Login`)}
         </Button>
       </Form>
@@ -56,6 +55,7 @@ export const ProfileButton: React.FC<ProfileButtonProps> = () => {
       </IconButton>
       <Menu
         anchorEl={anchorEl}
+        dir="top"
         open={open}
         onClose={handleClose}
         onClick={handleClose}

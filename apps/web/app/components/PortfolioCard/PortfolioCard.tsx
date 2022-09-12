@@ -59,6 +59,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     <Grow in timeout={200}>
       <Card
         data-cy="portfolio-card"
+        variant="outlined"
         sx={{
           height: `100%`,
           border: selected ? `2px solid ${theme.palette.primary.main}` : null,

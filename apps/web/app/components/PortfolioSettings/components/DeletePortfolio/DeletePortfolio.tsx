@@ -13,8 +13,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SectionTitle } from '~/components/SectionTitle';
 
-export type DeletePortfolioProps = {};
-export const DeletePortfolio: React.FC<DeletePortfolioProps> = () => {
+export const DeletePortfolio: React.FC = () => {
   const { t } = useTranslation(`portfolio_settings`);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 

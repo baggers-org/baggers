@@ -4,9 +4,9 @@ const themer = new ThemeBuilder({
   shadows: [
     `none`,
     `0px 2px 6px #0000000A`,
-    `0px 2px 6px #0000000A`,
-    `0px 2px 6px #0000000A`,
-    `0px 2px 6px #0000000A`,
+    `2px 2px 6px #0000000A`,
+    `4px 2px 6px #0000000A`,
+    `8px 4px 8 #0000000A`,
     `0px 2px 6px #0000000A`,
     `0px 2px 6px #0000000A`,
     `0px 2px 6px #0000000A`,

@@ -1,9 +1,9 @@
-import { MetaFunction } from '@remix-run/server-runtime';
+import { MetaFunction } from '@remix-run/node';
 import NotImplemented from '~/components/Layouts/NotImplemented';
 
 export const meta: MetaFunction = () => ({
-  title: `Discover portfolios`,
+  title: `Collaborating portfolios`,
 });
-export default function DiscoverPortfoliosPage() {
+export default function Collaborating() {
   return <NotImplemented />;
 }

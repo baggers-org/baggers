@@ -15,7 +15,6 @@ const {
   AUTH0_CLIENT_SECRET,
   AUTH0_DOMAIN,
   AUTH0_CALLBACK_URL,
-  AUTH0_SCOPE,
   AUTH0_AUDIENCE,
   API_URI,
 } = process.env;
@@ -23,19 +22,16 @@ const {
 if (!AUTH0_DOMAIN) throw new Error(`Missing Auth0 domain.`);
 if (!AUTH0_CLIENT_ID) throw new Error(`Missing Auth0 client id.`);
 if (!AUTH0_CLIENT_SECRET) throw new Error(`Missing Auth0 client secret.`);
-if (!AUTH0_SCOPE) throw new Error(`Missing Auth0 scope.`);
 if (!AUTH0_AUDIENCE) throw new Error(`Missing Auth0 audience.`);
 if (!AUTH0_CALLBACK_URL) throw new Error(`Missing Auth0 redirect uri.`);
 if (!API_URI) throw new Error(`Missing API_URI.`);
-
-console.log(AUTH0_DOMAIN, AUTH0_CLIENT_ID);
 
 export const auth0 = {
   clientID: AUTH0_CLIENT_ID,
   clientSecret: AUTH0_CLIENT_SECRET,
   domain: AUTH0_DOMAIN,
   callbackURL: AUTH0_CALLBACK_URL,
-  scope: AUTH0_SCOPE,
+  scope: 'openid profile email offline_access',
   // Frontned will only ever communicate with the db via the GraphQL endpoint
   audience: AUTH0_AUDIENCE,
 };
