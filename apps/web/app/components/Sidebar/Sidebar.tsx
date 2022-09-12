@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Divider,
   IconButton,
@@ -12,8 +11,7 @@ import {
 import { motion } from 'framer-motion';
 
 import { useMenuOptions } from './useMenuOptions';
-import LogoBlack from '../../../public/svg/logo_black_small.svg';
-import LogoWhite from '../../../public/svg/logo_white_small.svg';
+import Logo from '../../../public/svg/logo.svg';
 
 import { useNavigate } from '@remix-run/react';
 import { useActiveTab } from '~/hooks';
@@ -23,6 +21,7 @@ import { useSidebarContext } from './Sidebar.context';
 import { ChevronLeft, ChevronRight } from 'tabler-icons-react';
 import { SubSidebar } from './SubSidebar';
 import { useSubMenu } from './useSubMenu';
+import { ColoredIcon } from '../ColoredIcon';
 
 const expandedWidth = 200;
 const collapsedWidth = 100;
@@ -79,7 +78,7 @@ export const Sidebar = () => {
           }}
         >
           <Box display="grid" width="100%" justifyItems="center" mt={2} mb={3}>
-            {theme.palette.mode === 'light' ? <LogoBlack /> : <LogoWhite />}
+            <Logo />
             <motion.div
               style={{ fontFamily: 'Archivo Black', fontSize: '18px' }}
               animate={isExpanded ? 'expanded' : 'minimized'}
@@ -114,18 +113,7 @@ export const Sidebar = () => {
                 onClick={() => navigate(option.href || '')}
                 sx={{ mt: 4 }}
               >
-                <Avatar
-                  variant="rounded"
-                  sx={{
-                    width: 28,
-                    height: 28,
-
-                    color: theme.palette.primary.dark,
-                    bgcolor: lighten(theme.palette.primary.light, 0.5),
-                  }}
-                >
-                  {option.icon}
-                </Avatar>
+                <ColoredIcon icon={option.icon} />
                 <motion.li
                   style={{ marginLeft: 16, padding: 4 }}
                   animate={isExpanded ? 'expanded' : 'minimized'}

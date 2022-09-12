@@ -16,6 +16,14 @@ export const useSubMenu = (): {
       title: t('portfolios', 'Portfolios'),
       options: [
         {
+          label: t('discover', 'Discover'),
+          href: '/portfolios/discover',
+          icon: <Globe />,
+        },
+        {
+          label: undefined,
+        },
+        {
           label: t('your_portfolios', 'Your portfolios'),
           href: '/portfolios/created',
           icon: <User />,
@@ -29,14 +37,6 @@ export const useSubMenu = (): {
           label: t('collaborating', 'Collaborating'),
           href: '/portfolios/collaborating',
           icon: <Users />,
-        },
-        {
-          label: undefined,
-        },
-        {
-          label: t('discover', 'Discover'),
-          href: '/portfolios/discover',
-          icon: <Globe />,
         },
       ],
     };
