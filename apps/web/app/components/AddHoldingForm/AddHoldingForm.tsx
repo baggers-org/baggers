@@ -1,18 +1,13 @@
-import {
-  AddHoldingInput,
-  HoldingDirection,
-  Security,
-  SecurityType,
-} from '@baggers/sdk';
+import { HoldingDirection, Security, SecurityType } from '@baggers/sdk';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
-  FormControl,
+  Divider,
   FormLabel,
   Grid,
-  InputLabel,
-  MenuItem,
   Paper,
   ToggleButton,
 } from '@mui/material';
@@ -21,10 +16,10 @@ import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'remix-validated-form';
 
 import { ValidatedTextField } from '~/validation/components/ValidatedTextField';
-import { ValidatedSelect } from '~/validation/components/ValidatedTextField/ValidatedSelect';
 import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
+import { ValidatedDateTimePicker } from '~/validation/components/ValidatedDateTimePicker';
 
 export type AddHoldingFormProps = {
   addingSecurity: Security;
@@ -34,7 +29,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
 }) => {
   const { t } = useTranslation(`holdings`);
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [holdingDetails, setHoldingDetails] = useState<AddHoldingInput>({
+  const [holdingDetails, setHoldingDetails] = useState({
     security: addingSecurity._id,
     direction: HoldingDirection.Long,
     quantity: 1,
@@ -49,7 +44,10 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
     if (!addingSecurity?.quote?.latestPrice || !holdingDetails.averagePrice)
       return { holdingReturn: 0, fxReturn: 0 };
-    const costBasis = holdingDetails.averagePrice * holdingDetails.quantity;
+
+    const costBasis =
+      holdingDetails.averagePrice * holdingDetails.quantity +
+      holdingDetails.brokerFees;
     const marketValue =
       addingSecurity.quote.latestPrice * holdingDetails.quantity;
 
@@ -70,20 +68,19 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
-              {t(`how_many_units`, `How many units`)}{' '}
+              {t(`how_many`, `How many`)}{' '}
               <strong>{addingSecurity.symbol}</strong>
               {` `}
               {` `}
               {holdingDetails?.direction === `long`
-                ? t(`did_you_buy?`, `did you buy?`)
-                : t(`did_you_sell?`, `did you sell?`)}
+                ? t(`did_you_buy?`, `units did you buy?`)
+                : t(`did_you_sell?`, `units did you sell?`)}
             </FormLabel>
           </Grid>
           <Grid item xs={12} sm={6}>
             <BaggersTextField
               type="number"
               name="quantity"
-              margin="normal"
               autoFocus
               label={t(`number_of_shares`, `Number of shares`)}
               onChange={(e) =>
@@ -129,7 +126,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
             <FormLabel>
               {t(
                 `what_is_your_average_price_per_unit`,
-                `What is your average price per unit`
+                `What is your average price per unit?`
               )}
             </FormLabel>
           </Grid>
@@ -147,7 +144,35 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
               }
             />
           </Grid>
+          <Grid item xs={12} my={1}>
+            <Divider />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FormLabel>
+              {t(
+                `what_date_did_this_transaction_occur`,
+                `When did this transaction occur?`
+              )}
+            </FormLabel>
+          </Grid>
+          <Grid item xs={12}>
+            <Alert color="info">
+              <AlertTitle>
+                {t('transaction_date_warning_title', 'Transaction date')}
+              </AlertTitle>
+              {t(
+                'transaction_date_message',
+                'We will assume the transaction date is right now, unless you tell us otherwise.'
+              )}
+            </Alert>
+          </Grid>
+          <Grid item xs={12} md={8} mt={1}>
+            <ValidatedDateTimePicker name="transactionDate" />
+          </Grid>
+          <Grid item xs={12} md={8}></Grid>
         </Grid>
+
         <Grid container item xs={12} mt={4} justifyContent="center">
           <Button
             tabIndex={-1}
@@ -170,31 +195,24 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
           >
             <Grid item xs={12}>
               <FormLabel>
-                {t(`tell_us_about_your`, `Tell us about your`)}
-                {` `}
-                <strong>{addingSecurity.symbol} </strong>
-                {t(`holding`, `holding.`)}
+                {t(
+                  `broker_fees_label`,
+                  `Did your broker charge you a fee for this transaction?`
+                )}
               </FormLabel>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <FormControl margin="normal" fullWidth>
-                <InputLabel id="instrument-label">
-                  {t(`instrument`, `Instrument`)}
-                </InputLabel>
-                <ValidatedSelect
-                  labelId="instrument-label"
-                  name="type"
-                  value="shares"
-                >
-                  <MenuItem value="shares">{t(`shares`, `Shares`)}</MenuItem>
-                  <MenuItem value="calls" disabled>
-                    {t(`call_options`, `Call options (coming soon)`)}
-                  </MenuItem>
-                  <MenuItem value="puts" disabled>
-                    {t(`put_options`, `Put options (coming soong)`)}
-                  </MenuItem>
-                </ValidatedSelect>
-              </FormControl>
+            <Grid item xs={12} md={4} mt={2}>
+              <ValidatedTextField
+                name="brokerFees"
+                onChange={(e) =>
+                  setHoldingDetails((p) => ({
+                    ...p,
+                    brokerFees: parseFloat(e.target.value),
+                  }))
+                }
+                isMonetaryInput
+                label={t('broker_fees', 'Broker fees')}
+              />
             </Grid>
           </Grid>
         ) : null}

@@ -25,4 +25,7 @@ export class AddHoldingInput {
 
   @Field()
   currency: string;
+
+  @Field(() => Date, { nullable: true })
+  transactionDate?: Date;
 }

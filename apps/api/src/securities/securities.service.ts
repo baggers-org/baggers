@@ -1,5 +1,5 @@
 import { ObjectId } from '~/shared';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { Security, SecurityDocument } from './entities/security.entity';
@@ -15,7 +15,11 @@ export class SecuritiesService {
   }
 
   findById(_id: ObjectId) {
-    return this.securityModel.findById(_id);
+    return this.securityModel
+      .findById(_id)
+      .orFail(
+        () => new NotFoundException('Could not find a security with id: ' + _id)
+      );
   }
 
   search(term: string) {

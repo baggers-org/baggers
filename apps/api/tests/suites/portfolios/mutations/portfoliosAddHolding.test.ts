@@ -17,7 +17,7 @@ export const portfoliosAddHoldingTest = () =>
         portfoliosInitEmpty: { _id },
       } = await User1Sdk().portfoliosInitEmpty());
     });
-    it('should allow a user to add new holdings to their portfolio', async () => {
+    it.only('should allow a user to add new holdings to their portfolio', async () => {
       await User1Sdk().portfoliosAddHolding({
         _id,
         input: {
@@ -98,6 +98,71 @@ export const portfoliosAddHoldingTest = () =>
       expect(portfolio.holdings[0].exposure).toMatchInlineSnapshot(
         `78.30294441154074`
       );
+
+      // We should have added the 2 relevant transactions
+
+      expect(portfolio.transactions).toHaveLength(3);
+
+      expect({
+        ...portfolio.transactions[0],
+        security: null,
+        _id: null,
+      }).toMatchInlineSnapshot(`
+        Object {
+          "_id": null,
+          "amount": 105.4,
+          "currency": "USD",
+          "date": "2022-01-17T00:00:00.000Z",
+          "fees": 0,
+          "importedSecurity": null,
+          "name": "BUY Agilent Technologies Inc.",
+          "price": 105.4,
+          "quantity": 1,
+          "security": null,
+          "subType": "Buy",
+          "type": "Buy",
+        }
+      `);
+      expect({
+        ...portfolio.transactions[1],
+        security: null,
+        _id: null,
+      }).toMatchInlineSnapshot(`
+        Object {
+          "_id": null,
+          "amount": 521.36,
+          "currency": "USD",
+          "date": "2022-01-17T00:00:00.000Z",
+          "fees": 0,
+          "importedSecurity": null,
+          "name": "BUY Agilent Technologies Inc.",
+          "price": 130.34,
+          "quantity": 4,
+          "security": null,
+          "subType": "Buy",
+          "type": "Buy",
+        }
+      `);
+      expect({
+        ...portfolio.transactions[2],
+        security: null,
+        _id: null,
+      }).toMatchInlineSnapshot(`
+        Object {
+          "_id": null,
+          "amount": 300,
+          "currency": "USD",
+          "date": "2022-01-17T00:00:00.000Z",
+          "fees": 0,
+          "importedSecurity": null,
+          "name": "BUY Tesla Inc",
+          "price": 100,
+          "quantity": 3,
+          "security": null,
+          "subType": "Buy",
+          "type": "Buy",
+        }
+      `);
     });
 
     it('should only allow the portfolio owner to add holdings', async () => {

@@ -13,6 +13,8 @@ import {
 } from '~/styles';
 import { RemixServer } from '@remix-run/react';
 import { EntryContext } from '@remix-run/server-runtime';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 export default async function handleRequest(
   request: Request,
@@ -35,12 +37,14 @@ export default async function handleRequest(
 
   const MuiRemixServer = () => (
     <CacheProvider value={cache}>
-      <ThemeProvider defaultMode={theme}>
-        <GlobalStyles />
-        {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-        <CssBaseline />
-        <RemixServer context={remixContext} url={request.url} />
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider defaultMode={theme}>
+          <GlobalStyles />
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <RemixServer context={remixContext} url={request.url} />
+        </ThemeProvider>
+      </LocalizationProvider>
     </CacheProvider>
   );
 

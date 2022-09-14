@@ -1,3 +1,5 @@
+
+
 query chartSecurityPrice(
   $range: HistoricalRange!
   $securityId: ObjectId!
@@ -37,9 +39,11 @@ query chartSecurityPrice(
   }
 }
 
+
 query plaidLinkToken {
   plaidLinkToken
 }
+
 
 fragment AllHoldingData on Holding {
   _id
@@ -68,6 +72,7 @@ fragment AllHoldingData on Holding {
   }
 }
 
+
 fragment FullPlaidAccount on PlaidAccount {
   type
   name
@@ -79,6 +84,7 @@ fragment FullPlaidAccount on PlaidAccount {
     available
   }
 }
+
 
 fragment PortfolioSummary on Portfolio {
   _id
@@ -114,6 +120,7 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioTransactions
 }
 
+
 fragment AllTransactionData on Transaction {
   _id
   name
@@ -133,6 +140,7 @@ fragment AllTransactionData on Transaction {
   subType
 }
 
+
 mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
   portfoliosAddHolding(_id: $_id, input: $input) {
     _id
@@ -145,11 +153,13 @@ mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
   }
 }
 
+
 mutation portfoliosBeginImport($publicToken: String!) {
   portfoliosBeginImport(publicToken: $publicToken) {
     importedIds
   }
 }
+
 
 query portfoliosCreated {
   portfoliosCreated {
@@ -182,6 +192,8 @@ query portfoliosCreated {
   }
 }
 
+
+
 query portfoliosFindById($_id: ObjectId!) {
   portfoliosFindById(_id: $_id) {
     _id
@@ -195,12 +207,14 @@ mutation portfoliosInitEmpty {
   }
 }
 
+
 mutation portfoliosRemoveHolding(
   $portfolioId: ObjectId!
   $holdingId: ObjectId!
 ) {
   portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
 }
+
 
 mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   portfoliosRemoveMultiple(_ids: $_ids) {
@@ -209,11 +223,13 @@ mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   }
 }
 
+
 mutation portfoliosRemoveOne($_id: ObjectId!) {
   portfoliosRemoveOne(_id: $_id) {
     _id
   }
 }
+
 
 mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
   portfoliosUpdateOne(_id: $_id, input: $input) {
@@ -225,6 +241,7 @@ mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
     updatedAt
   }
 }
+
 
 fragment AllQuoteData on Quote {
   avgTotalVolume
@@ -285,6 +302,7 @@ fragment AllQuoteData on Quote {
   ytdChange
 }
 
+
 fragment AllSecurityData on Security {
   cik
   createdAt
@@ -321,6 +339,7 @@ fragment SecuritySummary on Security {
   }
 }
 
+
 query securitiesFindById($_id: ObjectId!) {
   securitiesFindById(_id: $_id) {
     _id
@@ -330,6 +349,7 @@ query securitiesFindById($_id: ObjectId!) {
     }
   }
 }
+
 
 query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
@@ -341,6 +361,7 @@ query securitiesSearch($searchTerm: String!) {
   }
 }
 
+
 fragment FullUser on User {
   _id
   displayName
@@ -350,12 +371,14 @@ fragment FullUser on User {
   updatedAt
 }
 
+
 query usersFindById($_id: ID!) {
   usersFindById(_id: $_id) {
     _id
     ...FullUser
   }
 }
+
 
 mutation usersFindOrCreate($input: CreateUserInput!) {
   usersFindOrCreate(input: $input) {

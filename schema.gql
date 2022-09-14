@@ -10,6 +10,7 @@ input AddHoldingInput {
   quantity: Float!
   security: ObjectId!
   securityType: SecurityType!
+  transactionDate: DateTime
 }
 
 enum AscDesc {
@@ -441,16 +442,16 @@ type Transaction {
   createdBy: User
   currency: String!
   date: DateTime!
-  fees: Float!
-  importedSecurity: ImportedSecurity!
+  fees: Float
+  importedSecurity: ImportedSecurity
   name: String!
 
   """This is the account_id from plaid"""
-  plaidAccountId: String!
+  plaidAccountId: String
 
   """This is the transaction_id from plaid"""
-  plaidTransactionId: String!
-  price: Float!
+  plaidTransactionId: String
+  price: Float
   quantity: Float!
   security: Security
   securityType: SecurityType!
@@ -464,16 +465,16 @@ type TransactionFromDb {
   createdBy: User
   currency: String!
   date: DateTime!
-  fees: Float!
-  importedSecurity: ImportedSecurity!
+  fees: Float
+  importedSecurity: ImportedSecurity
   name: String!
 
   """This is the account_id from plaid"""
-  plaidAccountId: String!
+  plaidAccountId: String
 
   """This is the transaction_id from plaid"""
-  plaidTransactionId: String!
-  price: Float!
+  plaidTransactionId: String
+  price: Float
   quantity: Float!
   security: Security
   securityType: SecurityType!
