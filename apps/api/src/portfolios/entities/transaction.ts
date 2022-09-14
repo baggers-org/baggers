@@ -8,7 +8,7 @@ import { SecurityType } from '~/securities/enums/security-type.enum';
 
 @ObjectType('TransactionFromDb')
 export class Transaction {
-  @Prop()
+  @Prop({ required: true })
   @Field(() => ObjectIdScalar)
   _id: ObjectId;
 
@@ -16,7 +16,7 @@ export class Transaction {
   @Field()
   name: string;
 
-  @Prop(() => Date)
+  @Prop({ default: () => new Date(), type: () => Date })
   @Field(() => Date)
   date: Date;
 
@@ -29,7 +29,7 @@ export class Transaction {
   amount: number;
 
   @Prop({ default: 0 })
-  @Field()
+  @Field({ nullable: true })
   fees?: number;
 
   @Prop()
@@ -37,7 +37,7 @@ export class Transaction {
   quantity: number;
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   price?: number;
 
   @Field(() => InvestmentTransactionType)
@@ -52,7 +52,7 @@ export class Transaction {
   @Prop({ type: ObjectId, ref: 'Security' })
   security?: ObjectId | Security;
 
-  @Field(() => ImportedSecurity)
+  @Field(() => ImportedSecurity, { nullable: true })
   @Prop(() => ImportedSecurity)
   importedSecurity?: ImportedSecurity;
 
@@ -60,17 +60,20 @@ export class Transaction {
   @Prop({ enum: SecurityType, type: String })
   securityType: SecurityType;
 
-  @Field({ description: 'This is the transaction_id from plaid' })
+  @Field({
+    description: 'This is the transaction_id from plaid',
+    nullable: true,
+  })
   @Prop()
   plaidTransactionId?: string;
 
-  @Field({ description: 'This is the account_id from plaid' })
+  @Field({ description: 'This is the account_id from plaid', nullable: true })
   @Prop()
   plaidAccountId?: string;
 
   @Field(() => User, { nullable: true })
-  @Prop({ type: ObjectId, ref: 'User' })
-  createdBy?: User;
+  @Prop({ type: String, ref: 'User' })
+  createdBy?: string;
 
   static unpopulate(transaction: PopulatedTransaction): Transaction {
     return {

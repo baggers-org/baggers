@@ -12,6 +12,8 @@ export const AddHoldingSchema = zfd.formData({
     .default(HoldingDirection.Long),
   quantity: zfd.numeric(),
   currency: z.string().default('USD'),
+  transactionDate: z.string(),
+  brokerFees: zfd.numeric().optional(),
 });
 
 export const AddHoldingValidator = withZod(AddHoldingSchema);

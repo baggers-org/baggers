@@ -1,4 +1,5 @@
 import { skipOn } from '@cypress/skip-test';
+import { format } from 'date-fns';
 
 describe('Portfolio holdings', () => {
   before(() => {
@@ -9,7 +10,7 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
 
-  it('user can add holdings to a portfolio directly', () => {
+  it.only('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio"
@@ -26,10 +27,20 @@ describe('Portfolio holdings', () => {
     cy.findByLabelText('Number of shares').type('20');
     cy.findByLabelText('Average price').type('6.50');
 
+    // Transaction help message
+    cy.findByText(
+      'We will assume the transaction date is right now, unless you tell us otherwise.'
+    );
+
+    cy.findByText('Show advanced').click();
+
+    const brokerFees = 2;
+    cy.findByLabelText('Broker fees').type('2');
+
     // Check the return section is correct
     cy.fixture('ONDS').then((onds) => {
       const marketValue = onds.quote.latestPrice * 20;
-      const costBasis = 6.5 * 20;
+      const costBasis = 6.5 * 20 + brokerFees;
       const expectedReturnUsd = marketValue - costBasis;
       const expectedReturnPercent = (expectedReturnUsd / costBasis) * 100;
 
@@ -71,6 +82,18 @@ describe('Portfolio holdings', () => {
       firstRow()
         .find('[data-field="profitLossUsd"]')
         .should('contain.text', `+$${expectedReturnUsd.toFixed(2)}`);
+
+      cy.findByText('Transactions').click();
+
+      //eslint-disable-next-line
+      cy.wait(1000);
+
+      firstRow()
+        .find('[data-field="date"]')
+        .should('contain.text', format(new Date(), 'do LLL yy'));
+      firstRow().find('[data-field="amount"]').should('contain.text', '130');
+
+      cy.findByText('BUY Ondas Holdings Inc');
 
       cy.findByText('Settings').click();
 

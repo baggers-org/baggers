@@ -98,6 +98,12 @@ export const useTableColumns = (): GridColDef[] => {
       renderCell: ({ row }) => <PriceTag value={row.dailyProfitLossUsd} />,
     },
     {
+      field: 'brokerFees',
+      headerName: `${t('broker_fees', 'Broker fees')}`,
+      flex: 1,
+      renderCell: ({ row }) => formatCurrency(row?.brokerFees),
+    },
+    {
       field: `source`,
       headerName: `${t(`source`, `Source`)}`,
       align: `center`,

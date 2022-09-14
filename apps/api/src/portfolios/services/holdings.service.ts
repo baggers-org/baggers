@@ -5,15 +5,22 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AddHoldingInput } from '../dto/add-holding';
 import { Holding, Portfolio, PortfolioDocument } from '../entities';
-import { HoldingSource } from '../enums';
+import { HoldingDirection, HoldingSource } from '../enums';
 import { HoldingsUtilService } from './holdings-util.service';
+import { ownerAnd } from '~/shared/util/ownerAnd';
+import { AddTransactionInput } from '../dto/add-transaction.input';
+import { SecuritiesService } from '~/securities';
+import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import { TransactionsService } from './transactions.service';
 
 @Injectable()
 export class HoldingsService {
   constructor(
     @InjectModel(Portfolio.name)
     private portfolioModel: Model<PortfolioDocument>,
-    private holdingsUtil: HoldingsUtilService
+    private holdingsUtil: HoldingsUtilService,
+    private securitiesService: SecuritiesService,
+    private transactionsService: TransactionsService
   ) {}
 
   async addHolding(
@@ -28,12 +35,39 @@ export class HoldingsService {
       source: HoldingSource.direct,
     };
 
+    // Lookup the security, to get its details for the transaction
+
+    const security = await this.securitiesService.findById(input.security);
+
+    const transaction: AddTransactionInput = {
+      amount: input.quantity * input.averagePrice,
+      portfolioId: toPortfolio,
+      price: input.averagePrice,
+      quantity: input.quantity,
+      security: input.security,
+      securityType: input.securityType,
+      currency: input.currency,
+      fees: input.brokerFees || 0,
+      date: input.transactionDate,
+      name: `BUY ${security.name}`,
+      type: InvestmentTransactionType.Buy,
+      subType: InvestmentTransactionSubtype.Buy,
+    };
+    // Create the relevant transaction
+    if (input.direction === HoldingDirection.short) {
+      transaction.name = `SELL SHORT ${security.name}`;
+      transaction.type = InvestmentTransactionType.Sell;
+      transaction.subType = InvestmentTransactionSubtype.SellShort;
+    }
+
+    await this.transactionsService.addTransaction(transaction, currentUser);
+
     const portfolio = await this.portfolioModel
       .findOneAndUpdate(
-        {
+        ownerAnd(currentUser, {
           _id: toPortfolio,
-          owner: currentUser.sub,
-        },
+        }),
+
         {
           $push: {
             holdings: newHolding,
@@ -63,10 +97,9 @@ export class HoldingsService {
   ) {
     const res = await this.portfolioModel
       .findOneAndUpdate(
-        {
+        ownerAnd(currentUser, {
           _id: portfolioId,
-          owner: currentUser.sub,
-        },
+        }),
         {
           $pull: { holdings: { _id: holdingId } },
           $set: {

@@ -34,7 +34,11 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { securityId, id } = params;
 
+  console.log(formData);
+
   const { data, error } = await AddHoldingValidator.validate(formData);
+
+  console.log(data?.transactionDate);
 
   if (error) return validationError(error);
 
@@ -159,7 +163,11 @@ export default function AddHolding() {
         <Typography variant="h5" color="textSecondary">
           {t(`holding_information`, `Holding information`)}
         </Typography>
-        <ValidatedForm validator={AddHoldingValidator} method="post">
+        <ValidatedForm
+          validator={AddHoldingValidator}
+          method="post"
+          defaultValues={{ transactionDate: new Date().toISOString() }}
+        >
           <AddHoldingForm addingSecurity={security as Security} />
         </ValidatedForm>
       </Grid>

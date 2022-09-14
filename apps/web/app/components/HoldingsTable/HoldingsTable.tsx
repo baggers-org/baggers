@@ -6,18 +6,18 @@ import { HoldingsTableProps, UseTableColumnProps } from './types';
 export const HoldingsTable: React.FC<
   HoldingsTableProps & UseTableColumnProps
 > = ({ holdings, density }) => {
-  console.log(holdings);
-
   return (
     <DataGridPro
       rows={holdings || []}
       rowHeight={60}
-      checkboxSelection
-      columnVisibilityModel={{
-        source: false,
-      }}
       initialState={{
         sorting: { sortModel: [{ field: `marketValue`, sort: `desc` }] },
+        columns: {
+          columnVisibilityModel: {
+            source: false,
+            brokerFees: false,
+          },
+        },
       }}
       sx={{ fontSize: '1rem' }}
       density={density}

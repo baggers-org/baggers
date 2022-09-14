@@ -10,6 +10,7 @@ import { PlaidItemsModule } from '~/plaid-items';
 import { TransactionsUtilService } from './services/transactions-util.service';
 import { HoldingsUtilService } from './services/holdings-util.service';
 import { SecuritiesModule } from '~/securities';
+import { TransactionsService } from './services/transactions.service';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SecuritiesModule } from '~/securities';
     HoldingsService,
     HoldingsUtilService,
     TransactionsUtilService,
+    TransactionsService,
     HoldingMetricsService,
   ],
   exports: [PortfoliosService, TransactionsUtilService],
