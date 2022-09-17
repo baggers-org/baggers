@@ -1,5 +1,6 @@
 import { Security } from '@baggers/sdk';
 import { iexFetch } from '../util/iexFetch';
+import { mapSecurityType } from '../util/mapSecurityType';
 import { baggersDb } from '../util/mongo';
 
 export const updateSecurities = async () => {
@@ -21,14 +22,17 @@ export const updateSecurities = async () => {
       update: {
         $set: {
           ...s,
+          type: mapSecurityType(s.type),
           updateAt: new Date(),
-        } as any,
+        },
       },
       upsert: true,
     },
   }));
 
-  const writeResult = await baggersDb().collection('securities').bulkWrite(ops);
+  const writeResult = await baggersDb()
+    .collection('securities')
+    .bulkWrite(ops as any);
 
   console.log(writeResult);
 

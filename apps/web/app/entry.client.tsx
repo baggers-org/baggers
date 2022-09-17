@@ -13,6 +13,7 @@ import { getInitialNamespaces } from 'remix-i18next';
 import Backend from 'i18next-fs-backend';
 import { i18nConfig } from './i18n';
 import { SidebarProvider } from './components/Sidebar/Sidebar.context';
+import { MarketDataRefreshProvider } from './hooks/useMarketDataRefresh';
 
 // intialize i18next using initReactI18next and configuring it
 i18next
@@ -38,11 +39,13 @@ i18next
       <ClientCacheProvider>
         <ThemeProvider>
           <SidebarProvider>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <CssBaseline />
-              <GlobalStyles />
-              <RemixBrowser />
-            </LocalizationProvider>
+            <MarketDataRefreshProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <CssBaseline />
+                <GlobalStyles />
+                <RemixBrowser />
+              </LocalizationProvider>
+            </MarketDataRefreshProvider>
           </SidebarProvider>
         </ThemeProvider>
       </ClientCacheProvider>

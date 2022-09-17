@@ -12,6 +12,7 @@ import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
 import { PageLayout } from '~/components/Layouts/PageLayout';
 import { useEffect } from 'react';
 import { useSidebarContext } from '~/components/Sidebar/Sidebar.context';
+import { useMarketDataRefresh } from '~/hooks/useMarketDataRefresh';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: `${(data as PortfoliosFindByIdQuery).portfoliosFindById.name}`,
@@ -44,6 +45,8 @@ export default function PortfoloLayout() {
   const { portfoliosFindById } = useLoaderData<PortfoliosFindByIdQuery>();
 
   const needsToSetName = !portfoliosFindById?.name;
+
+  useMarketDataRefresh();
 
   const { setIsExpanded } = useSidebarContext();
 

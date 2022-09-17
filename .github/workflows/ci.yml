@@ -4,33 +4,95 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: 'Lint + Typecheck'
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+  lint:
+    name: ⬣ ESLint
     runs-on: ubuntu-latest
-    env:
-      CYPRESS_INSTALL_BINARY: 0
     steps:
-      - uses: actions/checkout@v2
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: nrwl/nx-set-shas@v2
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
         with:
           main-branch-name: develop
-      - name: Install
-        run: npm ci
-      - name: NX Workspace lint
-        run: npx nx workspace-lint
-        # This fails on the web package for some reasn
-        # seems quite buggy and doesnt work with exclude=web so just skippin for now
-      # - name: Format check
-      #   run: npx nx format:check --exclude=web
-      - name: Lint
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: true
+
+      - name: 🔬 Lint
         run: npx nx affected --target=lint --parallel=3
-      - name: Type Check
+
+  typecheck:
+    name: ʦ TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: true
+
+      - name: 🔎 Type check
         run: npx nx affected --target=type-check --parallel=3
-      - name: Test
-        run: npx nx affected --target=test --parallel=3
+
+  test:
+    name: ⚡ Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: true
+
+      - name: ⚡ Run tests
+        run: npx nx affected --target=test --parallel=3 --coverage
         env:
           OPEN_FIGI_KEY: ${{ secrets.OPEN_FIGI_KEY }}
           PLAID_ENV: ${{ secrets.PLAID_ENV }}
@@ -72,6 +134,23 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         with:
           args: 'deploy -c apps/api/fly.staging.toml'
+
+  deployScheduler:
+    name: 'Deploy Scheduler to staging'
+    needs: test
+    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    environment: 'Staging'
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Deploy Scheduler'
+        uses: superfly/flyctl-actions@master
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        with:
+          args: 'deploy -c apps/scheduler/fly.staging.toml'
 
   cypress-chrome:
     name: 'Cypress - chrome'

@@ -42,7 +42,7 @@ export const portfoliosFindByIdTests = () =>
           "private": true,
           "totalValue": 9873.92,
           "transactions": undefined,
-          "updatedAt": "2022-07-22T00:00:00.000Z",
+          "updatedAt": "2022-07-21T23:00:00.000Z",
         }
       `);
       expect(portfolio.holdings).toHaveLength(3);

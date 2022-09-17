@@ -62,7 +62,7 @@ export const portfoliosCreatedTests = () =>
         `"2022-12-12T00:00:00.000Z"`
       );
       expect(portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
-        `"2022-07-22T00:00:00.000Z"`
+        `"2022-07-21T23:00:00.000Z"`
       );
 
       expect(

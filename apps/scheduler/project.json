@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/scheduled/src",
+  "sourceRoot": "apps/scheduler/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,9 +9,10 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/scheduled",
-        "main": "apps/scheduled/src/main.ts",
-        "tsConfig": "apps/scheduled/tsconfig.app.json"
+        "outputPath": "dist/apps/scheduler",
+        "main": "apps/scheduler/src/main.ts",
+        "tsConfig": "apps/scheduler/tsconfig.app.json",
+        "generatePackageJson": true
       },
       "configurations": {
         "watch": {
@@ -27,18 +28,18 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "scheduled:build"
+        "buildTarget": "scheduler:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "scheduled:build:production"
+          "buildTarget": "scheduler:build:production"
         }
       }
     },
     "dev": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "scheduled:build:watch"
+        "buildTarget": "scheduler:build:watch"
       }
     },
     "lint": {
@@ -48,18 +49,29 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "apps/scheduled/**/*.ts"
+          "apps/scheduler/**/*.ts"
         ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/apps/scheduled"
+        "coverage/apps/scheduler"
       ],
       "options": {
-        "jestConfig": "apps/scheduled/jest.config.ts",
+        "jestConfig": "apps/scheduler/jest.config.ts",
         "passWithNoTests": true
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "flyctl deploy -c apps/scheduler/fly.staging.toml"
+      },
+      "configurations": {
+        "production": {
+          "command": "flyctl delpoy -c apps/scheduler/fly.toml"
+        }
       }
     }
   },

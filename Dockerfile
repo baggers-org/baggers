@@ -1,4 +1,4 @@
-FROM node:18-bullseye-slim as base
+FROM node:16.13.0-bullseye-slim as base
 
 RUN apt-get update && apt-get install git -y
 
@@ -41,3 +41,18 @@ COPY --from=base-deps /baggers/package.json /baggers/package-lock.json  /baggers
 
 RUN npm ci
 CMD ["npx", "remix-serve", "build"]
+
+# Build the Scheduler
+FROM base-deps as scheduler-build
+ADD apps/scheduler ./apps/scheduler
+
+RUN npm run build scheduler --configuration=production
+
+FROM base as scheduler
+
+WORKDIR /baggers-scheduler
+COPY --from=scheduler-build /baggers/dist/apps/scheduler  /baggers-scheduler/
+COPY --from=base-deps /baggers/package-lock.json  /baggers-scheduler/
+
+RUN npm ci
+CMD ["node", "main.js"]

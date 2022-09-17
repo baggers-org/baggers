@@ -19,8 +19,10 @@ const server = app.listen(port, () => {
 });
 server.on('error', console.error);
 
-updateQuotes();
-// updateSecurities();
 cron.schedule('0 21 * * 1-5', () => {
   updateSecurities();
+});
+
+cron.schedule('*/30 8-17 * * 1-5', () => {
+  updateQuotes();
 });
