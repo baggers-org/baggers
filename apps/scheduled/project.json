@@ -1,0 +1,67 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/scheduled/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/scheduled",
+        "main": "apps/scheduled/src/main.ts",
+        "tsConfig": "apps/scheduled/tsconfig.app.json"
+      },
+      "configurations": {
+        "watch": {
+          "watch": true
+        },
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "scheduled:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "scheduled:build:production"
+        }
+      }
+    },
+    "dev": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "scheduled:build:watch"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/scheduled/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/apps/scheduled"
+      ],
+      "options": {
+        "jestConfig": "apps/scheduled/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
