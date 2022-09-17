@@ -57,14 +57,6 @@ export const portfoliosCreatedTests = () =>
         ]
       `);
 
-      // It should sort them by updatedAt - most recent
-      expect(portfoliosCreated[0].updatedAt).toMatchInlineSnapshot(
-        `"2022-12-12T00:00:00.000Z"`
-      );
-      expect(portfoliosCreated[1].updatedAt).toMatchInlineSnapshot(
-        `"2022-07-21T23:00:00.000Z"`
-      );
-
       expect(
         new Date(portfoliosCreated[0].updatedAt) >
           new Date(portfoliosCreated[1].updatedAt)

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Stack, Typography, useTheme } from '@mui/material';
 import { formatCurrency, isProfitLossOrNeutral } from '~/util';
-import { alpha, TypographyProps } from '@mui/system';
-import { MarketDataRefreshContext } from '~/hooks/useMarketDataRefresh';
+import { TypographyProps } from '@mui/system';
 
 export type PriceTagProps = {
   value: number;

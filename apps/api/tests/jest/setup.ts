@@ -8,7 +8,7 @@ let url: string;
 export const getApp = () => app;
 export const getAppUrl = () => url;
 
-process.env.TZ = 'UTC';
+process.env.TZ = 'GMT';
 
 beforeAll(async () => {
   if (!app) {

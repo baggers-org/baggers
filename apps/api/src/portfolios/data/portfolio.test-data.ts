@@ -15,7 +15,7 @@ export const Portfolio1: Portfolio = {
   name: 'Wells Fargo - Plaid isa',
   description: '',
   createdAt: new Date('01/01/01'),
-  updatedAt: new Date('07/22/22'),
+  updatedAt: new Date('2022/07/22'),
   holdings: Holdings1,
   transactions: [],
 };
