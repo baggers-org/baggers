@@ -154,9 +154,7 @@ jobs:
 
   cypress-chrome:
     name: 'Cypress - chrome'
-    needs:
-      - deployUi
-      - deployApi
+    needs: [deployUi, deployApi, deployScheduler]
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
@@ -177,9 +175,7 @@ jobs:
 
   cypress-firefox:
     name: 'Cypress - firefox'
-    needs:
-      - deployUi
-      - deployApi
+    needs: [deployUi, deployApi, deployScheduler]
     if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
     runs-on: ubuntu-latest
     steps:
