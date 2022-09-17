@@ -55,4 +55,5 @@ COPY --from=scheduler-build /baggers/dist/apps/scheduler  /baggers-scheduler/
 COPY --from=base-deps /baggers/package-lock.json  /baggers-scheduler/
 
 RUN npm ci
+RUN npm i tslib
 CMD ["node", "main.js"]
