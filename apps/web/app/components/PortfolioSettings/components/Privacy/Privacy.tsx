@@ -1,4 +1,4 @@
-import { Grid, MenuItem from '@mui/material';
+import { Grid, MenuItem } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ValidatedForm } from 'remix-validated-form';
@@ -12,7 +12,6 @@ export const Privacy: React.FC = () => {
   const { t } = useTranslation('portfolio_settings');
 
   const { private: portfolioPrivate } = usePortfolio();
-
 
   return (
     <ValidatedForm

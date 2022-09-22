@@ -2,9 +2,9 @@ import { Button } from '@mui/material';
 import React from 'react';
 import { useFormContext } from 'remix-validated-form';
 
-export type ActionButtonsProps = {};
-export const ActionButtons: React.FC<ActionButtonsProps> = () => {
+export const ActionButtons: React.FC = () => {
   const { isValid, touchedFields } = useFormContext();
+
   return (
     <>
       <Button
