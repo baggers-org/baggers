@@ -34,11 +34,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const { securityId, id } = params;
 
-  console.log(formData);
-
   const { data, error } = await AddHoldingValidator.validate(formData);
-
-  console.log(data?.transactionDate);
 
   if (error) return validationError(error);
 

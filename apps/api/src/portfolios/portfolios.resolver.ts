@@ -8,7 +8,7 @@ import {
 
 import mongoose from 'mongoose';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
-import { Auth0AccessTokenPayload, CurrentUser } from '~/auth';
+import { Auth0AccessTokenPayload, CurrentUser, Public } from '~/auth';
 import {
   RecordId,
   ObjectIdScalar,
@@ -37,6 +37,7 @@ export class PortfoliosResolver {
     };
   }
 
+  @Public()
   @Query(() => PopulatedPortfolioWithMetrics, { name: 'portfoliosFindById' })
   findById(
     @Args('_id', { type: () => ObjectIdScalar })

@@ -12,8 +12,6 @@ export const ValidatedTextField: React.FC<ValidatedTextFieldProps> = ({
 }) => {
   const { error, getInputProps } = useField(name);
 
-  console.log(error);
-
   const { hasBeenSubmitted } = useFormContext();
   return (
     <BaggersTextField

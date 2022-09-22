@@ -7,6 +7,8 @@ import {
   DialogContentText,
   DialogActions,
   DialogContent,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
@@ -23,8 +25,10 @@ export const DeletePortfolio: React.FC = () => {
         {t(`delete_portfolio`, `Delete Portfolio`)}
       </SectionTitle>
       <Stack direction="row" gap={1} mb={4}>
-        <Warning />
-        {t(`delete_warning`, `Warning this action cannot be undone.`)}
+        <Alert severity="error" sx={{ width: '100%' }}>
+          <AlertTitle>Warning</AlertTitle>
+          {t(`delete_warning`, `Warning this action cannot be undone.`)}
+        </Alert>
       </Stack>
       <Button
         color="error"

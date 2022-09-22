@@ -17,6 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const apiUrl = envService.get('API_URI');
     const audience = `${apiUrl}/graphql`;
     const issuer = `https://${domain}/`;
+
     super({
       secretOrKeyProvider: jwks.passportJwtSecret({
         cache: true,

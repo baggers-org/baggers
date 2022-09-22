@@ -10,6 +10,7 @@ import { Holding } from '@baggers/sdk';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { usePortfolio } from '~/hooks/usePortfolio';
 import { ErrorBoundaryComponent } from '@remix-run/server-runtime';
+import { useIsPortfolioOwner } from '~/hooks/useIsPortfolioOwner';
 
 export default function Holdings() {
   const portfolio = usePortfolio();
@@ -23,6 +24,8 @@ export default function Holdings() {
 
   const navigate = useNavigate();
   const fetcher = useFetcher();
+
+  const isOwner = useIsPortfolioOwner();
 
   const handleSwitchDensity = () => {
     if (density === `compact`) {
@@ -43,14 +46,16 @@ export default function Holdings() {
         mb={3}
         justifyContent="space-between"
       >
-        <HoldingsToolbar
-          onAddHolding={() => {
-            navigate(`/portfolios/${id}/holdings/add`);
-          }}
-          portfolio={portfolio}
-        />
+        {isOwner ? (
+          <HoldingsToolbar
+            onAddHolding={() => {
+              navigate(`/portfolios/${id}/holdings/add`);
+            }}
+            portfolio={portfolio}
+          />
+        ) : null}
 
-        <Grid item>
+        <Grid item ml="auto">
           <IconButton size="small" onClick={handleSwitchDensity}>
             {density === `compact` ? <Expand /> : <Compress />}
           </IconButton>
