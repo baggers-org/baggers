@@ -7,7 +7,11 @@
     "build": "nx build",
     "test": "nx test",
     "deploy": "nx deploy",
-    "postinstall": "remix setup node"
+    "lint:all": "nx run-many --all --target=lint",
+    "test:all": "nx run-many --all --target=test",
+    "type-check:all": "nx run-many --all --target=type-check",
+    "postinstall": "remix setup node",
+    "pipeline": "npm run lint:all & npm run type-check:all"
   },
   "private": true,
   "devDependencies": {

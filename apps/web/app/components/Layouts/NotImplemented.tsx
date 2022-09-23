@@ -3,7 +3,7 @@ import { SectionTitle } from '../SectionTitle';
 import { PageLayout } from './PageLayout';
 
 export type NotImplementedProps = {
-  title: string;
+  title?: string;
 };
 export default function NotImplemented({ title }: NotImplementedProps) {
   return (
