@@ -101,7 +101,7 @@ jobs:
   deploy:
     name: '🚀 Deploy to Production 🚀'
     needs: [lint, test, typecheck]
-    if: ${{ github.head_ref == 'refs/base/develop' }}
+    if: ${{ github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-latest
     environment: Production
     env:
