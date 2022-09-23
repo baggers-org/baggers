@@ -28,8 +28,6 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: true
 
       - name: 🔬 Lint
         run: npx nx affected --target=lint --parallel=3
@@ -58,8 +56,6 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: true
 
       - name: 🔎 Type check
         run: npx nx affected --target=type-check --parallel=3
@@ -88,8 +84,6 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: true
 
       - name: ⚡ Run tests
         run: npx nx affected --target=test --parallel=3 --coverage
@@ -159,7 +153,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
       - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
@@ -180,7 +175,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm ci
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
       - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
