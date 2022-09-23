@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack, Typography, useTheme } from '@mui/material';
-import { formatCurrency, isProfitLossOrNeutral } from '~/util';
+import { isProfitLossOrNeutral, formatCurrency } from '@baggers/util';
 import { TypographyProps } from '@mui/system';
 
 export type PriceTagProps = {

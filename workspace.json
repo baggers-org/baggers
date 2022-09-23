@@ -5,6 +5,7 @@
     "e2e": "apps/e2e",
     "sdk": "libs/sdk",
     "type-util": "libs/type-util",
+    "util": "libs/util",
     "web": "apps/web"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

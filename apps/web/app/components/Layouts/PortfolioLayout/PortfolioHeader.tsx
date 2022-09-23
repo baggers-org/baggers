@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material';
 
 import { EditableTypography } from '~/components';
 import { useTranslation } from 'react-i18next';
-import { formatCurrency } from '~/util';
+import { formatCurrency } from '@baggers/util';
 import { Portfolio } from '@baggers/sdk';
 import { useFetcher } from '@remix-run/react';
 
