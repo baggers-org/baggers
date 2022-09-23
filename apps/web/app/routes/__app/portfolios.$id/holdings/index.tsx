@@ -6,7 +6,7 @@ import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
 import { useFetcher, useNavigate, useParams } from '@remix-run/react';
 import { HoldingsTable } from '~/components';
-import { Holding } from '@baggers/sdk';
+import { Holding } from '@baggers/graphql-types';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { usePortfolio } from '~/hooks/usePortfolio';
 import { ErrorBoundaryComponent } from '@remix-run/server-runtime';

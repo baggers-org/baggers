@@ -7,7 +7,10 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import { PortfoliosCreatedQuery, PortfolioSummary } from '@baggers/sdk';
+import {
+  PortfoliosCreatedQuery,
+  PortfolioSummary,
+} from '@baggers/graphql-types';
 import { useTranslation } from 'react-i18next';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';

@@ -4,7 +4,7 @@ import { Stack, Typography } from '@mui/material';
 import { EditableTypography } from '~/components';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '~/util';
-import { Portfolio } from '@baggers/sdk';
+import { Portfolio } from '@baggers/graphql-types';
 import { useFetcher } from '@remix-run/react';
 
 export type PortfolioHeaderProps = {

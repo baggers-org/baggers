@@ -1,4 +1,4 @@
-import { Security } from '@baggers/sdk';
+import { Security } from '@baggers/graphql-types';
 import { iexFetch } from '../util/iexFetch';
 import { mapSecurityType } from '../util/mapSecurityType';
 import { baggersDb } from '../util/mongo';

@@ -34,7 +34,7 @@ import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 import { PortfolioTags } from '../PortfolioTags';
 import { NoDataChart } from './components/NoDataChart';
-import { PortfoliosCreatedQuery } from '@baggers/sdk';
+import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 
 export type PortfolioCardProps = {
   portfolio: PortfoliosCreatedQuery['portfoliosCreated'][number];

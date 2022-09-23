@@ -1,7 +1,10 @@
 import { Link } from '@mui/icons-material';
 import { Chip, Stack } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { PortfoliosCreatedQuery, PortfoliosFindByIdQuery } from '@baggers/sdk';
+import {
+  PortfoliosCreatedQuery,
+  PortfoliosFindByIdQuery,
+} from '@baggers/graphql-types';
 
 export interface PortfolioTagsProps {
   portfolio:

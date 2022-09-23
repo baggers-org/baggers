@@ -2,8 +2,7 @@ overwrite: true
 schema: 'schema.gql'
 documents: 'libs/graphql-types/src/graphql.document.gql'
 generates:
-  libs/sdk/src/generated/index.ts:
+  libs/graphql-types/src/generated/index.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
-      - 'typescript-graphql-request'

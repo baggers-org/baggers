@@ -1,4 +1,8 @@
-import { HoldingDirection, Security, SecurityType } from '@baggers/sdk';
+import {
+  HoldingDirection,
+  Security,
+  SecurityType,
+} from '@baggers/graphql-types';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import {
   Alert,

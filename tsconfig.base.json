@@ -17,6 +17,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@baggers/graphql-types": ["libs/graphql-types/src/index.ts"],
       "@baggers/math": ["libs/math/src/index.ts"],
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
       "@baggers/test-data": ["libs/test-data/src/index.ts"],

@@ -7,7 +7,7 @@ import {
   MetaFunction,
 } from '@remix-run/server-runtime';
 import { PortfolioHeader, PortfolioTabs } from '~/components';
-import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/sdk';
+import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/graphql-types';
 import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
 import { PageLayout } from '~/components/Layouts/PageLayout';
 import { useEffect } from 'react';

@@ -1,4 +1,4 @@
-import { Security } from '@baggers/sdk';
+import { Security } from '@baggers/graphql-types';
 import {
   Card,
   CardContent,

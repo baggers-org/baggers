@@ -1,4 +1,4 @@
-import { PlaidLinkTokenQuery } from '@baggers/sdk';
+import { PlaidLinkTokenQuery } from '@baggers/graphql-types';
 import { Box } from '@mui/material';
 import { useLoaderData, useSubmit } from '@remix-run/react';
 import {

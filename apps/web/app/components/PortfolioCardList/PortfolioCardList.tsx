@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
-import { PortfolioSummary } from '@baggers/sdk';
+import { PortfolioSummary } from '@baggers/graphql-types';
 import { PortfolioCard } from '../PortfolioCard/PortfolioCard';
 import { PortfolioCardToolbar } from '../PortfolioCardToolbar';
 

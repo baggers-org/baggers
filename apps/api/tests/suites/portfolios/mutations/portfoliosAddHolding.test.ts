@@ -1,6 +1,6 @@
 import { Portfolio1 } from '~/portfolios';
 import { A, TSLA } from '~/securities';
-import { HoldingDirection, SecurityType } from '@baggers/sdk';
+import { HoldingDirection, SecurityType } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosAddHoldingTest = () =>

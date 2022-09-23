@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid-pro';
 
 import { useTranslation } from 'react-i18next';
-import { HoldingSource } from '@baggers/sdk';
+import { HoldingSource } from '@baggers/graphql-types';
 import { formatCurrency } from '~/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';

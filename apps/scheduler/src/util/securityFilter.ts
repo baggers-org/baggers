@@ -1,4 +1,4 @@
-import { Portfolio, Security } from '@baggers/sdk';
+import { Portfolio, Security } from '@baggers/graphql-types';
 import { baggersDb } from './mongo';
 
 export const getAllSecurities = async (): Promise<Security[]> => {

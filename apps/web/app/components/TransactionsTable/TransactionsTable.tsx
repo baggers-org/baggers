@@ -1,4 +1,4 @@
-import { Transaction, TransactionType } from '@baggers/sdk';
+import { Transaction, TransactionType } from '@baggers/graphql-types';
 import { Typography, useTheme } from '@mui/material';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import { format } from 'date-fns';

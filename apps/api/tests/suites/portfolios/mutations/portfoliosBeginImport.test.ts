@@ -1,4 +1,4 @@
-import { PortfoliosCreatedQuery } from '@baggers/sdk';
+import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 import { Test } from '@nestjs/testing';
 import { EnvModule } from '~/env';
 import { PlaidClientService } from '~/plaid-client';

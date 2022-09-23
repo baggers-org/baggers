@@ -1,4 +1,4 @@
-import { Quote, Security } from '@baggers/sdk';
+import { Quote, Security } from '@baggers/graphql-types';
 import axios from 'axios';
 
 export type FetchQuotesResponse = {

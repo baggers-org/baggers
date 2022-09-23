@@ -1,4 +1,4 @@
-import { SecurityType } from '@baggers/sdk';
+import { SecurityType } from '@baggers/graphql-types';
 
 export const mapSecurityType = (type: string): SecurityType => {
   switch (type) {
