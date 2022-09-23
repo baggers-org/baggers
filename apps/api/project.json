@@ -79,7 +79,7 @@
       },
       "configurations": {
         "production": {
-          "command": "flyctl delpoy -c apps/api/fly.toml"
+          "command": "flyctl deploy -c apps/api/fly.toml"
         }
       }
     }
