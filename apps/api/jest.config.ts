@@ -23,8 +23,8 @@ export default {
   coverageDirectory: '../../coverage/api',
   coverageThreshold: {
     global: {
-      branches: 75,
-      functions: 85,
+      branches: 74,
+      functions: 83,
       lines: 90,
     },
   },
