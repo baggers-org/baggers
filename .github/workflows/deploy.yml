@@ -1,7 +1,6 @@
 name: CI
 
-on:
-  pull_request:
+on: [pull_request, push]
 
 jobs:
   lint:
@@ -95,66 +94,102 @@ jobs:
           IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
           IEX_TOKEN: ${{ secrets.IEX_TOKEN }}
 
-  deployUi:
-    name: 'Deploy UI to staging'
+  deploy:
+    name: '🚀 Deploy to Production 🚀'
     needs: [lint, test, typecheck]
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    if: ${{ github.head_ref == 'refs/base/develop' }}
     runs-on: ubuntu-latest
-    environment: 'Staging'
+    environment: Production
     env:
       CYPRESS_INSTALL_BINARY: 0
     steps:
-      - uses: actions/checkout@v2
-      - name: 'Deploy ui'
-        uses: superfly/flyctl-actions@master
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
         with:
-          args: 'deploy -c apps/web/fly.staging.toml'
+          fetch-depth: 0
 
-  deployApi:
-    name: 'Deploy API to staging'
-    needs: [lint, test, typecheck]
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
-    runs-on: ubuntu-latest
-    environment: 'Staging'
-    env:
-      CYPRESS_INSTALL_BINARY: 0
-    steps:
-      - uses: actions/checkout@v2
-      - name: 'Deploy API'
-        uses: superfly/flyctl-actions@master
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
         with:
-          args: 'deploy -c apps/api/fly.staging.toml'
+          main-branch-name: develop
 
-  deployScheduler:
-    name: 'Deploy Scheduler to staging'
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: Setup fly
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy affected apps
+        run: nx affected --target=deploy --parallel=2
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  deployStaging:
+    name: '🚀 Deploy to Staging 🚀'
     needs: [lint, test, typecheck]
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'refs/base/develop' }}
     runs-on: ubuntu-latest
     environment: 'Staging'
     env:
       CYPRESS_INSTALL_BINARY: 0
     steps:
-      - uses: actions/checkout@v2
-      - name: 'Deploy Scheduler'
-        uses: superfly/flyctl-actions@master
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: Setup fly
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy affected apps
+        run: nx affected --target=deploy --parallel=2
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        with:
-          args: 'deploy -c apps/scheduler/fly.staging.toml'
 
   cypress-chrome:
     name: 'Cypress - chrome'
-    needs: [deployUi, deployApi, deployScheduler]
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    needs: [deployStaging]
+    if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+
       - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
@@ -170,13 +205,30 @@ jobs:
 
   cypress-firefox:
     name: 'Cypress - firefox'
-    needs: [deployUi, deployApi, deployScheduler]
-    if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
+    needs: [deployStaging]
+    if: ${{ github.event_name == 'pull_request'}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+
       - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
         env:
           CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
