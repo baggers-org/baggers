@@ -1,4 +1,6 @@
-import { CreateUserInput, getSdk, User } from '@baggers/sdk';
+import { CreateUserInput, User } from '@baggers/graphql-types';
+import { getSdk } from '@baggers/sdk';
+
 import { GraphQLClient } from 'graphql-request';
 import { Authenticator } from 'remix-auth';
 import { Auth0Strategy } from 'remix-auth-auth0';

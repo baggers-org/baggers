@@ -26,7 +26,7 @@ import {
   useTheme,
   Zoom,
 } from '@mui/material';
-import { formatCurrency } from '~/util';
+import { formatCurrency } from '@baggers/util';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
@@ -34,7 +34,7 @@ import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 import { PortfolioTags } from '../PortfolioTags';
 import { NoDataChart } from './components/NoDataChart';
-import { PortfoliosCreatedQuery } from '@baggers/sdk';
+import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 
 export type PortfolioCardProps = {
   portfolio: PortfoliosCreatedQuery['portfoliosCreated'][number];
@@ -59,7 +59,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
     <Grow in timeout={200}>
       <Card
         data-cy="portfolio-card"
-        variant="outlined"
         sx={{
           height: `100%`,
           border: selected ? `2px solid ${theme.palette.primary.main}` : null,

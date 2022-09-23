@@ -1,4 +1,9 @@
-import { Transaction, TransactionType } from '@baggers/sdk';
+import {
+  ImportedSecurity,
+  Security,
+  Transaction,
+  TransactionType,
+} from '@baggers/graphql-types';
 import { Typography, useTheme } from '@mui/material';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import { format } from 'date-fns';
@@ -71,7 +76,10 @@ export const TransactionsTable: React.FC<{
           flex: 1,
           renderCell: ({ row }) => (
             <SecurityLogo
-              symbol={getSecuritySymbol(row.security || row.importedSecurity)}
+              symbol={getSecuritySymbol(
+                (row.security as Security) ||
+                  (row.importedSecurity as ImportedSecurity)
+              )}
               existsInDatabase={!!row.security}
               includeSecurityLink
             />

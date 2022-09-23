@@ -3,6 +3,7 @@ import { Tab, Tabs } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { useIdParam } from '~/hooks';
+import { useCanEditPortfolio } from '~/hooks/useIsPortfolioOwner';
 
 export const PortfolioTabs = () => {
   const { t } = useTranslation(`view_portfolio`);
@@ -16,6 +17,8 @@ export const PortfolioTabs = () => {
   const activeTab = `/${
     pathname.split(`/portfolios/${portfolioId}/`).pop()?.split(`/`)[0]
   }`;
+
+  const isOwner = useCanEditPortfolio();
 
   const jumpToTab = (tab: string) =>
     navigate(`/portfolios/${portfolioId}${tab}`);
@@ -40,15 +43,17 @@ export const PortfolioTabs = () => {
       />
       <Tab value="/news" label={t(`news`, `News`)} disabled />
       <Tab value="/discussion" label={t(`discussion`, `Discussion`)} disabled />
-      <Tab
-        value="/settings"
-        icon={<Settings />}
-        label={t(`settings`, `Settings`)}
-        onClick={() => jumpToTab(`/settings`)}
-        sx={{
-          marginLeft: `auto`,
-        }}
-      />
+      {isOwner ? (
+        <Tab
+          value="/settings"
+          icon={<Settings />}
+          label={t(`settings`, `Settings`)}
+          onClick={() => jumpToTab(`/settings`)}
+          sx={{
+            marginLeft: `auto`,
+          }}
+        />
+      ) : null}
     </Tabs>
   );
 };

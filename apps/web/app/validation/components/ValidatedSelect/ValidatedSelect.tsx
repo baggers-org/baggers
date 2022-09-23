@@ -8,12 +8,13 @@ export const ValidatedSelect: React.FC<ValidatedSelectProps> = ({
   children,
   ...selectProps
 }) => {
-  const { error, getInputProps, validate } = useField(name);
+  const { error, getInputProps, validate, setTouched } = useField(name);
 
   const [value, setValue] = useState<any>();
 
   useEffect(() => {
     validate();
+    setTouched(true);
   }, [value]);
 
   const inputProps = getInputProps(selectProps);

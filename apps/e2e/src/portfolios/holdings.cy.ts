@@ -1,5 +1,6 @@
 import { skipOn } from '@cypress/skip-test';
 import { format } from 'date-fns';
+import { formatCurrency } from '@baggers/util';
 
 describe('Portfolio holdings', () => {
   before(() => {
@@ -10,7 +11,7 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
 
-  it.only('user can add holdings to a portfolio directly', () => {
+  it('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio"
@@ -48,11 +49,11 @@ describe('Portfolio holdings', () => {
 
       cy.findByLabelText('Return USD').should(
         'contain.text',
-        `+$${expectedReturnUsd.toFixed(2)}`
+        `${formatCurrency(expectedReturnUsd)}`
       );
       cy.findByLabelText('Return percent').should(
         'contain.text',
-        `+${expectedReturnPercent.toFixed(2)}%`
+        `${expectedReturnPercent.toFixed(2)}%`
       );
 
       //Add the holding
@@ -66,22 +67,22 @@ describe('Portfolio holdings', () => {
 
       firstRow()
         .find('[data-field="marketValue"]')
-        .should('contain.text', `$${marketValue.toFixed(2)}`);
+        .should('contain.text', `${formatCurrency(marketValue)}`);
       firstRow()
         .find('[data-field="costBasis"]')
-        .should('contain.text', `$${costBasis.toFixed(2)}`);
+        .should('contain.text', `${formatCurrency(costBasis)}`);
       firstRow()
         .find('[data-field="averagePrice"]')
         .should('contain.text', `$6.50`);
       firstRow()
         .find('[data-field="security.quote.latestPrice"]')
-        .should('contain.text', `$${onds.quote.latestPrice}`);
+        .should('contain.text', `${formatCurrency(onds.quote.latestPrice)}`);
       firstRow()
         .find('[data-field="profitLossPercent"]')
-        .should('contain.text', `+${expectedReturnPercent.toFixed(2)}%`);
+        .should('contain.text', `${expectedReturnPercent.toFixed(2)}%`);
       firstRow()
         .find('[data-field="profitLossUsd"]')
-        .should('contain.text', `+$${expectedReturnUsd.toFixed(2)}`);
+        .should('contain.text', `${formatCurrency(expectedReturnUsd)}`);
 
       cy.findByText('Transactions').click();
 

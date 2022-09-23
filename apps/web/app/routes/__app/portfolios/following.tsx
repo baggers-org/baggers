@@ -5,5 +5,5 @@ export const meta: MetaFunction = () => ({
   title: `Followed portfolios`,
 });
 export default function Following() {
-  return <NotImplemented />;
+  return <NotImplemented title="Following" />;
 }

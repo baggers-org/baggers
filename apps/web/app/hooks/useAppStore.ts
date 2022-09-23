@@ -1,6 +1,6 @@
 import { useMatches } from '@remix-run/react';
 import { Tokens } from '~/auth.server';
-import { User } from '@baggers/sdk';
+import { User } from '@baggers/graphql-types';
 import { Onboarding } from '~/types/Onboarding';
 
 export interface AppStore {

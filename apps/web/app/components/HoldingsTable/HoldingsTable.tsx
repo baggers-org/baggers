@@ -19,7 +19,9 @@ export const HoldingsTable: React.FC<
           },
         },
       }}
-      sx={{ fontSize: '1rem' }}
+      sx={{
+        fontSize: '1rem',
+      }}
       density={density}
       columns={useTableColumns()}
       getRowId={(row) => row._id}

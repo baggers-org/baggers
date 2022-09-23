@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, List, ModalProps } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { Security } from '@baggers/sdk';
+import { Security } from '@baggers/graphql-types';
 import {
   BaseSearchModal,
   BaseSearchModalProps,

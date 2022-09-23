@@ -13,7 +13,7 @@ const path = require(`path`);
 const g = promisify(glob);
 
 const mergeDocs = async () => {
-  const docs = await g(`src/graphql/**/*.gql`);
+  const docs = await g(`libs/graphql-types/src/graphql/**/*.gql`);
 
   let combinedContents = ``;
   docs.forEach((path) => {

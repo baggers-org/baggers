@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stack, Typography, useTheme } from '@mui/material';
-import { formatCurrency, isProfitLossOrNeutral } from '~/util';
+import { isProfitLossOrNeutral, formatCurrency } from '@baggers/util';
 import { TypographyProps } from '@mui/system';
 
 export type PriceTagProps = {
@@ -18,15 +18,16 @@ export const PriceTag: React.FC<PriceTagProps> = ({
 
   const getColor = () => {
     const delta = isProfitLossOrNeutral(value);
+    let color = theme.palette.text.primary;
 
     if (delta === `profit`) {
-      return theme.palette.success.main;
+      color = theme.palette.success.main;
     }
     if (delta === `loss`) {
-      return theme.palette.error.main;
+      color = theme.palette.error.main;
     }
 
-    return theme.palette.text.primary;
+    return color;
   };
 
   const formattedValue =

@@ -1,0 +1,247 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request: {}
+
+jobs:
+  lint:
+    name: ⬣ ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: 🔬 Lint
+        run: npx nx affected --target=lint --parallel=3
+
+  typecheck:
+    name: ʦ TypeScript
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: 🔎 Type check
+        run: npx nx affected --target=type-check --parallel=3
+
+  test:
+    name: ⚡ Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛑 Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: ⚡ Run tests
+        run: npx nx affected --target=test --parallel=3 --coverage
+        env:
+          OPEN_FIGI_KEY: ${{ secrets.OPEN_FIGI_KEY }}
+          PLAID_ENV: ${{ secrets.PLAID_ENV }}
+          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
+          PLAID_CLIENT_SECRET: ${{ secrets.PLAID_CLIENT_SECRET }}
+          IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
+          IEX_TOKEN: ${{ secrets.IEX_TOKEN }}
+
+  deploy:
+    name: '🚀 Deploy to Production 🚀'
+    needs: [lint, test, typecheck]
+    if: ${{ github.ref == 'refs/heads/develop' }}
+    runs-on: ubuntu-latest
+    environment: Production
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: Setup fly
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy affected apps
+        run: npx nx affected --target=deploy --parallel=2 --configuration=production
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  deployStaging:
+    name: '🚀 Deploy to Staging 🚀'
+    needs: [lint, test, typecheck]
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'develop' }}
+    runs-on: ubuntu-latest
+    environment: 'Staging'
+    env:
+      CYPRESS_INSTALL_BINARY: 0
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - name: Setup fly
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy affected apps
+        run: npx nx affected --target=deploy --parallel=3
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  cypress-chrome:
+    name: 'Cypress - chrome'
+    needs: [deployStaging]
+    if: ${{ github.event_name == 'pull_request'}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
+        env:
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
+
+  cypress-firefox:
+    name: 'Cypress - firefox'
+    needs: [deployStaging]
+    if: ${{ github.event_name == 'pull_request'}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: NRWL Set Shas
+        uses: nrwl/nx-set-shas@v2
+        with:
+          main-branch-name: develop
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.13.0
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+
+      - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
+        env:
+          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}

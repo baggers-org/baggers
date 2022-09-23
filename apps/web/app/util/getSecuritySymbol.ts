@@ -1,4 +1,4 @@
-import { ImportedSecurity, Security } from '@baggers/sdk';
+import { ImportedSecurity, Security } from '@baggers/graphql-types';
 import { isImportedSecurity } from '@baggers/type-util';
 
 export const getSecuritySymbol = (

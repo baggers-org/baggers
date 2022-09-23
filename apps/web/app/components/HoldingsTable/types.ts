@@ -1,5 +1,5 @@
 import { DataGridProProps } from '@mui/x-data-grid-pro';
-import { Holding } from '@baggers/sdk';
+import { Holding } from '@baggers/graphql-types';
 
 export interface HoldingsTableProps {
   holdings?: Holding[];

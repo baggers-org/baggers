@@ -3,8 +3,11 @@
   "projects": {
     "api": "apps/api",
     "e2e": "apps/e2e",
+    "graphql-types": "libs/graphql-types",
+    "scheduler": "apps/scheduler",
     "sdk": "libs/sdk",
     "type-util": "libs/type-util",
+    "util": "libs/util",
     "web": "apps/web"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"

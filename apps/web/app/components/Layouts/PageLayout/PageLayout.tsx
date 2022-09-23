@@ -7,7 +7,7 @@ export const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Container
       maxWidth="xl"
-      sx={{ mt: { xs: subMenu?.options.length ? 20 : 10, md: 6 } }}
+      sx={{ mt: { xs: subMenu?.options.length ? 20 : 10, md: 2 } }}
     >
       {children}
     </Container>

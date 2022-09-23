@@ -1,4 +1,5 @@
-import { getSdk, User } from '@baggers/sdk';
+import { User } from '@baggers/graphql-types';
+import { getSdk } from '@baggers/sdk';
 import { LoaderFunction, redirect } from '@remix-run/server-runtime';
 import { GraphQLClient } from 'graphql-request';
 import { baggersApiAuthenticator, refreshTokens, Tokens } from './auth.server';

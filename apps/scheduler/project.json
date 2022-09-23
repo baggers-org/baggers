@@ -1,0 +1,79 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/scheduler/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/scheduler",
+        "main": "apps/scheduler/src/main.ts",
+        "tsConfig": "apps/scheduler/tsconfig.app.json",
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "watch": {
+          "watch": true
+        },
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "scheduler:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "scheduler:build:production"
+        }
+      }
+    },
+    "dev": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "scheduler:build:watch"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/scheduler/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/apps/scheduler"
+      ],
+      "options": {
+        "jestConfig": "apps/scheduler/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "flyctl deploy -c apps/scheduler/fly.staging.toml"
+      },
+      "configurations": {
+        "production": {
+          "command": "flyctl delpoy -c apps/scheduler/fly.toml"
+        }
+      }
+    }
+  },
+  "tags": []
+}

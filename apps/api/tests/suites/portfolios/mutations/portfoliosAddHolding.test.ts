@@ -1,6 +1,6 @@
 import { Portfolio1 } from '~/portfolios';
 import { A, TSLA } from '~/securities';
-import { HoldingDirection, SecurityType } from '@baggers/sdk';
+import { HoldingDirection, SecurityType } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosAddHoldingTest = () =>
@@ -17,7 +17,7 @@ export const portfoliosAddHoldingTest = () =>
         portfoliosInitEmpty: { _id },
       } = await User1Sdk().portfoliosInitEmpty());
     });
-    it.only('should allow a user to add new holdings to their portfolio', async () => {
+    it('should allow a user to add new holdings to their portfolio', async () => {
       await User1Sdk().portfoliosAddHolding({
         _id,
         input: {
@@ -186,11 +186,11 @@ export const portfoliosAddHoldingTest = () =>
                 "code": "404",
                 "response": Object {
                   "error": "Not Found",
-                  "message": "Could not find a portfolio to add a holding to",
+                  "message": "Could not find a portfolio to add a transaction to",
                   "statusCode": 404,
                 },
               },
-              "message": "Could not find a portfolio to add a holding to",
+              "message": "Could not find a portfolio to add a transaction to",
             },
           ]
         `);

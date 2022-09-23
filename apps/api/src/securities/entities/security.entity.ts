@@ -50,3 +50,5 @@ export class Security extends BaseDocument {
 }
 
 export const SecuritySchema = SchemaFactory.createForClass(Security);
+SecuritySchema.index({ symbol: 1, exchange: 1 });
+SecuritySchema.index({ symbol: 1, figi: 1 });

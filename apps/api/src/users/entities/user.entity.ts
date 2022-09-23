@@ -18,8 +18,8 @@ export class User extends Timestamps {
 
   @Field(() => [String], { middleware: [checkOwnerMiddleware] })
   @Extensions({
-    ownerFn: (source: User, user: Auth0AccessTokenPayload) =>
-      source._id === user.sub,
+    ownerFn: (source: User, user?: Auth0AccessTokenPayload) =>
+      source._id === user?.sub,
   })
   @Prop([String])
   emails?: string[];

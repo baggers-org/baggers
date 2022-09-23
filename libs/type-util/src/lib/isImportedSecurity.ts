@@ -1,4 +1,4 @@
-import { Security, ImportedSecurity } from '@baggers/sdk';
+import { Security, ImportedSecurity } from '@baggers/graphql-types';
 
 export function isImportedSecurity(
   security: Security | ImportedSecurity

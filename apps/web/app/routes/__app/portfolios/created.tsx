@@ -7,11 +7,15 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/server-runtime';
-import { PortfoliosCreatedQuery, PortfolioSummary } from '@baggers/sdk';
+import {
+  PortfoliosCreatedQuery,
+  PortfolioSummary,
+} from '@baggers/graphql-types';
 import { useTranslation } from 'react-i18next';
 import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { PortfolioCardList } from '~/components/PortfolioCardList';
+import { SectionTitle } from '~/components/SectionTitle';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
@@ -52,6 +56,7 @@ export default function CreatedPortfoliosPage() {
   return (
     <Form method="post">
       <Stack spacing={3}>
+        <SectionTitle>Your portfolios</SectionTitle>
         <Stack direction="row" spacing={3}>
           <Button
             variant="contained"

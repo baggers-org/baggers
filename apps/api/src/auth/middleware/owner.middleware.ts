@@ -12,9 +12,9 @@ export const checkOwnerMiddleware: FieldMiddleware = (ctx, next) => {
 
   const isOwner =
     (extensions?.ownerFn as any)?.(source, user) ||
-    ctx.source.owner === user.sub;
+    ctx.source.owner === user?.sub;
 
-  const isAdmin = user['https://baggers.app/role']?.includes('admin');
+  const isAdmin = user?.['https://baggers.app/role']?.includes('admin');
 
   if (isOwner || isAdmin) {
     return next();
