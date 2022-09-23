@@ -17,7 +17,7 @@ export const portfoliosAddHoldingTest = () =>
         portfoliosInitEmpty: { _id },
       } = await User1Sdk().portfoliosInitEmpty());
     });
-    it.only('should allow a user to add new holdings to their portfolio', async () => {
+    it('should allow a user to add new holdings to their portfolio', async () => {
       await User1Sdk().portfoliosAddHolding({
         _id,
         input: {
