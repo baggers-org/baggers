@@ -129,14 +129,14 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy affected apps
-        run: nx affected --target=deploy --parallel=2
+        run: nx affected --target=deploy --parallel=2 --configuration=production
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deployStaging:
     name: '🚀 Deploy to Staging 🚀'
     needs: [lint, test, typecheck]
-    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'refs/base/develop' }}
+    if: ${{ github.event_name == 'pull_request' && github.base_ref == 'develop' }}
     runs-on: ubuntu-latest
     environment: 'Staging'
     env:
