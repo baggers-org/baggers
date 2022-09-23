@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import { updateQuotes } from './app/updateQuotes';
 
 dotenv.config();
+
+const { QUOTES_SCHEDULE, SECURITIES_SCHEDULE } = process.env;
+
 const app = express();
 
 app.get('/healthcheck', (req, res) => {
@@ -19,10 +22,30 @@ const server = app.listen(port, () => {
 });
 server.on('error', console.error);
 
-cron.schedule('0 21 * * 1-5', () => {
-  updateSecurities();
-});
+if (SECURITIES_SCHEDULE) {
+  console.log(
+    'Scheduling security updates with cron expression: ',
+    SECURITIES_SCHEDULE
+  );
+  cron.schedule(SECURITIES_SCHEDULE, () => {
+    updateSecurities();
+  });
+} else {
+  console.log(
+    'Security updates turned off because QUOTES_SCHEDULE is not defined'
+  );
+}
 
-cron.schedule('*/30 8-17 * * 1-5', () => {
-  updateQuotes();
-});
+if (QUOTES_SCHEDULE) {
+  cron.schedule(QUOTES_SCHEDULE, () => {
+    console.log(
+      'Scheduling quote updates with cron expression: ',
+      QUOTES_SCHEDULE
+    );
+    updateQuotes();
+  });
+} else {
+  console.log(
+    'Quote updates turned off because QUOTES_SCHEDULE is not defined'
+  );
+}
