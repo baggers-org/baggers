@@ -19,14 +19,12 @@ export const action: ActionFunction = async ({ request, params }) => {
 
     if (error) return validationError(error);
 
-    await sdk.portfoliosUpdateOne({
+    return await sdk.portfoliosUpdateOne({
       _id: params.id,
       input: {
         private: data.private,
       },
     });
-
-    return json({ ok: true }, { status: 200 });
   }
 
   if (request.method === `DELETE`) {

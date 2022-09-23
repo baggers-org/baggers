@@ -1,10 +1,10 @@
 import { useCurrentUser } from './useCurrentUser';
 import { usePortfolio } from './usePortfolio';
 
-export const useIsPortfolioOwner = () => {
+export const useCanEditPortfolio = () => {
   const user = useCurrentUser();
 
-  const isPortfolioOwner = user?._id === usePortfolio()?.owner._id;
+  const canEdit = user?._id === usePortfolio()?.owner._id;
 
-  return isPortfolioOwner;
+  return canEdit;
 };

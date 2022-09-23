@@ -10,7 +10,7 @@ import { Holding } from '@baggers/sdk';
 import { HoldingsToolbar } from '~/components/HoldingsToolbar';
 import { usePortfolio } from '~/hooks/usePortfolio';
 import { ErrorBoundaryComponent } from '@remix-run/server-runtime';
-import { useIsPortfolioOwner } from '~/hooks/useIsPortfolioOwner';
+import { useCanEditPortfolio } from '~/hooks/useIsPortfolioOwner';
 
 export default function Holdings() {
   const portfolio = usePortfolio();
@@ -25,7 +25,7 @@ export default function Holdings() {
   const navigate = useNavigate();
   const fetcher = useFetcher();
 
-  const isOwner = useIsPortfolioOwner();
+  const isOwner = useCanEditPortfolio();
 
   const handleSwitchDensity = () => {
     if (density === `compact`) {
