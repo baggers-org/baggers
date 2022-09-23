@@ -129,7 +129,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy affected apps
-        run: nx affected --target=deploy --parallel=2 --configuration=production
+        run: npx nx affected --target=deploy --parallel=2 --configuration=production
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
@@ -164,7 +164,7 @@ jobs:
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy affected apps
-        run: nx affected --target=deploy --parallel=2
+        run: npx nx affected --target=deploy --parallel=2
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
