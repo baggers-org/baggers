@@ -47,6 +47,7 @@ export class PortfoliosService {
       totalValue: this.portfolioMetricsService.calculateTotalValue(portfolio),
     };
   }
+
   async findById(
     _id: ObjectId,
     currentUser: Auth0AccessTokenPayload
@@ -60,7 +61,7 @@ export class PortfoliosService {
           },
           {
             private: true,
-            owner: currentUser.sub,
+            owner: currentUser?.sub,
           },
         ],
       })

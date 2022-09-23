@@ -10,6 +10,13 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     super();
   }
 
+  handleRequest<TUser = any>(err: any, user: any): TUser {
+    if (err) {
+      throw err;
+    }
+    return user;
+  }
+
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
     return ctx.getContext().req;
@@ -19,7 +26,10 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
+
+    const ctx = GqlExecutionContext.create(context).getContext();
+
+    if (isPublic && !ctx.req.headers['authorization']) {
       return true;
     }
     return super.canActivate(context);

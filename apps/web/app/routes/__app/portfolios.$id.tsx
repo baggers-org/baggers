@@ -15,7 +15,9 @@ import { useSidebarContext } from '~/components/Sidebar/Sidebar.context';
 import { useMarketDataRefresh } from '~/hooks/useMarketDataRefresh';
 
 export const meta: MetaFunction = ({ data }) => ({
-  title: `${(data as PortfoliosFindByIdQuery).portfoliosFindById.name}`,
+  title: data
+    ? `${(data as PortfoliosFindByIdQuery)?.portfoliosFindById?.name}`
+    : 'Not found',
 });
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { id } = params;

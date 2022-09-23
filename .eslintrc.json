@@ -1,10 +1,11 @@
 {
   "root": true,
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "no-only-tests"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "no-only-tests/no-only-tests": "error",
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
           {

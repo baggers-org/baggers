@@ -1,4 +1,3 @@
-import { Warning } from '@mui/icons-material';
 import {
   Stack,
   Button,
@@ -7,10 +6,13 @@ import {
   DialogContentText,
   DialogActions,
   DialogContent,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { BaggersButton } from '~/components/BaggersButton';
 import { SectionTitle } from '~/components/SectionTitle';
 
 export const DeletePortfolio: React.FC = () => {
@@ -23,17 +25,19 @@ export const DeletePortfolio: React.FC = () => {
         {t(`delete_portfolio`, `Delete Portfolio`)}
       </SectionTitle>
       <Stack direction="row" gap={1} mb={4}>
-        <Warning />
-        {t(`delete_warning`, `Warning this action cannot be undone.`)}
+        <Alert severity="error" sx={{ width: '100%' }}>
+          <AlertTitle>Warning</AlertTitle>
+          {t(`delete_warning`, `Warning this action cannot be undone.`)}
+        </Alert>
       </Stack>
-      <Button
+      <BaggersButton
         color="error"
         data-cy="delete portfolio"
         variant="contained"
         onClick={() => setShowConfirmDelete(true)}
       >
         {t(`delete_portfolio`, `Delete portfolio`)}
-      </Button>
+      </BaggersButton>
       <Dialog open={showConfirmDelete}>
         <DialogTitle>
           {t(`are_you_sure`, `Are you sure you want to delete this portfolio?`)}

@@ -20,7 +20,7 @@ export const BaggersSelect: React.FC<BaggersSelectProps> = ({
   const labelId = `${selectProps.name}-label`;
   return (
     <FormControl fullWidth error={selectProps.error}>
-      <FormLabel>{selectProps.formLabel}</FormLabel>
+      <FormLabel sx={{ mb: 2 }}>{selectProps.formLabel}</FormLabel>
       <InputLabel id={labelId} htmlFor={selectProps.name}>
         {selectProps?.label}
       </InputLabel>

@@ -1,2 +1,2 @@
-export * from './format';
+export * from './formatCurrency';
 export * from './isProfitLossOrNeutral';
