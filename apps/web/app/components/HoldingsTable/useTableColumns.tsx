@@ -8,6 +8,7 @@ import { formatCurrency } from '@baggers/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
 import { getSecuritySymbol } from '~/util/getSecuritySymbol';
+import { formatDistance, formatRelative } from 'date-fns';
 
 export const useTableColumns = (): GridColDef[] => {
   const { t } = useTranslation(`holdings`);
@@ -25,6 +26,13 @@ export const useTableColumns = (): GridColDef[] => {
           existsInDatabase={!!row.security}
         />
       ),
+    },
+    {
+      field: `security.name`,
+      headerName: t(`name`, `Name`),
+      valueGetter: ({ row }) =>
+        row?.security?.name || row.importedSecurity.name,
+      flex: 2,
     },
     {
       field: `marketValue`,
@@ -102,6 +110,21 @@ export const useTableColumns = (): GridColDef[] => {
       headerName: `${t('broker_fees', 'Broker fees')}`,
       flex: 1,
       renderCell: ({ row }) => formatCurrency(row?.brokerFees),
+    },
+    {
+      field: 'lastMarketUpdate',
+      headerName: `${t('last_market_update', 'Last market update')}`,
+      flex: 1,
+      valueGetter: ({ row }) =>
+        row.security?.quote?.lastUpdate ||
+        row.importedSecurity?.update_datetime,
+      renderCell: ({ row }) =>
+        formatDistance(
+          new Date(row.security?.quote?.latestUpdate) ||
+            new Date(row.importedSecurity?.update_datetime),
+          new Date(),
+          { addSuffix: true }
+        ) || '-',
     },
     {
       field: `source`,
