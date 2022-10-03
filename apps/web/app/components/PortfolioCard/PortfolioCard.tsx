@@ -16,7 +16,6 @@ import {
 import { formatCurrency } from '@baggers/util';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
-import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
 import { PortfolioTags } from '../PortfolioTags';
@@ -38,7 +37,6 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   const { t } = useTranslation(`portfolios_overview`);
 
   const navigate = useNavigate();
-  const user = useCurrentUser();
 
   const theme = useTheme();
 

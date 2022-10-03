@@ -28,6 +28,7 @@ export const SubSidebar = () => {
         <motion.div
           style={{
             width: 200,
+            marginRight: 50,
             background:
               theme.palette.mode === 'light'
                 ? darken(theme.palette.background.paper, 0.02)

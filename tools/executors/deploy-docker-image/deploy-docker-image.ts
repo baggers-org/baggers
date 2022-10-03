@@ -8,7 +8,7 @@ export default async function tscExecutor(_: any, context: ExecutorContext) {
 
   if (!projectName) throw new Error('project name not found');
 
-  const image = `danbaggers/${
+  const image = `registry.fly.io/${
     projectName + suffix
   }:${GITHUB_REF_NAME}-${GITHUB_SHA}`;
 

@@ -8,7 +8,7 @@ import { formatCurrency } from '@baggers/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
 import { getSecuritySymbol } from '~/util/getSecuritySymbol';
-import { formatDistance, formatRelative } from 'date-fns';
+import { formatDistance } from 'date-fns';
 
 export const useTableColumns = (): GridColDef[] => {
   const { t } = useTranslation(`holdings`);

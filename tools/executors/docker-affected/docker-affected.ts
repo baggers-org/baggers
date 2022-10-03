@@ -18,7 +18,9 @@ export default async function tscExecutor(
   return run({
     ...options,
     tags: [
-      `danbaggers/${projectName + suffix}:${GITHUB_REF_NAME}-${GITHUB_SHA}`,
+      `registry.fly.io/${
+        projectName + suffix
+      }:${GITHUB_REF_NAME}-${GITHUB_SHA}`,
     ],
     context: '.',
     'build-args': [`COMMIT_SHA=${GITHUB_SHA}`],

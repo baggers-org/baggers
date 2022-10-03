@@ -62,7 +62,6 @@ export default function CreatedPortfoliosPage() {
             variant="contained"
             type="submit"
             name="intent"
-            color="secondary"
             value="create"
             endIcon={<FolderPlus />}
           >
