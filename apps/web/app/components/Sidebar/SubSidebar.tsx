@@ -32,7 +32,7 @@ export const SubSidebar = () => {
               theme.palette.mode === 'light'
                 ? darken(theme.palette.background.paper, 0.02)
                 : '#1e1e1e',
-            boxShadow: theme.shadows[1],
+            boxShadow: 'rgb(0 0 0 / 4%) 10px 3px 6px',
           }}
           animate={{ opacity: 1 }}
         >

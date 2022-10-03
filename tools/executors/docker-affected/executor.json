@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "docker-affected": {
+      "implementation": "./docker-affected.js",
+      "schema": "./schema.json",
+      "description": "Docker build and push on affected packages"
+    }
+  }
+}

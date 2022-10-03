@@ -36,14 +36,20 @@
     "type-check": {
       "executor": "./tools/executors/ts-check:ts-check"
     },
+    "docker-affected": {
+      "executor": "./tools/executors/docker-affected:docker-affected"
+    },
+    "deploy-docker-image": {
+      "executor": "./tools/executors/deploy-docker-image:deploy-docker-image"
+    },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "flyctl deploy -c apps/web/fly.staging.toml"
+        "command": "flyctl deploy -c apps/web/fly.staging.toml --image={args.image}"
       },
       "configurations": {
         "production": {
-          "command": "flyctl deploy -c apps/web/fly.toml"
+          "command": "flyctl deploy -c apps/web/fly.toml --image={args.image}"
         }
       }
     }

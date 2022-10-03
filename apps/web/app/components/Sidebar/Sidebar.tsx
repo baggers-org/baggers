@@ -64,13 +64,13 @@ export const Sidebar = () => {
             gridTemplateRows: '75px  auto 75px',
             position: 'fixed',
             justifyContent: 'center',
+            boxShadow: theme.shadows[3],
 
             background:
               theme.palette.mode === 'light'
                 ? theme.palette.background.paper
                 : '#232323',
             width: isExpanded ? expandedWidth : collapsedWidth,
-            boxShadow: theme.shadows[3],
             gap: '20px',
             minHeight: '100%',
             zIndex: 99,

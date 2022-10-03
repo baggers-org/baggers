@@ -75,10 +75,10 @@ themer.setLightColors({
     900: `#0E131F`,
   },
   success: {
-    main: `#3BB273`,
+    main: `#06BA63`,
   },
   error: {
-    main: `#E15554`,
+    main: `#FE654F`,
   },
   lowEmphasis: `rgba(0,0,0,0.26)`,
   mediumEmphasis: `rgba(0,0,0,0.6)`,

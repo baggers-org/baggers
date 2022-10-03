@@ -16,6 +16,7 @@ export const HoldingsTable: React.FC<
           columnVisibilityModel: {
             source: false,
             brokerFees: false,
+            lastMarketUpdate: false,
           },
         },
       }}
