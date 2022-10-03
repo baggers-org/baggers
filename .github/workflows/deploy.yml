@@ -42,7 +42,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: registry.fly.io
-          username: ${{ secrets.FLY_USERNAME }}
+          username: x
           password: ${{ secrets.FLY_API_TOKEN }}
 
       - name: 🐳 Docker build
@@ -60,7 +60,7 @@ jobs:
 
   deploy:
     name: '🚀 Deploy to Production 🚀'
-    needs: [lint, test, typecheck]
+    needs: build
     if: ${{ (github.ref == 'refs/heads/master') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: Production
@@ -95,7 +95,7 @@ jobs:
 
   deployStaging:
     name: '🚀 Deploy to Staging 🚀'
-    needs: [lint, test, typecheck]
+    needs: build
     if: ${{ (github.ref == 'refs/heads/develop') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: 'Staging'
