@@ -23,13 +23,11 @@ export const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({
 
   return (
     <Stack>
-      {portfolio?.totalValue ? (
-        <Stack>
-          <Typography variant="h4" color="mediumEmphasis">
-            {formatCurrency(portfolio?.totalValue)}
-          </Typography>
-        </Stack>
-      ) : null}
+      <Stack>
+        <Typography variant="h4" color="mediumEmphasis">
+          {formatCurrency(portfolio?.totalValue || 0)}
+        </Typography>
+      </Stack>
       {canEdit ? (
         <EditableTypography
           name="name"

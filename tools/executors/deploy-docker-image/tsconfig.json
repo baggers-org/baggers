@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "include": ["deploy-docker-image.ts"],
+  "compilerOptions": {
+    "target": "ES2018",
+    "skipLibCheck": true,
+    "module": "CommonJS",
+    "sourceMap": false
+  }
+}

@@ -19,7 +19,7 @@ export const MobileProfileBar = () => {
           paddingLeft: 16,
           paddingRight: 16,
           alignItems: 'center',
-          boxShadow: theme.shadows[4],
+          boxShadow: 'rgb(0 0 0 / 10%) -10px 3px 6px',
           background:
             theme.palette.mode === 'light'
               ? theme.palette.background.paper

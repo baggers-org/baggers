@@ -1,55 +1,21 @@
 import { darken, lighten, Tab, Tabs, useTheme } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 import { useSubMenu } from '../Sidebar/useSubMenu';
 import { MobileProfileBar } from './MobileProfileBar';
 
-const variants = {
-  hidden: {
-    opacity: 0,
-    top: -100,
-  },
-  visible: {
-    opacity: 1,
-    top: 0,
-  },
-};
 export const MobileSubNavbar = () => {
   const subMenu = useSubMenu();
   const theme = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const [lastScroll, setLastScroll] = useState(0);
-
-  const [hideNavbar, setHideNavbar] = useState(false);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const handleScroll = () => {
-        if (window.scrollY > lastScroll) {
-          setHideNavbar(true);
-        } else {
-          setHideNavbar(false);
-        }
-
-        setLastScroll(window.scrollY);
-      };
-      window.addEventListener('scroll', handleScroll);
-
-      return () => {
-        window.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, [lastScroll]);
 
   return (
     <motion.div
-      variants={variants}
-      animate={hideNavbar ? 'hidden' : 'visible'}
       style={{
         position: 'fixed',
         width: '100%',
+        top: 0,
         zIndex: 99,
       }}
     >
@@ -60,7 +26,7 @@ export const MobileSubNavbar = () => {
             animate={{ opacity: 1 }}
             style={{
               zIndex: 99,
-              boxShadow: 'rgb(0 0 0 / 4%) -10px 3px 6px',
+              boxShadow: 'rgb(0 0 0 / 10%) -10px 3px 6px',
               borderTop: `1px solid ${lighten(theme.palette.divider, 0.3)}`,
               background:
                 theme.palette.mode === 'light'

@@ -28,11 +28,12 @@ export const SubSidebar = () => {
         <motion.div
           style={{
             width: 200,
+            marginRight: 50,
             background:
               theme.palette.mode === 'light'
                 ? darken(theme.palette.background.paper, 0.02)
                 : '#1e1e1e',
-            boxShadow: theme.shadows[1],
+            boxShadow: 'rgb(0 0 0 / 4%) 10px 3px 6px',
           }}
           animate={{ opacity: 1 }}
         >

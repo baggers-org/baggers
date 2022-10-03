@@ -12,10 +12,10 @@ import {
   PortfolioSummary,
 } from '@baggers/graphql-types';
 import { useTranslation } from 'react-i18next';
-import { Create, DriveFolderUpload, FileUpload } from '@mui/icons-material';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { PortfolioCardList } from '~/components/PortfolioCardList';
 import { SectionTitle } from '~/components/SectionTitle';
+import { FolderPlus, TableImport, Upload } from 'tabler-icons-react';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
@@ -63,18 +63,18 @@ export default function CreatedPortfoliosPage() {
             type="submit"
             name="intent"
             value="create"
-            endIcon={<Create />}
+            endIcon={<FolderPlus />}
           >
             {t(`create_portfolio`, `Create portfolio`)}
           </Button>
           <Button
             variant="outlined"
             onClick={() => navigate(`/portfolios/import`)}
-            endIcon={<DriveFolderUpload />}
+            endIcon={<TableImport />}
           >
             {t(`import_from_broker`, `Import from broker`)}
           </Button>
-          <Button variant="outlined" endIcon={<FileUpload />}>
+          <Button variant="outlined" endIcon={<Upload />}>
             {t(`upload_csv`, `Upload CSV`)}
           </Button>
         </Stack>
