@@ -26,6 +26,11 @@ export const PortfolioTabs = () => {
   return (
     <Tabs value={activeTab}>
       <Tab
+        value="/overview"
+        label={t(`overview`, `Overview`)}
+        onClick={() => jumpToTab(`/overview`)}
+      />
+      <Tab
         value="/holdings"
         label={t(`holdings`, `Holdings`)}
         onClick={() => jumpToTab(`/holdings`)}

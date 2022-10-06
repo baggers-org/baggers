@@ -39,6 +39,7 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
     // set the font attr for the canvas text
     context.font = font;
     const textMeasurement = context.measureText(text);
+    console.log(textMeasurement);
 
     return textMeasurement.width;
   }
@@ -81,6 +82,8 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
         input: {
           ...styles,
           maxWidth: `100%`,
+          height: 'min-content',
+          overflow: 'hidden',
           width,
           p: 0,
           m: 0,
@@ -88,6 +91,7 @@ export const TypographyTextField: React.FC<TypographyTextFieldProps> = ({
         textarea: {
           ...styles,
           maxWidth: `100%`,
+          height: 'min-content',
           width,
           p: 0,
           m: 0,

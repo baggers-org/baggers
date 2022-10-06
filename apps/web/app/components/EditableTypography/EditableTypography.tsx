@@ -9,18 +9,24 @@ export type EditableTypographyProps = TypographyTextFieldProps & {
   isSubmitting?: boolean;
   confirmButtonAriaLabel?: string;
   cancelButtonAriaLabel?: string;
+  isEditMode?: boolean;
+  hideEditControls?: boolean;
 };
 export const EditableTypography: React.FC<EditableTypographyProps> = ({
   variant,
   value,
   onFinishEdit,
   isSubmitting,
+  isEditMode,
+  hideEditControls,
   confirmButtonAriaLabel = `confirm edit`,
   cancelButtonAriaLabel = `cancel edit`,
   ...typographyProps
 }) => {
   const [isEditting, setIsEditting] = useState(false);
   const [tempValue, setTempValue] = useState(value);
+
+  const isControlled = typeof isEditMode !== 'undefined';
 
   const cancelEdit = () => {
     setIsEditting(false);
@@ -33,6 +39,12 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
       setIsEditting(true);
     }
   }, [value]);
+
+  useEffect(() => {
+    if (isControlled) {
+      setIsEditting(isEditMode || false);
+    }
+  }, [isEditMode, isControlled]);
 
   return (
     <Box display="flex" maxWidth="100%">
@@ -58,6 +70,7 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
           maxWidth="100%"
           variant={variant as any}
           sx={{
+            whiteSpace: 'break-spaces',
             wordBreak: `break-all`,
             opacity: isSubmitting ? 0.2 : 1,
           }}
@@ -91,9 +104,11 @@ export const EditableTypography: React.FC<EditableTypographyProps> = ({
           </IconButton>
         </Stack>
       ) : (
-        <IconButton size="small" onClick={() => setIsEditting(true)}>
-          <Edit fontSize="small" />
-        </IconButton>
+        !hideEditControls && (
+          <IconButton size="small" onClick={() => setIsEditting(true)}>
+            <Edit fontSize="small" />
+          </IconButton>
+        )
       )}
     </Box>
   );
