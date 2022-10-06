@@ -29,6 +29,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export const action: ActionFunction = async ({ params, request }) => {
   const headers = new Headers();
   const sdk = await authenticatedSdk(request, headers);
+  console.log(' in here');
 
   if (request.method === `PATCH`) {
     const response = await sdk.portfoliosUpdateOne({
@@ -37,6 +38,8 @@ export const action: ActionFunction = async ({ params, request }) => {
         ...Object.fromEntries(await request.formData()),
       },
     });
+    console.log(response);
+
     return json(response, { headers });
   }
 

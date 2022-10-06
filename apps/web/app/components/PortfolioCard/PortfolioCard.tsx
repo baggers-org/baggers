@@ -53,7 +53,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
       <CardActionArea
         onClick={() => {
           if (!isSelectable) {
-            navigate(`/portfolios/${portfolio._id}/holdings`);
+            navigate(`/portfolios/${portfolio._id}/overview`);
           } else {
             onSelect?.(portfolio._id);
           }
