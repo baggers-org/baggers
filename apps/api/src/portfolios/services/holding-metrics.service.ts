@@ -15,7 +15,7 @@ export class HoldingMetricsService {
     if (holding.securityType === SecurityType.cash) return holding.quantity;
 
     if (holding.security) {
-      return holding.quantity * holding.security.quote.latestPrice;
+      return holding.quantity * holding.security.marketDataSnapshot.min.c;
     }
 
     if (holding.institutionValue) {
@@ -63,7 +63,9 @@ export class HoldingMetricsService {
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
       if (!holding.security) return null;
-      return holding.quantity * holding.security.quote.change;
+      return (
+        holding.quantity * holding.security.marketDataSnapshot.todaysChange
+      );
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +

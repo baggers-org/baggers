@@ -1,9 +1,9 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Quote } from './quote.entity';
 import { BaseDocument } from '~/shared';
 import { SecurityType } from '../enums/security-type.enum';
+import { MarketDataSnapshot } from './market-data-snapshot.entity';
 
 export type SecurityDocument = Document & Security;
 
@@ -12,9 +12,6 @@ export type SecurityDocument = Document & Security;
 export class Security extends BaseDocument {
   @Prop()
   symbol?: string;
-
-  @Prop()
-  iexId?: string;
 
   @Prop()
   figi?: string;
@@ -41,9 +38,9 @@ export class Security extends BaseDocument {
   @Prop()
   currency?: string;
 
-  @Field(() => Quote)
+  @Field(() => MarketDataSnapshot)
   @Prop()
-  quote?: Quote;
+  marketDataSnapshot?: MarketDataSnapshot;
 
   // From plaid
   close_price?: number;

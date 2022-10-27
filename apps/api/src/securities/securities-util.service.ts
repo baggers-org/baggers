@@ -22,7 +22,7 @@ export class SecuritiesUtilService {
       if (this.isImported(security)) {
         return security.close_price;
       }
-      return security.quote.latestPrice;
+      return security?.marketDataSnapshot?.min?.c;
     } catch (e) {
       return 1;
     }
