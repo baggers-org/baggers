@@ -20,6 +20,8 @@
       "@baggers/graphql-types": ["libs/graphql-types/src/index.ts"],
       "@baggers/math": ["libs/math/src/index.ts"],
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
+      "@baggers/security-util": ["libs/security-util/src/index.ts"],
+      "@baggers/test": ["libs/test/src/index.ts"],
       "@baggers/test-data": ["libs/test-data/src/index.ts"],
       "@baggers/type-util": ["libs/type-util/src/index.ts"],
       "@baggers/util": ["libs/util/src/index.ts"],

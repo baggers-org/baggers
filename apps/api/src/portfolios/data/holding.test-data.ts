@@ -8,7 +8,7 @@ const TestCashHolding: Holding = {
   _id: new ObjectId('62d2cd45c63873e235c99531'),
   quantity: 1239.32,
   source: HoldingSource.direct,
-  assetClass: AssetClass.cash,
+  assetClass: AssetClass.Cash,
   currency: 'USD',
 };
 export const Holdings1: Holding[] = [
@@ -24,7 +24,7 @@ export const Holdings1: Holding[] = [
     brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
-    assetClass: AssetClass.stock,
+    assetClass: AssetClass.Stock,
     source: HoldingSource.broker,
   },
 
@@ -38,7 +38,7 @@ export const Holdings1: Holding[] = [
     brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
-    assetClass: AssetClass.stock,
+    assetClass: AssetClass.Stock,
     source: HoldingSource.broker,
   },
 ];
@@ -52,7 +52,7 @@ export const ImportedHoldings: Holding[] = [
     quantity: 10,
     institutionValue: 432,
     source: HoldingSource.broker,
-    assetClass: AssetClass.stock,
+    assetClass: AssetClass.Stock,
     currency: 'USD',
     importedSecurity: ImportedDBLTX,
   },
@@ -65,7 +65,7 @@ export const ImportedHoldings: Holding[] = [
     source: HoldingSource.broker,
     // This one can be linked
     security: SBSI._id,
-    assetClass: AssetClass.stock,
+    assetClass: AssetClass.Stock,
     currency: 'USD',
     importedSecurity: ImportedSBSI,
   },
@@ -76,7 +76,7 @@ export const ImportedHoldings: Holding[] = [
     costBasis: 42,
     quantity: 20,
     source: HoldingSource.broker,
-    assetClass: AssetClass.stock,
+    assetClass: AssetClass.Stock,
     currency: 'USD',
     security: TSLA._id,
   },

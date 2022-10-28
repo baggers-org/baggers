@@ -20,6 +20,7 @@ import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
 import { ValidatedDateTimePicker } from '~/validation/components/ValidatedDateTimePicker';
+import { getSecurityPrice } from '@baggers/security-util';
 
 export type AddHoldingFormProps = {
   addingSecurity: Security;
@@ -42,14 +43,14 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
-    if (!addingSecurity?.tickerSnapshot?.min?.c || !holdingDetails.averagePrice)
+    const price = getSecurityPrice(addingSecurity);
+    if (!price || !holdingDetails.averagePrice)
       return { holdingReturn: 0, fxReturn: 0 };
 
     const costBasis =
       holdingDetails.averagePrice * holdingDetails.quantity +
       holdingDetails.brokerFees;
-    const marketValue =
-      addingSecurity.tickerSnapshot.min.c * holdingDetails.quantity;
+    const marketValue = price * holdingDetails.quantity;
 
     const plUsd = marketValue - costBasis;
     const plPercent = (plUsd / costBasis) * 100;

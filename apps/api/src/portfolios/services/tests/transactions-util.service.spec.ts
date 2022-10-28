@@ -33,14 +33,15 @@ describe('TransactionsUtilService', () => {
         Array [
           Object {
             "_id": null,
+            "assetClass": "Cash",
             "currency": "USD",
             "direction": "long",
             "quantity": 2095,
-            "AssetClass": "cash",
             "source": "transactions",
           },
           Object {
             "_id": null,
+            "assetClass": "Stock",
             "averagePrice": 1,
             "brokerFees": undefined,
             "costBasis": 5,
@@ -49,12 +50,12 @@ describe('TransactionsUtilService', () => {
             "importedSecurity": undefined,
             "plaidAccountId": undefined,
             "quantity": 5,
-            "security": "62989022d38076b6353967c3",
-            "AssetClass": "equity",
+            "security": "TSLA",
             "source": "broker",
           },
           Object {
             "_id": null,
+            "assetClass": "Stock",
             "averagePrice": 91.82,
             "brokerFees": undefined,
             "costBasis": 1010,
@@ -63,8 +64,7 @@ describe('TransactionsUtilService', () => {
             "importedSecurity": undefined,
             "plaidAccountId": undefined,
             "quantity": 11,
-            "security": "62a23958e5a9e9b88f853a67",
-            "AssetClass": "equity",
+            "security": "NET",
             "source": "broker",
           },
         ]

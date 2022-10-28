@@ -1,6 +1,7 @@
 import { AddLink, GroupAdd, PlaylistAdd } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 import { GridColDef } from '@mui/x-data-grid-pro';
+import { getSecurityPrice } from '@baggers/security-util';
 
 import { useTranslation } from 'react-i18next';
 import { HoldingSource } from '@baggers/graphql-types';
@@ -64,14 +65,12 @@ export const useTableColumns = (): GridColDef[] => {
     {
       field: `latestPrice`,
       valueGetter: ({ row }) =>
-        row.security?.tickerSnapshot?.min?.c ||
-        row.importedSecurity?.close_price,
+        getSecurityPrice(row.security || row.importedSecurity),
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
         return formatCurrency(
-          row?.security?.tickerSanpshot?.min?.c ||
-            row.importedSecurity?.close_price
+          getSecurityPrice(row.security || row.importedSecurity)
         );
       },
     },

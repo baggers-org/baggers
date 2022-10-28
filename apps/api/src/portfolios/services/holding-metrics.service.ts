@@ -6,16 +6,20 @@ import {
 } from '../entities/holding.entity';
 import { PopulatedPortfolio } from '../entities/portfolio.entity';
 import { PortfolioMetricsService } from './portfolio-metrics.service';
+import { getSecurityPrice } from '@baggers/security-util';
 
 @Injectable()
 export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    if (holding.assetClass === AssetClass.cash) return holding.quantity;
+    if (holding.assetClass === AssetClass.Cash) return holding.quantity;
 
     if (holding.security) {
-      return holding.quantity * holding.security.tickerSnapshot.min.c;
+      return (
+        holding.quantity *
+        getSecurityPrice(holding.security || holding.importedSecurity)
+      );
     }
 
     if (holding.institutionValue) {

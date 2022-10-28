@@ -6,6 +6,7 @@
     "graphql-types": "libs/graphql-types",
     "scheduler": "apps/scheduler",
     "sdk": "libs/sdk",
+    "security-util": "libs/security-util",
     "type-util": "libs/type-util",
     "util": "libs/util",
     "web": "apps/web"

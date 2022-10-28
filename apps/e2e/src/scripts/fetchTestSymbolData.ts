@@ -5,7 +5,7 @@ import { writeFileSync } from 'fs';
 
 const symbols = ['ONDS', 'TSLA', 'BRK.A'];
 const symbolFilter = {
-  symbol: {
+  _id: {
     $in: symbols,
   },
 };

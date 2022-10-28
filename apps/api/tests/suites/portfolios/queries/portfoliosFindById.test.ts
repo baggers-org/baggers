@@ -42,7 +42,7 @@ export const portfoliosFindByIdTests = () =>
           },
           "plaidAccount": null,
           "private": true,
-          "totalValue": 9873.92,
+          "totalValue": 2984.32,
           "transactions": undefined,
           "updatedAt": undefined,
         }
@@ -63,36 +63,15 @@ export const portfoliosFindByIdTests = () =>
         security: null,
       }).toMatchInlineSnapshot(`
         Object {
-          "_id": "62d2cd45c63873e235c99532",
-          "averagePrice": 383.9,
-          "brokerFees": 0,
-          "costBasis": 3839,
-          "currency": "USD",
-          "dailyProfitLossUsd": -178.9,
-          "direction": "long",
-          "exposure": 74.98237781954887,
-          "importedSecurity": null,
-          "institutionValue": null,
-          "marketValue": 7403.7,
-          "profitLossPercent": 92.8549101328471,
-          "profitLossUsd": 3564.7,
-          "quantity": 10,
-          "security": null,
-          "AssetClass": "equity",
-          "source": "broker",
-        }
-      `);
-      expect({ ...portfolio.holdings[1], security: null })
-        .toMatchInlineSnapshot(`
-        Object {
           "_id": "62d2cd45c63873e235c99531",
+          "assetClass": "Cash",
           "averagePrice": null,
           "brokerFees": null,
           "costBasis": null,
           "currency": "USD",
           "dailyProfitLossUsd": null,
           "direction": null,
-          "exposure": 12.55144866476536,
+          "exposure": 41.52771820716276,
           "importedSecurity": null,
           "institutionValue": null,
           "marketValue": 1239.32,
@@ -100,8 +79,29 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": null,
           "quantity": 1239.32,
           "security": null,
-          "AssetClass": "cash",
           "source": "direct",
+        }
+      `);
+      expect({ ...portfolio.holdings[1], security: null })
+        .toMatchInlineSnapshot(`
+        Object {
+          "_id": "62d2cd45c63873e235c99532",
+          "assetClass": "Stock",
+          "averagePrice": 383.9,
+          "brokerFees": 0,
+          "costBasis": 3839,
+          "currency": "USD",
+          "dailyProfitLossUsd": null,
+          "direction": "long",
+          "exposure": 40.210165129744794,
+          "importedSecurity": null,
+          "institutionValue": null,
+          "marketValue": 1200,
+          "profitLossPercent": -68.74185985933838,
+          "profitLossUsd": -2639,
+          "quantity": 10,
+          "security": null,
+          "source": "broker",
         }
       `);
 
@@ -109,21 +109,21 @@ export const portfoliosFindByIdTests = () =>
         .toMatchInlineSnapshot(`
         Object {
           "_id": "62d2cd45c63873e235c99533",
+          "assetClass": "Stock",
           "averagePrice": 4794.2,
           "brokerFees": 0,
           "costBasis": 47942,
           "currency": "USD",
-          "dailyProfitLossUsd": -44.699999999999996,
+          "dailyProfitLossUsd": -14.799999999999969,
           "direction": "long",
-          "exposure": 12.466173515685767,
+          "exposure": 18.262116663092428,
           "importedSecurity": null,
           "institutionValue": null,
-          "marketValue": 1230.9,
-          "profitLossPercent": -97.43252263151308,
-          "profitLossUsd": -46711.1,
+          "marketValue": 545,
+          "profitLossPercent": -98.86320971173501,
+          "profitLossUsd": -47397,
           "quantity": 10,
           "security": null,
-          "AssetClass": "equity",
           "source": "broker",
         }
       `);
@@ -139,7 +139,9 @@ export const portfoliosFindByIdTests = () =>
 
       // Check exposure is correct, with respesct to the cash levels
       expect(
-        portfolio.holdings.reduce((acc, curr) => acc + curr.exposure, 0)
+        Math.ceil(
+          portfolio.holdings.reduce((acc, curr) => acc + curr.exposure, 0)
+        )
       ).toEqual(100);
 
       expect(portfolio.holdings.length).toBe(3);
@@ -213,13 +215,14 @@ export const portfoliosFindByIdTests = () =>
         expect(unmatchedHoldings[0]).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99531",
+            "assetClass": "Cash",
             "averagePrice": null,
             "brokerFees": null,
             "costBasis": null,
             "currency": "USD",
             "dailyProfitLossUsd": null,
             "direction": null,
-            "exposure": 6.841904484292802,
+            "exposure": 22.975813956937493,
             "importedSecurity": null,
             "institutionValue": null,
             "marketValue": 1239.32,
@@ -227,7 +230,6 @@ export const portfoliosFindByIdTests = () =>
             "profitLossUsd": null,
             "quantity": 1239.32,
             "security": null,
-            "AssetClass": "cash",
             "source": "direct",
           }
         `);
@@ -235,28 +237,28 @@ export const portfoliosFindByIdTests = () =>
         const matchedHoldings = portfolio.holdings.filter((h) => h.security);
         expect(matchedHoldings).toHaveLength(2);
 
-        expect(matchedHoldings[0].security.symbol).toBe('TSLA');
+        expect(matchedHoldings[0].security._id).toBe('TSLA');
         expect({
           ...matchedHoldings[0],
           security: null,
         }).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99570",
+            "assetClass": "Stock",
             "averagePrice": 1000,
             "brokerFees": null,
             "costBasis": 42,
             "currency": "USD",
-            "dailyProfitLossUsd": -357.8,
+            "dailyProfitLossUsd": null,
             "direction": null,
-            "exposure": 81.74710039434306,
+            "exposure": 44.49371711636219,
             "importedSecurity": null,
             "institutionValue": null,
-            "marketValue": 14807.4,
-            "profitLossPercent": 35155.71428571428,
-            "profitLossUsd": 14765.4,
+            "marketValue": 2400,
+            "profitLossPercent": 5614.285714285715,
+            "profitLossUsd": 2358,
             "quantity": 20,
             "security": null,
-            "AssetClass": "equity",
             "source": "broker",
           }
         `);
@@ -268,31 +270,31 @@ export const portfoliosFindByIdTests = () =>
         }).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99569",
+            "assetClass": "Stock",
             "averagePrice": 409,
             "brokerFees": null,
             "costBasis": 49,
             "currency": "USD",
-            "dailyProfitLossUsd": -13.750000000000002,
+            "dailyProfitLossUsd": null,
             "direction": null,
-            "exposure": 10.835738975039295,
+            "exposure": 30.598700041898248,
             "importedSecurity": Object {
+              "assetClass": "Stock",
               "close_price": 34.73,
               "currency": "USD",
               "name": "Southside Bancshares Inc.",
               "ticker_symbol": "SBSI",
-              "type": "equity",
             },
             "institutionValue": 52300,
-            "marketValue": 1962.7500000000002,
-            "profitLossPercent": 3905.6122448979595,
-            "profitLossUsd": 1913.7500000000002,
+            "marketValue": 1650.5,
+            "profitLossPercent": 3268.3673469387754,
+            "profitLossUsd": 1601.5,
             "quantity": 50,
             "security": null,
-            "AssetClass": "equity",
             "source": "broker",
           }
         `);
-        expect(matchedHoldings[1].security.symbol).toBe('SBSI');
+        expect(matchedHoldings[1].security._id).toBe('SBSI');
       });
     });
   });

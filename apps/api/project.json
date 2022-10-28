@@ -5,6 +5,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
+      "dependsOn": [
+        "type-util:build"
+      ],
       "outputs": [
         "{options.outputPath}"
       ],

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
 import { OpenFigiMappingResponse, OpenFigiService } from '~/open-figi';
-import { ImportedSecurity, Security, SecurityDocument } from './entities';
+import { ImportedSecurity, SecurityDocument } from './entities';
 import { SecuritiesService } from './securities.service';
 import { SecurityMap } from './types';
 
@@ -11,22 +11,6 @@ export class SecuritiesUtilService {
     private openFigiService: OpenFigiService,
     private securitiesService: SecuritiesService
   ) {}
-
-  isImported(
-    security: Security | ImportedSecurity
-  ): security is ImportedSecurity {
-    return (security as ImportedSecurity).security_id !== undefined;
-  }
-  getPrice(security: Security | ImportedSecurity) {
-    try {
-      if (this.isImported(security)) {
-        return security.close_price;
-      }
-      return security?.tickerSnapshot?.min?.c;
-    } catch (e) {
-      return 1;
-    }
-  }
 
   /**
    *
