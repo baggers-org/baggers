@@ -25,7 +25,7 @@ describe('Holdings Service', () => {
           quantity: 3.4,
           source: HoldingSource.direct,
           direction: HoldingDirection.long,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
         {
@@ -36,7 +36,7 @@ describe('Holdings Service', () => {
           quantity: 1,
           source: HoldingSource.direct,
           direction: HoldingDirection.long,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
       ];
@@ -65,7 +65,7 @@ describe('Holdings Service', () => {
           quantity: -1,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
         {
@@ -76,7 +76,7 @@ describe('Holdings Service', () => {
           quantity: -2,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
       ];

@@ -12,7 +12,7 @@ export class HoldingsUtilService {
       _id: new ObjectId(),
       currency,
       quantity: amount,
-      assetClass: AssetClass.Cash,
+      assetClass: AssetClass.cash,
       source: HoldingSource.transactions,
       direction: HoldingDirection.long,
     };
@@ -49,7 +49,7 @@ export class HoldingsUtilService {
   }
   findCashHoldingIndex(holdings: Holding[], currency: string): number {
     return holdings.findIndex(
-      (h) => h.currency === currency && h.assetClass === AssetClass.Cash
+      (h) => h.currency === currency && h.assetClass === AssetClass.cash
     );
   }
 

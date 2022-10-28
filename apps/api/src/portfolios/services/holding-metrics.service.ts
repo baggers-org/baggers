@@ -13,7 +13,7 @@ export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    if (holding.assetClass === AssetClass.Cash) return holding.quantity;
+    if (holding.assetClass === AssetClass.cash) return holding.quantity;
 
     if (holding.security) {
       return (

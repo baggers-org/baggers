@@ -16,7 +16,7 @@ export const ImportedSBSI: ImportedSecurity = {
   security_id: 'eW4jmnjd6AtjxXVrjmj6SX1dNEdZp3Cy8RnRQ',
   sedol: null,
   ticker_symbol: 'SBSI',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   unofficial_currency_code: null,
   update_datetime: null,
 };
@@ -36,7 +36,7 @@ export const ImportedDBLTX: ImportedSecurity = {
   security_id: 'NDVQrXQoqzt5v3bAe8qRt4A7mK7wvZCLEBBJk',
   sedol: null,
   ticker_symbol: 'DBLTX',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   unofficial_currency_code: null,
   update_datetime: null,
 };

@@ -39,17 +39,17 @@ export const action: ActionFunction = async ({ request, params }) => {
   const sdk = await authenticatedSdk(request, headers);
   const formData = Object.fromEntries(await request.formData());
 
-  const { securityId, id } = params;
+  const { ticker, id } = params;
 
   const { data, error } = await AddHoldingValidator.validate(formData);
 
   if (error) return validationError(error);
-  if (!securityId) throw Error('No ID passed');
+  if (!ticker) throw Error('No ID passed');
 
   await sdk.portfoliosAddHolding({
     _id: id,
     input: {
-      security: securityId,
+      security: ticker,
       assetClass: AssetClass.Stock,
       ...data,
     },

@@ -42,7 +42,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`545`);
@@ -67,7 +67,7 @@ describe('HoldingMetricsService', () => {
             quantity: 10,
             source: HoldingSource.broker,
             security: A,
-            assetClass: AssetClass.Stock,
+            assetClass: AssetClass.stock,
             currency: 'USD',
           },
 
@@ -94,7 +94,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`544`);
@@ -118,7 +118,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`54400`);
@@ -142,7 +142,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          assetClass: AssetClass.Stock,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`-14.799999999999969`);

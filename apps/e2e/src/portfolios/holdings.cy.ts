@@ -11,7 +11,7 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
 
-  it('user can add holdings to a portfolio directly', () => {
+  it.only('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio"
@@ -87,14 +87,14 @@ describe('Portfolio holdings', () => {
       cy.findByText('Transactions').click();
 
       //eslint-disable-next-line
-      cy.wait(1000);
+      cy.wait(2000);
 
       firstRow()
         .find('[data-field="date"]')
         .should('contain.text', format(new Date(), 'do LLL yy'));
       firstRow().find('[data-field="amount"]').should('contain.text', '130');
 
-      cy.findByText('BUY Ondas Holdings Inc');
+      cy.findByText('BUY Ondas Holdings Inc. Common Stock');
 
       cy.findByText('Settings').click();
 

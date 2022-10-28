@@ -148,13 +148,13 @@ export class ImportedSecurity {
     const mapSecurityType = (type: string): AssetClass => {
       switch (type) {
         case 'cash':
-          return AssetClass.Cash;
+          return AssetClass.cash;
         case 'cryptocurrency':
-          return AssetClass.Cryptocurrency;
+          return AssetClass.cryptocurrency;
         case 'derivative':
-          return AssetClass.Derivative;
+          return AssetClass.derivative;
         default:
-          return AssetClass.Stock;
+          return AssetClass.stock;
       }
     };
     return {

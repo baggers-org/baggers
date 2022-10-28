@@ -8,7 +8,7 @@ export const A: Security = {
   figi: 'BBG000C2V3D6',
   name: 'Agilent Technologies Inc.',
   region: 'US',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -51,7 +51,7 @@ export const NET: Security = {
   figi: 'BBG001WMKHH5',
   name: 'Cloudflare Inc - Class A',
   region: 'US',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -93,7 +93,7 @@ export const TSLA: Security = {
   figi: 'BBG000N9MNX3',
   name: 'Tesla Inc',
   region: 'US',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -136,7 +136,7 @@ export const SBSI: Security = {
   figi: 'BBG000BGVC19',
   name: 'Southside Bancshares Inc',
   region: 'US',
-  assetClass: AssetClass.Stock,
+  assetClass: AssetClass.stock,
   tickerSnapshot: {
     day: {
       c: 0,

@@ -12,7 +12,7 @@ export class PortfolioMetricsService {
     const { holdings } = portfolio;
     return (
       holdings.reduce((totalCash, holding) => {
-        if (holding.assetClass === AssetClass.Cash)
+        if (holding.assetClass === AssetClass.cash)
           return totalCash + holding.quantity;
         return totalCash;
       }, 0) ||

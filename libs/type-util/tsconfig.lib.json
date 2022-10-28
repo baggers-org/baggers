@@ -5,6 +5,6 @@
     "declaration": true,
     "types": []
   },
-  "include": ["**/*.ts", "../util/src/lib/getSecurityPrice.ts"],
+  "include": ["**/*.ts"],src/lib/getSecurityPrice.ts, "../security-util/src/lib/getSecurityPrice.ts"
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts"]
 }
