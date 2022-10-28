@@ -21,11 +21,18 @@ import { ValidatedForm, validationError } from 'remix-validated-form';
 import { AddHoldingForm } from '~/components/AddHoldingForm';
 import { AreaChart } from '~/components/Charts/AreaChart';
 import { SecuritySearchModal } from '~/components/SearchModal';
-import { HistoricalRange, Security, AssetClass } from '@baggers/graphql-types';
+import {
+  Security,
+  AssetClass,
+  Timespan,
+  Aggregate,
+} from '@baggers/graphql-types';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
 import { AddHoldingSecurityCard } from '~/components/AddHoldingSecurityCard';
+import { subYears } from 'date-fns';
+import format from 'date-fns-tz/format';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const headers = new Headers();
@@ -51,23 +58,33 @@ export const action: ActionFunction = async ({ request, params }) => {
   return redirect(`/portfolios/${id}/holdings`, { headers });
 };
 export const loader: LoaderFunction = async ({ request, params }) => {
-  const { securityId } = params;
+  const { ticker } = params;
 
   const sdk = await authenticatedSdk(request);
-  if (!securityId) throw redirect('/portfolios');
+  if (!ticker) throw redirect('/portfolios');
 
   const { securitiesFindById: security } = await sdk.securitiesFindById({
-    _id: securityId,
+    _id: ticker,
   });
   const { chartSecurityPrice } = await sdk.chartSecurityPrice({
-    securityId,
-    range: HistoricalRange.LastYear,
+    ticker,
+    options: {
+      from: format(subYears(new Date(), 1), 'yyyy-MM-dd'),
+      to: format(new Date(), 'yyyy-MM-dd'),
+      timespan: Timespan.Day,
+    },
   });
 
-  const chart = chartSecurityPrice.map((interval) => ({
-    time: interval.date,
-    value: interval.close,
-  }));
+  const chart = chartSecurityPrice.flatMap((interval) =>
+    interval.t && interval.c
+      ? [
+          {
+            time: format(interval.t, 'yyyy-MM-dd'),
+            value: interval.c,
+          },
+        ]
+      : []
+  );
 
   return { security, chart };
 };

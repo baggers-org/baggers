@@ -13,6 +13,17 @@ input AddHoldingInput {
   transactionDate: DateTime
 }
 
+type Aggregate {
+  c: Float
+  h: Float
+  l: Float
+  n: Float
+  o: Float
+  t: Float
+  v: Float
+  vw: Float
+}
+
 enum AscDesc {
   asc
   desc
@@ -26,44 +37,11 @@ enum AssetClass {
   stock
 }
 
-type Chart {
-  change: Float!
-  changeOverTime: Float!
-  changePercent: Float!
-  close: Float!
-  date: String!
-  fClose: Float!
-  fHigh: Float!
-  fLow: Float!
-  fOpen: Float!
-  fVolume: Float!
-  high: Float!
-  id: String!
-  key: String!
-  label: String!
-  low: Float!
-  marketChangeOverTime: Float!
-  open: Float!
-  subkey: String!
-  symbol: String!
-  uClose: Float!
-  uHigh: Float!
-  uLow: Float!
-  uOpen: Float!
-  uVolume: Float!
-  updated: Float!
-  volume: Float!
-}
-
 input ChartPriceRangeOptions {
-  chartByDay: Boolean
-  chartCloseOnly: Boolean
-  chartInterval: Float
-  chartLast: Float
-  chartSimplify: Boolean
-  displayPercent: Float
-  includeToday: Boolean
+  from: String!
   sort: AscDesc
+  timespan: Timespan!
+  to: String!
 }
 
 input CreateUserInput {
@@ -77,22 +55,6 @@ input CreateUserInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-enum HistoricalRange {
-  Last2Years
-  Last3Months
-  Last5Days
-  Last5Days10MinuteIntervals
-  Last5Years
-  Last6Months
-  LastMonth
-  LastMonth30MinuteIntervals
-  LastYear
-  YearToDate
-  date
-  dynamic
-  max
-}
 
 type Holding {
   _id: ObjectId!
@@ -337,7 +299,7 @@ type PortfolioSummary {
 }
 
 type Query {
-  chartSecurityPrice(options: ChartPriceRangeOptions, range: HistoricalRange!, securityId: String!): [Chart!]!
+  chartSecurityPrice(options: ChartPriceRangeOptions!, ticker: String!): [Aggregate!]!
   plaidLinkToken: String!
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
@@ -469,6 +431,16 @@ enum TickerType {
   SP
   UNIT
   WARRANT
+}
+
+enum Timespan {
+  day
+  hour
+  minute
+  month
+  quarter
+  week
+  year
 }
 
 type Transaction {

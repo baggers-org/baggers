@@ -30,6 +30,18 @@ export type AddHoldingInput = {
   transactionDate?: InputMaybe<Scalars['DateTime']>;
 };
 
+export type Aggregate = {
+  __typename?: 'Aggregate';
+  c?: Maybe<Scalars['Float']>;
+  h?: Maybe<Scalars['Float']>;
+  l?: Maybe<Scalars['Float']>;
+  n?: Maybe<Scalars['Float']>;
+  o?: Maybe<Scalars['Float']>;
+  t?: Maybe<Scalars['Float']>;
+  v?: Maybe<Scalars['Float']>;
+  vw?: Maybe<Scalars['Float']>;
+};
+
 export enum AscDesc {
   Asc = 'asc',
   Desc = 'desc'
@@ -43,45 +55,11 @@ export enum AssetClass {
   Stock = 'stock'
 }
 
-export type Chart = {
-  __typename?: 'Chart';
-  change: Scalars['Float'];
-  changeOverTime: Scalars['Float'];
-  changePercent: Scalars['Float'];
-  close: Scalars['Float'];
-  date: Scalars['String'];
-  fClose: Scalars['Float'];
-  fHigh: Scalars['Float'];
-  fLow: Scalars['Float'];
-  fOpen: Scalars['Float'];
-  fVolume: Scalars['Float'];
-  high: Scalars['Float'];
-  id: Scalars['String'];
-  key: Scalars['String'];
-  label: Scalars['String'];
-  low: Scalars['Float'];
-  marketChangeOverTime: Scalars['Float'];
-  open: Scalars['Float'];
-  subkey: Scalars['String'];
-  symbol: Scalars['String'];
-  uClose: Scalars['Float'];
-  uHigh: Scalars['Float'];
-  uLow: Scalars['Float'];
-  uOpen: Scalars['Float'];
-  uVolume: Scalars['Float'];
-  updated: Scalars['Float'];
-  volume: Scalars['Float'];
-};
-
 export type ChartPriceRangeOptions = {
-  chartByDay?: InputMaybe<Scalars['Boolean']>;
-  chartCloseOnly?: InputMaybe<Scalars['Boolean']>;
-  chartInterval?: InputMaybe<Scalars['Float']>;
-  chartLast?: InputMaybe<Scalars['Float']>;
-  chartSimplify?: InputMaybe<Scalars['Boolean']>;
-  displayPercent?: InputMaybe<Scalars['Float']>;
-  includeToday?: InputMaybe<Scalars['Boolean']>;
+  from: Scalars['String'];
   sort?: InputMaybe<AscDesc>;
+  timespan: Timespan;
+  to: Scalars['String'];
 };
 
 export type CreateUserInput = {
@@ -90,22 +68,6 @@ export type CreateUserInput = {
   emails?: InputMaybe<Array<Scalars['String']>>;
   photos?: InputMaybe<Array<Scalars['String']>>;
 };
-
-export enum HistoricalRange {
-  Last2Years = 'Last2Years',
-  Last3Months = 'Last3Months',
-  Last5Days = 'Last5Days',
-  Last5Days10MinuteIntervals = 'Last5Days10MinuteIntervals',
-  Last5Years = 'Last5Years',
-  Last6Months = 'Last6Months',
-  LastMonth = 'LastMonth',
-  LastMonth30MinuteIntervals = 'LastMonth30MinuteIntervals',
-  LastYear = 'LastYear',
-  YearToDate = 'YearToDate',
-  Date = 'date',
-  Dynamic = 'dynamic',
-  Max = 'max'
-}
 
 export type Holding = {
   __typename?: 'Holding';
@@ -384,7 +346,7 @@ export type PortfolioSummary = {
 
 export type Query = {
   __typename?: 'Query';
-  chartSecurityPrice: Array<Chart>;
+  chartSecurityPrice: Array<Aggregate>;
   plaidLinkToken: Scalars['String'];
   portfoliosCreated: Array<PortfolioSummary>;
   portfoliosFindById: Portfolio;
@@ -395,9 +357,8 @@ export type Query = {
 
 
 export type QueryChartSecurityPriceArgs = {
-  options?: InputMaybe<ChartPriceRangeOptions>;
-  range: HistoricalRange;
-  securityId: Scalars['String'];
+  options: ChartPriceRangeOptions;
+  ticker: Scalars['String'];
 };
 
 
@@ -555,6 +516,16 @@ export enum TickerType {
   Warrant = 'WARRANT'
 }
 
+export enum Timespan {
+  Day = 'day',
+  Hour = 'hour',
+  Minute = 'minute',
+  Month = 'month',
+  Quarter = 'quarter',
+  Week = 'week',
+  Year = 'year'
+}
+
 export type Transaction = {
   __typename?: 'Transaction';
   _id: Scalars['ObjectId'];
@@ -684,13 +655,12 @@ export type User = {
 };
 
 export type ChartSecurityPriceQueryVariables = Exact<{
-  range: HistoricalRange;
-  securityId: Scalars['String'];
-  options?: InputMaybe<ChartPriceRangeOptions>;
+  ticker: Scalars['String'];
+  options: ChartPriceRangeOptions;
 }>;
 
 
-export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Chart', change: number, changeOverTime: number, changePercent: number, close: number, date: string, fClose: number, fHigh: number, fLow: number, fOpen: number, fVolume: number, high: number, id: string, key: string, label: string, low: number, marketChangeOverTime: number, open: number, subkey: string, symbol: string, uClose: number, uHigh: number, uLow: number, uOpen: number, uVolume: number, updated: number, volume: number }> };
+export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Aggregate', c?: number | null, h?: number | null, l?: number | null, n?: number | null, o?: number | null, t?: number | null, v?: number | null, vw?: number | null }> };
 
 export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1030,34 +1000,16 @@ export const SecuritySummaryFragmentDoc = gql`
 }
     `;
 export const ChartSecurityPriceDocument = gql`
-    query chartSecurityPrice($range: HistoricalRange!, $securityId: String!, $options: ChartPriceRangeOptions) {
-  chartSecurityPrice(range: $range, securityId: $securityId, options: $options) {
-    change
-    changeOverTime
-    changePercent
-    close
-    date
-    fClose
-    fHigh
-    fLow
-    fOpen
-    fVolume
-    high
-    id
-    key
-    label
-    low
-    marketChangeOverTime
-    open
-    subkey
-    symbol
-    uClose
-    uHigh
-    uLow
-    uOpen
-    uVolume
-    updated
-    volume
+    query chartSecurityPrice($ticker: String!, $options: ChartPriceRangeOptions!) {
+  chartSecurityPrice(options: $options, ticker: $ticker) {
+    c
+    h
+    l
+    n
+    o
+    t
+    v
+    vw
   }
 }
     `;

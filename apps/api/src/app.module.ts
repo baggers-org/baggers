@@ -17,8 +17,8 @@ import { PlaidItemsModule } from '~/plaid-items';
 import { PlaidLinkModule } from '~/plaid-link';
 import { OpenFigiModule } from './open-figi/open-figi.module';
 import { ChartsModule } from './charts/charts.module';
-import { IexService } from './iex/iex.service';
-import { IexModule } from './iex/iex.module';
+import { PolygonService } from './polygon/polygon.service';
+import { PolygonModule } from './polygon/polygon.module';
 
 @Module({
   imports: [
@@ -51,7 +51,7 @@ import { IexModule } from './iex/iex.module';
     PlaidLinkModule,
     OpenFigiModule,
     ChartsModule,
-    IexModule,
+    PolygonModule,
   ],
   controllers: [],
   providers: [
@@ -60,7 +60,7 @@ import { IexModule } from './iex/iex.module';
       useExisting: JwtAuthGuard,
     },
     JwtAuthGuard,
-    IexService,
+    PolygonService,
   ],
 })
 export class AppModule {}

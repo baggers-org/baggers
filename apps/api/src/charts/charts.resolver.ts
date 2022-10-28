@@ -1,20 +1,17 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { ChartsService } from './charts.service';
 import { ChartPriceRangeOptions } from './dto/chart-price-range-options.input';
-import { Chart } from './entities/chart.entity';
-import { HistorialRange } from './enums/historial-range.enum';
+import { Aggregate } from './entities/aggregate.entity';
 
-@Resolver(() => Chart)
+@Resolver(() => Aggregate)
 export class ChartsResolver {
   constructor(private readonly chartsService: ChartsService) {}
 
-  @Query(() => [Chart])
+  @Query(() => [Aggregate])
   async chartSecurityPrice(
-    @Args('securityId', { type: () => String }) securityId: string,
-    @Args('range', { type: () => HistorialRange }) range: HistorialRange,
-    @Args('options', { type: () => ChartPriceRangeOptions, nullable: true })
-    options?: ChartPriceRangeOptions
-  ): Promise<Chart[]> {
-    return this.chartsService.chartSecurityPrice(securityId, range, options);
+    @Args('ticker') ticker: string,
+    @Args('options') options: ChartPriceRangeOptions
+  ): Promise<Aggregate[]> {
+    return this.chartsService.chartSecurityPrice(ticker, options);
   }
 }
