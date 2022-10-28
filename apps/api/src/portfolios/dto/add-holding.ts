@@ -1,15 +1,14 @@
-import { ObjectId, ObjectIdScalar } from '~/shared';
 import { Field, InputType } from '@nestjs/graphql';
 import { HoldingDirection } from '../enums';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 @InputType()
 export class AddHoldingInput {
-  @Field(() => ObjectIdScalar)
-  security: ObjectId;
+  @Field()
+  security: string;
 
-  @Field(() => SecurityType)
-  securityType: SecurityType;
+  @Field(() => AssetClass)
+  assetClass: AssetClass;
 
   @Field()
   quantity: number;

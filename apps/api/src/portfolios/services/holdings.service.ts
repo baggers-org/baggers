@@ -45,7 +45,7 @@ export class HoldingsService {
       price: input.averagePrice,
       quantity: input.quantity,
       security: input.security,
-      securityType: input.securityType,
+      assetClass: input.assetClass,
       currency: input.currency,
       fees: input.brokerFees || 0,
       date: input.transactionDate,

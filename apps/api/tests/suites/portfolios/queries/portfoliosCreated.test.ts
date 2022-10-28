@@ -27,7 +27,7 @@ export const portfoliosCreatedTests = () =>
               "region": "US",
               "symbol": "TSLA",
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
           },
           Object {
             "costBasis": null,
@@ -35,7 +35,7 @@ export const portfoliosCreatedTests = () =>
             "importedSecurity": null,
             "marketValue": 1239.32,
             "security": null,
-            "securityType": "cash",
+            "AssetClass": "cash",
           },
           Object {
             "costBasis": 47942,
@@ -52,7 +52,7 @@ export const portfoliosCreatedTests = () =>
               "region": "US",
               "symbol": "A",
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
           },
         ]
       `);
@@ -82,7 +82,7 @@ export const portfoliosCreatedTests = () =>
               "region": "US",
               "symbol": "TSLA",
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
           },
           Object {
             "costBasis": 49,
@@ -105,7 +105,7 @@ export const portfoliosCreatedTests = () =>
               "region": "US",
               "symbol": "SBSI",
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
           },
           Object {
             "costBasis": null,
@@ -113,7 +113,7 @@ export const portfoliosCreatedTests = () =>
             "importedSecurity": null,
             "marketValue": 1239.32,
             "security": null,
-            "securityType": "cash",
+            "AssetClass": "cash",
           },
           Object {
             "costBasis": 100,
@@ -127,7 +127,7 @@ export const portfoliosCreatedTests = () =>
             },
             "marketValue": 432,
             "security": null,
-            "securityType": "equity",
+            "AssetClass": "equity",
           },
         ]
       `);

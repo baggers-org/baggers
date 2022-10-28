@@ -1,9 +1,6 @@
-query securitiesFindById($_id: ObjectId!) {
+query securitiesFindById($_id: String!) {
   securitiesFindById(_id: $_id) {
     _id
     ...AllSecurityData
-    quote {
-      ...AllQuoteData
-    }
   }
 }

@@ -81,7 +81,7 @@ export class SnapshotPrevDay {
   vw?: number;
 }
 @ObjectType()
-export class MarketDataSnapshot {
+export class TickerSnapshot {
   @Prop()
   day?: SnapshotDay;
   @Prop()

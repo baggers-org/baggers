@@ -1,18 +1,20 @@
 fragment AllSecurityData on Security {
+  _id
   cik
-  createdAt
   currency
   exchange
   exchangeName
+  assetClass
   figi
-  iexId
   name
   region
-  symbol
-  quote {
-    ...AllQuoteData
+  tickerDetails {
+    ...AllTickerDetails
   }
-  updatedAt
+
+  tickerSnapshot {
+    ...AllTickerSnapshot
+  }
 }
 
 fragment AllImportedSecurityData on ImportedSecurity {
@@ -20,16 +22,12 @@ fragment AllImportedSecurityData on ImportedSecurity {
   name
   ticker_symbol
   currency
-  type
+  assetClass
 }
 
 fragment SecuritySummary on Security {
   _id
   name
-  symbol
   exchangeName
   region
-  quote {
-    latestPrice
-  }
 }

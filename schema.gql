@@ -3,19 +3,27 @@
 # ------------------------------------------------------
 
 input AddHoldingInput {
+  assetClass: AssetClass!
   averagePrice: Float!
   brokerFees: Float = 0
   currency: String!
   direction: HoldingDirection!
   quantity: Float!
-  security: ObjectId!
-  securityType: SecurityType!
+  security: String!
   transactionDate: DateTime
 }
 
 enum AscDesc {
   asc
   desc
+}
+
+enum AssetClass {
+  cash
+  cryptocurrency
+  derivative
+  fx
+  stock
 }
 
 type Chart {
@@ -88,6 +96,7 @@ enum HistoricalRange {
 
 type Holding {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -104,7 +113,6 @@ type Holding {
   profitLossUsd: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -116,6 +124,7 @@ enum HoldingDirection {
 
 type HoldingFromDb {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -127,7 +136,6 @@ type HoldingFromDb {
   plaidAccountId: String
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -143,6 +151,7 @@ type ImportResponse {
 }
 
 type ImportedSecurity {
+  assetClass: AssetClass
   close_price: Float
   close_price_as_of: String
   currency: String
@@ -160,7 +169,6 @@ type ImportedSecurity {
   security_id: String!
   sedol: String
   ticker_symbol: String
-  type: SecurityType
   unofficial_currency_code: String
   update_datetime: String
 }
@@ -267,6 +275,7 @@ type PlaidItemError {
 
 type PopulatedHolding {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -278,7 +287,6 @@ type PopulatedHolding {
   plaidAccountId: String
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -333,68 +341,9 @@ type Query {
   plaidLinkToken: String!
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
-  securitiesFindById(_id: ObjectId!): Security!
+  securitiesFindById(_id: String!): Security!
   securitiesSearch(searchTerm: String!): [Security!]!
   usersFindById(_id: ID!): User!
-}
-
-type Quote {
-  avgTotalVolume: Float
-  calculationPrice: String
-  change: Float
-  changePercent: Float
-  close: Float
-  closeSource: String
-  closeTime: Float
-  companyName: String!
-  currency: String
-  delayedPrice: Float
-  delayedPriceTime: Float
-  extendedChange: Float
-  extendedChangePercent: Float
-  extendedPrice: Float
-  extendedPriceTime: Float
-  high: Float
-  highSource: String
-  highTime: Float
-  iexAskPrice: Float
-  iexAskSize: Float
-  iexBidPrice: Float
-  iexBidSize: Float
-  iexClose: Float
-  iexCloseTime: Float
-  iexLastUpdated: Float
-  iexMarketPercent: Float
-  iexOpen: Float
-  iexOpenTime: Float
-  iexRealtimePrice: Float
-  iexRealtimeSize: Float
-  iexVolume: Float
-  isUSMarketOpen: Boolean
-  lastTradeTime: Float
-  latestPrice: Float
-  latestSource: String
-  latestTime: String
-  latestUpdate: Float
-  latestVolume: Float
-  low: Float
-  lowSource: String
-  lowTime: Float
-  marketCap: Float
-  oddLotDelayedPrice: Float
-  oddLotDelayedPriceTime: Float
-  open: Float
-  openSource: String
-  openTime: Float
-  peRatio: Float
-  previousClose: Float
-  previousVolume: Float
-  primaryExchange: String
-  symbol: String
-  volume: Float
-  week52High: Float
-  week52Low: Float
-  ytdChange: Float
 }
 
 type RecordId {
@@ -407,38 +356,125 @@ type RemoveMultipleResponse {
 }
 
 type Security {
-  _id: ObjectId!
-  cik: String
+  _id: String
+  assetClass: AssetClass!
   close_price: Float
-  createdAt: DateTime
   currency: String
   exchange: String
-  exchangeName: String
   figi: String
-  iexId: String
   name: String
-  quote: Quote
   region: String
-  symbol: String
-  type: SecurityType!
-  updatedAt: DateTime
+  tickerDetails: TickerDetails
+  tickerSnapshot: TickerSnapshot
 }
 
-enum SecurityType {
-  cash
-  cryptocurrency
-  derivative
-  equity
-  etf
-  fixed_income
-  loan
-  mutual_fund
-  other
+type SnapshotDay {
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type SnapshotLastQuote {
+  P: Float
+  S: Float
+  p: Float
+  s: Float
+  t: Float
+}
+
+type SnapshotLastTrade {
+  c: [String!]
+  i: String
+  p: Float
+  s: Float
+  t: Float
+  x: Float
+}
+
+type SnapshotMin {
+  av: Float
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type SnapshotPrevDay {
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type TickerDetails {
+  active: Boolean!
+  cik: String!
+  currencyName: String!
+  description: String!
+  homepageUrl: String!
+  iconUrl: String!
+  listDate: DateTime!
+  logoUrl: String!
+  market: String!
+  marketCap: Float!
+  name: String!
+  phoneNumber: String
+  shareClassOutstanding: Float
+  sicCode: Float!
+  sicDescription: String!
+  totalEmployees: Float!
+  type: TickerType!
+  weightedSharesOutstanding: Float!
+}
+
+type TickerSnapshot {
+  day: SnapshotDay
+  lastQuote: SnapshotLastQuote
+  lastTrade: SnapshotLastTrade
+  min: SnapshotMin
+  prevDay: SnapshotPrevDay
+  ticker: String
+  todaysChange: Float
+  todaysChangePerc: Float
+  updated: Float
+}
+
+enum TickerType {
+  ADRC
+  ADRR
+  ADRW
+  AGEN
+  BASKET
+  BOND
+  CS
+  EQLK
+  ETF
+  ETN
+  ETV
+  FUND
+  GDR
+  LT
+  NYRS
+  OS
+  OTHER
+  PFD
+  RIGHT
+  SP
+  UNIT
+  WARRANT
 }
 
 type Transaction {
   _id: ObjectId!
   amount: Float!
+  assetClass: AssetClass!
   createdBy: User
   currency: String!
   date: DateTime!
@@ -454,7 +490,6 @@ type Transaction {
   price: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   subType: TransactionSubtype!
   type: TransactionType!
 }
@@ -462,6 +497,7 @@ type Transaction {
 type TransactionFromDb {
   _id: ObjectId!
   amount: Float!
+  assetClass: AssetClass!
   createdBy: User
   currency: String!
   date: DateTime!
@@ -477,7 +513,6 @@ type TransactionFromDb {
   price: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   subType: TransactionSubtype!
   type: TransactionType!
 }

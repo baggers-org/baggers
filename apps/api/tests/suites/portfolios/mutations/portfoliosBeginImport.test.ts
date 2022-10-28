@@ -86,7 +86,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 210.75,
                 "security": null,
-                "securityType": "etf",
+                "AssetClass": "etf",
               },
               Object {
                 "costBasis": 100,
@@ -100,7 +100,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 110,
                 "security": null,
-                "securityType": "derivative",
+                "AssetClass": "derivative",
               },
               Object {
                 "costBasis": 0.01,
@@ -114,7 +114,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 0.01,
                 "security": null,
-                "securityType": "cash",
+                "AssetClass": "cash",
               },
             ]
           `);
@@ -146,7 +146,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 12345.67,
                 "security": null,
-                "securityType": "cash",
+                "AssetClass": "cash",
               },
               Object {
                 "costBasis": 6390,
@@ -169,7 +169,7 @@ export const portfoliosBeginImportTests = () =>
                   "region": "US",
                   "symbol": "SBSI",
                 },
-                "securityType": "equity",
+                "AssetClass": "equity",
               },
               Object {
                 "costBasis": 1666.5,
@@ -183,7 +183,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 1855.875,
                 "security": null,
-                "securityType": "mutual_fund",
+                "AssetClass": "mutual_fund",
               },
               Object {
                 "costBasis": 1500.75,
@@ -197,7 +197,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 1373.6865,
                 "security": null,
-                "securityType": "etf",
+                "AssetClass": "etf",
               },
               Object {
                 "costBasis": 542.041,
@@ -211,7 +211,7 @@ export const portfoliosBeginImportTests = () =>
                 },
                 "marketValue": 636.309,
                 "security": null,
-                "securityType": "mutual_fund",
+                "AssetClass": "mutual_fund",
               },
             ]
           `);

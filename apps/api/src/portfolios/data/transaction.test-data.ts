@@ -1,7 +1,7 @@
 import { NET, TSLA } from '~/securities';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
 import { Transaction } from '../entities';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { ObjectId } from '~/shared';
 
 export const ImportedTransactions: Transaction[] = [
@@ -13,7 +13,7 @@ export const ImportedTransactions: Transaction[] = [
     currency: 'USD',
     type: InvestmentTransactionType.Cash,
     quantity: 100,
-    securityType: SecurityType.cash,
+    assetClass: AssetClass.cash,
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
@@ -27,7 +27,7 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: TSLA._id,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     type: InvestmentTransactionType.Buy,
   },
   {
@@ -40,7 +40,7 @@ export const ImportedTransactions: Transaction[] = [
     amount: -15,
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Sell,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     security: TSLA._id,
     type: InvestmentTransactionType.Sell,
   },
@@ -55,7 +55,7 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: NET._id,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     type: InvestmentTransactionType.Buy,
   },
   {
@@ -66,7 +66,7 @@ export const ImportedTransactions: Transaction[] = [
     quantity: 0,
     date: new Date(2022, 3, 4),
     type: InvestmentTransactionType.Cash,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     subType: InvestmentTransactionSubtype.Deposit,
   },
   {
@@ -80,14 +80,14 @@ export const ImportedTransactions: Transaction[] = [
     plaidTransactionId: 'test',
     subType: InvestmentTransactionSubtype.Buy,
     security: NET._id,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     type: InvestmentTransactionType.Buy,
   },
   {
     _id: new ObjectId('62d2cd45c63873e235c99537'),
     name: 'WITHDRAW $2000',
     amount: -2000,
-    securityType: SecurityType.cash,
+    assetClass: AssetClass.cash,
     quantity: 0,
     currency: 'USD',
     date: new Date(2022, 3, 6),

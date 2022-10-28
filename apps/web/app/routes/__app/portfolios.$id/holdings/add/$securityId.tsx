@@ -21,11 +21,7 @@ import { ValidatedForm, validationError } from 'remix-validated-form';
 import { AddHoldingForm } from '~/components/AddHoldingForm';
 import { AreaChart } from '~/components/Charts/AreaChart';
 import { SecuritySearchModal } from '~/components/SearchModal';
-import {
-  HistoricalRange,
-  Security,
-  SecurityType,
-} from '@baggers/graphql-types';
+import { HistoricalRange, Security, AssetClass } from '@baggers/graphql-types';
 import { authenticatedSdk } from '~/graphql/sdk.server';
 import { useIdParam } from '~/hooks';
 import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
@@ -46,7 +42,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     _id: id,
     input: {
       security: securityId,
-      securityType: SecurityType.Equity,
+      AssetClass: AssetClass.Equity,
       ...data,
     },
   });

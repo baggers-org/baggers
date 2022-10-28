@@ -17,7 +17,7 @@ query portfoliosCreated {
     top5Holdings {
       costBasis
       exposure
-      securityType
+      assetClass
       marketValue
       importedSecurity {
         ...AllImportedSecurityData

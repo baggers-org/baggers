@@ -17,15 +17,6 @@ export class ChartsService {
     range: HistorialRange,
     options?: ChartPriceRangeOptions
   ): Promise<Chart[]> {
-    const security = await this.securitiesService.findById(securityId);
-
-    const { data } = await this.iexService.client.get(
-      `/stock/${security.symbol}/chart/${range}`,
-      {
-        params: options,
-      }
-    );
-
-    return data;
+    return null;
   }
 }

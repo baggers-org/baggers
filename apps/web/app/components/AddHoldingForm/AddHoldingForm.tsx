@@ -1,8 +1,4 @@
-import {
-  HoldingDirection,
-  Security,
-  SecurityType,
-} from '@baggers/graphql-types';
+import { HoldingDirection, Security, AssetClass } from '@baggers/graphql-types';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import {
   Alert,
@@ -38,7 +34,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     direction: HoldingDirection.Long,
     quantity: 1,
     currency: 'USD',
-    securityType: SecurityType.Equity,
+    AssetClass: AssetClass.Equity,
     brokerFees: 0,
     averagePrice: 0,
   });

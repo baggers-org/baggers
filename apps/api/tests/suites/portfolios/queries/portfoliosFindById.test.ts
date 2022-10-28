@@ -78,7 +78,7 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": 3564.7,
           "quantity": 10,
           "security": null,
-          "securityType": "equity",
+          "AssetClass": "equity",
           "source": "broker",
         }
       `);
@@ -100,7 +100,7 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": null,
           "quantity": 1239.32,
           "security": null,
-          "securityType": "cash",
+          "AssetClass": "cash",
           "source": "direct",
         }
       `);
@@ -123,7 +123,7 @@ export const portfoliosFindByIdTests = () =>
           "profitLossUsd": -46711.1,
           "quantity": 10,
           "security": null,
-          "securityType": "equity",
+          "AssetClass": "equity",
           "source": "broker",
         }
       `);
@@ -227,7 +227,7 @@ export const portfoliosFindByIdTests = () =>
             "profitLossUsd": null,
             "quantity": 1239.32,
             "security": null,
-            "securityType": "cash",
+            "AssetClass": "cash",
             "source": "direct",
           }
         `);
@@ -256,7 +256,7 @@ export const portfoliosFindByIdTests = () =>
             "profitLossUsd": 14765.4,
             "quantity": 20,
             "security": null,
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           }
         `);
@@ -288,7 +288,7 @@ export const portfoliosFindByIdTests = () =>
             "profitLossUsd": 1913.7500000000002,
             "quantity": 50,
             "security": null,
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           }
         `);

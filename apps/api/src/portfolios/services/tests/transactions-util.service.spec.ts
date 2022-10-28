@@ -36,7 +36,7 @@ describe('TransactionsUtilService', () => {
             "currency": "USD",
             "direction": "long",
             "quantity": 2095,
-            "securityType": "cash",
+            "AssetClass": "cash",
             "source": "transactions",
           },
           Object {
@@ -50,7 +50,7 @@ describe('TransactionsUtilService', () => {
             "plaidAccountId": undefined,
             "quantity": 5,
             "security": "62989022d38076b6353967c3",
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
           Object {
@@ -64,7 +64,7 @@ describe('TransactionsUtilService', () => {
             "plaidAccountId": undefined,
             "quantity": 11,
             "security": "62a23958e5a9e9b88f853a67",
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
         ]

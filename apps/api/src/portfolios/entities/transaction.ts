@@ -4,7 +4,7 @@ import { User } from '~/users';
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 @ObjectType('TransactionFromDb')
 export class Transaction {
@@ -49,16 +49,16 @@ export class Transaction {
   subType: InvestmentTransactionSubtype;
 
   @Field(() => Security, { nullable: true })
-  @Prop({ type: ObjectId, ref: 'Security' })
-  security?: ObjectId | Security;
+  @Prop({ type: String, ref: 'Security' })
+  security?: string | Security;
 
   @Field(() => ImportedSecurity, { nullable: true })
   @Prop(() => ImportedSecurity)
   importedSecurity?: ImportedSecurity;
 
-  @Field(() => SecurityType)
-  @Prop({ enum: SecurityType, type: String })
-  securityType: SecurityType;
+  @Field(() => AssetClass)
+  @Prop({ enum: AssetClass, type: String })
+  assetClass: AssetClass;
 
   @Field({
     description: 'This is the transaction_id from plaid',

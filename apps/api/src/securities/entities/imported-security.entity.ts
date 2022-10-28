@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { Security } from 'plaid';
-import { SecurityType } from '../enums/security-type.enum';
+import { AssetClass } from '../enums/asset-class.enum';
 
 @ObjectType()
 export class ImportedSecurity {
@@ -100,9 +100,9 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop({ enum: SecurityType, type: String })
-  @Field(() => SecurityType, { nullable: true })
-  type: SecurityType | null;
+  @Prop({ enum: AssetClass, type: String })
+  @Field(() => AssetClass, { nullable: true })
+  assetClass: AssetClass | null;
   /**
    * Price of the security at the close of the previous trading session. Null for non-public securities.   If the security is a foreign currency this field will be updated daily and will be priced in USD.   If the security is a cryptocurrency, this field will be updated multiple times a day. As crypto prices can fluctuate quickly and data may become stale sooner than other asset classes, please refer to update_datetime with the time when the price was last updated.
    * @type {number}
@@ -145,9 +145,21 @@ export class ImportedSecurity {
   unofficial_currency_code: string | null;
 
   static fromPlaidSecurity(security: Security): ImportedSecurity {
+    const mapSecurityType = (type: string): AssetClass => {
+      switch (type) {
+        case 'cash':
+          return AssetClass.cash;
+        case 'cryptocurrency':
+          return AssetClass.cryptocurrency;
+        case 'derivative':
+          return AssetClass.derivative;
+        default:
+          return AssetClass.stock;
+      }
+    };
     return {
       ...security,
-      type: SecurityType[security.type.replace(' ', '_')],
+      assetClass: mapSecurityType(security.type),
       currency: security.iso_currency_code,
     };
   }

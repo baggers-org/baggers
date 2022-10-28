@@ -1,0 +1,20 @@
+fragment AllTickerDetails on TickerDetails {
+  active
+  cik
+  currencyName
+  description
+  homepageUrl
+  iconUrl
+  listDate
+  logoUrl
+  market
+  marketCap
+  name
+  phoneNumber
+  shareClassOutstanding
+  sicCode
+  sicDescription
+  totalEmployees
+  type
+  weightedSharesOutstanding
+}

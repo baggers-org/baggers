@@ -1,6 +1,6 @@
 import { Portfolio1 } from '~/portfolios';
 import { A, TSLA } from '~/securities';
-import { HoldingDirection, SecurityType } from '@baggers/graphql-types';
+import { HoldingDirection, AssetClass } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosAddHoldingTest = () =>
@@ -26,7 +26,7 @@ export const portfoliosAddHoldingTest = () =>
           quantity: 1,
           averagePrice: 105.4,
           currency: 'USD',
-          securityType: SecurityType.Equity,
+          AssetClass: AssetClass.Equity,
         },
       });
 
@@ -54,7 +54,7 @@ export const portfoliosAddHoldingTest = () =>
           security: A._id,
           quantity: 4,
           averagePrice: 130.34,
-          securityType: SecurityType.Equity,
+          AssetClass: AssetClass.Equity,
           currency: 'USD',
         },
       });
@@ -86,7 +86,7 @@ export const portfoliosAddHoldingTest = () =>
           averagePrice: 100,
           quantity: 3,
           direction: HoldingDirection.Long,
-          securityType: SecurityType.Equity,
+          AssetClass: AssetClass.Equity,
           currency: 'USD',
         },
       });
@@ -173,7 +173,7 @@ export const portfoliosAddHoldingTest = () =>
             security: TSLA._id,
             averagePrice: 200,
             direction: HoldingDirection.Short,
-            securityType: SecurityType.Equity,
+            AssetClass: AssetClass.Equity,
             currency: 'USD',
             quantity: 1,
           },

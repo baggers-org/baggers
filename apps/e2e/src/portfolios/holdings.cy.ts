@@ -40,7 +40,7 @@ describe('Portfolio holdings', () => {
 
     // Check the return section is correct
     cy.fixture('ONDS').then((onds) => {
-      const marketValue = onds.marketDataSnapshot.min.c * 20;
+      const marketValue = onds.tickerSnapshot.min.c * 20;
       const costBasis = 6.5 * 20 + brokerFees;
       const expectedReturnUsd = marketValue - costBasis;
       const expectedReturnPercent = (expectedReturnUsd / costBasis) * 100;
@@ -76,10 +76,7 @@ describe('Portfolio holdings', () => {
         .should('contain.text', `$6.50`);
       firstRow()
         .find('[data-field="latestPrice"]')
-        .should(
-          'contain.text',
-          `${formatCurrency(onds.marketDataSnapshot.min.c)}`
-        );
+        .should('contain.text', `${formatCurrency(onds.tickerSnapshot.min.c)}`);
       firstRow()
         .find('[data-field="profitLossPercent"]')
         .should('contain.text', `${expectedReturnPercent.toFixed(2)}%`);

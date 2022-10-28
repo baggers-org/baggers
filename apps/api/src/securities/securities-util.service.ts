@@ -22,7 +22,7 @@ export class SecuritiesUtilService {
       if (this.isImported(security)) {
         return security.close_price;
       }
-      return security?.marketDataSnapshot?.min?.c;
+      return security?.tickerSnapshot?.min?.c;
     } catch (e) {
       return 1;
     }
@@ -79,7 +79,7 @@ export class SecuritiesUtilService {
           },
         },
         {
-          symbol: {
+          _id: {
             $in: symbols,
           },
         },
@@ -95,7 +95,7 @@ export class SecuritiesUtilService {
         return [
           imported.security_id,
           matchedSecurities.find(
-            (security) => security.figi === figi || security.symbol === symbol
+            (security) => security.figi === figi || security._id === symbol
           ),
         ];
       })

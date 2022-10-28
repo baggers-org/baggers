@@ -10,7 +10,7 @@ import {
 } from '~/portfolios/data';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { OpenFigiModule } from '~/open-figi';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;
@@ -42,7 +42,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          securityType: SecurityType.equity,
+          AssetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toEqual(1230.9);
@@ -67,7 +67,7 @@ describe('HoldingMetricsService', () => {
             quantity: 10,
             source: HoldingSource.broker,
             security: A,
-            securityType: SecurityType.equity,
+            AssetClass: AssetClass.stock,
             currency: 'USD',
           },
           12039
@@ -93,7 +93,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          securityType: SecurityType.equity,
+          AssetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`1229.9`);
@@ -117,7 +117,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          securityType: SecurityType.equity,
+          AssetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`122990.00000000001`);
@@ -141,7 +141,7 @@ describe('HoldingMetricsService', () => {
           quantity: 10,
           source: HoldingSource.broker,
           security: A,
-          securityType: SecurityType.equity,
+          AssetClass: AssetClass.stock,
           currency: 'USD',
         })
       ).toMatchInlineSnapshot(`-44.699999999999996`);
@@ -166,7 +166,7 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": null,
             "quantity": 1239.32,
             "security": undefined,
-            "securityType": "cash",
+            "AssetClass": "cash",
             "source": "direct",
           },
           Object {
@@ -183,7 +183,7 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": 3564.7,
             "quantity": 10,
             "security": undefined,
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
           Object {
@@ -200,7 +200,7 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": -46711.1,
             "quantity": 10,
             "security": undefined,
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
         ]
@@ -221,7 +221,7 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": null,
             "quantity": 1239.32,
             "security": undefined,
-            "securityType": "cash",
+            "AssetClass": "cash",
             "source": "direct",
           },
           Object {
@@ -255,7 +255,7 @@ describe('HoldingMetricsService', () => {
             "profitLossUsd": 332,
             "quantity": 10,
             "security": undefined,
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
           Object {
@@ -359,7 +359,7 @@ describe('HoldingMetricsService', () => {
               "symbol": "SBSI",
               "type": "equity",
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
           Object {
@@ -446,7 +446,7 @@ describe('HoldingMetricsService', () => {
               "type": "equity",
               "updatedAt": 2001-01-01T00:00:00.000Z,
             },
-            "securityType": "equity",
+            "AssetClass": "equity",
             "source": "broker",
           },
         ]

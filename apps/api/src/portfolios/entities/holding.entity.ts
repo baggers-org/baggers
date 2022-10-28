@@ -1,23 +1,22 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
-import { Schema } from 'mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
 import { ImportedSecurity, Security } from '~/securities';
 import { BaseDocument, ObjectId } from '~/shared';
-import { SecurityType } from '~/securities/enums/security-type.enum';
-import { Transaction } from './transaction';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { PopulatedTransaction, Transaction } from './transaction';
 import { InvestmentTransactionSubtype } from 'plaid';
 
 @ObjectType('HoldingFromDb')
 export class Holding extends BaseDocument {
   @Field(() => Security)
-  @Prop({ type: Schema.Types.ObjectId, ref: 'Security' })
-  security?: Security | ObjectId;
+  @Prop({ type: String, ref: 'Security' })
+  security?: Security | string;
 
-  @Field(() => SecurityType)
-  @Prop({ enum: SecurityType, type: String })
-  securityType: SecurityType;
+  @Field(() => AssetClass)
+  @Prop({ enum: AssetClass, type: String })
+  assetClass: AssetClass;
 
   @Field(() => ImportedSecurity)
   @Prop()
@@ -71,8 +70,8 @@ export class Holding extends BaseDocument {
         ? HoldingDirection.short
         : HoldingDirection.long,
       quantity: transaction.quantity,
-      security: transaction.security._id,
-      securityType: transaction.securityType,
+      security: transaction.security,
+      assetClass: transaction.assetClass,
       source: transaction.plaidTransactionId
         ? HoldingSource.broker
         : HoldingSource.transactions,

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import {
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
@@ -12,10 +12,10 @@ export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    if (holding.securityType === SecurityType.cash) return holding.quantity;
+    if (holding.assetClass === AssetClass.cash) return holding.quantity;
 
     if (holding.security) {
-      return holding.quantity * holding.security.marketDataSnapshot.min.c;
+      return holding.quantity * holding.security.tickerSnapshot.min.c;
     }
 
     if (holding.institutionValue) {
@@ -63,9 +63,7 @@ export class HoldingMetricsService {
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
       if (!holding.security) return null;
-      return (
-        holding.quantity * holding.security.marketDataSnapshot.todaysChange
-      );
+      return holding.quantity * holding.security.tickerSnapshot.todaysChange;
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +

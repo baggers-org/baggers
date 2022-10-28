@@ -1,36 +1,30 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { BaseDocument } from '~/shared';
-import { SecurityType } from '../enums/security-type.enum';
-import { MarketDataSnapshot } from './market-data-snapshot.entity';
+import { AssetClass } from '../enums/asset-class.enum';
+import { TickerDetails } from './ticker-details.entity';
+import { TickerSnapshot } from './ticker-snapshot.entity';
 
 export type SecurityDocument = Document & Security;
 
 @ObjectType()
 @Schema()
-export class Security extends BaseDocument {
+export class Security {
   @Prop()
-  symbol?: string;
+  _id?: string;
 
   @Prop()
   figi?: string;
 
   @Prop()
-  cik?: string;
-
-  @Prop()
   name?: string;
 
-  @Field(() => SecurityType)
-  @Prop({ enum: SecurityType, type: String })
-  type: SecurityType;
+  @Field(() => AssetClass)
+  @Prop({ enum: AssetClass, type: String })
+  assetClass: AssetClass;
 
   @Prop()
   exchange?: string;
-
-  @Prop()
-  exchangeName?: string;
 
   @Prop()
   region?: string;
@@ -38,9 +32,12 @@ export class Security extends BaseDocument {
   @Prop()
   currency?: string;
 
-  @Field(() => MarketDataSnapshot)
+  @Field(() => TickerSnapshot)
   @Prop()
-  marketDataSnapshot?: MarketDataSnapshot;
+  tickerSnapshot?: TickerSnapshot;
+
+  @Field(() => TickerDetails)
+  tickerDetails?: TickerDetails;
 
   // From plaid
   close_price?: number;
