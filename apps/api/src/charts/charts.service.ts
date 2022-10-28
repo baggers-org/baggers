@@ -13,7 +13,7 @@ export class ChartsService {
     private securitiesService: SecuritiesService
   ) {}
   async chartSecurityPrice(
-    securityId: ObjectId,
+    securityId: string,
     range: HistorialRange,
     options?: ChartPriceRangeOptions
   ): Promise<Chart[]> {

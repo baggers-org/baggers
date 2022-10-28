@@ -7,7 +7,7 @@ export const getSecuritySymbol = (
   if (isImportedSecurity(security)) {
     return security.ticker_symbol || security.name || 'Unknown';
   }
-  if (security.symbol) return security.symbol;
+  if (security._id) return security._id;
 
   return security.name || 'Unknown';
 };

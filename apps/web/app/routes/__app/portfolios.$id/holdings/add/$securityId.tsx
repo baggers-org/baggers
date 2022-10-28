@@ -37,12 +37,13 @@ export const action: ActionFunction = async ({ request, params }) => {
   const { data, error } = await AddHoldingValidator.validate(formData);
 
   if (error) return validationError(error);
+  if (!securityId) throw Error('No ID passed');
 
   await sdk.portfoliosAddHolding({
     _id: id,
     input: {
       security: securityId,
-      AssetClass: AssetClass.Equity,
+      assetClass: AssetClass.Stock,
       ...data,
     },
   });
@@ -53,6 +54,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const { securityId } = params;
 
   const sdk = await authenticatedSdk(request);
+  if (!securityId) throw redirect('/portfolios');
 
   const { securitiesFindById: security } = await sdk.securitiesFindById({
     _id: securityId,
@@ -170,7 +172,7 @@ export default function AddHolding() {
 
       <SecuritySearchModal
         open={isTickerSearchOpen}
-        defaultValue={security.symbol as string}
+        defaultValue={security._id as string}
         onResultSelect={(s) => {
           if (s) {
             setIsTickerSearchOpen(false);

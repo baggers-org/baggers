@@ -1,14 +1,8 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -35,7 +29,7 @@ export type AddHoldingInput = {
 
 export enum AscDesc {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export enum AssetClass {
@@ -43,7 +37,7 @@ export enum AssetClass {
   Cryptocurrency = 'cryptocurrency',
   Derivative = 'derivative',
   Fx = 'fx',
-  Stock = 'stock',
+  Stock = 'stock'
 }
 
 export type Chart = {
@@ -107,7 +101,7 @@ export enum HistoricalRange {
   YearToDate = 'YearToDate',
   Date = 'date',
   Dynamic = 'dynamic',
-  Max = 'max',
+  Max = 'max'
 }
 
 export type Holding = {
@@ -136,7 +130,7 @@ export type Holding = {
 
 export enum HoldingDirection {
   Long = 'long',
-  Short = 'short',
+  Short = 'short'
 }
 
 export type HoldingFromDb = {
@@ -161,7 +155,7 @@ export type HoldingFromDb = {
 export enum HoldingSource {
   Broker = 'broker',
   Direct = 'direct',
-  Transactions = 'transactions',
+  Transactions = 'transactions'
 }
 
 export type ImportResponse = {
@@ -212,40 +206,49 @@ export type Mutation = {
   usersUpdateOne: User;
 };
 
+
 export type MutationPortfoliosAddHoldingArgs = {
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 };
 
+
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
 };
+
 
 export type MutationPortfoliosRemoveHoldingArgs = {
   holdingId: Scalars['ObjectId'];
   portfolioId: Scalars['ObjectId'];
 };
 
+
 export type MutationPortfoliosRemoveMultipleArgs = {
   _ids: Array<Scalars['ObjectId']>;
 };
 
+
 export type MutationPortfoliosRemoveOneArgs = {
   _id: Scalars['ObjectId'];
 };
+
 
 export type MutationPortfoliosUpdateOneArgs = {
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 };
 
+
 export type MutationUsersFindOrCreateArgs = {
   input: CreateUserInput;
 };
 
+
 export type MutationUsersRemoveOneArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type MutationUsersUpdateOneArgs = {
   input: UpdateUserInput;
@@ -286,7 +289,7 @@ export enum PlaidAccountType {
   Depository = 'depository',
   Investment = 'investment',
   Loan = 'loan',
-  Other = 'other',
+  Other = 'other'
 }
 
 export type PlaidItem = {
@@ -387,23 +390,28 @@ export type Query = {
   usersFindById: User;
 };
 
+
 export type QueryChartSecurityPriceArgs = {
   options?: InputMaybe<ChartPriceRangeOptions>;
   range: HistoricalRange;
-  securityId: Scalars['ObjectId'];
+  securityId: Scalars['String'];
 };
+
 
 export type QueryPortfoliosFindByIdArgs = {
   _id: Scalars['ObjectId'];
 };
 
+
 export type QuerySecuritiesFindByIdArgs = {
   _id: Scalars['String'];
 };
 
+
 export type QuerySecuritiesSearchArgs = {
   searchTerm: Scalars['String'];
 };
+
 
 export type QueryUsersFindByIdArgs = {
   _id: Scalars['ID'];
@@ -424,11 +432,9 @@ export type Security = {
   __typename?: 'Security';
   _id?: Maybe<Scalars['String']>;
   assetClass: AssetClass;
-  cik?: Maybe<Scalars['String']>;
   close_price?: Maybe<Scalars['Float']>;
   currency?: Maybe<Scalars['String']>;
   exchange?: Maybe<Scalars['String']>;
-  exchangeName?: Maybe<Scalars['String']>;
   figi?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   region?: Maybe<Scalars['String']>;
@@ -489,23 +495,23 @@ export type SnapshotPrevDay = {
 export type TickerDetails = {
   __typename?: 'TickerDetails';
   active: Scalars['Boolean'];
-  cik: Scalars['String'];
-  currencyName: Scalars['String'];
-  description: Scalars['String'];
-  homepageUrl: Scalars['String'];
-  iconUrl: Scalars['String'];
-  listDate: Scalars['DateTime'];
-  logoUrl: Scalars['String'];
+  cik?: Maybe<Scalars['String']>;
+  currencyName?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  homepageUrl?: Maybe<Scalars['String']>;
+  iconUrl?: Maybe<Scalars['String']>;
+  listDate?: Maybe<Scalars['String']>;
+  logoUrl?: Maybe<Scalars['String']>;
   market: Scalars['String'];
-  marketCap: Scalars['Float'];
+  marketCap?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
   phoneNumber?: Maybe<Scalars['String']>;
   shareClassOutstanding?: Maybe<Scalars['Float']>;
-  sicCode: Scalars['Float'];
-  sicDescription: Scalars['String'];
-  totalEmployees: Scalars['Float'];
-  type: TickerType;
-  weightedSharesOutstanding: Scalars['Float'];
+  sicCode?: Maybe<Scalars['Float']>;
+  sicDescription?: Maybe<Scalars['String']>;
+  totalEmployees?: Maybe<Scalars['Float']>;
+  type?: Maybe<TickerType>;
+  weightedSharesOutstanding?: Maybe<Scalars['Float']>;
 };
 
 export type TickerSnapshot = {
@@ -543,7 +549,7 @@ export enum TickerType {
   Right = 'RIGHT',
   Sp = 'SP',
   Unit = 'UNIT',
-  Warrant = 'WARRANT',
+  Warrant = 'WARRANT'
 }
 
 export type Transaction = {
@@ -637,7 +643,7 @@ export enum TransactionSubtype {
   TransferFee = 'TransferFee',
   TrustFee = 'TrustFee',
   UnqualifiedGain = 'UnqualifiedGain',
-  Withdrawal = 'Withdrawal',
+  Withdrawal = 'Withdrawal'
 }
 
 export enum TransactionType {
@@ -646,7 +652,7 @@ export enum TransactionType {
   Cash = 'Cash',
   Fee = 'Fee',
   Sell = 'Sell',
-  Transfer = 'Transfer',
+  Transfer = 'Transfer'
 }
 
 export type UpdatePortfolioInput = {
@@ -676,1607 +682,130 @@ export type User = {
 
 export type ChartSecurityPriceQueryVariables = Exact<{
   range: HistoricalRange;
-  securityId: Scalars['ObjectId'];
+  securityId: Scalars['String'];
   options?: InputMaybe<ChartPriceRangeOptions>;
 }>;
 
-export type ChartSecurityPriceQuery = {
-  __typename?: 'Query';
-  chartSecurityPrice: Array<{
-    __typename?: 'Chart';
-    change: number;
-    changeOverTime: number;
-    changePercent: number;
-    close: number;
-    date: string;
-    fClose: number;
-    fHigh: number;
-    fLow: number;
-    fOpen: number;
-    fVolume: number;
-    high: number;
-    id: string;
-    key: string;
-    label: string;
-    low: number;
-    marketChangeOverTime: number;
-    open: number;
-    subkey: string;
-    symbol: string;
-    uClose: number;
-    uHigh: number;
-    uLow: number;
-    uOpen: number;
-    uVolume: number;
-    updated: number;
-    volume: number;
-  }>;
-};
 
-export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never }>;
+export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Chart', change: number, changeOverTime: number, changePercent: number, close: number, date: string, fClose: number, fHigh: number, fLow: number, fOpen: number, fVolume: number, high: number, id: string, key: string, label: string, low: number, marketChangeOverTime: number, open: number, subkey: string, symbol: string, uClose: number, uHigh: number, uLow: number, uOpen: number, uVolume: number, updated: number, volume: number }> };
 
-export type PlaidLinkTokenQuery = {
-  __typename?: 'Query';
-  plaidLinkToken: string;
-};
+export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type AllHoldingDataFragment = {
-  __typename?: 'Holding';
-  _id: any;
-  marketValue?: number | null;
-  exposure: number;
-  profitLossUsd?: number | null;
-  profitLossPercent?: number | null;
-  dailyProfitLossUsd?: number | null;
-  averagePrice?: number | null;
-  costBasis?: number | null;
-  brokerFees?: number | null;
-  institutionValue?: number | null;
-  direction?: HoldingDirection | null;
-  quantity: number;
-  assetClass: AssetClass;
-  source: HoldingSource;
-  currency: string;
-  importedSecurity?: {
-    __typename?: 'ImportedSecurity';
-    close_price?: number | null;
-    name?: string | null;
-    ticker_symbol?: string | null;
-    currency?: string | null;
-    assetClass?: AssetClass | null;
-  } | null;
-  security?: {
-    __typename?: 'Security';
-    _id?: string | null;
-    cik?: string | null;
-    currency?: string | null;
-    exchange?: string | null;
-    exchangeName?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active: boolean;
-      cik: string;
-      currencyName: string;
-      description: string;
-      homepageUrl: string;
-      iconUrl: string;
-      listDate: any;
-      logoUrl: string;
-      market: string;
-      marketCap: number;
-      name: string;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode: number;
-      sicDescription: string;
-      totalEmployees: number;
-      type: TickerType;
-      weightedSharesOutstanding: number;
-    } | null;
-    tickerSnapshot?: {
-      __typename?: 'TickerSnapshot';
-      ticker?: string | null;
-      todaysChange?: number | null;
-      todaysChangePerc?: number | null;
-      updated?: number | null;
-      day?: {
-        __typename?: 'SnapshotDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      lastQuote?: {
-        __typename?: 'SnapshotLastQuote';
-        P?: number | null;
-        S?: number | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-      } | null;
-      lastTrade?: {
-        __typename?: 'SnapshotLastTrade';
-        c?: Array<string> | null;
-        i?: string | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-        x?: number | null;
-      } | null;
-      min?: {
-        __typename?: 'SnapshotMin';
-        av?: number | null;
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      prevDay?: {
-        __typename?: 'SnapshotPrevDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-    } | null;
-  } | null;
-};
 
-export type FullPlaidAccountFragment = {
-  __typename?: 'PlaidAccount';
-  type?: PlaidAccountType | null;
-  name?: string | null;
-  subtype?: string | null;
-  official_name?: string | null;
-  account_id: string;
-  balances: {
-    __typename?: 'PlaidAccountBalance';
-    current?: number | null;
-    available?: number | null;
-  };
-};
+export type PlaidLinkTokenQuery = { __typename?: 'Query', plaidLinkToken: string };
 
-export type PortfolioSummaryFragment = {
-  __typename?: 'Portfolio';
-  _id: any;
-  cash: number;
-  name: string;
-  description?: string | null;
-  private: boolean;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  totalValue: number;
-  owner: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-  plaidAccount?: {
-    __typename?: 'PlaidAccount';
-    type?: PlaidAccountType | null;
-    name?: string | null;
-    subtype?: string | null;
-    official_name?: string | null;
-    account_id: string;
-    balances: {
-      __typename?: 'PlaidAccountBalance';
-      current?: number | null;
-      available?: number | null;
-    };
-  } | null;
-};
+export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null };
 
-export type PortfolioTransactionsFragment = {
-  __typename?: 'Portfolio';
-  transactions: Array<{
-    __typename?: 'Transaction';
-    _id: any;
-    name: string;
-    date: any;
-    currency: string;
-    quantity: number;
-    amount: number;
-    fees?: number | null;
-    price?: number | null;
-    type: TransactionType;
-    subType: TransactionSubtype;
-    security?: {
-      __typename?: 'Security';
-      _id?: string | null;
-      cik?: string | null;
-      currency?: string | null;
-      exchange?: string | null;
-      exchangeName?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active: boolean;
-        cik: string;
-        currencyName: string;
-        description: string;
-        homepageUrl: string;
-        iconUrl: string;
-        listDate: any;
-        logoUrl: string;
-        market: string;
-        marketCap: number;
-        name: string;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode: number;
-        sicDescription: string;
-        totalEmployees: number;
-        type: TickerType;
-        weightedSharesOutstanding: number;
-      } | null;
-      tickerSnapshot?: {
-        __typename?: 'TickerSnapshot';
-        ticker?: string | null;
-        todaysChange?: number | null;
-        todaysChangePerc?: number | null;
-        updated?: number | null;
-        day?: {
-          __typename?: 'SnapshotDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        lastQuote?: {
-          __typename?: 'SnapshotLastQuote';
-          P?: number | null;
-          S?: number | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-        } | null;
-        lastTrade?: {
-          __typename?: 'SnapshotLastTrade';
-          c?: Array<string> | null;
-          i?: string | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-          x?: number | null;
-        } | null;
-        min?: {
-          __typename?: 'SnapshotMin';
-          av?: number | null;
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        prevDay?: {
-          __typename?: 'SnapshotPrevDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-      } | null;
-    } | null;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      close_price?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass?: AssetClass | null;
-    } | null;
-  }>;
-};
+export type FullPlaidAccountFragment = { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } };
 
-export type PortfolioHoldingsFragment = {
-  __typename?: 'Portfolio';
-  holdings: Array<{
-    __typename?: 'Holding';
-    _id: any;
-    marketValue?: number | null;
-    exposure: number;
-    profitLossUsd?: number | null;
-    profitLossPercent?: number | null;
-    dailyProfitLossUsd?: number | null;
-    averagePrice?: number | null;
-    costBasis?: number | null;
-    brokerFees?: number | null;
-    institutionValue?: number | null;
-    direction?: HoldingDirection | null;
-    quantity: number;
-    assetClass: AssetClass;
-    source: HoldingSource;
-    currency: string;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      close_price?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass?: AssetClass | null;
-    } | null;
-    security?: {
-      __typename?: 'Security';
-      _id?: string | null;
-      cik?: string | null;
-      currency?: string | null;
-      exchange?: string | null;
-      exchangeName?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active: boolean;
-        cik: string;
-        currencyName: string;
-        description: string;
-        homepageUrl: string;
-        iconUrl: string;
-        listDate: any;
-        logoUrl: string;
-        market: string;
-        marketCap: number;
-        name: string;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode: number;
-        sicDescription: string;
-        totalEmployees: number;
-        type: TickerType;
-        weightedSharesOutstanding: number;
-      } | null;
-      tickerSnapshot?: {
-        __typename?: 'TickerSnapshot';
-        ticker?: string | null;
-        todaysChange?: number | null;
-        todaysChangePerc?: number | null;
-        updated?: number | null;
-        day?: {
-          __typename?: 'SnapshotDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        lastQuote?: {
-          __typename?: 'SnapshotLastQuote';
-          P?: number | null;
-          S?: number | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-        } | null;
-        lastTrade?: {
-          __typename?: 'SnapshotLastTrade';
-          c?: Array<string> | null;
-          i?: string | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-          x?: number | null;
-        } | null;
-        min?: {
-          __typename?: 'SnapshotMin';
-          av?: number | null;
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        prevDay?: {
-          __typename?: 'SnapshotPrevDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-      } | null;
-    } | null;
-  }>;
-};
+export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null };
 
-export type AllPortfolioDataFragment = {
-  __typename?: 'Portfolio';
-  _id: any;
-  cash: number;
-  name: string;
-  description?: string | null;
-  private: boolean;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  totalValue: number;
-  owner: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-  plaidAccount?: {
-    __typename?: 'PlaidAccount';
-    type?: PlaidAccountType | null;
-    name?: string | null;
-    subtype?: string | null;
-    official_name?: string | null;
-    account_id: string;
-    balances: {
-      __typename?: 'PlaidAccountBalance';
-      current?: number | null;
-      available?: number | null;
-    };
-  } | null;
-  holdings: Array<{
-    __typename?: 'Holding';
-    _id: any;
-    marketValue?: number | null;
-    exposure: number;
-    profitLossUsd?: number | null;
-    profitLossPercent?: number | null;
-    dailyProfitLossUsd?: number | null;
-    averagePrice?: number | null;
-    costBasis?: number | null;
-    brokerFees?: number | null;
-    institutionValue?: number | null;
-    direction?: HoldingDirection | null;
-    quantity: number;
-    assetClass: AssetClass;
-    source: HoldingSource;
-    currency: string;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      close_price?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass?: AssetClass | null;
-    } | null;
-    security?: {
-      __typename?: 'Security';
-      _id?: string | null;
-      cik?: string | null;
-      currency?: string | null;
-      exchange?: string | null;
-      exchangeName?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active: boolean;
-        cik: string;
-        currencyName: string;
-        description: string;
-        homepageUrl: string;
-        iconUrl: string;
-        listDate: any;
-        logoUrl: string;
-        market: string;
-        marketCap: number;
-        name: string;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode: number;
-        sicDescription: string;
-        totalEmployees: number;
-        type: TickerType;
-        weightedSharesOutstanding: number;
-      } | null;
-      tickerSnapshot?: {
-        __typename?: 'TickerSnapshot';
-        ticker?: string | null;
-        todaysChange?: number | null;
-        todaysChangePerc?: number | null;
-        updated?: number | null;
-        day?: {
-          __typename?: 'SnapshotDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        lastQuote?: {
-          __typename?: 'SnapshotLastQuote';
-          P?: number | null;
-          S?: number | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-        } | null;
-        lastTrade?: {
-          __typename?: 'SnapshotLastTrade';
-          c?: Array<string> | null;
-          i?: string | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-          x?: number | null;
-        } | null;
-        min?: {
-          __typename?: 'SnapshotMin';
-          av?: number | null;
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        prevDay?: {
-          __typename?: 'SnapshotPrevDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-      } | null;
-    } | null;
-  }>;
-  transactions: Array<{
-    __typename?: 'Transaction';
-    _id: any;
-    name: string;
-    date: any;
-    currency: string;
-    quantity: number;
-    amount: number;
-    fees?: number | null;
-    price?: number | null;
-    type: TransactionType;
-    subType: TransactionSubtype;
-    security?: {
-      __typename?: 'Security';
-      _id?: string | null;
-      cik?: string | null;
-      currency?: string | null;
-      exchange?: string | null;
-      exchangeName?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active: boolean;
-        cik: string;
-        currencyName: string;
-        description: string;
-        homepageUrl: string;
-        iconUrl: string;
-        listDate: any;
-        logoUrl: string;
-        market: string;
-        marketCap: number;
-        name: string;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode: number;
-        sicDescription: string;
-        totalEmployees: number;
-        type: TickerType;
-        weightedSharesOutstanding: number;
-      } | null;
-      tickerSnapshot?: {
-        __typename?: 'TickerSnapshot';
-        ticker?: string | null;
-        todaysChange?: number | null;
-        todaysChangePerc?: number | null;
-        updated?: number | null;
-        day?: {
-          __typename?: 'SnapshotDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        lastQuote?: {
-          __typename?: 'SnapshotLastQuote';
-          P?: number | null;
-          S?: number | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-        } | null;
-        lastTrade?: {
-          __typename?: 'SnapshotLastTrade';
-          c?: Array<string> | null;
-          i?: string | null;
-          p?: number | null;
-          s?: number | null;
-          t?: number | null;
-          x?: number | null;
-        } | null;
-        min?: {
-          __typename?: 'SnapshotMin';
-          av?: number | null;
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-        prevDay?: {
-          __typename?: 'SnapshotPrevDay';
-          c?: number | null;
-          h?: number | null;
-          l?: number | null;
-          o?: number | null;
-          v?: number | null;
-          vw?: number | null;
-        } | null;
-      } | null;
-    } | null;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      close_price?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass?: AssetClass | null;
-    } | null;
-  }>;
-};
+export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees?: number | null, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null }> };
 
-export type AllTransactionDataFragment = {
-  __typename?: 'Transaction';
-  _id: any;
-  name: string;
-  date: any;
-  currency: string;
-  quantity: number;
-  amount: number;
-  fees?: number | null;
-  price?: number | null;
-  type: TransactionType;
-  subType: TransactionSubtype;
-  security?: {
-    __typename?: 'Security';
-    _id?: string | null;
-    cik?: string | null;
-    currency?: string | null;
-    exchange?: string | null;
-    exchangeName?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active: boolean;
-      cik: string;
-      currencyName: string;
-      description: string;
-      homepageUrl: string;
-      iconUrl: string;
-      listDate: any;
-      logoUrl: string;
-      market: string;
-      marketCap: number;
-      name: string;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode: number;
-      sicDescription: string;
-      totalEmployees: number;
-      type: TickerType;
-      weightedSharesOutstanding: number;
-    } | null;
-    tickerSnapshot?: {
-      __typename?: 'TickerSnapshot';
-      ticker?: string | null;
-      todaysChange?: number | null;
-      todaysChangePerc?: number | null;
-      updated?: number | null;
-      day?: {
-        __typename?: 'SnapshotDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      lastQuote?: {
-        __typename?: 'SnapshotLastQuote';
-        P?: number | null;
-        S?: number | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-      } | null;
-      lastTrade?: {
-        __typename?: 'SnapshotLastTrade';
-        c?: Array<string> | null;
-        i?: string | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-        x?: number | null;
-      } | null;
-      min?: {
-        __typename?: 'SnapshotMin';
-        av?: number | null;
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      prevDay?: {
-        __typename?: 'SnapshotPrevDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-    } | null;
-  } | null;
-  importedSecurity?: {
-    __typename?: 'ImportedSecurity';
-    close_price?: number | null;
-    name?: string | null;
-    ticker_symbol?: string | null;
-    currency?: string | null;
-    assetClass?: AssetClass | null;
-  } | null;
-};
+export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null }> };
+
+export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees?: number | null, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null }> };
+
+export type AllTransactionDataFragment = { __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees?: number | null, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null };
 
 export type PortfoliosAddHoldingMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 }>;
 
-export type PortfoliosAddHoldingMutation = {
-  __typename?: 'Mutation';
-  portfoliosAddHolding: {
-    __typename?: 'PortfolioFromDb';
-    _id: any;
-    holdings: Array<{
-      __typename?: 'HoldingFromDb';
-      averagePrice?: number | null;
-      brokerFees?: number | null;
-      costBasis?: number | null;
-      quantity: number;
-    }>;
-  };
-};
+
+export type PortfoliosAddHoldingMutation = { __typename?: 'Mutation', portfoliosAddHolding: { __typename?: 'PortfolioFromDb', _id: any, holdings: Array<{ __typename?: 'HoldingFromDb', averagePrice?: number | null, brokerFees?: number | null, costBasis?: number | null, quantity: number }> } };
 
 export type PortfoliosBeginImportMutationVariables = Exact<{
   publicToken: Scalars['String'];
 }>;
 
-export type PortfoliosBeginImportMutation = {
-  __typename?: 'Mutation';
-  portfoliosBeginImport: {
-    __typename?: 'ImportResponse';
-    importedIds: Array<any>;
-  };
-};
 
-export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never }>;
+export type PortfoliosBeginImportMutation = { __typename?: 'Mutation', portfoliosBeginImport: { __typename?: 'ImportResponse', importedIds: Array<any> } };
 
-export type PortfoliosCreatedQuery = {
-  __typename?: 'Query';
-  portfoliosCreated: Array<{
-    __typename?: 'PortfolioSummary';
-    _id: any;
-    name: string;
-    cash: number;
-    private: boolean;
-    description?: string | null;
-    updatedAt?: any | null;
-    createdAt?: any | null;
-    totalValue: number;
-    owner: {
-      __typename?: 'User';
-      _id: string;
-      displayName: string;
-      emails?: Array<string> | null;
-      photos: Array<string>;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    };
-    plaidAccount?: {
-      __typename?: 'PlaidAccount';
-      type?: PlaidAccountType | null;
-      name?: string | null;
-      subtype?: string | null;
-      official_name?: string | null;
-      account_id: string;
-      balances: {
-        __typename?: 'PlaidAccountBalance';
-        current?: number | null;
-        available?: number | null;
-      };
-    } | null;
-    top5Holdings: Array<{
-      __typename?: 'Holding';
-      costBasis?: number | null;
-      exposure: number;
-      assetClass: AssetClass;
-      marketValue?: number | null;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        close_price?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass?: AssetClass | null;
-      } | null;
-      security?: {
-        __typename?: 'Security';
-        _id?: string | null;
-        name?: string | null;
-        exchangeName?: string | null;
-        region?: string | null;
-      } | null;
-    }>;
-  }>;
-};
+export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, name: string, cash: number, private: boolean, description?: string | null, updatedAt?: any | null, createdAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, top5Holdings: Array<{ __typename?: 'Holding', costBasis?: number | null, exposure: number, assetClass: AssetClass, marketValue?: number | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null, security?: { __typename?: 'Security', _id?: string | null, name?: string | null, region?: string | null } | null }> }> };
 
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosFindByIdQuery = {
-  __typename?: 'Query';
-  portfoliosFindById: {
-    __typename?: 'Portfolio';
-    _id: any;
-    cash: number;
-    name: string;
-    description?: string | null;
-    private: boolean;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    totalValue: number;
-    owner: {
-      __typename?: 'User';
-      _id: string;
-      displayName: string;
-      emails?: Array<string> | null;
-      photos: Array<string>;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    };
-    plaidAccount?: {
-      __typename?: 'PlaidAccount';
-      type?: PlaidAccountType | null;
-      name?: string | null;
-      subtype?: string | null;
-      official_name?: string | null;
-      account_id: string;
-      balances: {
-        __typename?: 'PlaidAccountBalance';
-        current?: number | null;
-        available?: number | null;
-      };
-    } | null;
-    holdings: Array<{
-      __typename?: 'Holding';
-      _id: any;
-      marketValue?: number | null;
-      exposure: number;
-      profitLossUsd?: number | null;
-      profitLossPercent?: number | null;
-      dailyProfitLossUsd?: number | null;
-      averagePrice?: number | null;
-      costBasis?: number | null;
-      brokerFees?: number | null;
-      institutionValue?: number | null;
-      direction?: HoldingDirection | null;
-      quantity: number;
-      assetClass: AssetClass;
-      source: HoldingSource;
-      currency: string;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        close_price?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass?: AssetClass | null;
-      } | null;
-      security?: {
-        __typename?: 'Security';
-        _id?: string | null;
-        cik?: string | null;
-        currency?: string | null;
-        exchange?: string | null;
-        exchangeName?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active: boolean;
-          cik: string;
-          currencyName: string;
-          description: string;
-          homepageUrl: string;
-          iconUrl: string;
-          listDate: any;
-          logoUrl: string;
-          market: string;
-          marketCap: number;
-          name: string;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode: number;
-          sicDescription: string;
-          totalEmployees: number;
-          type: TickerType;
-          weightedSharesOutstanding: number;
-        } | null;
-        tickerSnapshot?: {
-          __typename?: 'TickerSnapshot';
-          ticker?: string | null;
-          todaysChange?: number | null;
-          todaysChangePerc?: number | null;
-          updated?: number | null;
-          day?: {
-            __typename?: 'SnapshotDay';
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-          lastQuote?: {
-            __typename?: 'SnapshotLastQuote';
-            P?: number | null;
-            S?: number | null;
-            p?: number | null;
-            s?: number | null;
-            t?: number | null;
-          } | null;
-          lastTrade?: {
-            __typename?: 'SnapshotLastTrade';
-            c?: Array<string> | null;
-            i?: string | null;
-            p?: number | null;
-            s?: number | null;
-            t?: number | null;
-            x?: number | null;
-          } | null;
-          min?: {
-            __typename?: 'SnapshotMin';
-            av?: number | null;
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-          prevDay?: {
-            __typename?: 'SnapshotPrevDay';
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-        } | null;
-      } | null;
-    }>;
-    transactions: Array<{
-      __typename?: 'Transaction';
-      _id: any;
-      name: string;
-      date: any;
-      currency: string;
-      quantity: number;
-      amount: number;
-      fees?: number | null;
-      price?: number | null;
-      type: TransactionType;
-      subType: TransactionSubtype;
-      security?: {
-        __typename?: 'Security';
-        _id?: string | null;
-        cik?: string | null;
-        currency?: string | null;
-        exchange?: string | null;
-        exchangeName?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active: boolean;
-          cik: string;
-          currencyName: string;
-          description: string;
-          homepageUrl: string;
-          iconUrl: string;
-          listDate: any;
-          logoUrl: string;
-          market: string;
-          marketCap: number;
-          name: string;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode: number;
-          sicDescription: string;
-          totalEmployees: number;
-          type: TickerType;
-          weightedSharesOutstanding: number;
-        } | null;
-        tickerSnapshot?: {
-          __typename?: 'TickerSnapshot';
-          ticker?: string | null;
-          todaysChange?: number | null;
-          todaysChangePerc?: number | null;
-          updated?: number | null;
-          day?: {
-            __typename?: 'SnapshotDay';
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-          lastQuote?: {
-            __typename?: 'SnapshotLastQuote';
-            P?: number | null;
-            S?: number | null;
-            p?: number | null;
-            s?: number | null;
-            t?: number | null;
-          } | null;
-          lastTrade?: {
-            __typename?: 'SnapshotLastTrade';
-            c?: Array<string> | null;
-            i?: string | null;
-            p?: number | null;
-            s?: number | null;
-            t?: number | null;
-            x?: number | null;
-          } | null;
-          min?: {
-            __typename?: 'SnapshotMin';
-            av?: number | null;
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-          prevDay?: {
-            __typename?: 'SnapshotPrevDay';
-            c?: number | null;
-            h?: number | null;
-            l?: number | null;
-            o?: number | null;
-            v?: number | null;
-            vw?: number | null;
-          } | null;
-        } | null;
-      } | null;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        close_price?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass?: AssetClass | null;
-      } | null;
-    }>;
-  };
-};
 
-export type PortfoliosInitEmptyMutationVariables = Exact<{
-  [key: string]: never;
-}>;
+export type PortfoliosFindByIdQuery = { __typename?: 'Query', portfoliosFindById: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue?: number | null, exposure: number, profitLossUsd?: number | null, profitLossPercent?: number | null, dailyProfitLossUsd?: number | null, averagePrice?: number | null, costBasis?: number | null, brokerFees?: number | null, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees?: number | null, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null } | null }> } };
 
-export type PortfoliosInitEmptyMutation = {
-  __typename?: 'Mutation';
-  portfoliosInitEmpty: { __typename?: 'RecordId'; _id: string };
-};
+export type PortfoliosInitEmptyMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PortfoliosInitEmptyMutation = { __typename?: 'Mutation', portfoliosInitEmpty: { __typename?: 'RecordId', _id: string } };
 
 export type PortfoliosRemoveHoldingMutationVariables = Exact<{
   portfolioId: Scalars['ObjectId'];
   holdingId: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveHoldingMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveHolding: any;
-};
+
+export type PortfoliosRemoveHoldingMutation = { __typename?: 'Mutation', portfoliosRemoveHolding: any };
 
 export type PortfoliosRemoveMultipleMutationVariables = Exact<{
   _ids: Array<Scalars['ObjectId']> | Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveMultipleMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveMultiple: {
-    __typename?: 'RemoveMultipleResponse';
-    acknowledged: boolean;
-    deletedCount: number;
-  };
-};
+
+export type PortfoliosRemoveMultipleMutation = { __typename?: 'Mutation', portfoliosRemoveMultiple: { __typename?: 'RemoveMultipleResponse', acknowledged: boolean, deletedCount: number } };
 
 export type PortfoliosRemoveOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveOneMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveOne: { __typename?: 'RecordId'; _id: string };
-};
+
+export type PortfoliosRemoveOneMutation = { __typename?: 'Mutation', portfoliosRemoveOne: { __typename?: 'RecordId', _id: string } };
 
 export type PortfoliosUpdateOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 }>;
 
-export type PortfoliosUpdateOneMutation = {
-  __typename?: 'Mutation';
-  portfoliosUpdateOne: {
-    __typename?: 'PortfolioFromDb';
-    _id: any;
-    createdAt?: any | null;
-    description?: string | null;
-    name: string;
-    private: boolean;
-    updatedAt?: any | null;
-  };
-};
 
-export type AllSecurityDataFragment = {
-  __typename?: 'Security';
-  _id?: string | null;
-  cik?: string | null;
-  currency?: string | null;
-  exchange?: string | null;
-  exchangeName?: string | null;
-  assetClass: AssetClass;
-  figi?: string | null;
-  name?: string | null;
-  region?: string | null;
-  tickerDetails?: {
-    __typename?: 'TickerDetails';
-    active: boolean;
-    cik: string;
-    currencyName: string;
-    description: string;
-    homepageUrl: string;
-    iconUrl: string;
-    listDate: any;
-    logoUrl: string;
-    market: string;
-    marketCap: number;
-    name: string;
-    phoneNumber?: string | null;
-    shareClassOutstanding?: number | null;
-    sicCode: number;
-    sicDescription: string;
-    totalEmployees: number;
-    type: TickerType;
-    weightedSharesOutstanding: number;
-  } | null;
-  tickerSnapshot?: {
-    __typename?: 'TickerSnapshot';
-    ticker?: string | null;
-    todaysChange?: number | null;
-    todaysChangePerc?: number | null;
-    updated?: number | null;
-    day?: {
-      __typename?: 'SnapshotDay';
-      c?: number | null;
-      h?: number | null;
-      l?: number | null;
-      o?: number | null;
-      v?: number | null;
-      vw?: number | null;
-    } | null;
-    lastQuote?: {
-      __typename?: 'SnapshotLastQuote';
-      P?: number | null;
-      S?: number | null;
-      p?: number | null;
-      s?: number | null;
-      t?: number | null;
-    } | null;
-    lastTrade?: {
-      __typename?: 'SnapshotLastTrade';
-      c?: Array<string> | null;
-      i?: string | null;
-      p?: number | null;
-      s?: number | null;
-      t?: number | null;
-      x?: number | null;
-    } | null;
-    min?: {
-      __typename?: 'SnapshotMin';
-      av?: number | null;
-      c?: number | null;
-      h?: number | null;
-      l?: number | null;
-      o?: number | null;
-      v?: number | null;
-      vw?: number | null;
-    } | null;
-    prevDay?: {
-      __typename?: 'SnapshotPrevDay';
-      c?: number | null;
-      h?: number | null;
-      l?: number | null;
-      o?: number | null;
-      v?: number | null;
-      vw?: number | null;
-    } | null;
-  } | null;
-};
+export type PortfoliosUpdateOneMutation = { __typename?: 'Mutation', portfoliosUpdateOne: { __typename?: 'PortfolioFromDb', _id: any, createdAt?: any | null, description?: string | null, name: string, private: boolean, updatedAt?: any | null } };
 
-export type AllImportedSecurityDataFragment = {
-  __typename?: 'ImportedSecurity';
-  close_price?: number | null;
-  name?: string | null;
-  ticker_symbol?: string | null;
-  currency?: string | null;
-  assetClass?: AssetClass | null;
-};
+export type AllSecurityDataFragment = { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null };
 
-export type SecuritySummaryFragment = {
-  __typename?: 'Security';
-  _id?: string | null;
-  name?: string | null;
-  exchangeName?: string | null;
-  region?: string | null;
-};
+export type AllImportedSecurityDataFragment = { __typename?: 'ImportedSecurity', close_price?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass?: AssetClass | null };
 
-export type AllTickerDetailsFragment = {
-  __typename?: 'TickerDetails';
-  active: boolean;
-  cik: string;
-  currencyName: string;
-  description: string;
-  homepageUrl: string;
-  iconUrl: string;
-  listDate: any;
-  logoUrl: string;
-  market: string;
-  marketCap: number;
-  name: string;
-  phoneNumber?: string | null;
-  shareClassOutstanding?: number | null;
-  sicCode: number;
-  sicDescription: string;
-  totalEmployees: number;
-  type: TickerType;
-  weightedSharesOutstanding: number;
-};
+export type SecuritySummaryFragment = { __typename?: 'Security', _id?: string | null, name?: string | null, region?: string | null };
 
-export type AllTickerSnapshotFragment = {
-  __typename?: 'TickerSnapshot';
-  ticker?: string | null;
-  todaysChange?: number | null;
-  todaysChangePerc?: number | null;
-  updated?: number | null;
-  day?: {
-    __typename?: 'SnapshotDay';
-    c?: number | null;
-    h?: number | null;
-    l?: number | null;
-    o?: number | null;
-    v?: number | null;
-    vw?: number | null;
-  } | null;
-  lastQuote?: {
-    __typename?: 'SnapshotLastQuote';
-    P?: number | null;
-    S?: number | null;
-    p?: number | null;
-    s?: number | null;
-    t?: number | null;
-  } | null;
-  lastTrade?: {
-    __typename?: 'SnapshotLastTrade';
-    c?: Array<string> | null;
-    i?: string | null;
-    p?: number | null;
-    s?: number | null;
-    t?: number | null;
-    x?: number | null;
-  } | null;
-  min?: {
-    __typename?: 'SnapshotMin';
-    av?: number | null;
-    c?: number | null;
-    h?: number | null;
-    l?: number | null;
-    o?: number | null;
-    v?: number | null;
-    vw?: number | null;
-  } | null;
-  prevDay?: {
-    __typename?: 'SnapshotPrevDay';
-    c?: number | null;
-    h?: number | null;
-    l?: number | null;
-    o?: number | null;
-    v?: number | null;
-    vw?: number | null;
-  } | null;
-};
+export type AllTickerDetailsFragment = { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null };
+
+export type AllTickerSnapshotFragment = { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null };
 
 export type SecuritiesFindByIdQueryVariables = Exact<{
   _id: Scalars['String'];
 }>;
 
-export type SecuritiesFindByIdQuery = {
-  __typename?: 'Query';
-  securitiesFindById: {
-    __typename?: 'Security';
-    _id?: string | null;
-    cik?: string | null;
-    currency?: string | null;
-    exchange?: string | null;
-    exchangeName?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active: boolean;
-      cik: string;
-      currencyName: string;
-      description: string;
-      homepageUrl: string;
-      iconUrl: string;
-      listDate: any;
-      logoUrl: string;
-      market: string;
-      marketCap: number;
-      name: string;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode: number;
-      sicDescription: string;
-      totalEmployees: number;
-      type: TickerType;
-      weightedSharesOutstanding: number;
-    } | null;
-    tickerSnapshot?: {
-      __typename?: 'TickerSnapshot';
-      ticker?: string | null;
-      todaysChange?: number | null;
-      todaysChangePerc?: number | null;
-      updated?: number | null;
-      day?: {
-        __typename?: 'SnapshotDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      lastQuote?: {
-        __typename?: 'SnapshotLastQuote';
-        P?: number | null;
-        S?: number | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-      } | null;
-      lastTrade?: {
-        __typename?: 'SnapshotLastTrade';
-        c?: Array<string> | null;
-        i?: string | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-        x?: number | null;
-      } | null;
-      min?: {
-        __typename?: 'SnapshotMin';
-        av?: number | null;
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      prevDay?: {
-        __typename?: 'SnapshotPrevDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-    } | null;
-  };
-};
+
+export type SecuritiesFindByIdQuery = { __typename?: 'Query', securitiesFindById: { __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null } };
 
 export type SecuritiesSearchQueryVariables = Exact<{
   searchTerm: Scalars['String'];
 }>;
 
-export type SecuritiesSearchQuery = {
-  __typename?: 'Query';
-  securitiesSearch: Array<{
-    __typename?: 'Security';
-    _id?: string | null;
-    cik?: string | null;
-    currency?: string | null;
-    exchange?: string | null;
-    exchangeName?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active: boolean;
-      cik: string;
-      currencyName: string;
-      description: string;
-      homepageUrl: string;
-      iconUrl: string;
-      listDate: any;
-      logoUrl: string;
-      market: string;
-      marketCap: number;
-      name: string;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode: number;
-      sicDescription: string;
-      totalEmployees: number;
-      type: TickerType;
-      weightedSharesOutstanding: number;
-    } | null;
-    tickerSnapshot?: {
-      __typename?: 'TickerSnapshot';
-      ticker?: string | null;
-      todaysChange?: number | null;
-      todaysChangePerc?: number | null;
-      updated?: number | null;
-      day?: {
-        __typename?: 'SnapshotDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      lastQuote?: {
-        __typename?: 'SnapshotLastQuote';
-        P?: number | null;
-        S?: number | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-      } | null;
-      lastTrade?: {
-        __typename?: 'SnapshotLastTrade';
-        c?: Array<string> | null;
-        i?: string | null;
-        p?: number | null;
-        s?: number | null;
-        t?: number | null;
-        x?: number | null;
-      } | null;
-      min?: {
-        __typename?: 'SnapshotMin';
-        av?: number | null;
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-      prevDay?: {
-        __typename?: 'SnapshotPrevDay';
-        c?: number | null;
-        h?: number | null;
-        l?: number | null;
-        o?: number | null;
-        v?: number | null;
-        vw?: number | null;
-      } | null;
-    } | null;
-  }>;
-};
 
-export type FullUserFragment = {
-  __typename?: 'User';
-  _id: string;
-  displayName: string;
-  emails?: Array<string> | null;
-  photos: Array<string>;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
+export type SecuritiesSearchQuery = { __typename?: 'Query', securitiesSearch: Array<{ __typename?: 'Security', _id?: string | null, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, tickerDetails?: { __typename?: 'TickerDetails', active: boolean, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market: string, marketCap?: number | null, name: string, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null, tickerSnapshot?: { __typename?: 'TickerSnapshot', ticker?: string | null, todaysChange?: number | null, todaysChangePerc?: number | null, updated?: number | null, day?: { __typename?: 'SnapshotDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, lastQuote?: { __typename?: 'SnapshotLastQuote', P?: number | null, S?: number | null, p?: number | null, s?: number | null, t?: number | null } | null, lastTrade?: { __typename?: 'SnapshotLastTrade', c?: Array<string> | null, i?: string | null, p?: number | null, s?: number | null, t?: number | null, x?: number | null } | null, min?: { __typename?: 'SnapshotMin', av?: number | null, c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null, prevDay?: { __typename?: 'SnapshotPrevDay', c?: number | null, h?: number | null, l?: number | null, o?: number | null, v?: number | null, vw?: number | null } | null } | null }> };
+
+export type FullUserFragment = { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null };
 
 export type UsersFindByIdQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type UsersFindByIdQuery = {
-  __typename?: 'Query';
-  usersFindById: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-};
+
+export type UsersFindByIdQuery = { __typename?: 'Query', usersFindById: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type UsersFindOrCreateMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
-export type UsersFindOrCreateMutation = {
-  __typename?: 'Mutation';
-  usersFindOrCreate: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-};
+
+export type UsersFindOrCreateMutation = { __typename?: 'Mutation', usersFindOrCreate: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };

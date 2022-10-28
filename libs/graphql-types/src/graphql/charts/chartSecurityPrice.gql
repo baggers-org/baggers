@@ -1,6 +1,6 @@
 query chartSecurityPrice(
   $range: HistoricalRange!
-  $securityId: ObjectId!
+  $securityId: String!
   $options: ChartPriceRangeOptions
 ) {
   chartSecurityPrice(

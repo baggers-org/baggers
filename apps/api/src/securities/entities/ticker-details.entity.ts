@@ -7,23 +7,23 @@ export class TickerDetails {
   @Prop()
   active: boolean;
   @Prop()
-  iconUrl: string;
+  iconUrl?: string;
   @Prop()
-  logoUrl: string;
+  logoUrl?: string;
   @Prop()
-  cik: string;
+  cik?: string;
   @Prop()
-  currencyName: string;
+  currencyName?: string;
   @Prop()
-  description: string;
+  description?: string;
   @Prop()
-  homepageUrl: string;
+  homepageUrl?: string;
   @Prop()
-  listDate: Date;
+  listDate?: string;
   @Prop()
   market: string;
   @Prop()
-  marketCap: number;
+  marketCap?: number;
   @Prop()
   name: string;
   @Prop()
@@ -31,14 +31,14 @@ export class TickerDetails {
   @Prop()
   shareClassOutstanding?: number;
   @Prop()
-  sicCode: number;
+  sicCode?: number;
   @Prop()
-  sicDescription: string;
+  sicDescription?: string;
   @Prop()
-  totalEmployees: number;
+  totalEmployees?: number;
   @Field(() => TickerType)
   @Prop({ enum: TickerType, type: String })
-  type: TickerType;
+  type?: TickerType;
   @Prop()
-  weightedSharesOutstanding: number;
+  weightedSharesOutstanding?: number;
 }

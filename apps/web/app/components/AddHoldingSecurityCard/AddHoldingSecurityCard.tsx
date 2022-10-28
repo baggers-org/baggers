@@ -27,12 +27,12 @@ export const AddHoldingSecurityCard: React.FC<AddHoldingSecurityCardProps> = ({
           justifyContent="space-between"
         >
           <SecurityLogo
-            symbol={addingSecurity.symbol as string}
+            symbol={addingSecurity._id as string}
             includeSecurityLink={false}
             loading={loading}
           />
           <Typography mr={2}>
-            {!loading ? addingSecurity?.symbol : <Skeleton width={100} />}
+            {!loading ? addingSecurity?._id : <Skeleton width={100} />}
           </Typography>
           <Typography variant="subtitle1">
             {!loading ? addingSecurity?.name : <Skeleton width={150} />}

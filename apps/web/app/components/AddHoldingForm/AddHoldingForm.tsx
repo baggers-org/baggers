@@ -34,7 +34,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     direction: HoldingDirection.Long,
     quantity: 1,
     currency: 'USD',
-    AssetClass: AssetClass.Equity,
+    AssetClass: AssetClass.Stock,
     brokerFees: 0,
     averagePrice: 0,
   });
@@ -42,14 +42,14 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
-    if (!addingSecurity?.quote?.latestPrice || !holdingDetails.averagePrice)
+    if (!addingSecurity?.tickerSnapshot?.min?.c || !holdingDetails.averagePrice)
       return { holdingReturn: 0, fxReturn: 0 };
 
     const costBasis =
       holdingDetails.averagePrice * holdingDetails.quantity +
       holdingDetails.brokerFees;
     const marketValue =
-      addingSecurity.quote.latestPrice * holdingDetails.quantity;
+      addingSecurity.tickerSnapshot.min.c * holdingDetails.quantity;
 
     const plUsd = marketValue - costBasis;
     const plPercent = (plUsd / costBasis) * 100;
@@ -68,8 +68,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
-              {t(`how_many`, `How many`)}{' '}
-              <strong>{addingSecurity.symbol}</strong>
+              {t(`how_many`, `How many`)} <strong>{addingSecurity._id}</strong>
               {` `}
               {` `}
               {holdingDetails?.direction === `long`

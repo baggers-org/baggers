@@ -56,7 +56,7 @@ export const getTickerInfo = async () => {
         $set: {
           figi: ticker.composite_figi,
           name: ticker.name,
-          assetClass: ticker.type as AssetClass,
+          assetClass: AssetClass.Stock,
           exchange: ticker.primary_exchange,
           region: ticker.locale,
           tickerDetails: {

@@ -2,7 +2,7 @@
 
 query chartSecurityPrice(
   $range: HistoricalRange!
-  $securityId: ObjectId!
+  $securityId: String!
   $options: ChartPriceRangeOptions
 ) {
   chartSecurityPrice(
@@ -245,10 +245,8 @@ mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
 
 fragment AllSecurityData on Security {
   _id
-  cik
   currency
   exchange
-  exchangeName
   assetClass
   figi
   name
@@ -273,7 +271,6 @@ fragment AllImportedSecurityData on ImportedSecurity {
 fragment SecuritySummary on Security {
   _id
   name
-  exchangeName
   region
 }
 

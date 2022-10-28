@@ -337,7 +337,7 @@ type PortfolioSummary {
 }
 
 type Query {
-  chartSecurityPrice(options: ChartPriceRangeOptions, range: HistoricalRange!, securityId: ObjectId!): [Chart!]!
+  chartSecurityPrice(options: ChartPriceRangeOptions, range: HistoricalRange!, securityId: String!): [Chart!]!
   plaidLinkToken: String!
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
@@ -415,23 +415,23 @@ type SnapshotPrevDay {
 
 type TickerDetails {
   active: Boolean!
-  cik: String!
-  currencyName: String!
-  description: String!
-  homepageUrl: String!
-  iconUrl: String!
-  listDate: DateTime!
-  logoUrl: String!
+  cik: String
+  currencyName: String
+  description: String
+  homepageUrl: String
+  iconUrl: String
+  listDate: String
+  logoUrl: String
   market: String!
-  marketCap: Float!
+  marketCap: Float
   name: String!
   phoneNumber: String
   shareClassOutstanding: Float
-  sicCode: Float!
-  sicDescription: String!
-  totalEmployees: Float!
-  type: TickerType!
-  weightedSharesOutstanding: Float!
+  sicCode: Float
+  sicDescription: String
+  totalEmployees: Float
+  type: TickerType
+  weightedSharesOutstanding: Float
 }
 
 type TickerSnapshot {

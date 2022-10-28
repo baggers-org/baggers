@@ -19,7 +19,7 @@ export const useTableColumns = (): GridColDef[] => {
       headerName: t(`instrument`, `Instrument`),
       flex: 2,
       valueGetter: ({ row }) =>
-        row?.security?.symbol || row.importedSecurity.ticker_symbol,
+        row?.security?._id || row.importedSecurity.ticker_symbol,
       renderCell: ({ row }) => (
         <SecurityLogo
           symbol={getSecuritySymbol(row.security || row.importedSecurity)}
@@ -62,25 +62,31 @@ export const useTableColumns = (): GridColDef[] => {
       headerName: t(`averagePrice`, `Average price`),
     },
     {
-      field: `security.quote.latestPrice`,
+      field: `latestPrice`,
       valueGetter: ({ row }) =>
-        row.security?.quote.latestPrice || row.importedSecurity?.close_price,
+        row.security?.tickerSnapshot?.min?.c ||
+        row.importedSecurity?.close_price,
       headerName: `${t(`price`, `Price`)}`,
       flex: 1,
       renderCell: ({ row }) => {
         return formatCurrency(
-          row?.security?.quote?.latestPrice || row.importedSecurity?.close_price
+          row?.security?.tickerSanpshot?.min?.c ||
+            row.importedSecurity?.close_price
         );
       },
     },
     {
       field: `change%`,
-      valueGetter: ({ row }) => row.security?.quote.changePercent || 'Unknown',
+      valueGetter: ({ row }) =>
+        row.security?.tickerSnapshot?.todaysChangePerc || 'Unknown',
       headerName: `${t(`change`, `Change`)} %`,
       flex: 1,
       renderCell: ({ row }) => {
         return (
-          <PriceTag value={row?.security?.quote?.changePercent} isPercent />
+          <PriceTag
+            value={row?.security?.tickerSnapshot?.todaysChangePerc}
+            isPercent
+          />
         );
       },
     },
@@ -116,11 +122,11 @@ export const useTableColumns = (): GridColDef[] => {
       headerName: `${t('last_market_update', 'Last market update')}`,
       flex: 1,
       valueGetter: ({ row }) =>
-        row.security?.quote?.lastUpdate ||
+        row.security?.tickerSnapshot?.updated ||
         row.importedSecurity?.update_datetime,
       renderCell: ({ row }) =>
         formatDistance(
-          new Date(row.security?.quote?.latestUpdate) ||
+          new Date(row.security?.tickerSnapshot?.updated) ||
             new Date(row.importedSecurity?.update_datetime),
           new Date(),
           { addSuffix: true }
