@@ -8,8 +8,8 @@ export const env = {
   ATLAS_CLUSTER_URI: joi.required(),
   SESSION_SECRET: joi.required(),
   AUTH0_DOMAIN: joi.required(),
-  IEX_BASE_URL: joi.required(),
-  IEX_TOKEN: joi.required(),
+  POLYGON_REST_URI: joi.required(),
+  POLYGON_API_KEY: joi.required(),
   NODE_ENV: joi.required().valid('development', 'production', 'test'),
   OPEN_FIGI_KEY: joi.required(),
 };

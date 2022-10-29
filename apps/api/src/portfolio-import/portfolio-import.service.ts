@@ -58,7 +58,7 @@ export class PortfolioImportService {
         security: security?._id,
         plaidTransactionId: t.investment_transaction_id,
         plaidAccountId: t.account_id,
-        securityType: security?.type || importedSecurity?.type,
+        assetClass: security?.assetClass || importedSecurity?.assetClass,
         importedSecurity,
       };
       return transaction;
@@ -90,7 +90,7 @@ export class PortfolioImportService {
         importedSecurity,
         currency: t.iso_currency_code,
         security: security?._id,
-        securityType: security?.type || importedSecurity?.type,
+        assetClass: security?.assetClass || importedSecurity?.assetClass,
         _id: new ObjectId(),
       };
 

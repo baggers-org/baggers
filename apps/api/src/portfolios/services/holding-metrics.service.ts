@@ -1,21 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import {
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
 } from '../entities/holding.entity';
 import { PopulatedPortfolio } from '../entities/portfolio.entity';
 import { PortfolioMetricsService } from './portfolio-metrics.service';
+import { getSecurityPrice } from '@baggers/security-util';
 
 @Injectable()
 export class HoldingMetricsService {
   constructor(private portfolioMetricsService: PortfolioMetricsService) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    if (holding.securityType === SecurityType.cash) return holding.quantity;
+    if (holding.assetClass === AssetClass.cash) return holding.quantity;
 
     if (holding.security) {
-      return holding.quantity * holding.security.quote.latestPrice;
+      return (
+        holding.quantity *
+        getSecurityPrice(holding.security || holding.importedSecurity)
+      );
     }
 
     if (holding.institutionValue) {
@@ -63,7 +67,7 @@ export class HoldingMetricsService {
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
       if (!holding.security) return null;
-      return holding.quantity * holding.security.quote.change;
+      return holding.quantity * holding.security.tickerSnapshot.todaysChange;
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +

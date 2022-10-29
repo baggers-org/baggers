@@ -3,14 +3,25 @@
 # ------------------------------------------------------
 
 input AddHoldingInput {
+  assetClass: AssetClass!
   averagePrice: Float!
   brokerFees: Float = 0
   currency: String!
   direction: HoldingDirection!
   quantity: Float!
-  security: ObjectId!
-  securityType: SecurityType!
+  security: String!
   transactionDate: DateTime
+}
+
+type Aggregate {
+  c: Float
+  h: Float
+  l: Float
+  n: Float
+  o: Float
+  t: Float
+  v: Float
+  vw: Float
 }
 
 enum AscDesc {
@@ -18,44 +29,19 @@ enum AscDesc {
   desc
 }
 
-type Chart {
-  change: Float!
-  changeOverTime: Float!
-  changePercent: Float!
-  close: Float!
-  date: String!
-  fClose: Float!
-  fHigh: Float!
-  fLow: Float!
-  fOpen: Float!
-  fVolume: Float!
-  high: Float!
-  id: String!
-  key: String!
-  label: String!
-  low: Float!
-  marketChangeOverTime: Float!
-  open: Float!
-  subkey: String!
-  symbol: String!
-  uClose: Float!
-  uHigh: Float!
-  uLow: Float!
-  uOpen: Float!
-  uVolume: Float!
-  updated: Float!
-  volume: Float!
+enum AssetClass {
+  cash
+  cryptocurrency
+  derivative
+  fx
+  stock
 }
 
 input ChartPriceRangeOptions {
-  chartByDay: Boolean
-  chartCloseOnly: Boolean
-  chartInterval: Float
-  chartLast: Float
-  chartSimplify: Boolean
-  displayPercent: Float
-  includeToday: Boolean
+  from: String!
   sort: AscDesc
+  timespan: Timespan!
+  to: String!
 }
 
 input CreateUserInput {
@@ -70,24 +56,9 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-enum HistoricalRange {
-  Last2Years
-  Last3Months
-  Last5Days
-  Last5Days10MinuteIntervals
-  Last5Years
-  Last6Months
-  LastMonth
-  LastMonth30MinuteIntervals
-  LastYear
-  YearToDate
-  date
-  dynamic
-  max
-}
-
 type Holding {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -104,7 +75,6 @@ type Holding {
   profitLossUsd: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -116,6 +86,7 @@ enum HoldingDirection {
 
 type HoldingFromDb {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -127,7 +98,6 @@ type HoldingFromDb {
   plaidAccountId: String
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -143,14 +113,16 @@ type ImportResponse {
 }
 
 type ImportedSecurity {
-  close_price: Float
+  assetClass: AssetClass
   close_price_as_of: String
   currency: String
   cusip: String
   institution_id: String
   institution_security_id: String
+  isImported: Boolean
   is_cash_equivalent: Boolean
   isin: String
+  latestPrice: Float
   name: String
   proxy_security_id: String
 
@@ -160,7 +132,6 @@ type ImportedSecurity {
   security_id: String!
   sedol: String
   ticker_symbol: String
-  type: SecurityType
   unofficial_currency_code: String
   update_datetime: String
 }
@@ -267,6 +238,7 @@ type PlaidItemError {
 
 type PopulatedHolding {
   _id: ObjectId!
+  assetClass: AssetClass!
   averagePrice: Float
   brokerFees: Float
   costBasis: Float
@@ -278,7 +250,6 @@ type PopulatedHolding {
   plaidAccountId: String
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   source: HoldingSource!
   updatedAt: DateTime
 }
@@ -329,72 +300,13 @@ type PortfolioSummary {
 }
 
 type Query {
-  chartSecurityPrice(options: ChartPriceRangeOptions, range: HistoricalRange!, securityId: ObjectId!): [Chart!]!
+  chartSecurityPrice(options: ChartPriceRangeOptions!, ticker: String!): [Aggregate!]!
   plaidLinkToken: String!
   portfoliosCreated: [PortfolioSummary!]!
   portfoliosFindById(_id: ObjectId!): Portfolio!
-  securitiesFindById(_id: ObjectId!): Security!
+  securitiesFindById(_id: String!): Security!
   securitiesSearch(searchTerm: String!): [Security!]!
   usersFindById(_id: ID!): User!
-}
-
-type Quote {
-  avgTotalVolume: Float
-  calculationPrice: String
-  change: Float
-  changePercent: Float
-  close: Float
-  closeSource: String
-  closeTime: Float
-  companyName: String!
-  currency: String
-  delayedPrice: Float
-  delayedPriceTime: Float
-  extendedChange: Float
-  extendedChangePercent: Float
-  extendedPrice: Float
-  extendedPriceTime: Float
-  high: Float
-  highSource: String
-  highTime: Float
-  iexAskPrice: Float
-  iexAskSize: Float
-  iexBidPrice: Float
-  iexBidSize: Float
-  iexClose: Float
-  iexCloseTime: Float
-  iexLastUpdated: Float
-  iexMarketPercent: Float
-  iexOpen: Float
-  iexOpenTime: Float
-  iexRealtimePrice: Float
-  iexRealtimeSize: Float
-  iexVolume: Float
-  isUSMarketOpen: Boolean
-  lastTradeTime: Float
-  latestPrice: Float
-  latestSource: String
-  latestTime: String
-  latestUpdate: Float
-  latestVolume: Float
-  low: Float
-  lowSource: String
-  lowTime: Float
-  marketCap: Float
-  oddLotDelayedPrice: Float
-  oddLotDelayedPriceTime: Float
-  open: Float
-  openSource: String
-  openTime: Float
-  peRatio: Float
-  previousClose: Float
-  previousVolume: Float
-  primaryExchange: String
-  symbol: String
-  volume: Float
-  week52High: Float
-  week52Low: Float
-  ytdChange: Float
 }
 
 type RecordId {
@@ -407,38 +319,136 @@ type RemoveMultipleResponse {
 }
 
 type Security {
-  _id: ObjectId!
-  cik: String
-  close_price: Float
-  createdAt: DateTime
+  _id: String
+  assetClass: AssetClass!
   currency: String
   exchange: String
-  exchangeName: String
   figi: String
-  iexId: String
+  isImported: Boolean
+  latestPrice: Float
   name: String
-  quote: Quote
   region: String
-  symbol: String
-  type: SecurityType!
-  updatedAt: DateTime
+  tickerDetails: TickerDetails
+  tickerSnapshot: TickerSnapshot
 }
 
-enum SecurityType {
-  cash
-  cryptocurrency
-  derivative
-  equity
-  etf
-  fixed_income
-  loan
-  mutual_fund
-  other
+type SnapshotDay {
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type SnapshotLastQuote {
+  P: Float
+  S: Float
+  p: Float
+  s: Float
+  t: Float
+}
+
+type SnapshotLastTrade {
+  c: [String!]
+  i: String
+  p: Float
+  s: Float
+  t: Float
+  x: Float
+}
+
+type SnapshotMin {
+  av: Float
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type SnapshotPrevDay {
+  c: Float
+  h: Float
+  l: Float
+  o: Float
+  v: Float
+  vw: Float
+}
+
+type TickerDetails {
+  active: Boolean!
+  cik: String
+  currencyName: String
+  description: String
+  homepageUrl: String
+  iconUrl: String
+  listDate: String
+  logoUrl: String
+  market: String!
+  marketCap: Float
+  name: String!
+  phoneNumber: String
+  shareClassOutstanding: Float
+  sicCode: Float
+  sicDescription: String
+  totalEmployees: Float
+  type: TickerType
+  weightedSharesOutstanding: Float
+}
+
+type TickerSnapshot {
+  day: SnapshotDay
+  lastQuote: SnapshotLastQuote
+  lastTrade: SnapshotLastTrade
+  min: SnapshotMin
+  prevDay: SnapshotPrevDay
+  ticker: String
+  todaysChange: Float
+  todaysChangePerc: Float
+  updated: Float
+}
+
+enum TickerType {
+  Adrc
+  Adrr
+  Adrw
+  Agen
+  Basket
+  Bond
+  Cs
+  Eqlk
+  Etf
+  Etn
+  Etv
+  Fund
+  Gdr
+  Lt
+  Nyrs
+  Os
+  Other
+  Pfd
+  Right
+  Sp
+  Unit
+  Warrant
+}
+
+enum Timespan {
+  day
+  hour
+  minute
+  month
+  quarter
+  week
+  year
 }
 
 type Transaction {
   _id: ObjectId!
   amount: Float!
+  assetClass: AssetClass!
   createdBy: User
   currency: String!
   date: DateTime!
@@ -454,7 +464,6 @@ type Transaction {
   price: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   subType: TransactionSubtype!
   type: TransactionType!
 }
@@ -462,6 +471,7 @@ type Transaction {
 type TransactionFromDb {
   _id: ObjectId!
   amount: Float!
+  assetClass: AssetClass!
   createdBy: User
   currency: String!
   date: DateTime!
@@ -477,7 +487,6 @@ type TransactionFromDb {
   price: Float
   quantity: Float!
   security: Security
-  securityType: SecurityType!
   subType: TransactionSubtype!
   type: TransactionType!
 }

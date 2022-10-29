@@ -1,41 +1,15 @@
 
 
-query chartSecurityPrice(
-  $range: HistoricalRange!
-  $securityId: ObjectId!
-  $options: ChartPriceRangeOptions
-) {
-  chartSecurityPrice(
-    range: $range
-    securityId: $securityId
-    options: $options
-  ) {
-    change
-    changeOverTime
-    changePercent
-    close
-    date
-    fClose
-    fHigh
-    fLow
-    fOpen
-    fVolume
-    high
-    id
-    key
-    label
-    low
-    marketChangeOverTime
-    open
-    subkey
-    symbol
-    uClose
-    uHigh
-    uLow
-    uOpen
-    uVolume
-    updated
-    volume
+query chartSecurityPrice($ticker: String!, $options: ChartPriceRangeOptions!) {
+  chartSecurityPrice(options: $options, ticker: $ticker) {
+    c
+    h
+    l
+    n
+    o
+    t
+    v
+    vw
   }
 }
 
@@ -61,7 +35,7 @@ fragment AllHoldingData on Holding {
   institutionValue
   direction
   quantity
-  securityType
+  assetClass
   source
   currency
   importedSecurity {
@@ -180,7 +154,7 @@ query portfoliosCreated {
     top5Holdings {
       costBasis
       exposure
-      securityType
+      assetClass
       marketValue
       importedSecurity {
         ...AllImportedSecurityData
@@ -243,110 +217,114 @@ mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
 }
 
 
-fragment AllQuoteData on Quote {
-  avgTotalVolume
-  calculationPrice
-  change
-  changePercent
-  companyName
-  close
-  closeSource
-  closeTime
-  currency
-  delayedPrice
-  delayedPriceTime
-  extendedPrice
-  extendedChange
-  extendedChangePercent
-  extendedPriceTime
-  high
-  highSource
-  highTime
-  iexAskPrice
-  iexAskSize
-  iexBidPrice
-  iexBidSize
-  iexClose
-  iexCloseTime
-  iexLastUpdated
-  iexOpen
-  iexOpenTime
-  iexRealtimePrice
-  iexRealtimeSize
-  iexMarketPercent
-  iexVolume
-  isUSMarketOpen
-  lastTradeTime
-  latestPrice
-  latestSource
-  latestTime
-  latestUpdate
-  latestVolume
-  low
-  lowTime
-  lowSource
-  marketCap
-  oddLotDelayedPrice
-  oddLotDelayedPriceTime
-  open
-  openSource
-  openTime
-  peRatio
-  previousClose
-  previousVolume
-  primaryExchange
-  symbol
-  week52High
-  week52Low
-  volume
-  ytdChange
-}
-
-
 fragment AllSecurityData on Security {
-  cik
-  createdAt
+  _id
   currency
   exchange
-  exchangeName
+  assetClass
   figi
-  iexId
   name
   region
-  symbol
-  quote {
-    ...AllQuoteData
+  latestPrice
+  tickerDetails {
+    ...AllTickerDetails
   }
-  updatedAt
+
+  tickerSnapshot {
+    ...AllTickerSnapshot
+  }
 }
 
 fragment AllImportedSecurityData on ImportedSecurity {
-  close_price
+  latestPrice
   name
   ticker_symbol
   currency
-  type
+  assetClass
 }
 
 fragment SecuritySummary on Security {
   _id
   name
-  symbol
-  exchangeName
   region
-  quote {
-    latestPrice
-  }
+  latestPrice
 }
 
 
-query securitiesFindById($_id: ObjectId!) {
+fragment AllTickerDetails on TickerDetails {
+  active
+  cik
+  currencyName
+  description
+  homepageUrl
+  iconUrl
+  listDate
+  logoUrl
+  market
+  marketCap
+  name
+  phoneNumber
+  shareClassOutstanding
+  sicCode
+  sicDescription
+  totalEmployees
+  type
+  weightedSharesOutstanding
+}
+
+
+fragment AllTickerSnapshot on TickerSnapshot {
+  day {
+    c
+    h
+    l
+    o
+    v
+    vw
+  }
+  lastQuote {
+    P
+    S
+    p
+    s
+    t
+  }
+  lastTrade {
+    c
+    i
+    p
+    s
+    t
+    x
+  }
+  min {
+    av
+    c
+    h
+    l
+    o
+    v
+    vw
+  }
+  prevDay {
+    c
+    h
+    l
+    o
+    v
+    vw
+  }
+  ticker
+  todaysChange
+  todaysChangePerc
+  updated
+}
+
+
+query securitiesFindById($_id: String!) {
   securitiesFindById(_id: $_id) {
     _id
     ...AllSecurityData
-    quote {
-      ...AllQuoteData
-    }
   }
 }
 
@@ -355,9 +333,6 @@ query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
     _id
     ...AllSecurityData
-    quote {
-      ...AllQuoteData
-    }
   }
 }
 

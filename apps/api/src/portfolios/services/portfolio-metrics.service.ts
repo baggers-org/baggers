@@ -1,5 +1,6 @@
+import { getSecurityPrice } from '@baggers/security-util';
 import { Injectable } from '@nestjs/common';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { PopulatedPortfolio } from '../entities';
 
@@ -11,7 +12,7 @@ export class PortfolioMetricsService {
     const { holdings } = portfolio;
     return (
       holdings.reduce((totalCash, holding) => {
-        if (holding.securityType === SecurityType.cash)
+        if (holding.assetClass === AssetClass.cash)
           return totalCash + holding.quantity;
         return totalCash;
       }, 0) ||
@@ -27,9 +28,7 @@ export class PortfolioMetricsService {
           .reduce((acc, curr) => {
             const marketValue =
               curr.quantity *
-              this.securitiesUtil.getPrice(
-                curr.security || curr.importedSecurity
-              );
+              getSecurityPrice(curr.security || curr.importedSecurity);
 
             return acc + marketValue;
           }, 0)

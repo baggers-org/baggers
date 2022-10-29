@@ -1,20 +1,20 @@
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 import path from 'path';
+import { Security } from '@baggers/graphql-types';
 import { writeFileSync } from 'fs';
 
 const symbols = ['ONDS', 'TSLA', 'BRK.A'];
 const symbolFilter = {
-  symbol: {
+  _id: {
     $in: symbols,
   },
 };
 // We will only need the value of the dev ATLAS cluster
 // so just require .env
 if (!process.env.CI) {
-  const envPath = path.join(__dirname, '../../packages/ui/.env');
   dotenv.config({
-    path: envPath,
+    path: 'apps/web/.env',
   });
 }
 
@@ -25,12 +25,12 @@ export async function fetchTestSymbolData(mongoUri) {
 
     const results = await client
       .db('baggers')
-      .collection('securities')
+      .collection<Security>('securities')
       .find(symbolFilter);
 
     await results.forEach((symbol) => {
       writeFileSync(
-        `${path.join(__dirname, '../fixtures/', symbol.symbol)}.json`,
+        `${path.join(__dirname, '../fixtures/', symbol._id)}.json`,
         JSON.stringify(symbol)
       );
     });

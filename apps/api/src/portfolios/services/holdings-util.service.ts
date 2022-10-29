@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { Security } from '~/securities';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { ObjectId } from '~/shared';
 import { Holding, PortfolioDocument } from '../entities';
 import { HoldingDirection, HoldingSource } from '../enums';
@@ -11,7 +12,7 @@ export class HoldingsUtilService {
       _id: new ObjectId(),
       currency,
       quantity: amount,
-      securityType: SecurityType.cash,
+      assetClass: AssetClass.cash,
       source: HoldingSource.transactions,
       direction: HoldingDirection.long,
     };
@@ -48,7 +49,7 @@ export class HoldingsUtilService {
   }
   findCashHoldingIndex(holdings: Holding[], currency: string): number {
     return holdings.findIndex(
-      (h) => h.currency === currency && h.securityType === SecurityType.cash
+      (h) => h.currency === currency && h.assetClass === AssetClass.cash
     );
   }
 
@@ -75,15 +76,15 @@ export class HoldingsUtilService {
     let securityId: ObjectId | string;
     const { security, importedSecurity } = holding;
     if (security) {
-      if (security instanceof ObjectId) {
-        securityId = security;
+      if (security instanceof Security) {
+        securityId = security._id;
       } else {
-        securityId = holding.security._id;
+        securityId = security;
       }
     } else if (importedSecurity) {
       securityId = importedSecurity.security_id;
     }
-    return `${securityId}${holding.direction}${holding.securityType}${holding.currency}`;
+    return `${securityId}${holding.direction}${holding.assetClass}${holding.currency}`;
   }
 
   /**

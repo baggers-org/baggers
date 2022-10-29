@@ -1,4 +1,3 @@
-import { ObjectId } from '~/shared';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
@@ -14,7 +13,7 @@ export class SecuritiesService {
     return this.securityModel.find(filter);
   }
 
-  findById(_id: ObjectId) {
+  findById(_id: string) {
     return this.securityModel
       .findById(_id)
       .orFail(
@@ -30,7 +29,7 @@ export class SecuritiesService {
             index: `securitySearch`,
             text: {
               query: term,
-              path: `symbol`,
+              path: `_id`,
             },
           },
         },

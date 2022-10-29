@@ -1,5 +1,4 @@
 import React from 'react';
-import { Favorite, ModeComment, RemoveRedEye } from '@mui/icons-material';
 import {
   alpha,
   Box,
@@ -18,7 +17,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from '@remix-run/react';
 import { PriceTag } from '../PriceTag';
 import { PortfolioCardChart } from './components';
-import { PortfolioTags } from '../PortfolioTags';
 import { NoDataChart } from './components/NoDataChart';
 import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 
@@ -39,6 +37,8 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
   const navigate = useNavigate();
 
   const theme = useTheme();
+
+  console.log(portfolio);
 
   return (
     <Card
@@ -128,29 +128,7 @@ export const PortfolioCard: React.FC<PortfolioCardProps> = ({
               {formatCurrency(portfolio?.totalValue || 0)}
             </Typography>
           </Stack>
-          {portfolio.top5Holdings.length ? (
-            <>
-              <PortfolioTags portfolio={portfolio} />
-            </>
-          ) : null}
         </CardContent>
-
-        {!portfolio?.private ? (
-          <Stack direction="row" justifyContent="space-between" p={4}>
-            <Stack>
-              <RemoveRedEye />
-              <Typography>1,232,023</Typography>
-            </Stack>
-            <Stack>
-              <Favorite />
-              <Typography>2391</Typography>
-            </Stack>
-            <Stack>
-              <ModeComment />
-              <Typography>109</Typography>
-            </Stack>
-          </Stack>
-        ) : null}
       </CardActionArea>
     </Card>
   );

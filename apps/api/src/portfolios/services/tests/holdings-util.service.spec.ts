@@ -4,7 +4,7 @@ import { Holding } from '../../entities';
 import { HoldingDirection } from '../../enums/holding-direction.enum';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingsUtilService } from '../holdings-util.service';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 describe('Holdings Service', () => {
   let service: HoldingsUtilService;
@@ -25,7 +25,7 @@ describe('Holdings Service', () => {
           quantity: 3.4,
           source: HoldingSource.direct,
           direction: HoldingDirection.long,
-          securityType: SecurityType.equity,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
         {
@@ -36,7 +36,7 @@ describe('Holdings Service', () => {
           quantity: 1,
           source: HoldingSource.direct,
           direction: HoldingDirection.long,
-          securityType: SecurityType.equity,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
       ];
@@ -65,7 +65,7 @@ describe('Holdings Service', () => {
           quantity: -1,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
-          securityType: SecurityType.equity,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
         {
@@ -76,7 +76,7 @@ describe('Holdings Service', () => {
           quantity: -2,
           source: HoldingSource.broker,
           direction: HoldingDirection.short,
-          securityType: SecurityType.equity,
+          assetClass: AssetClass.stock,
           currency: 'USD',
         },
       ];

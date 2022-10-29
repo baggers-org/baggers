@@ -1,5 +1,5 @@
 import { TSLA, A, ImportedDBLTX, ImportedSBSI, SBSI } from '~/securities';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { ObjectId } from '~/shared';
 import { Holding } from '../entities';
 import { HoldingSource, HoldingDirection } from '../enums';
@@ -8,7 +8,7 @@ const TestCashHolding: Holding = {
   _id: new ObjectId('62d2cd45c63873e235c99531'),
   quantity: 1239.32,
   source: HoldingSource.direct,
-  securityType: SecurityType.cash,
+  assetClass: AssetClass.cash,
   currency: 'USD',
 };
 export const Holdings1: Holding[] = [
@@ -24,7 +24,7 @@ export const Holdings1: Holding[] = [
     brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     source: HoldingSource.broker,
   },
 
@@ -38,7 +38,7 @@ export const Holdings1: Holding[] = [
     brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     source: HoldingSource.broker,
   },
 ];
@@ -52,7 +52,7 @@ export const ImportedHoldings: Holding[] = [
     quantity: 10,
     institutionValue: 432,
     source: HoldingSource.broker,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     currency: 'USD',
     importedSecurity: ImportedDBLTX,
   },
@@ -65,7 +65,7 @@ export const ImportedHoldings: Holding[] = [
     source: HoldingSource.broker,
     // This one can be linked
     security: SBSI._id,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     currency: 'USD',
     importedSecurity: ImportedSBSI,
   },
@@ -76,7 +76,7 @@ export const ImportedHoldings: Holding[] = [
     costBasis: 42,
     quantity: 20,
     source: HoldingSource.broker,
-    securityType: SecurityType.equity,
+    assetClass: AssetClass.stock,
     currency: 'USD',
     security: TSLA._id,
   },

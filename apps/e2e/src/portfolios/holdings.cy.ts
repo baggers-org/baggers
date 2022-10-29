@@ -40,7 +40,7 @@ describe('Portfolio holdings', () => {
 
     // Check the return section is correct
     cy.fixture('ONDS').then((onds) => {
-      const marketValue = onds.quote.latestPrice * 20;
+      const marketValue = onds.tickerSnapshot.min.c * 20;
       const costBasis = 6.5 * 20 + brokerFees;
       const expectedReturnUsd = marketValue - costBasis;
       const expectedReturnPercent = (expectedReturnUsd / costBasis) * 100;
@@ -75,8 +75,8 @@ describe('Portfolio holdings', () => {
         .find('[data-field="averagePrice"]')
         .should('contain.text', `$6.50`);
       firstRow()
-        .find('[data-field="security.quote.latestPrice"]')
-        .should('contain.text', `${formatCurrency(onds.quote.latestPrice)}`);
+        .find('[data-field="latestPrice"]')
+        .should('contain.text', `${formatCurrency(onds.tickerSnapshot.min.c)}`);
       firstRow()
         .find('[data-field="profitLossPercent"]')
         .should('contain.text', `${expectedReturnPercent.toFixed(2)}%`);
@@ -87,14 +87,14 @@ describe('Portfolio holdings', () => {
       cy.findByText('Transactions').click();
 
       //eslint-disable-next-line
-      cy.wait(1000);
+      cy.wait(2000);
 
       firstRow()
         .find('[data-field="date"]')
         .should('contain.text', format(new Date(), 'do LLL yy'));
       firstRow().find('[data-field="amount"]').should('contain.text', '130');
 
-      cy.findByText('BUY Ondas Holdings Inc');
+      cy.findByText('BUY Ondas Holdings Inc. Common Stock');
 
       cy.findByText('Settings').click();
 

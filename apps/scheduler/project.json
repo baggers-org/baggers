@@ -25,6 +25,12 @@
         }
       }
     },
+    "setup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx arc init"
+      }
+    },
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {

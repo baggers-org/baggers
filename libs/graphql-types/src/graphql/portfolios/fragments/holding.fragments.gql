@@ -14,7 +14,7 @@ fragment AllHoldingData on Holding {
   institutionValue
   direction
   quantity
-  securityType
+  assetClass
   source
   currency
   importedSecurity {

@@ -1,6 +1,6 @@
 import { Portfolio1 } from '~/portfolios';
 import { A, TSLA } from '~/securities';
-import { HoldingDirection, SecurityType } from '@baggers/graphql-types';
+import { HoldingDirection, AssetClass } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosAddHoldingTest = () =>
@@ -26,25 +26,84 @@ export const portfoliosAddHoldingTest = () =>
           quantity: 1,
           averagePrice: 105.4,
           currency: 'USD',
-          securityType: SecurityType.Equity,
+          assetClass: AssetClass.Stock as any,
         },
       });
 
       let portfolio = await getPortfolio();
 
       expect(portfolio.holdings.length).toBe(1);
-      expect(portfolio.holdings[0].quantity).toBe(1);
-      expect(portfolio.holdings[0].averagePrice).toBe(105.4);
-      expect(portfolio.holdings[0].direction).toBe(HoldingDirection.Long);
-      expect(portfolio.holdings[0].exposure).toBe(100);
-      expect(portfolio.holdings[0].marketValue).toBe(123.09);
-      expect(portfolio.holdings[0].profitLossPercent).toMatchInlineSnapshot(
-        `16.78368121442125`
-      );
-      expect(portfolio.holdings[0].profitLossUsd).toMatchInlineSnapshot(
-        `17.689999999999998`
-      );
-      expect(portfolio.holdings[0].dailyProfitLossUsd).toBe(-4.47);
+      expect({ ...portfolio.holdings[0], _id: null }).toMatchInlineSnapshot(`
+        Object {
+          "_id": null,
+          "assetClass": "stock",
+          "averagePrice": 105.4,
+          "brokerFees": 0,
+          "costBasis": 105.4,
+          "currency": "USD",
+          "dailyProfitLossUsd": -1.4799999999999969,
+          "direction": "long",
+          "exposure": 100,
+          "importedSecurity": null,
+          "institutionValue": null,
+          "marketValue": 54.5,
+          "profitLossPercent": -48.292220113852,
+          "profitLossUsd": -50.900000000000006,
+          "quantity": 1,
+          "security": Object {
+            "_id": "A",
+            "assetClass": "stock",
+            "currency": "USD",
+            "exchange": "XNAS",
+            "figi": "BBG000C2V3D6",
+            "latestPrice": 54.5,
+            "name": "Agilent Technologies Inc.",
+            "region": "US",
+            "tickerDetails": null,
+            "tickerSnapshot": Object {
+              "day": Object {
+                "c": 0,
+                "h": 0,
+                "l": 0,
+                "o": 0,
+                "v": 0,
+                "vw": 0,
+              },
+              "lastQuote": null,
+              "lastTrade": Object {
+                "c": null,
+                "i": null,
+                "p": 54.5,
+                "s": null,
+                "t": null,
+                "x": null,
+              },
+              "min": Object {
+                "av": 12516,
+                "c": 54.5,
+                "h": 54.5,
+                "l": 54.5,
+                "o": 54.5,
+                "v": 560,
+                "vw": 54.5,
+              },
+              "prevDay": Object {
+                "c": 55.98,
+                "h": 58.06,
+                "l": 55.12,
+                "o": 56.38,
+                "v": 3414924,
+                "vw": 56.0815,
+              },
+              "ticker": "NET",
+              "todaysChange": -1.4799999999999969,
+              "todaysChangePerc": -2.643801357627719,
+              "updated": 1666959600000000000,
+            },
+          },
+          "source": "direct",
+        }
+      `);
 
       // Add the same security / direction / type again to check its merged
       await User1Sdk().portfoliosAddHolding({
@@ -54,7 +113,7 @@ export const portfoliosAddHoldingTest = () =>
           security: A._id,
           quantity: 4,
           averagePrice: 130.34,
-          securityType: SecurityType.Equity,
+          assetClass: AssetClass.Stock as any,
           currency: 'USD',
         },
       });
@@ -63,20 +122,77 @@ export const portfoliosAddHoldingTest = () =>
 
       // Should still be 1
       expect(portfolio.holdings.length).toBe(1);
-      expect(portfolio.holdings[0].quantity).toBe(5);
-      expect(portfolio.holdings[0].averagePrice).toBe(125.35);
-      expect(portfolio.holdings[0].direction).toBe(HoldingDirection.Long);
-      expect(portfolio.holdings[0].exposure).toBe(100);
-      expect(portfolio.holdings[0].marketValue).toBe(615.45);
-      expect(portfolio.holdings[0].profitLossPercent).toMatchInlineSnapshot(
-        `-1.8045184759716553`
-      );
-      expect(portfolio.holdings[0].profitLossUsd).toMatchInlineSnapshot(
-        `-11.309999999999945`
-      );
-      expect(portfolio.holdings[0].dailyProfitLossUsd).toMatchInlineSnapshot(
-        `-22.349999999999998`
-      );
+      expect({ ...portfolio.holdings[0], _id: null }).toMatchInlineSnapshot(`
+        Object {
+          "_id": null,
+          "assetClass": "stock",
+          "averagePrice": 125.35,
+          "brokerFees": 0,
+          "costBasis": 626.76,
+          "currency": "USD",
+          "dailyProfitLossUsd": -7.399999999999984,
+          "direction": "long",
+          "exposure": 100,
+          "importedSecurity": null,
+          "institutionValue": null,
+          "marketValue": 272.5,
+          "profitLossPercent": -56.522432829153104,
+          "profitLossUsd": -354.26,
+          "quantity": 5,
+          "security": Object {
+            "_id": "A",
+            "assetClass": "stock",
+            "currency": "USD",
+            "exchange": "XNAS",
+            "figi": "BBG000C2V3D6",
+            "latestPrice": 54.5,
+            "name": "Agilent Technologies Inc.",
+            "region": "US",
+            "tickerDetails": null,
+            "tickerSnapshot": Object {
+              "day": Object {
+                "c": 0,
+                "h": 0,
+                "l": 0,
+                "o": 0,
+                "v": 0,
+                "vw": 0,
+              },
+              "lastQuote": null,
+              "lastTrade": Object {
+                "c": null,
+                "i": null,
+                "p": 54.5,
+                "s": null,
+                "t": null,
+                "x": null,
+              },
+              "min": Object {
+                "av": 12516,
+                "c": 54.5,
+                "h": 54.5,
+                "l": 54.5,
+                "o": 54.5,
+                "v": 560,
+                "vw": 54.5,
+              },
+              "prevDay": Object {
+                "c": 55.98,
+                "h": 58.06,
+                "l": 55.12,
+                "o": 56.38,
+                "v": 3414924,
+                "vw": 56.0815,
+              },
+              "ticker": "NET",
+              "todaysChange": -1.4799999999999969,
+              "todaysChangePerc": -2.643801357627719,
+              "updated": 1666959600000000000,
+            },
+          },
+          "source": "direct",
+        }
+      `);
 
       // Lets add TSLA
       await User1Sdk().portfoliosAddHolding({
@@ -86,7 +202,7 @@ export const portfoliosAddHoldingTest = () =>
           averagePrice: 100,
           quantity: 3,
           direction: HoldingDirection.Long,
-          securityType: SecurityType.Equity,
+          assetClass: AssetClass.Stock as any,
           currency: 'USD',
         },
       });
@@ -96,7 +212,7 @@ export const portfoliosAddHoldingTest = () =>
       expect(portfolio.holdings.length).toBe(2);
       // Exposure should go down on the first holding now
       expect(portfolio.holdings[0].exposure).toMatchInlineSnapshot(
-        `78.30294441154074`
+        `56.916996047430835`
       );
 
       // We should have added the 2 relevant transactions
@@ -173,7 +289,7 @@ export const portfoliosAddHoldingTest = () =>
             security: TSLA._id,
             averagePrice: 200,
             direction: HoldingDirection.Short,
-            securityType: SecurityType.Equity,
+            assetClass: AssetClass.Stock as any,
             currency: 'USD',
             quantity: 1,
           },

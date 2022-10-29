@@ -2,7 +2,6 @@ import { Resolver, Query, Args } from '@nestjs/graphql';
 import { SecuritiesService } from './securities.service';
 import { Security } from './entities/security.entity';
 import { Public } from '~/auth';
-import { ObjectId, ObjectIdScalar } from '~/shared';
 
 @Resolver(() => Security)
 export class SecuritiesResolver {
@@ -10,7 +9,7 @@ export class SecuritiesResolver {
 
   @Public()
   @Query(() => Security, { name: 'securitiesFindById' })
-  findById(@Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId) {
+  findById(@Args('_id', { type: () => String }) _id: string) {
     return this.securitiesService.findById(_id);
   }
 

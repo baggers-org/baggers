@@ -1,10 +1,11 @@
 import { ImportedSecurity } from '../entities';
-import { SecurityType } from '../enums/security-type.enum';
+import { AssetClass } from '../enums/asset-class.enum';
 
 // This will be in our Databse
 export const ImportedSBSI: ImportedSecurity = {
-  close_price: 34.73,
+  latestPrice: 34.73,
   close_price_as_of: null,
+  isImported: true,
   cusip: '84470P109',
   institution_id: null,
   institution_security_id: null,
@@ -16,14 +17,15 @@ export const ImportedSBSI: ImportedSecurity = {
   security_id: 'eW4jmnjd6AtjxXVrjmj6SX1dNEdZp3Cy8RnRQ',
   sedol: null,
   ticker_symbol: 'SBSI',
-  type: SecurityType.equity,
+  assetClass: AssetClass.stock,
   unofficial_currency_code: null,
   update_datetime: null,
 };
 
 // This will not
 export const ImportedDBLTX: ImportedSecurity = {
-  close_price: 10.42,
+  latestPrice: 10.42,
+  isImported: true,
   close_price_as_of: null,
   cusip: '258620103',
   institution_id: null,
@@ -36,7 +38,7 @@ export const ImportedDBLTX: ImportedSecurity = {
   security_id: 'NDVQrXQoqzt5v3bAe8qRt4A7mK7wvZCLEBBJk',
   sedol: null,
   ticker_symbol: 'DBLTX',
-  type: SecurityType.mutual_fund,
+  assetClass: AssetClass.stock,
   unofficial_currency_code: null,
   update_datetime: null,
 };

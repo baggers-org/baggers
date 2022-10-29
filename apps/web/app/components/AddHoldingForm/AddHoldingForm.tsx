@@ -1,8 +1,4 @@
-import {
-  HoldingDirection,
-  Security,
-  SecurityType,
-} from '@baggers/graphql-types';
+import { HoldingDirection, Security, AssetClass } from '@baggers/graphql-types';
 import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
 import {
   Alert,
@@ -24,6 +20,7 @@ import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
 import { ValidatedDateTimePicker } from '~/validation/components/ValidatedDateTimePicker';
+import { getSecurityPrice } from '@baggers/security-util';
 
 export type AddHoldingFormProps = {
   addingSecurity: Security;
@@ -38,7 +35,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
     direction: HoldingDirection.Long,
     quantity: 1,
     currency: 'USD',
-    securityType: SecurityType.Equity,
+    AssetClass: AssetClass.Stock,
     brokerFees: 0,
     averagePrice: 0,
   });
@@ -46,14 +43,14 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
   const { isValid } = useFormContext();
 
   const { profitLossPercent, profitLossUsd } = useMemo(() => {
-    if (!addingSecurity?.quote?.latestPrice || !holdingDetails.averagePrice)
+    const price = getSecurityPrice(addingSecurity);
+    if (!price || !holdingDetails.averagePrice)
       return { holdingReturn: 0, fxReturn: 0 };
 
     const costBasis =
       holdingDetails.averagePrice * holdingDetails.quantity +
       holdingDetails.brokerFees;
-    const marketValue =
-      addingSecurity.quote.latestPrice * holdingDetails.quantity;
+    const marketValue = price * holdingDetails.quantity;
 
     const plUsd = marketValue - costBasis;
     const plPercent = (plUsd / costBasis) * 100;
@@ -72,8 +69,7 @@ export const AddHoldingForm: React.FC<AddHoldingFormProps> = ({
         <Grid container px={{ xs: 2, sm: 6 }} spacing={1}>
           <Grid item xs={12}>
             <FormLabel>
-              {t(`how_many`, `How many`)}{' '}
-              <strong>{addingSecurity.symbol}</strong>
+              {t(`how_many`, `How many`)} <strong>{addingSecurity._id}</strong>
               {` `}
               {` `}
               {holdingDetails?.direction === `long`

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
-import { SecurityType } from '~/securities/enums/security-type.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { ObjectId, ObjectIdScalar } from '~/shared';
 
 @InputType()
@@ -30,9 +30,9 @@ export class AddTransactionInput {
   @Field(() => InvestmentTransactionSubtype)
   subType: InvestmentTransactionSubtype;
 
-  @Field(() => ObjectIdScalar)
-  security: ObjectId;
+  @Field()
+  security: string;
 
-  @Field(() => SecurityType)
-  securityType: SecurityType;
+  @Field(() => AssetClass)
+  assetClass: AssetClass;
 }

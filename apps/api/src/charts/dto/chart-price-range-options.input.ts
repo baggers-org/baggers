@@ -1,15 +1,16 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { AscDesc } from '../enums/asc-desc.enum';
+import { Timespan } from '../enums/timespan.enum';
 
 @InputType()
 export class ChartPriceRangeOptions {
-  includeToday?: boolean;
-  chartCloseOnly?: boolean;
-  chartByDay?: boolean;
-  chartSimplify?: boolean;
-  chartInterval?: number;
-  chartLast?: number;
-  displayPercent?: number;
+  from: string;
+
+  to: string;
+
+  @Field(() => Timespan)
+  timespan: Timespan;
+
   @Field(() => AscDesc)
   sort?: AscDesc;
 }
