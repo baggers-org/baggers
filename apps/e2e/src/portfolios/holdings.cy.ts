@@ -11,7 +11,7 @@ describe('Portfolio holdings', () => {
     cy.visit('/portfolios/created');
   });
 
-  it.only('user can add holdings to a portfolio directly', () => {
+  it('user can add holdings to a portfolio directly', () => {
     cy.findByText('Create portfolio').click();
     cy.findByPlaceholderText('Enter portfolio title').type(
       "Warren's Secret Portfolio"

@@ -5,7 +5,7 @@ import { HoldingSource } from '../enums/holding-source.enum';
 import { ImportedSecurity, Security } from '~/securities';
 import { BaseDocument, ObjectId } from '~/shared';
 import { AssetClass } from '~/securities/enums/asset-class.enum';
-import { PopulatedTransaction, Transaction } from './transaction';
+import { Transaction } from './transaction';
 import { InvestmentTransactionSubtype } from 'plaid';
 
 @ObjectType('HoldingFromDb')
