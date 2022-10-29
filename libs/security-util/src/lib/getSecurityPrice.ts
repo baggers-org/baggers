@@ -1,5 +1,4 @@
 import { AssetClass } from '@baggers/graphql-types';
-import { isImportedSecurity } from './isImportedSecurity';
 
 export const getSecurityPrice = (
   security: any // I hate this, but because we are using this crappy SDK approach
@@ -10,10 +9,5 @@ export const getSecurityPrice = (
   // completely re-do how we do typing
 ): number => {
   if (security?.assetClass === AssetClass.Cash || !security) return 1;
-  if (isImportedSecurity(security)) {
-    return security.close_price || 0;
-  }
-  const { tickerSnapshot: s } = security;
-
-  return s?.min?.c || s?.day?.c || s?.prevDay?.c || 0;
+  return security.latestPrice || 0;
 };

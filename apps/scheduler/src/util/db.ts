@@ -1,8 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { Security } from '@baggers/graphql-types';
-import { env } from './env';
 
-const client = new MongoClient(env.MONGO_URI);
-export const securitesCollection = () => {
+export const securitesCollection = (client: MongoClient) => {
   return client.db('baggers').collection<Security>('securities');
 };

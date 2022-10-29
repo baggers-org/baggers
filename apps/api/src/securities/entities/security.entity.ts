@@ -32,6 +32,9 @@ export class Security {
   @Prop()
   currency?: string;
 
+  @Prop()
+  latestPrice?: number;
+
   @Field(() => TickerSnapshot)
   @Prop()
   tickerSnapshot?: TickerSnapshot;
@@ -39,8 +42,8 @@ export class Security {
   @Field(() => TickerDetails)
   tickerDetails?: TickerDetails;
 
-  // From plaid
-  close_price?: number;
+  @Prop({ default: false })
+  isImported?: boolean;
 }
 
 export const SecuritySchema = SchemaFactory.createForClass(Security);

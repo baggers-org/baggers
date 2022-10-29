@@ -1,13 +1,13 @@
 import { AssetClass, Security, TickerType } from '@baggers/graphql-types';
 import { ITickerDetails, restClient } from '@polygon.io/client-js';
-import { AnyBulkWriteOperation } from 'mongodb';
-import { securitesCollection } from './util/db';
-import { env } from './util/env';
+import { AnyBulkWriteOperation, MongoClient } from 'mongodb';
+import { securitesCollection } from '../util/db';
+import { env } from '../util/env';
 
-export const getTickerInfo = async () => {
+export const getTickerInfo = async (mongoClient: MongoClient) => {
   const polygon = restClient(env.POLYGON_API_KEY);
 
-  const securities = await securitesCollection().find().toArray();
+  const securities = await securitesCollection(mongoClient).find().toArray();
 
   let fetched = 0;
   const missingTickers = [];
@@ -83,7 +83,12 @@ export const getTickerInfo = async () => {
   }));
   console.log(operations.length, ' bulk write ops');
 
-  const writeResult = await securitesCollection().bulkWrite(operations);
+  const writeResult = await securitesCollection(mongoClient).bulkWrite(
+    operations,
+    {
+      ordered: false,
+    }
+  );
 
   console.log(writeResult);
 };

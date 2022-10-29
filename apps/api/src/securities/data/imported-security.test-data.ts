@@ -3,8 +3,9 @@ import { AssetClass } from '../enums/asset-class.enum';
 
 // This will be in our Databse
 export const ImportedSBSI: ImportedSecurity = {
-  close_price: 34.73,
+  latestPrice: 34.73,
   close_price_as_of: null,
+  isImported: true,
   cusip: '84470P109',
   institution_id: null,
   institution_security_id: null,
@@ -23,7 +24,8 @@ export const ImportedSBSI: ImportedSecurity = {
 
 // This will not
 export const ImportedDBLTX: ImportedSecurity = {
-  close_price: 10.42,
+  latestPrice: 10.42,
+  isImported: true,
   close_price_as_of: null,
   cusip: '258620103',
   institution_id: null,

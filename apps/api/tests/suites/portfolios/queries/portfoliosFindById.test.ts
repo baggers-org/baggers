@@ -64,7 +64,7 @@ export const portfoliosFindByIdTests = () =>
       }).toMatchInlineSnapshot(`
         Object {
           "_id": "62d2cd45c63873e235c99531",
-          "assetClass": "Cash",
+          "assetClass": "cash",
           "averagePrice": null,
           "brokerFees": null,
           "costBasis": null,
@@ -86,7 +86,7 @@ export const portfoliosFindByIdTests = () =>
         .toMatchInlineSnapshot(`
         Object {
           "_id": "62d2cd45c63873e235c99532",
-          "assetClass": "Stock",
+          "assetClass": "stock",
           "averagePrice": 383.9,
           "brokerFees": 0,
           "costBasis": 3839,
@@ -109,7 +109,7 @@ export const portfoliosFindByIdTests = () =>
         .toMatchInlineSnapshot(`
         Object {
           "_id": "62d2cd45c63873e235c99533",
-          "assetClass": "Stock",
+          "assetClass": "stock",
           "averagePrice": 4794.2,
           "brokerFees": 0,
           "costBasis": 47942,
@@ -215,7 +215,7 @@ export const portfoliosFindByIdTests = () =>
         expect(unmatchedHoldings[0]).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99531",
-            "assetClass": "Cash",
+            "assetClass": "cash",
             "averagePrice": null,
             "brokerFees": null,
             "costBasis": null,
@@ -244,7 +244,7 @@ export const portfoliosFindByIdTests = () =>
         }).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99570",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 1000,
             "brokerFees": null,
             "costBasis": 42,
@@ -270,7 +270,7 @@ export const portfoliosFindByIdTests = () =>
         }).toMatchInlineSnapshot(`
           Object {
             "_id": "62d2cd45c63873e235c99569",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 409,
             "brokerFees": null,
             "costBasis": 49,
@@ -279,9 +279,9 @@ export const portfoliosFindByIdTests = () =>
             "direction": null,
             "exposure": 30.598700041898248,
             "importedSecurity": Object {
-              "assetClass": "Stock",
-              "close_price": 34.73,
+              "assetClass": "stock",
               "currency": "USD",
+              "latestPrice": 34.73,
               "name": "Southside Bancshares Inc.",
               "ticker_symbol": "SBSI",
             },

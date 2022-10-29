@@ -1,8 +1,10 @@
-import { getTickerInfo } from './getTickerInfo';
-import { getTickerSnapshots } from './getTickerSnapshots';
+import { MongoClient } from 'mongodb';
+import { getTickerSnapshots } from './tickers/get-ticker-snapshots';
+import { env } from './util/env';
 
+const client = new MongoClient(env.MONGO_URI);
 const run = async () => {
-  await getTickerSnapshots();
+  await getTickerSnapshots(client);
   // await getTickerInfo();
 };
 

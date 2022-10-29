@@ -6,6 +6,7 @@ fragment AllSecurityData on Security {
   figi
   name
   region
+  latestPrice
   tickerDetails {
     ...AllTickerDetails
   }
@@ -16,7 +17,7 @@ fragment AllSecurityData on Security {
 }
 
 fragment AllImportedSecurityData on ImportedSecurity {
-  close_price
+  latestPrice
   name
   ticker_symbol
   currency
@@ -27,4 +28,5 @@ fragment SecuritySummary on Security {
   _id
   name
   region
+  latestPrice
 }

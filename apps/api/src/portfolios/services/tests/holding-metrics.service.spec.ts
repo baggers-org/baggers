@@ -159,7 +159,7 @@ describe('HoldingMetricsService', () => {
         Array [
           Object {
             "_id": "62d2cd45c63873e235c99531",
-            "assetClass": "Cash",
+            "assetClass": "cash",
             "currency": "USD",
             "dailyProfitLossUsd": null,
             "exposure": 41.52771820716276,
@@ -172,7 +172,7 @@ describe('HoldingMetricsService', () => {
           },
           Object {
             "_id": "62d2cd45c63873e235c99532",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 383.9,
             "brokerFees": 0,
             "costBasis": 3839,
@@ -189,7 +189,7 @@ describe('HoldingMetricsService', () => {
           },
           Object {
             "_id": "62d2cd45c63873e235c99533",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 4794.2,
             "brokerFees": 0,
             "costBasis": 47942,
@@ -214,7 +214,7 @@ describe('HoldingMetricsService', () => {
         Array [
           Object {
             "_id": "62d2cd45c63873e235c99531",
-            "assetClass": "Cash",
+            "assetClass": "cash",
             "currency": "USD",
             "dailyProfitLossUsd": null,
             "exposure": 22.975813956937493,
@@ -227,22 +227,23 @@ describe('HoldingMetricsService', () => {
           },
           Object {
             "_id": "62d2cd45c63873e235c99567",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 10,
             "costBasis": 100,
             "currency": "USD",
             "dailyProfitLossUsd": null,
             "exposure": 8.008869080945194,
             "importedSecurity": Object {
-              "assetClass": "Stock",
-              "close_price": 10.42,
+              "assetClass": "stock",
               "close_price_as_of": null,
               "currency": "USD",
               "cusip": "258620103",
               "institution_id": null,
               "institution_security_id": null,
+              "isImported": true,
               "is_cash_equivalent": false,
               "isin": "US2586201038",
+              "latestPrice": 10.42,
               "name": "DoubleLine Total Return Bond Fund",
               "proxy_security_id": null,
               "security_id": "NDVQrXQoqzt5v3bAe8qRt4A7mK7wvZCLEBBJk",
@@ -261,22 +262,23 @@ describe('HoldingMetricsService', () => {
           },
           Object {
             "_id": "62d2cd45c63873e235c99569",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 409,
             "costBasis": 49,
             "currency": "USD",
             "dailyProfitLossUsd": null,
             "exposure": 30.598700041898248,
             "importedSecurity": Object {
-              "assetClass": "Stock",
-              "close_price": 34.73,
+              "assetClass": "stock",
               "close_price_as_of": null,
               "currency": "USD",
               "cusip": "84470P109",
               "institution_id": null,
               "institution_security_id": null,
+              "isImported": true,
               "is_cash_equivalent": false,
               "isin": "US84470P1093",
+              "latestPrice": 34.73,
               "name": "Southside Bancshares Inc.",
               "proxy_security_id": null,
               "security_id": "eW4jmnjd6AtjxXVrjmj6SX1dNEdZp3Cy8RnRQ",
@@ -292,10 +294,11 @@ describe('HoldingMetricsService', () => {
             "quantity": 50,
             "security": Object {
               "_id": "SBSI",
-              "assetClass": "Stock",
+              "assetClass": "stock",
               "currency": "USD",
               "exchange": "XNAS",
               "figi": "BBG000BGVC19",
+              "latestPrice": 33.01,
               "name": "Southside Bancshares Inc",
               "region": "US",
               "tickerSnapshot": Object {
@@ -308,7 +311,9 @@ describe('HoldingMetricsService', () => {
                   "vw": 0,
                 },
                 "lastQuote": null,
-                "lastTrade": null,
+                "lastTrade": Object {
+                  "p": 33.01,
+                },
                 "min": Object {
                   "av": 0,
                   "c": 0,
@@ -336,7 +341,7 @@ describe('HoldingMetricsService', () => {
           },
           Object {
             "_id": "62d2cd45c63873e235c99570",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 1000,
             "costBasis": 42,
             "currency": "USD",
@@ -348,10 +353,11 @@ describe('HoldingMetricsService', () => {
             "quantity": 20,
             "security": Object {
               "_id": "TSLA",
-              "assetClass": "Stock",
+              "assetClass": "stock",
               "currency": "USD",
               "exchange": "XNAS",
               "figi": "BBG000N9MNX3",
+              "latestPrice": 120,
               "name": "Tesla Inc",
               "region": "US",
               "tickerSnapshot": Object {
@@ -364,7 +370,9 @@ describe('HoldingMetricsService', () => {
                   "vw": 0,
                 },
                 "lastQuote": null,
-                "lastTrade": null,
+                "lastTrade": Object {
+                  "p": 120,
+                },
                 "min": Object {
                   "av": 2323,
                   "c": 120,

@@ -9,6 +9,7 @@ export const A: Security = {
   name: 'Agilent Technologies Inc.',
   region: 'US',
   assetClass: AssetClass.stock,
+  latestPrice: 54.5,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -19,7 +20,9 @@ export const A: Security = {
       vw: 0,
     },
     lastQuote: null,
-    lastTrade: null,
+    lastTrade: {
+      p: 54.5,
+    },
     min: {
       av: 12516,
       c: 54.5,
@@ -52,6 +55,7 @@ export const NET: Security = {
   name: 'Cloudflare Inc - Class A',
   region: 'US',
   assetClass: AssetClass.stock,
+  latestPrice: 222.83,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -62,7 +66,9 @@ export const NET: Security = {
       vw: 0,
     },
     lastQuote: null,
-    lastTrade: null,
+    lastTrade: {
+      p: 222.83,
+    },
     min: {
       av: 439699,
       c: 222.83,
@@ -94,6 +100,7 @@ export const TSLA: Security = {
   name: 'Tesla Inc',
   region: 'US',
   assetClass: AssetClass.stock,
+  latestPrice: 120,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -104,7 +111,9 @@ export const TSLA: Security = {
       vw: 0,
     },
     lastQuote: null,
-    lastTrade: null,
+    lastTrade: {
+      p: 120,
+    },
     min: {
       av: 2323,
       c: 120,
@@ -137,6 +146,7 @@ export const SBSI: Security = {
   name: 'Southside Bancshares Inc',
   region: 'US',
   assetClass: AssetClass.stock,
+  latestPrice: 33.01,
   tickerSnapshot: {
     day: {
       c: 0,
@@ -147,7 +157,9 @@ export const SBSI: Security = {
       vw: 0,
     },
     lastQuote: null,
-    lastTrade: null,
+    lastTrade: {
+      p: 33.01,
+    },
     min: {
       av: 0,
       c: 0,

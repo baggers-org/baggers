@@ -36,7 +36,7 @@ export const portfoliosAddHoldingTest = () =>
       expect({ ...portfolio.holdings[0], _id: null }).toMatchInlineSnapshot(`
         Object {
           "_id": null,
-          "assetClass": "Stock",
+          "assetClass": "stock",
           "averagePrice": 105.4,
           "brokerFees": 0,
           "costBasis": 105.4,
@@ -52,10 +52,11 @@ export const portfoliosAddHoldingTest = () =>
           "quantity": 1,
           "security": Object {
             "_id": "A",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "currency": "USD",
             "exchange": "XNAS",
             "figi": "BBG000C2V3D6",
+            "latestPrice": 54.5,
             "name": "Agilent Technologies Inc.",
             "region": "US",
             "tickerDetails": null,
@@ -69,7 +70,14 @@ export const portfoliosAddHoldingTest = () =>
                 "vw": 0,
               },
               "lastQuote": null,
-              "lastTrade": null,
+              "lastTrade": Object {
+                "c": null,
+                "i": null,
+                "p": 54.5,
+                "s": null,
+                "t": null,
+                "x": null,
+              },
               "min": Object {
                 "av": 12516,
                 "c": 54.5,
@@ -117,7 +125,7 @@ export const portfoliosAddHoldingTest = () =>
       expect({ ...portfolio.holdings[0], _id: null }).toMatchInlineSnapshot(`
         Object {
           "_id": null,
-          "assetClass": "Stock",
+          "assetClass": "stock",
           "averagePrice": 125.35,
           "brokerFees": 0,
           "costBasis": 626.76,
@@ -133,10 +141,11 @@ export const portfoliosAddHoldingTest = () =>
           "quantity": 5,
           "security": Object {
             "_id": "A",
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "currency": "USD",
             "exchange": "XNAS",
             "figi": "BBG000C2V3D6",
+            "latestPrice": 54.5,
             "name": "Agilent Technologies Inc.",
             "region": "US",
             "tickerDetails": null,
@@ -150,7 +159,14 @@ export const portfoliosAddHoldingTest = () =>
                 "vw": 0,
               },
               "lastQuote": null,
-              "lastTrade": null,
+              "lastTrade": Object {
+                "c": null,
+                "i": null,
+                "p": 54.5,
+                "s": null,
+                "t": null,
+                "x": null,
+              },
               "min": Object {
                 "av": 12516,
                 "c": 54.5,

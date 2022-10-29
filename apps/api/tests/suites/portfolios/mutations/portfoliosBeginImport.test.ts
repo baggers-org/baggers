@@ -75,13 +75,13 @@ export const portfoliosBeginImportTests = () =>
           expect(ira.top5Holdings).toMatchInlineSnapshot(`
             Array [
               Object {
-                "assetClass": "Stock",
+                "assetClass": "stock",
                 "costBasis": 200,
                 "exposure": 65.70332959221848,
                 "importedSecurity": Object {
-                  "assetClass": "Stock",
-                  "close_price": 42.15,
+                  "assetClass": "stock",
                   "currency": "USD",
+                  "latestPrice": 42.15,
                   "name": "iShares Inc MSCI Brazil",
                   "ticker_symbol": "EWZ",
                 },
@@ -89,13 +89,13 @@ export const portfoliosBeginImportTests = () =>
                 "security": null,
               },
               Object {
-                "assetClass": "Derivative",
+                "assetClass": "derivative",
                 "costBasis": 100,
                 "exposure": 34.29355281207133,
                 "importedSecurity": Object {
-                  "assetClass": "Derivative",
-                  "close_price": 0.011,
+                  "assetClass": "derivative",
                   "currency": "USD",
+                  "latestPrice": 0.011,
                   "name": "Nflx Feb 01'18 $355 Call",
                   "ticker_symbol": "NFLX180201C00355000",
                 },
@@ -103,13 +103,13 @@ export const portfoliosBeginImportTests = () =>
                 "security": null,
               },
               Object {
-                "assetClass": "Cash",
+                "assetClass": "cash",
                 "costBasis": 0.01,
                 "exposure": 0.003117595710188303,
                 "importedSecurity": Object {
-                  "assetClass": "Cash",
-                  "close_price": 1,
+                  "assetClass": "cash",
                   "currency": "USD",
+                  "latestPrice": 1,
                   "name": "U S Dollar",
                   "ticker_symbol": null,
                 },
@@ -134,13 +134,13 @@ export const portfoliosBeginImportTests = () =>
           expect(_401k.top5Holdings).toMatchInlineSnapshot(`
             Array [
               Object {
-                "assetClass": "Cash",
+                "assetClass": "cash",
                 "costBasis": 12345.67,
                 "exposure": 52.101063403278744,
                 "importedSecurity": Object {
-                  "assetClass": "Cash",
-                  "close_price": 1,
+                  "assetClass": "cash",
                   "currency": "USD",
+                  "latestPrice": 1,
                   "name": "U S Dollar",
                   "ticker_symbol": null,
                 },
@@ -148,31 +148,32 @@ export const portfoliosBeginImportTests = () =>
                 "security": null,
               },
               Object {
-                "assetClass": "Stock",
+                "assetClass": "stock",
                 "costBasis": 6390,
                 "exposure": 29.672699005132593,
                 "importedSecurity": Object {
-                  "assetClass": "Stock",
-                  "close_price": 34.73,
+                  "assetClass": "stock",
                   "currency": "USD",
+                  "latestPrice": 34.73,
                   "name": "Southside Bancshares Inc.",
                   "ticker_symbol": "SBSI",
                 },
                 "marketValue": 7031.129999999999,
                 "security": Object {
                   "_id": "SBSI",
+                  "latestPrice": 33.01,
                   "name": "Southside Bancshares Inc",
                   "region": "US",
                 },
               },
               Object {
-                "assetClass": "Stock",
+                "assetClass": "stock",
                 "costBasis": 1666.5,
                 "exposure": 7.832143661993229,
                 "importedSecurity": Object {
-                  "assetClass": "Stock",
-                  "close_price": 24.5,
+                  "assetClass": "stock",
                   "currency": "USD",
+                  "latestPrice": 24.5,
                   "name": "Cambiar International Equity Institutional",
                   "ticker_symbol": "CAMYX",
                 },
@@ -180,13 +181,13 @@ export const portfoliosBeginImportTests = () =>
                 "security": null,
               },
               Object {
-                "assetClass": "Stock",
+                "assetClass": "stock",
                 "costBasis": 1500.75,
                 "exposure": 5.79721695401935,
                 "importedSecurity": Object {
-                  "assetClass": "Stock",
-                  "close_price": 13.73,
+                  "assetClass": "stock",
                   "currency": "USD",
+                  "latestPrice": 13.73,
                   "name": "NH PORTFOLIO 1055 (FIDELITY INDEX)",
                   "ticker_symbol": "NHX105509",
                 },
@@ -194,13 +195,13 @@ export const portfoliosBeginImportTests = () =>
                 "security": null,
               },
               Object {
-                "assetClass": "Stock",
+                "assetClass": "stock",
                 "costBasis": 542.041,
                 "exposure": 2.6853443801006263,
                 "importedSecurity": Object {
-                  "assetClass": "Stock",
-                  "close_price": 27,
+                  "assetClass": "stock",
                   "currency": "USD",
+                  "latestPrice": 27,
                   "name": "Matthews Pacific Tiger Fund Insti Class",
                   "ticker_symbol": "MIPTX",
                 },

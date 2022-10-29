@@ -114,14 +114,15 @@ type ImportResponse {
 
 type ImportedSecurity {
   assetClass: AssetClass
-  close_price: Float
   close_price_as_of: String
   currency: String
   cusip: String
   institution_id: String
   institution_security_id: String
+  isImported: Boolean
   is_cash_equivalent: Boolean
   isin: String
+  latestPrice: Float
   name: String
   proxy_security_id: String
 
@@ -320,10 +321,11 @@ type RemoveMultipleResponse {
 type Security {
   _id: String
   assetClass: AssetClass!
-  close_price: Float
   currency: String
   exchange: String
   figi: String
+  isImported: Boolean
+  latestPrice: Float
   name: String
   region: String
   tickerDetails: TickerDetails

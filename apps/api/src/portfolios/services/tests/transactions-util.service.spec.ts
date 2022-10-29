@@ -33,7 +33,7 @@ describe('TransactionsUtilService', () => {
         Array [
           Object {
             "_id": null,
-            "assetClass": "Cash",
+            "assetClass": "cash",
             "currency": "USD",
             "direction": "long",
             "quantity": 2095,
@@ -41,7 +41,7 @@ describe('TransactionsUtilService', () => {
           },
           Object {
             "_id": null,
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 1,
             "brokerFees": undefined,
             "costBasis": 5,
@@ -55,7 +55,7 @@ describe('TransactionsUtilService', () => {
           },
           Object {
             "_id": null,
-            "assetClass": "Stock",
+            "assetClass": "stock",
             "averagePrice": 91.82,
             "brokerFees": undefined,
             "costBasis": 1010,

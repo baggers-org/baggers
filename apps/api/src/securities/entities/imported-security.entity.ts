@@ -110,7 +110,7 @@ export class ImportedSecurity {
    */
   @Prop()
   @Field({ nullable: true })
-  close_price: number | null;
+  latestPrice: number | null;
   /**
    * Date for which `close_price` is accurate. Always `null` if `close_price` is `null`.
    * @type {string}
@@ -144,6 +144,9 @@ export class ImportedSecurity {
   @Field({ nullable: true })
   unofficial_currency_code: string | null;
 
+  @Prop({ default: true })
+  isImported?: boolean;
+
   static fromPlaidSecurity(security: Security): ImportedSecurity {
     const mapSecurityType = (type: string): AssetClass => {
       switch (type) {
@@ -161,6 +164,8 @@ export class ImportedSecurity {
       ...security,
       assetClass: mapSecurityType(security.type),
       currency: security.iso_currency_code,
+      latestPrice: security.close_price,
+      isImported: true,
     };
   }
 }

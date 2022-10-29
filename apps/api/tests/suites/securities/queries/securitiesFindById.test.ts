@@ -14,10 +14,11 @@ export const securitiesFindByIdTest = () =>
       expect(securitiesFindById).toMatchInlineSnapshot(`
         Object {
           "_id": "A",
-          "assetClass": "Stock",
+          "assetClass": "stock",
           "currency": "USD",
           "exchange": "XNAS",
           "figi": "BBG000C2V3D6",
+          "latestPrice": 54.5,
           "name": "Agilent Technologies Inc.",
           "region": "US",
           "tickerDetails": null,
@@ -31,7 +32,14 @@ export const securitiesFindByIdTest = () =>
               "vw": 0,
             },
             "lastQuote": null,
-            "lastTrade": null,
+            "lastTrade": Object {
+              "c": null,
+              "i": null,
+              "p": 54.5,
+              "s": null,
+              "t": null,
+              "x": null,
+            },
             "min": Object {
               "av": 12516,
               "c": 54.5,
