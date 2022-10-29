@@ -11,4 +11,11 @@ type Schema = Static<typeof schema>;
 
 export const env = envSchema<Schema>({
   schema,
+  data: process.env.CI
+    ? {
+        POLYGON_API_KEY: 'test',
+        POLYGON_REST_URI: 'test',
+        MONGO_URI: 'test',
+      }
+    : undefined,
 });
