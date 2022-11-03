@@ -1,5 +1,5 @@
 import { json, LoaderFunction } from '@remix-run/server-runtime';
-import { baggersApiAuthenticator } from 'apps/ui/app/auth.server';
+import { baggersApiAuthenticator } from '~/auth.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   try {

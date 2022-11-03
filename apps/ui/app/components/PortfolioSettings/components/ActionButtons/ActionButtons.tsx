@@ -1,7 +1,7 @@
 import { useTransition } from '@remix-run/react';
 import React, { useEffect } from 'react';
 import { useFormContext } from 'remix-validated-form';
-import { BaggersButton } from 'apps/ui/app/components/BaggersButton';
+import { BaggersButton } from '~/components/BaggersButton';
 
 export const ActionButtons: React.FC = () => {
   const { isValid, touchedFields, reset, subaction } = useFormContext();

@@ -1,12 +1,12 @@
 import { Box } from '@mui/system';
 import React, { PropsWithChildren } from 'react';
 
-import { Sidebar } from 'apps/ui/app/components/Sidebar/Sidebar';
-import { useSubMenu } from 'apps/ui/app/components/Sidebar/useSubMenu';
-import { Footer } from 'apps/ui/app/components/Footer';
-import { useIsMobile } from 'apps/ui/app/hooks';
-import { MobileNavbar } from 'apps/ui/app/components/MobileNavbar';
-import { MobileSubNavbar } from 'apps/ui/app/components/MobileNavbar/MobileSubNavbar';
+import { Sidebar } from '~/components/Sidebar/Sidebar';
+import { useSubMenu } from '~/components/Sidebar/useSubMenu';
+import { Footer } from '~/components/Footer';
+import { useIsMobile } from '~/hooks';
+import { MobileNavbar } from '~/components/MobileNavbar';
+import { MobileSubNavbar } from '~/components/MobileNavbar/MobileSubNavbar';
 
 export const AppLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const subMenu = useSubMenu();

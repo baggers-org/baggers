@@ -1,8 +1,8 @@
 import { Alert, AlertTitle, Container } from '@mui/material';
 import { Stack } from '@mui/system';
-import { CallToAction } from 'apps/ui/app/components';
-import { DashboardPage } from 'apps/ui/app/components/DashboardPage';
-import { useCurrentUser } from 'apps/ui/app/hooks/useCurrentUser';
+import { CallToAction } from '~/components';
+import { DashboardPage } from '~/components/DashboardPage';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export default function WelcomePage() {
   const user = useCurrentUser();

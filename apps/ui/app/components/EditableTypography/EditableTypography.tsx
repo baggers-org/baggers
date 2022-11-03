@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Edit, RemoveCircle } from '@mui/icons-material';
 import { Typography, IconButton, Stack, Box } from '@mui/material';
-import {
-  TypographyTextField,
-  TypographyTextFieldProps,
-} from 'apps/ui/app/components';
+import { TypographyTextField, TypographyTextFieldProps } from '~/components';
 
 export type EditableTypographyProps = TypographyTextFieldProps & {
   onFinishEdit: (newValue: string) => void;

@@ -1,5 +1,5 @@
 import { MetaFunction } from '@remix-run/server-runtime';
-import NotImplemented from 'apps/ui/app/components/Layouts/NotImplemented';
+import NotImplemented from '~/components/Layouts/NotImplemented';
 
 export const meta: MetaFunction = () => ({
   title: `Discover portfolios`,

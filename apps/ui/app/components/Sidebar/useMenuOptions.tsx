@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { ChartCandle, Folder, LayoutDashboard } from 'tabler-icons-react';
-import { useCurrentUser } from 'apps/ui/app/hooks/useCurrentUser';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
 
 export interface MenuOption {
   label?: string;

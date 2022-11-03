@@ -12,8 +12,8 @@ import {
 import { Form } from '@remix-run/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BaggersButton } from 'apps/ui/app/components/BaggersButton';
-import { SectionTitle } from 'apps/ui/app/components/SectionTitle';
+import { BaggersButton } from '~/components/BaggersButton';
+import { SectionTitle } from '~/components/SectionTitle';
 
 export const DeletePortfolio: React.FC = () => {
   const { t } = useTranslation(`portfolio_settings`);

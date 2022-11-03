@@ -10,9 +10,9 @@ import { useNavigate } from '@remix-run/react';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Login, Logout, Menu2, Moon, Sun } from 'tabler-icons-react';
-import { ColoredIcon } from 'apps/ui/app/components/ColoredIcon';
-import { useCurrentUser } from 'apps/ui/app/hooks/useCurrentUser';
-import { ColorModeContext } from 'apps/ui/app/styles';
+import { ColoredIcon } from '~/components/ColoredIcon';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
+import { ColorModeContext } from '~/styles';
 
 export const MobileMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -2,7 +2,7 @@ import { Tab, Tabs, useTheme } from '@mui/material';
 import { useNavigate } from '@remix-run/react';
 import { motion } from 'framer-motion';
 import React from 'react';
-import { useActiveTab } from 'apps/ui/app/hooks';
+import { useActiveTab } from '~/hooks';
 import { useMenuOptions } from '../Sidebar/useMenuOptions';
 
 export const MobileNavbar: React.FC = () => {

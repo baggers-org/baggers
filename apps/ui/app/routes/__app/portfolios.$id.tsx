@@ -6,16 +6,13 @@ import {
   json,
   MetaFunction,
 } from '@remix-run/server-runtime';
-import { PortfolioHeader, PortfolioTabs } from 'apps/ui/app/components';
+import { PortfolioHeader, PortfolioTabs } from '~/components';
 import { Portfolio, PortfoliosFindByIdQuery } from '@baggers/graphql-types';
-import {
-  authenticatedSdk,
-  unauthenticatedSdk,
-} from 'apps/ui/app/graphql/sdk.server';
-import { PageLayout } from 'apps/ui/app/components/Layouts/PageLayout';
+import { authenticatedSdk, unauthenticatedSdk } from '~/graphql/sdk.server';
+import { PageLayout } from '~/components/Layouts/PageLayout';
 import { useEffect } from 'react';
-import { useSidebarContext } from 'apps/ui/app/components/Sidebar/Sidebar.context';
-import { useMarketDataRefresh } from 'apps/ui/app/hooks/useMarketDataRefresh';
+import { useSidebarContext } from '~/components/Sidebar/Sidebar.context';
+import { useMarketDataRefresh } from '~/hooks/useMarketDataRefresh';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: data

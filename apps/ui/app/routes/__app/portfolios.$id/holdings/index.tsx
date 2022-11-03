@@ -5,12 +5,12 @@ import { Compress, Expand, MoreVert } from '@mui/icons-material';
 import { DataGridProProps } from '@mui/x-data-grid-pro';
 import { useTranslation } from 'react-i18next';
 import { useFetcher, useNavigate, useParams } from '@remix-run/react';
-import { HoldingsTable } from 'apps/ui/app/components';
+import { HoldingsTable } from '~/components';
 import { Holding } from '@baggers/graphql-types';
-import { HoldingsToolbar } from 'apps/ui/app/components/HoldingsToolbar';
-import { usePortfolio } from 'apps/ui/app/hooks/usePortfolio';
+import { HoldingsToolbar } from '~/components/HoldingsToolbar';
+import { usePortfolio } from '~/hooks/usePortfolio';
 import { ErrorBoundaryComponent } from '@remix-run/server-runtime';
-import { useCanEditPortfolio } from 'apps/ui/app/hooks/useIsPortfolioOwner';
+import { useCanEditPortfolio } from '~/hooks/useIsPortfolioOwner';
 
 export default function Holdings() {
   const portfolio = usePortfolio();

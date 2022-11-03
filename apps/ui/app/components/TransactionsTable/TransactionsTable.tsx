@@ -8,7 +8,7 @@ import { Typography, useTheme } from '@mui/material';
 import { DataGridPro } from '@mui/x-data-grid-pro';
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { getSecuritySymbol } from 'apps/ui/app/util/getSecuritySymbol';
+import { getSecuritySymbol } from '~/util/getSecuritySymbol';
 import { SecurityLogo } from '../SecurityLogo';
 
 export const TransactionsTable: React.FC<{

@@ -39,6 +39,22 @@
         }
       }
     },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/api/Dockerfile",
+        "tags": [
+          "539913629665.dkr.ecr.eu-west-1.amazonaws.com/baggers-api:latest"
+        ],
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ]
+      }
+    },
     "dev": {
       "executor": "@nrwl/node:node",
       "options": {
@@ -74,17 +90,6 @@
     },
     "type-check": {
       "executor": "./tools/executors/ts-check:ts-check"
-    },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "flyctl deploy -c apps/api/fly.staging.toml"
-      },
-      "configurations": {
-        "production": {
-          "command": "flyctl deploy -c apps/api/fly.toml"
-        }
-      }
     }
   },
   "tags": []

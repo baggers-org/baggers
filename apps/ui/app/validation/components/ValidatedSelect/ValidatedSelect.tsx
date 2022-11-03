@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useField } from 'remix-validated-form';
-import { BaggersSelect, BaggersSelectProps } from 'apps/ui/app/components';
+import { BaggersSelect, BaggersSelectProps } from '~/components';
 
 export type ValidatedSelectProps = BaggersSelectProps & { name: string };
 export const ValidatedSelect: React.FC<ValidatedSelectProps> = ({

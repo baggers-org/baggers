@@ -14,7 +14,7 @@ import { useMenuOptions } from './useMenuOptions';
 import Logo from '../../../public/svg/logo.svg';
 
 import { useNavigate } from '@remix-run/react';
-import { useActiveTab } from 'apps/ui/app/hooks';
+import { useActiveTab } from '~/hooks';
 import { ProfileButton } from '../ProfileButton';
 import { ThemeToggle } from '../ThemeToggle';
 import { useSidebarContext } from './Sidebar.context';

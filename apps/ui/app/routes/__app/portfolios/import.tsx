@@ -8,8 +8,8 @@ import {
 } from '@remix-run/server-runtime';
 import { useEffect, useState } from 'react';
 import { usePlaidLink } from 'react-plaid-link';
-import { BaggersStepper } from 'apps/ui/app/components/BaggersStepper/BaggersStepper';
-import { authenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
+import { BaggersStepper } from '~/components/BaggersStepper/BaggersStepper';
+import { authenticatedSdk } from '~/graphql/sdk.server';
 
 export const action: ActionFunction = async ({ request }) => {
   const headers = new Headers();

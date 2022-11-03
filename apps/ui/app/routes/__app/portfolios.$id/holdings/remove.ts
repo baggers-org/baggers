@@ -1,5 +1,5 @@
 import { ActionFunction, json } from '@remix-run/server-runtime';
-import { authenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
+import { authenticatedSdk } from '~/graphql/sdk.server';
 
 export const action: ActionFunction = async ({ params, request }) => {
   const headers = new Headers();

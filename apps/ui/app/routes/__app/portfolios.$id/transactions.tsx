@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
-import { TransactionsTable } from 'apps/ui/app/components/TransactionsTable';
-import { usePortfolio } from 'apps/ui/app/hooks/usePortfolio';
+import { TransactionsTable } from '~/components/TransactionsTable';
+import { usePortfolio } from '~/hooks/usePortfolio';
 
 export default function Transactions() {
   const { transactions } = usePortfolio();

@@ -12,9 +12,9 @@ import {
   PortfolioSummary,
 } from '@baggers/graphql-types';
 import { useTranslation } from 'react-i18next';
-import { authenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
-import { PortfolioCardList } from 'apps/ui/app/components/PortfolioCardList';
-import { SectionTitle } from 'apps/ui/app/components/SectionTitle';
+import { authenticatedSdk } from '~/graphql/sdk.server';
+import { PortfolioCardList } from '~/components/PortfolioCardList';
+import { SectionTitle } from '~/components/SectionTitle';
 import { FolderPlus, TableImport, Upload } from 'tabler-icons-react';
 
 export const loader: LoaderFunction = async ({ request }) => {

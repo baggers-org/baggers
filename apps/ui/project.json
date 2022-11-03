@@ -1,16 +1,13 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/web",
+  "sourceRoot": "apps/ui",
   "projectType": "application",
   "targets": {
     "dev": {
       "executor": "@nrwl/workspace:run-commands",
-      "dependsOn": [
-        "^dev"
-      ],
       "options": {
         "command": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
-        "cwd": "apps/web"
+        "cwd": "apps/ui"
       }
     },
     "build": {
@@ -18,7 +15,23 @@
       "dependsOn": [],
       "options": {
         "command": "cross-env NODE_ENV=production NODE_OPTIONS='-r ./esbuild-overrides' remix build",
-        "cwd": "apps/web"
+        "cwd": "apps/ui"
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/ui/Dockerfile",
+        "tags": [
+          "539913629665.dkr.ecr.eu-west-1.amazonaws.com/baggers-ui:latest"
+        ],
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ]
       }
     },
     "lint": {
@@ -28,30 +41,13 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "apps/web/**/*.tsx",
-          "apps/web/**/*.ts"
+          "apps/ui/**/*.tsx",
+          "apps/ui/**/*.ts"
         ]
       }
     },
     "type-check": {
       "executor": "./tools/executors/ts-check:ts-check"
-    },
-    "docker-affected": {
-      "executor": "./tools/executors/docker-affected:docker-affected"
-    },
-    "deploy-docker-image": {
-      "executor": "./tools/executors/deploy-docker-image:deploy-docker-image"
-    },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "flyctl deploy -c apps/web/fly.staging.toml --image={args.image}"
-      },
-      "configurations": {
-        "production": {
-          "command": "flyctl deploy -c apps/web/fly.toml --image={args.image}"
-        }
-      }
     }
   }
 }

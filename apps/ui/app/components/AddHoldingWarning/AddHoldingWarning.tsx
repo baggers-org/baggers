@@ -9,7 +9,7 @@ import {
 import { Form, Link, useParams } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppStore } from 'apps/ui/app/hooks/useAppStore';
+import { useAppStore } from '~/hooks/useAppStore';
 
 export function AddHoldingWarning() {
   const { t } = useTranslation(`holdings`);

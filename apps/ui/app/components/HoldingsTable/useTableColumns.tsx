@@ -8,7 +8,7 @@ import { HoldingSource } from '@baggers/graphql-types';
 import { formatCurrency } from '@baggers/util';
 import { PriceTag } from '..';
 import { SecurityLogo } from '../SecurityLogo';
-import { getSecuritySymbol } from 'apps/ui/app/util/getSecuritySymbol';
+import { getSecuritySymbol } from '~/util/getSecuritySymbol';
 import { formatDistance } from 'date-fns';
 
 export const useTableColumns = (): GridColDef[] => {

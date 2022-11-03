@@ -18,14 +18,14 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ValidatedForm, validationError } from 'remix-validated-form';
-import { AddHoldingForm } from 'apps/ui/app/components/AddHoldingForm';
-import { AreaChart } from 'apps/ui/app/components/Charts/AreaChart';
-import { SecuritySearchModal } from 'apps/ui/app/components/SearchModal';
+import { AddHoldingForm } from '~/components/AddHoldingForm';
+import { AreaChart } from '~/components/Charts/AreaChart';
+import { SecuritySearchModal } from '~/components/SearchModal';
 import { Security, AssetClass, Timespan } from '@baggers/graphql-types';
-import { authenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
-import { useIdParam } from 'apps/ui/app/hooks';
-import { AddHoldingValidator } from 'apps/ui/app/validation/portfolios/AddHolding.schema';
-import { AddHoldingSecurityCard } from 'apps/ui/app/components/AddHoldingSecurityCard';
+import { authenticatedSdk } from '~/graphql/sdk.server';
+import { useIdParam } from '~/hooks';
+import { AddHoldingValidator } from '~/validation/portfolios/AddHolding.schema';
+import { AddHoldingSecurityCard } from '~/components/AddHoldingSecurityCard';
 import { subYears } from 'date-fns';
 import format from 'date-fns-tz/format';
 

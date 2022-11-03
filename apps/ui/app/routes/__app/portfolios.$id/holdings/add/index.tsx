@@ -3,8 +3,8 @@ import { useLoaderData, useNavigate, useTransition } from '@remix-run/react';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SecuritySearchModal } from 'apps/ui/app/components/SearchModal';
-import { useIdParam } from 'apps/ui/app/hooks';
+import { SecuritySearchModal } from '~/components/SearchModal';
+import { useIdParam } from '~/hooks';
 
 export const loader: LoaderFunction = ({ request }) => {
   const url = new URL(request.url);

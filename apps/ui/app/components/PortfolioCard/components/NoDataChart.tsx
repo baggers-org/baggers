@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material';
 import { alpha } from '@mui/system';
 import { useState } from 'react';
-import { AreaChart } from 'apps/ui/app/components/Charts/AreaChart';
+import { AreaChart } from '~/components/Charts/AreaChart';
 
 const POINTS = [
   { time: `2018-12-22`, value: 30 },

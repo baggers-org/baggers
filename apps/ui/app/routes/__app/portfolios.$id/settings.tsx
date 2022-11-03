@@ -1,10 +1,10 @@
 import { Container, Divider, Paper, Stack } from '@mui/material';
 import { ActionFunction, json, redirect } from '@remix-run/server-runtime';
 import { validationError } from 'remix-validated-form';
-import { DeletePortfolio } from 'apps/ui/app/components/PortfolioSettings';
-import { Privacy } from 'apps/ui/app/components/PortfolioSettings/components/Privacy';
-import { authenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
-import { PortfolioPrivacyValidator } from 'apps/ui/app/validation/portfolios/settings/PortfolioPrivacy.schema';
+import { DeletePortfolio } from '~/components/PortfolioSettings';
+import { Privacy } from '~/components/PortfolioSettings/components/Privacy';
+import { authenticatedSdk } from '~/graphql/sdk.server';
+import { PortfolioPrivacyValidator } from '~/validation/portfolios/settings/PortfolioPrivacy.schema';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const headers = new Headers();

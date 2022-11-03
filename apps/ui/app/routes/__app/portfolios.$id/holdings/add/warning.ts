@@ -1,5 +1,5 @@
 import { ActionFunction, redirect } from '@remix-run/server-runtime';
-import { onboardingCookie } from 'apps/ui/app/cookies';
+import { onboardingCookie } from '~/cookies';
 
 export const action: ActionFunction = async ({ request, params }) => {
   const formData = await request.formData();

@@ -2,10 +2,10 @@ import { Grid, MenuItem } from '@mui/material';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ValidatedForm } from 'remix-validated-form';
-import { SectionTitle } from 'apps/ui/app/components/SectionTitle';
-import { usePortfolio } from 'apps/ui/app/hooks/usePortfolio';
-import { ValidatedSelect } from 'apps/ui/app/validation/components';
-import { PortfolioPrivacyValidator } from 'apps/ui/app/validation/portfolios/settings/PortfolioPrivacy.schema';
+import { SectionTitle } from '~/components/SectionTitle';
+import { usePortfolio } from '~/hooks/usePortfolio';
+import { ValidatedSelect } from '~/validation/components';
+import { PortfolioPrivacyValidator } from '~/validation/portfolios/settings/PortfolioPrivacy.schema';
 import { ActionButtons } from '../ActionButtons';
 
 export const Privacy: React.FC = () => {

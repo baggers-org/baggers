@@ -4,7 +4,13 @@ on:
   push:
     - main
 
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+
 jobs:
+  test:
+    uses: './.github/workflows/tests.yml'
   build:
     name: 🐳 Build
     runs-on: ubuntu-latest
@@ -25,6 +31,15 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::539913629665:role/GithubDeploymentRole
+          aws-region: eu-west-1
+
+      - name: Login to ECR
+        run: aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 539913629665.dkr.ecr.eu-west-1.amazonaws.com
+
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -38,7 +53,7 @@ jobs:
       #       ${{ runner.os }}-buildx-
 
       - name: 🐳 Docker build
-        run: npx nx affected --target=docker --tags=$NX_TARGET_TASK_PROJECT
+        run: npx nx affected --target=docker
 
       # This ugly bit is necessary if you don't want your cache to grow forever
       # till it hits GitHub's limit of 5GB.
@@ -53,7 +68,6 @@ jobs:
   deploy:
     name: '🚀 Deploy to Production 🚀'
     needs: build
-    if: ${{ (github.ref == 'refs/heads/master') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: Production
     env:
@@ -77,52 +91,9 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: Setup fly
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy affected apps
-        run: npx nx affected --target=deploy-docker-image --parallel=2
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-  deployStaging:
-    name: '🚀 Deploy to Staging 🚀'
-    needs: build
-    if: ${{ (github.ref == 'refs/heads/develop') && github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    environment: 'Staging'
-    env:
-      CYPRESS_INSTALL_BINARY: 0
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: ${{ github.ref_name }}
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.0
-
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: Setup fly
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy affected apps
-        run: npx nx affected --target=deploy-docker-image --parallel=3
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
   cypress-chrome:
     name: 'Cypress - chrome'
-    needs: [deployStaging]
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -160,7 +131,7 @@ jobs:
 
   cypress-firefox:
     name: 'Cypress - firefox'
-    needs: [deployStaging]
+    needs: [deploy]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

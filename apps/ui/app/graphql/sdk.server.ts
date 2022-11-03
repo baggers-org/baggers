@@ -1,4 +1,4 @@
-import { authenticate, isAuthenticated } from 'apps/ui/app/policy.server';
+import { authenticate, isAuthenticated } from '~/policy.server';
 import { SdkBuilder } from '@baggers/sdk';
 
 const { API_URI } = process.env;

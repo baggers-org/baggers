@@ -22,7 +22,7 @@ COPY --from=ui-build /baggers/dist/apps/ui  /baggers-ui/
 
 # TODO: we are installing all dependencies in the UI container
 COPY --from=base-deps /baggers/package.json /baggers/package-lock.json  /baggers-ui/
-COPY --from=base-deps /baggers/node_modules /baggers-ui/
+COPY --from=base-deps /baggers/node_modules /baggers-ui/node_modules
 
 # TODO: prune dependencies here, its far too slow at the moment as its installing all dependenices again for some reason
-CMD ["npx", "remix-serve", "build"]
+CMD ["node", "build/index.js"]

@@ -3,7 +3,7 @@ import { useField, useFormContext } from 'remix-validated-form';
 import {
   BaggersTextField,
   BaggersTextFieldProps,
-} from 'apps/ui/app/components/BaggersTextField';
+} from '~/components/BaggersTextField';
 
 export type ValidatedTextFieldProps = BaggersTextFieldProps & { name: string };
 export const ValidatedTextField: React.FC<ValidatedTextFieldProps> = ({

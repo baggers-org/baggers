@@ -15,11 +15,11 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFormContext } from 'remix-validated-form';
 
-import { ValidatedTextField } from 'apps/ui/app/validation/components/ValidatedTextField';
+import { ValidatedTextField } from '~/validation/components/ValidatedTextField';
 import { BaggersTextField } from '../BaggersTextField';
 import { BaggersToggleButtonGroup } from '../BaggersToggleButtonGroup';
 import { PriceTag } from '../PriceTag';
-import { ValidatedDateTimePicker } from 'apps/ui/app/validation/components/ValidatedDateTimePicker';
+import { ValidatedDateTimePicker } from '~/validation/components/ValidatedDateTimePicker';
 import { getSecurityPrice } from '@baggers/security-util';
 
 export type AddHoldingFormProps = {

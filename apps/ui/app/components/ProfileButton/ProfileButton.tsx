@@ -17,8 +17,8 @@ import {
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { Form } from '@remix-run/react';
-import { useCurrentUser } from 'apps/ui/app/hooks/useCurrentUser';
-import { ColorModeContext } from 'apps/ui/app/styles';
+import { useCurrentUser } from '~/hooks/useCurrentUser';
+import { ColorModeContext } from '~/styles';
 
 export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();

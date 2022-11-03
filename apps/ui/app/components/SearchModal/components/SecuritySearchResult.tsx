@@ -6,7 +6,7 @@ import {
   ListProps,
 } from '@mui/material';
 import { useEffect, useRef } from 'react';
-import { SecurityLogo } from 'apps/ui/app/components/SecurityLogo';
+import { SecurityLogo } from '~/components/SecurityLogo';
 import { Security } from '@baggers/graphql-types';
 
 export interface SecuritySearchResultProps extends ListProps {

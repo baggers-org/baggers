@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/server-runtime';
-import { unauthenticatedSdk } from 'apps/ui/app/graphql/sdk.server';
+import { unauthenticatedSdk } from '~/graphql/sdk.server';
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const sdk = await unauthenticatedSdk(request);

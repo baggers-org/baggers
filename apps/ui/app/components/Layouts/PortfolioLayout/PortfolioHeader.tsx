@@ -1,12 +1,12 @@
 import React from 'react';
 import { Stack, Typography } from '@mui/material';
 
-import { EditableTypography } from 'apps/ui/app/components';
+import { EditableTypography } from '~/components';
 import { useTranslation } from 'react-i18next';
 import { formatCurrency } from '@baggers/util';
 import { Portfolio } from '@baggers/graphql-types';
 import { useFetcher } from '@remix-run/react';
-import { useCanEditPortfolio } from 'apps/ui/app/hooks/useIsPortfolioOwner';
+import { useCanEditPortfolio } from '~/hooks/useIsPortfolioOwner';
 
 export type PortfolioHeaderProps = {
   portfolio: Portfolio;

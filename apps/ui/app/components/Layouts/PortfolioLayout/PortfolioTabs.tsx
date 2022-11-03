@@ -2,8 +2,8 @@ import { Settings } from '@mui/icons-material';
 import { Tab, Tabs } from '@mui/material';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
-import { useIdParam } from 'apps/ui/app/hooks';
-import { useCanEditPortfolio } from 'apps/ui/app/hooks/useIsPortfolioOwner';
+import { useIdParam } from '~/hooks';
+import { useCanEditPortfolio } from '~/hooks/useIsPortfolioOwner';
 
 export const PortfolioTabs = () => {
   const { t } = useTranslation(`view_portfolio`);

@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 import React, { PropsWithChildren } from 'react';
-import { useSubMenu } from 'apps/ui/app/components/Sidebar/useSubMenu';
+import { useSubMenu } from '~/components/Sidebar/useSubMenu';
 
 export const PageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const subMenu = useSubMenu();

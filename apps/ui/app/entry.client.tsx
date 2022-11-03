@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { hydrate } from 'react-dom';
 import { initReactI18next } from 'react-i18next';
 import { RemixBrowser } from '@remix-run/react';
-import { ThemeProvider } from 'apps/ui/app/styles/ThemeProvider';
+import { ThemeProvider } from '~/styles/ThemeProvider';
 import { CssBaseline } from '@mui/material';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { ClientCacheProvider } from './styles/ClientCacheProvider';

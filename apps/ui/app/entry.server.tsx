@@ -10,7 +10,7 @@ import {
   GlobalStyles,
   Mode,
   ThemeProvider,
-} from 'apps/ui/app/styles';
+} from '~/styles';
 import { RemixServer } from '@remix-run/react';
 import { EntryContext } from '@remix-run/server-runtime';
 import { LocalizationProvider } from '@mui/x-date-pickers';
