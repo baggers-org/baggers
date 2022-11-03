@@ -5,25 +5,17 @@
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": [
-        "libs/graphql-types/src/generated/index.ts"
-      ],
-      "dependsOn": [
-        "^build"
-      ],
+      "outputs": ["{workspaceRoot}/libs/graphql-types/src/generated/index.ts"],
+      "dependsOn": ["^build"],
       "options": {
         "command": "graphql-codegen --config libs/sdk/codegen.yml"
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/sdk/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/sdk/**/*.ts"]
       }
     }
   },

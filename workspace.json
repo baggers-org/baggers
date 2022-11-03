@@ -9,7 +9,7 @@
     "security-util": "libs/security-util",
     "type-util": "libs/type-util",
     "util": "libs/util",
-    "web": "apps/web"
+    "ui": "apps/ui"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
