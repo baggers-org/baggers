@@ -47,3 +47,4 @@ apps/**/.cache
 
 .terraform
   
+*secret.yml

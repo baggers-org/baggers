@@ -46,14 +46,14 @@ const refreshTokensAndSetCookie = async (
 const getCypressUser = async (request: Request) => {
   const cypressHeader = request.headers.get(`X-Cypress`);
   if (!cypressHeader) throw Error(`No cypress header found`);
-  const { API_URI } = process.env;
+  const { API_SERVICE_HOST } = process.env;
 
-  if (!API_URI) throw Error('API URI not found');
+  if (!API_SERVICE_HOST) throw Error('API URI not found');
 
   const user: User & Tokens = JSON.parse(cypressHeader);
   // Create the test user in the db if he does not exist
   const { usersFindOrCreate } = await getSdk(
-    new GraphQLClient(`${API_URI}/graphql`, {
+    new GraphQLClient(`${API_SERVICE_HOST}/graphql`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
