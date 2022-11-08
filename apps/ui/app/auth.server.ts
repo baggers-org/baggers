@@ -32,7 +32,10 @@ export const auth0 = {
   callbackURL: AUTH0_CALLBACK_URL,
   scope: 'openid profile email offline_access',
   // Frontned will only ever communicate with the db via the GraphQL endpoint
-  audience: `${API_SERVICE_HOST}/graphql`,
+  audience:
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:4000/graphql'
+      : 'https://api.baggers.app/graphql',
 };
 
 // This authenticator will be used for

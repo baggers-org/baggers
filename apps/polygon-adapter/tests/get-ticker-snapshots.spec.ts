@@ -8,7 +8,11 @@ describe('getTickerSnapshots', () => {
   let mongod: MongoMemoryServer;
   let mockMongoClient: MongoClient;
   beforeAll(async () => {
-    mongod = await MongoMemoryServer.create();
+    mongod = await MongoMemoryServer.create({
+      instance: {
+        port: 8888,
+      },
+    });
     mockMongoClient = new MongoClient(mongod.getUri());
   });
 
