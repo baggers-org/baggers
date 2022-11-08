@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: get-ticker-snapshots
+spec:
+  # Every 15th minute during market hours
+  schedule: '*/15 14-21 * * 1-5'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: get-ticker-snapshots
+              image: eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest
+              imagePullPolicy: Always
+              envFrom:
+                - secretRef:
+                    name: api-env
+          restartPolicy: OnFailure

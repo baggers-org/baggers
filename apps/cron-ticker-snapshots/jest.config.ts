@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'polygon-adapter',
+  displayName: 'cron-ticker-snapshots',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -12,5 +12,5 @@ export default {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/polygon-adapter',
+  coverageDirectory: '../../coverage/apps/cron-ticker-snapshots',
 };

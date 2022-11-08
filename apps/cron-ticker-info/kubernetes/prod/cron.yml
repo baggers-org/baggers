@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: get-ticker-info
+spec:
+  schedule: '0 22 * * 1-5'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: get-ticker-info
+              image: eu.gcr.io/baggers-367917/cron-ticker-info:latest
+              imagePullPolicy: Always
+              envFrom:
+                - secretRef:
+                    name: api-env
+          restartPolicy: OnFailure

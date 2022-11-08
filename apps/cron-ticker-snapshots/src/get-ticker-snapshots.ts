@@ -1,7 +1,7 @@
 import { restClient } from '@polygon.io/client-js';
+import { Security } from '@baggers/graphql-types';
 import { MongoClient } from 'mongodb';
-import { securitesCollection } from '../util/db';
-import { env } from '../util/env';
+import { env } from './env';
 
 export const getTickerSnapshots = async (mongoClient: MongoClient) => {
   const polygon = restClient(env.POLYGON_API_KEY);
@@ -12,7 +12,9 @@ export const getTickerSnapshots = async (mongoClient: MongoClient) => {
 
   console.log('Updating our DB with these snapshots');
 
-  const securities = securitesCollection(mongoClient);
+  const securities = mongoClient
+    .db('baggers')
+    .collection<Security>('securities');
 
   const operations = tickers
     .filter((t) => !!t?.lastTrade?.p)

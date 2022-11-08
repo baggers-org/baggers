@@ -1,6 +1,6 @@
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongoClient } from 'mongodb';
-import { getTickerSnapshots } from '../src/tickers/get-ticker-snapshots';
+import { getTickerSnapshots } from '../../cron-ticker-snapshots/src/get-ticker-snapshots';
 import { mockPolygonStocksClientMethod } from './util';
 import { AssetClass, Security } from '@baggers/graphql-types';
 
