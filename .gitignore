@@ -48,3 +48,5 @@ apps/**/.cache
 .terraform
   
 *secret.yml
+
+gha-creds-*.json
