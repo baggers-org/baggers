@@ -20,8 +20,6 @@ jobs:
 
       - name: NRWL Set Shas
         uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: ${{ github.ref_name }}
 
       - name: Gcloud auth
         uses: 'google-github-actions/auth@v0'
@@ -55,8 +53,6 @@ jobs:
 
       - name: NRWL Set Shas
         uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: ${{ github.ref_name }}
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
