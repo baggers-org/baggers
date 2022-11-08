@@ -51,7 +51,7 @@
       },
       "configurations": {
         "production": {
-          "command": "kubectl set image deployment ui ui=eu.gcr.io/baggers-367917/ui:latest"
+          "command": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui"
         }
       }
     },

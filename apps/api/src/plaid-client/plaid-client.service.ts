@@ -46,7 +46,7 @@ export class PlaidClientService {
       client_name: `Baggers`,
       products: [Products.Investments],
       language: `en`,
-      webhook: `${this.envService.get('API_SERVICE_HOST')}/webhooks/plaid`,
+      webhook: `${this.envService.get('API_URL')}/webhooks/plaid`,
       country_codes: [CountryCode.Us, CountryCode.Gb],
     });
 

@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private envService: EnvService) {
     const domain = envService.get('AUTH0_DOMAIN');
 
-    const apiUrl = envService.get('API_SERVICE_HOST');
+    const apiUrl = envService.get('API_URL');
     const audience = `${apiUrl}/graphql`;
     const issuer = `https://${domain}/`;
 
@@ -36,10 +36,22 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     this.issuer = issuer;
   }
   async validate(payload: Auth0AccessTokenPayload) {
-    if (!payload.aud.includes(this.audience))
-      throw new UnauthorizedException(undefined, 'Invalid aud');
-    if (payload.iss !== this.issuer)
-      throw new UnauthorizedException(undefined, 'Invalid issuer');
+    if (!payload.aud.includes(this.audience)) {
+      console.error('Throwing invald AUD');
+      throw new UnauthorizedException(
+        { message: 'Invalid aud' },
+        'Invalid aud'
+      );
+    }
+    if (payload.iss !== this.issuer) {
+      console.error('Throwing invald issuer');
+      throw new UnauthorizedException(
+        {
+          message: 'Invalid iss',
+        },
+        'Invalid issuer'
+      );
+    }
 
     return payload;
   }

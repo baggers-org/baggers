@@ -17,7 +17,7 @@ const {
   AUTH0_CLIENT_SECRET,
   AUTH0_DOMAIN,
   AUTH0_CALLBACK_URL,
-  API_SERVICE_HOST,
+  API_URL,
 } = process.env;
 
 if (!AUTH0_DOMAIN) throw new Error(`Missing Auth0 domain.`);
@@ -32,10 +32,7 @@ export const auth0 = {
   callbackURL: AUTH0_CALLBACK_URL,
   scope: 'openid profile email offline_access',
   // Frontned will only ever communicate with the db via the GraphQL endpoint
-  audience:
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:4000/graphql'
-      : 'https://api.baggers.app/graphql',
+  audience: `${API_URL}/graphql`,
 };
 
 // This authenticator will be used for
@@ -74,7 +71,7 @@ const auth0Strategy = new Auth0Strategy(
 
     try {
       const { usersFindOrCreate } = await getSdk(
-        new GraphQLClient(`${API_SERVICE_HOST}/graphql`, {
+        new GraphQLClient(`${API_URL}/graphql`, {
           headers: {
             authorization: `Bearer ${accessToken}`,
           },

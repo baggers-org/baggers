@@ -1,11 +1,11 @@
 import { authenticate, isAuthenticated } from '~/policy.server';
 import { SdkBuilder } from '@baggers/sdk';
 
-const { API_SERVICE_HOST } = process.env;
+const { API_URL } = process.env;
 
-if (!API_SERVICE_HOST) throw new Error('API_SERVICE_HOST is not defined');
+if (!API_URL) throw new Error('API_URL is not defined');
 
-const sdkBuilder = new SdkBuilder().setUrl(API_SERVICE_HOST);
+const sdkBuilder = new SdkBuilder().setUrl(API_URL);
 
 export const authenticatedSdk = async (request: Request, headers?: Headers) => {
   const { accessToken } = await authenticate(request, headers);

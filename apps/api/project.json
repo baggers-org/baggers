@@ -72,7 +72,7 @@
       },
       "configurations": {
         "production": {
-          "command": "kubectl set image deployment api api=eu.gcr.io/baggers-367917/api:latest"
+          "command": "kubectl rollout restart deployment api && kubectl rollout status deployment api"
         }
       }
     },
