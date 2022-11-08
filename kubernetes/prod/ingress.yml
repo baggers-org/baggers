@@ -2,6 +2,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: baggers-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: baggers-ip
+    networking.gke.io/managed-certificates: baggers-cert
+    kubernetes.io/ingress.class: 'gce'
   labels:
     name: baggers-ingress
 spec:

@@ -45,7 +45,7 @@
         "push": true,
         "file": "apps/api/Dockerfile",
         "tags": [
-          "539913629665.dkr.ecr.eu-west-1.amazonaws.com/baggers-api:latest"
+          "eu.gcr.io/baggers-367917/api:latest"
         ],
         "cache-from": [
           "type=gha"
@@ -53,6 +53,27 @@
         "cache-to": [
           "type=gha,mode=max"
         ]
+      }
+    },
+    "docker-local": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/api/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/api:latest"
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'error no --configuration=production flag passed'"
+      },
+      "configurations": {
+        "production": {
+          "command": "kubectl set image deployment api api=eu.gcr.io/baggers-367917/api:latest"
+        }
       }
     },
     "dev": {

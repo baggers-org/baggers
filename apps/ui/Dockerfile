@@ -25,4 +25,4 @@ COPY --from=base-deps /baggers/package.json /baggers/package-lock.json  /baggers
 COPY --from=base-deps /baggers/node_modules /baggers-ui/node_modules
 
 # TODO: prune dependencies here, its far too slow at the moment as its installing all dependenices again for some reason
-CMD ["node", "build/index.js"]
+CMD ["node_modules/.bin/remix-serve", "build"]

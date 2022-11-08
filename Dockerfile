@@ -42,17 +42,17 @@ COPY --from=base-deps /baggers/package.json /baggers/package-lock.json  /baggers
 RUN npm ci
 CMD ["npx", "remix-serve", "build"]
 
-# Build the Scheduler
-FROM base-deps as scheduler-build
-ADD apps/scheduler ./apps/scheduler
+# Build the polygon-adapter
+FROM base-deps as polygon-adapter-build
+ADD apps/polygon-adapter ./apps/polygon-adapter
 
-RUN npm run build scheduler --configuration=production
+RUN npm run build polygon-adapter --configuration=production
 
-FROM base as scheduler
+FROM base as polygon-adapter
 
-WORKDIR /baggers-scheduler
-COPY --from=scheduler-build /baggers/dist/apps/scheduler  /baggers-scheduler/
-COPY --from=base-deps /baggers/package-lock.json  /baggers-scheduler/
+WORKDIR /baggers-polygon-adapter
+COPY --from=polygon-adapter-build /baggers/dist/apps/polygon-adapter  /baggers-polygon-adapter/
+COPY --from=base-deps /baggers/package-lock.json  /baggers-polygon-adapter/
 
 RUN npm ci
 RUN npm i tslib

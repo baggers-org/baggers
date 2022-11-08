@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/scheduler/src",
+  "sourceRoot": "apps/polygon-adapter/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,9 +9,9 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/scheduler",
-        "main": "apps/scheduler/src/main.ts",
-        "tsConfig": "apps/scheduler/tsconfig.app.json",
+        "outputPath": "dist/apps/polygon-adapter",
+        "main": "apps/polygon-adapter/src/main.ts",
+        "tsConfig": "apps/polygon-adapter/tsconfig.app.json",
         "generatePackageJson": true
       },
       "configurations": {
@@ -34,18 +34,18 @@
     "serve": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "scheduler:build"
+        "buildTarget": "polygon-adapter:build"
       },
       "configurations": {
         "production": {
-          "buildTarget": "scheduler:build:production"
+          "buildTarget": "polygon-adapter:build:production"
         }
       }
     },
     "dev": {
       "executor": "@nrwl/node:node",
       "options": {
-        "buildTarget": "scheduler:build:watch"
+        "buildTarget": "polygon-adapter:build:watch"
       }
     },
     "lint": {
@@ -55,28 +55,28 @@
       ],
       "options": {
         "lintFilePatterns": [
-          "apps/scheduler/**/*.ts"
+          "apps/polygon-adapter/**/*.ts"
         ]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": [
-        "coverage/apps/scheduler"
+        "coverage/apps/polygon-adapter"
       ],
       "options": {
-        "jestConfig": "apps/scheduler/jest.config.ts",
+        "jestConfig": "apps/polygon-adapter/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "flyctl deploy -c apps/scheduler/fly.staging.toml"
+        "command": "flyctl deploy -c apps/polygon-adapter/fly.staging.toml"
       },
       "configurations": {
         "production": {
-          "command": "flyctl deploy -c apps/scheduler/fly.toml"
+          "command": "flyctl deploy -c apps/polygon-adapter/fly.toml"
         }
       }
     }

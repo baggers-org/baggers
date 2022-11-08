@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: ui-config
-data:
-  AUTH0_DOMAIN: baggers.eu.auth0.com
-  AUTH0_CALLBACK_URL: https://baggers.app/auth/auth0/callback
-  AUTH0_CLIENT_ID: YXhqc0CylLrcsNMMwg1rhUzj0zTkLIsW
