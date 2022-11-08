@@ -3,14 +3,11 @@ name: Deploy apps
 on:
   push:
     branches:
-      - develop
-      - master
+      - main
 
 jobs:
   build:
     name: 🐳 Build
-    # only build/deploy master branch on pushes
-    if: ${{ (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -23,45 +20,27 @@ jobs:
 
       - name: NRWL Set Shas
         uses: nrwl/nx-set-shas@v2
+
+      - name: Gcloud auth
+        uses: 'google-github-actions/auth@v0'
         with:
-          main-branch-name: ${{ github.ref_name }}
+          credentials_json: ${{ secrets.GKE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Setup gcloud
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
 
       - name: 🐳 Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # Setup cache
-      - name: ⚡️ Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: 🔑 Fly Registry Auth
-        uses: docker/login-action@v2
-        with:
-          registry: registry.fly.io
-          username: x
-          password: ${{ secrets.FLY_API_TOKEN }}
-
       - name: 🐳 Docker build
-        run: npx nx affected --target=docker-affected
-
-      # This ugly bit is necessary if you don't want your cache to grow forever
-      # till it hits GitHub's limit of 5GB.
-      # Temp fix
-      # https://github.com/docker/build-push-action/issues/252
-      # https://github.com/moby/buildkit/issues/1896
-      - name: 🚚 Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+        run: npx nx affected --target=docker
 
   deploy:
     name: '🚀 Deploy to Production 🚀'
     needs: build
-    if: ${{ (github.ref == 'refs/heads/master') && github.event_name == 'push' }}
     runs-on: ubuntu-latest
     environment: Production
     env:
@@ -74,132 +53,98 @@ jobs:
 
       - name: NRWL Set Shas
         uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: ${{ github.ref_name }}
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 16.13.0
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - name: Setup fly
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy affected apps
-        run: npx nx affected --target=deploy-docker-image --parallel=2
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-
-  deployStaging:
-    name: '🚀 Deploy to Staging 🚀'
-    needs: build
-    if: ${{ (github.ref == 'refs/heads/develop') && github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    environment: 'Staging'
-    env:
-      CYPRESS_INSTALL_BINARY: 0
-    steps:
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+      - name: Gcloud auth
+        uses: 'google-github-actions/auth@v0'
         with:
-          fetch-depth: 0
+          credentials_json: ${{ secrets.GKE_SERVICE_ACCOUNT_KEY }}
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: ${{ github.ref_name }}
-
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.0
+      - name: Setup gcloud
+        uses: 'google-github-actions/setup-gcloud@v0'
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
-      - name: Setup fly
-        uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Deploy to GKE
+        run: nx affected --target=deploy --configuration=production
 
-      - name: Deploy affected apps
-        run: npx nx affected --target=deploy-docker-image --parallel=3
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  # cypress-chrome:
+  #   name: 'Cypress - chrome'
+  #   needs: [deploy]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-  cypress-chrome:
-    name: 'Cypress - chrome'
-    needs: [deployStaging]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  #     - name: ⬇️ Checkout repo
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  #     - name: NRWL Set Shas
+  #       uses: nrwl/nx-set-shas@v2
+  #       with:
+  #         main-branch-name: develop
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: develop
+  #     - name: ⎔ Setup node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16.13.0
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.0
+  #     - name: 📥 Download deps
+  #       uses: bahmutov/npm-install@v1
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
+  #     - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
+  #       env:
+  #         CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+  #         CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+  #         CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+  #         CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+  #         CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+  #         CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+  #         CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+  #         CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+  #         CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+  #         CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
 
-      - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser chrome
-        env:
-          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
-          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
-          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
-          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
-          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
-          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
-          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
-          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
-          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
-          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
+  # cypress-firefox:
+  #   name: 'Cypress - firefox'
+  #   needs: [deploy]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-  cypress-firefox:
-    name: 'Cypress - firefox'
-    needs: [deployStaging]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+  #     - name: ⬇️ Checkout repo
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
 
-      - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  #     - name: NRWL Set Shas
+  #       uses: nrwl/nx-set-shas@v2
+  #       with:
+  #         main-branch-name: develop
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-        with:
-          main-branch-name: develop
+  #     - name: ⎔ Setup node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 16.13.0
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.0
+  #     - name: 📥 Download deps
+  #       uses: bahmutov/npm-install@v1
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-
-      - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
-        env:
-          CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
-          CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
-          CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
-          CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
-          CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
-          CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
-          CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
-          CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
-          CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
-          CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}
+  #     - run: npx nx start e2e --record --key a4d15492-3acd-487c-8651-3306c6b45cb2 --browser firefox
+  #       env:
+  #         CYPRESS_FF_USER: ${{ secrets.CYPRESS_FF_USER }}
+  #         CYPRESS_FF_PASS: ${{ secrets.CYPRESS_FF_PASS }}
+  #         CYPRESS_CHROME_USER: ${{ secrets.CYPRESS_CHROME_USER }}
+  #         CYPRESS_CHROME_PASS: ${{ secrets.CYPRESS_CHROME_PASS }}
+  #         CYPRESS_AUTH0_DOMAIN: ${{ secrets.CYPRESS_AUTH0_DOMAIN }}
+  #         CYPRESS_AUTH0_CLIENT_ID: ${{ secrets.CYPRESS_AUTH0_CLIENT_ID }}
+  #         CYPRESS_AUTH0_CLIENT_SECRET: ${{ secrets.CYPRESS_AUTH0_CLIENT_SECRET }}
+  #         CYPRESS_AUTH0_AUDIENCE: ${{ secrets.CYPRESS_AUTH0_AUDIENCE }}
+  #         CYPRESS_AUTH0_SCOPE: ${{ secrets.CYPRESS_AUTH0_SCOPE }}
+  #         CYPRESS_ATLAS_CLUSTER_URI: ${{ secrets.CYPRESS_ATLAS_CLUSTER_URI }}

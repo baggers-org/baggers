@@ -4,9 +4,22 @@
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
     "types": ["node"],
-
     "emitDecoratorMetadata": true,
-    "target": "es2015"
+    "target": "es2015",
+    "plugins": [
+      {
+        "name": "@nestjs/graphql/plugin",
+        "options": {
+          "introspectComments": true,
+          "typeFileNameSuffix": [
+            ".input.ts",
+            ".args.ts",
+            ".entity.ts",
+            ".model.ts"
+          ]
+        }
+      }
+    ]
   },
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "tests"],
   "include": ["**/*.ts"]

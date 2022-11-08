@@ -44,4 +44,9 @@ Thumbs.db
 # Remix files
 apps/**/build
 apps/**/.cache
+
+.terraform
   
+*secret.yml
+
+gha-creds-*.json

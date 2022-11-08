@@ -1,6 +1,0 @@
-{
-  "executors": "./executor.json",
-  "scripts": {
-    "build": "tsc -p ."
-  }
-}

@@ -1,7 +1,7 @@
 {
   "npmScope": "baggers",
   "affected": {
-    "defaultBase": "develop"
+    "defaultBase": "main"
   },
   "implicitDependencies": {
     "package.json": {
@@ -14,7 +14,13 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "deploy"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "deploy"
+        ]
       }
     }
   },

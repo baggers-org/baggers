@@ -14,7 +14,7 @@ const symbolFilter = {
 // so just require .env
 if (!process.env.CI) {
   dotenv.config({
-    path: 'apps/web/.env',
+    path: 'apps/ui/.env',
   });
 }
 

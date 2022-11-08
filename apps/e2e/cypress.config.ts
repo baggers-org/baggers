@@ -28,7 +28,7 @@ export default defineConfig({
   projectId: '1hdkja',
   chromeWebSecurity: false,
   e2e: {
-    ...nxE2EPreset(__dirname),
+    ...nxE2EPreset(__filename),
     video: !!process.env.CI,
     baseUrl: process.env.CI
       ? 'https://baggers-staging.fly.dev'

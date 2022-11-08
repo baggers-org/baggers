@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      containers:
+        - name: ui
+          image: eu.gcr.io/baggers-367917/ui:latest
+          envFrom:
+            - secretRef:
+                name: ui-env
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 3000

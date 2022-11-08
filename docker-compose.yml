@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  ui:
+    image: 539913629665.dkr.ecr.eu-west-1.amazonaws.com/baggers-ui:latest
+    ports:
+      - 3000
+    environment:
+      - AUTH0_DOMAIN=baggers-dev.eu.auth0.com
+      - AUTH0_CLIENT_ID=6MnCFO59SeAoq72j6PzlJEx8QSFT5c3n
+      - AUTH0_CALLBACK_URL=http://localhost:3000/auth/auth0/callback
+      - AUTH0_AUDIENCE=http://localhost:4000/graphql
+
+    secrets:
+      - ui-secrets
+  api:
+    image: 539913629665.dkr.ecr.eu-west-1.amazonaws.com/baggers-api:latest
+    ports:
+      - 4000
+
+secrets:
+  ui-secrets:
+    name: 'arn:aws:secretsmanager:eu-west-1:539913629665:secret:ui-secrets-lGh5E6'

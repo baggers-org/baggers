@@ -1,0 +1,74 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ui",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "cross-env NODE_ENV=development NODE_OPTIONS='-r ./esbuild-overrides' remix dev",
+        "cwd": "apps/ui"
+      }
+    },
+    "build": {
+      "executor": "@nrwl/workspace:run-commands",
+      "dependsOn": [],
+      "options": {
+        "command": "cross-env NODE_ENV=production NODE_OPTIONS='-r ./esbuild-overrides' remix build",
+        "cwd": "apps/ui"
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/ui/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/ui:latest"
+        ],
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ]
+      }
+    },
+    "docker-local": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/ui/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/ui:latest"
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'error no --configuration=production flag passed'"
+      },
+      "configurations": {
+        "production": {
+          "command": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/ui/**/*.tsx",
+          "apps/ui/**/*.ts"
+        ]
+      }
+    },
+    "type-check": {
+      "executor": "./tools/executors/ts-check:ts-check"
+    }
+  }
+}

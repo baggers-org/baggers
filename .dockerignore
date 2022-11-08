@@ -3,3 +3,6 @@ cypress
 dist
 .github
 coverage
+.terraform
+terraform
+

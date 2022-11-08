@@ -39,6 +39,43 @@
         }
       }
     },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/api/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/api:latest"
+        ],
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ]
+      }
+    },
+    "docker-local": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/api/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/api:latest"
+        ]
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo 'error no --configuration=production flag passed'"
+      },
+      "configurations": {
+        "production": {
+          "command": "kubectl rollout restart deployment api && kubectl rollout status deployment api"
+        }
+      }
+    },
     "dev": {
       "executor": "@nrwl/node:node",
       "options": {
@@ -74,17 +111,6 @@
     },
     "type-check": {
       "executor": "./tools/executors/ts-check:ts-check"
-    },
-    "deploy": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "flyctl deploy -c apps/api/fly.staging.toml"
-      },
-      "configurations": {
-        "production": {
-          "command": "flyctl deploy -c apps/api/fly.toml"
-        }
-      }
     }
   },
   "tags": []

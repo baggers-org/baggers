@@ -4,12 +4,12 @@
     "api": "apps/api",
     "e2e": "apps/e2e",
     "graphql-types": "libs/graphql-types",
-    "scheduler": "apps/scheduler",
+    "polygon-adapter": "apps/polygon-adapter",
     "sdk": "libs/sdk",
     "security-util": "libs/security-util",
     "type-util": "libs/type-util",
     "util": "libs/util",
-    "web": "apps/web"
+    "ui": "apps/ui"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
