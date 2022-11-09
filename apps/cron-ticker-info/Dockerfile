@@ -20,7 +20,6 @@ WORKDIR /baggers-cron-ticker-info
 COPY --from=build /baggers/dist/apps/cron-ticker-info  /baggers-cron-ticker-info/
 COPY --from=base-deps /baggers/package-lock.json  /baggers-cron-ticker-info/
 
-RUN npm i tslib
 RUN npm ci --only=production
 
 CMD [ "node", "main.js"]

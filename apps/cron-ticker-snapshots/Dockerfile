@@ -19,6 +19,7 @@ FROM base as cron-ticker-snapshots
 WORKDIR /baggers-cron-ticker-snapshots
 COPY --from=build /baggers/dist/apps/cron-ticker-snapshots  /baggers-cron-ticker-snapshots/
 COPY --from=base-deps /baggers/package-lock.json  /baggers-cron-ticker-snapshots/
+
 RUN npm ci --only=production
 
 CMD [ "node", "main.js"]
