@@ -5,9 +5,7 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/cron-ticker-info",
         "main": "apps/cron-ticker-info/src/main.ts",
@@ -35,20 +33,14 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/cron-ticker-info/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/cron-ticker-info/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/cron-ticker-info"
-      ],
+      "outputs": ["coverage/apps/cron-ticker-info"],
       "options": {
         "jestConfig": "apps/cron-ticker-info/jest.config.ts",
         "passWithNoTests": true
@@ -59,15 +51,9 @@
       "options": {
         "push": true,
         "file": "apps/cron-ticker-info/Dockerfile",
-        "tags": [
-          "eu.gcr.io/baggers-367917/cron-ticker-info:latest"
-        ],
-        "cache-from": [
-          "type=gha"
-        ],
-        "cache-to": [
-          "type=gha,mode=max"
-        ]
+        "tags": ["eu.gcr.io/baggers-367917/cron-ticker-info:latest"],
+        "cache-from": ["type=gha"],
+        "cache-to": ["type=gha,mode=max"]
       }
     }
   },
