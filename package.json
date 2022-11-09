@@ -8,6 +8,7 @@
     "test": "nx test",
     "deploy": "nx deploy",
     "lint:all": "nx run-many --all --target=lint",
+    "g:cron": "npx nx workspace-generator cron-job",
     "test:all": "nx run-many --all --target=test",
     "type-check:all": "nx run-many --all --target=type-check",
     "postinstall": "remix setup node",

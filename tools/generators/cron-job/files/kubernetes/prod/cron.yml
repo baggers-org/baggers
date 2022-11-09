@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: <%= name %>
+spec:
+  # Every 15th minute during market hours
+  schedule: '*/15 14-21 * * 1-5'
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: <%= name %>
+              image: eu.gcr.io/baggers-367917/<%= name %>:latest
+              imagePullPolicy: Always
+              envFrom:
+                - secretRef:
+                    name: api-env
+          restartPolicy: OnFailure
+          ttlSecondsAfterFinished: 1

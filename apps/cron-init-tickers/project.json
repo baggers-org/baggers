@@ -1,0 +1,61 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cron-init-tickers/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/cron-init-tickers",
+        "main": "apps/cron-init-tickers/src/main.ts",
+        "tsConfig": "apps/cron-init-tickers/tsconfig.app.json",
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "cron-init-tickers:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "cron-init-tickers:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/cron-init-tickers/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/cron-init-tickers"],
+      "options": {
+        "jestConfig": "apps/cron-init-tickers/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/cron-init-tickers/Dockerfile",
+        "tags": ["eu.gcr.io/baggers-367917/cron-init-tickers:latest"],
+        "cache-from": ["type=gha"],
+        "cache-to": ["type=gha,mode=max"]
+      }
+    }
+  },
+  "tags": []
+}
