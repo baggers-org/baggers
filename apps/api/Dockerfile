@@ -1,6 +1,6 @@
 FROM node:16.13.0-alpine as base
 
-RUN apk update && apk get git
+RUN apk update && apk add git
 
 RUN mkdir /baggers
 WORKDIR /baggers

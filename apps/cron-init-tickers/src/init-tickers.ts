@@ -58,5 +58,5 @@ export const initTickers = async (mongo: MongoClient) => {
     ...res.result.opTime,
   });
 
-  return process.exit(0);
+  process.exit(0);
 };

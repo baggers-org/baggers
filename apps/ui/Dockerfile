@@ -1,6 +1,7 @@
-FROM node:16.13.0-bullseye-slim as base
+FROM node:16.13.0-alpine as base
 
-RUN apt-get update && apt-get install git -y
+RUN apk update && apk add git
+
 
 RUN mkdir /baggers
 WORKDIR /baggers
@@ -24,7 +25,7 @@ COPY --from=ui-build /baggers/dist/apps/ui  /baggers-ui/
 # TODO: generate package.json for remix projects, i think i can update
 # Nrwl/remix and get this functionality
 COPY --from=base-deps baggers/package.json /baggers/package-lock.json  /baggers-ui/
-RUN npm ci --only=production
+COPY --from=base-deps baggers/node_modules/ /baggers-ui/
 
 # TODO: prune dependencies here, its far too slow at the moment as its installing all dependenices again for some reason
-CMD ["node_modules/.bin/remix-serve", "build"]
+CMD ["node", "build/main.js"]

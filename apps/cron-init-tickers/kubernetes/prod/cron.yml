@@ -17,4 +17,3 @@ spec:
                 - secretRef:
                     name: api-env
           restartPolicy: OnFailure
-          ttlSecondsAfterFinished: 1

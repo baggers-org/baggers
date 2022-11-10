@@ -74,7 +74,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Deploy to GKE
-        run: nx affected --target=deploy --configuration=production
+        run: npx nx affected --target=deploy --configuration=production
 
   # cypress-chrome:
   #   name: 'Cypress - chrome'
