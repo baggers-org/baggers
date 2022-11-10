@@ -1,6 +1,6 @@
-FROM node:16.13.0-bullseye-slim as base
+FROM node:16.13.0-alpine as base
 
-RUN apt-get update && apt-get install git -y
+RUN apk update && apk get git
 
 RUN mkdir /baggers
 WORKDIR /baggers
@@ -21,8 +21,7 @@ FROM base as api
 WORKDIR /baggers-api
 COPY --from=api-build /baggers/dist/apps/api  /baggers-api/
 COPY --from=base-deps /baggers/package-lock.json  /baggers-api/
-COPY --from=base-deps /baggers/node_modules  /baggers-api/node_modules
 
-
-RUN npm prune --production
+RUN npm i tslib
+RUN npm ci --only=production
 CMD ["node", "main.js"]

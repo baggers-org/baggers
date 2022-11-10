@@ -32,5 +32,6 @@
         "projects": "self"
       }
     ]
-  }
+  },
+  "defaultProject": "cron-ticker-snapshots"
 }

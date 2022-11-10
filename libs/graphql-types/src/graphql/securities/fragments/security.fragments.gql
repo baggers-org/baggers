@@ -7,12 +7,10 @@ fragment AllSecurityData on Security {
   name
   region
   latestPrice
+  todaysChange
+  todaysChangePercent
   tickerDetails {
     ...AllTickerDetails
-  }
-
-  tickerSnapshot {
-    ...AllTickerSnapshot
   }
 }
 

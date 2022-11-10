@@ -67,7 +67,7 @@ export class HoldingMetricsService {
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
       if (!holding.security) return null;
-      return holding.quantity * holding.security.tickerSnapshot.todaysChange;
+      return holding.quantity * holding.security.todaysChange;
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +

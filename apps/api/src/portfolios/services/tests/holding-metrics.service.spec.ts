@@ -1,4 +1,8 @@
-import { A, SecuritiesService, SecuritiesServiceMock } from '~/securities';
+import {
+  A,
+  SecuritiesService,
+  SecuritiesServiceMock,
+} from '~/securities';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
@@ -29,7 +33,9 @@ describe('HoldingMetricsService', () => {
       .useClass(SecuritiesServiceMock)
       .compile();
 
-    service = module.get<HoldingMetricsService>(HoldingMetricsService);
+    service = module.get<HoldingMetricsService>(
+      HoldingMetricsService
+    );
   });
 
   describe('marketValue', () => {
@@ -209,8 +215,11 @@ describe('HoldingMetricsService', () => {
     });
 
     it('should calculate all metrics correctly for imported securities that have not been matched', () => {
-      expect(service.calculateHoldingMetrics(getPopulated(ImportedPortfolio)))
-        .toMatchInlineSnapshot(`
+      expect(
+        service.calculateHoldingMetrics(
+          getPopulated(ImportedPortfolio)
+        )
+      ).toMatchInlineSnapshot(`
         Array [
           Object {
             "_id": "62d2cd45c63873e235c99531",
@@ -301,41 +310,8 @@ describe('HoldingMetricsService', () => {
               "latestPrice": 33.01,
               "name": "Southside Bancshares Inc",
               "region": "US",
-              "tickerSnapshot": Object {
-                "day": Object {
-                  "c": 0,
-                  "h": 0,
-                  "l": 0,
-                  "o": 0,
-                  "v": 0,
-                  "vw": 0,
-                },
-                "lastQuote": null,
-                "lastTrade": Object {
-                  "p": 33.01,
-                },
-                "min": Object {
-                  "av": 0,
-                  "c": 0,
-                  "h": 0,
-                  "l": 0,
-                  "o": 0,
-                  "v": 0,
-                  "vw": 0,
-                },
-                "prevDay": Object {
-                  "c": 33.01,
-                  "h": 33.69,
-                  "l": 32.49,
-                  "o": 32.49,
-                  "v": 155895,
-                  "vw": 33.2222,
-                },
-                "ticker": "SBSI",
-                "todaysChange": 0,
-                "todaysChangePerc": 0,
-                "updated": 0,
-              },
+              "todaysChange": 0,
+              "todaysChangePercent": 0,
             },
             "source": "broker",
           },
@@ -360,41 +336,8 @@ describe('HoldingMetricsService', () => {
               "latestPrice": 120,
               "name": "Tesla Inc",
               "region": "US",
-              "tickerSnapshot": Object {
-                "day": Object {
-                  "c": 0,
-                  "h": 0,
-                  "l": 0,
-                  "o": 0,
-                  "v": 0,
-                  "vw": 0,
-                },
-                "lastQuote": null,
-                "lastTrade": Object {
-                  "p": 120,
-                },
-                "min": Object {
-                  "av": 2323,
-                  "c": 120,
-                  "h": 3,
-                  "l": 23,
-                  "o": 2,
-                  "v": 2,
-                  "vw": 23,
-                },
-                "prevDay": Object {
-                  "c": 3.84,
-                  "h": 4.03,
-                  "l": 3.75,
-                  "o": 4.03,
-                  "v": 383336,
-                  "vw": 3.8402,
-                },
-                "ticker": "ONDS",
-                "todaysChange": 0,
-                "todaysChangePerc": 0,
-                "updated": 0,
-              },
+              "todaysChange": 0,
+              "todaysChangePercent": 0,
             },
             "source": "broker",
           },

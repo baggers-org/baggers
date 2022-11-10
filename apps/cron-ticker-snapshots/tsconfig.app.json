@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc",
+    "module": "commonjs",
+    "types": ["node"],
+    "importHelpers": true
+  },
+  "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "tests"],
+  "include": ["**/*.ts", "../../libs/polygon-adapter/src/lib/env.ts"]
+}

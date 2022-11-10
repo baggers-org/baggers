@@ -1,0 +1,75 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/cron-ticker-snapshots/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/cron-ticker-snapshots",
+        "main": "apps/cron-ticker-snapshots/src/main.ts",
+        "tsConfig": "apps/cron-ticker-snapshots/tsconfig.app.json",
+        "generatePackageJson": true
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
+      }
+    },
+    "dev": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "cron-ticker-snapshots:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "cron-ticker-snapshots:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/cron-ticker-snapshots/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/apps/cron-ticker-snapshots"
+      ],
+      "options": {
+        "jestConfig": "apps/cron-ticker-snapshots/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "@nx-tools/nx-docker:build",
+      "options": {
+        "push": true,
+        "file": "apps/cron-ticker-snapshots/Dockerfile",
+        "tags": [
+          "eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest"
+        ],
+        "cache-from": [
+          "type=gha"
+        ],
+        "cache-to": [
+          "type=gha,mode=max"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

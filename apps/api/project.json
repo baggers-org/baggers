@@ -5,12 +5,8 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "dependsOn": [
-        "type-util:build"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "dependsOn": ["type-util:build"],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
@@ -44,15 +40,9 @@
       "options": {
         "push": true,
         "file": "apps/api/Dockerfile",
-        "tags": [
-          "eu.gcr.io/baggers-367917/api:latest"
-        ],
-        "cache-from": [
-          "type=gha"
-        ],
-        "cache-to": [
-          "type=gha,mode=max"
-        ]
+        "tags": ["eu.gcr.io/baggers-367917/api:latest"],
+        "cache-from": ["type=gha"],
+        "cache-to": ["type=gha,mode=max"]
       }
     },
     "docker-local": {
@@ -60,9 +50,7 @@
       "options": {
         "push": true,
         "file": "apps/api/Dockerfile",
-        "tags": [
-          "eu.gcr.io/baggers-367917/api:latest"
-        ]
+        "tags": ["eu.gcr.io/baggers-367917/api:latest"]
       }
     },
     "deploy": {
@@ -89,20 +77,14 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/api/**/*.ts"
-        ]
+        "lintFilePatterns": ["apps/api/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/apps/api"
-      ],
+      "outputs": ["coverage/apps/api"],
       "options": {
         "jestConfig": "apps/api/jest.config.ts",
         "passWithNoTests": true,
