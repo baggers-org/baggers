@@ -1,12 +1,14 @@
 import { IRestClient } from '@polygon.io/client-js';
 import { defaultPolygonRestClient } from './polygon-client';
 import {
+  LastTrade,
   MarketDataAdapter,
   SecurityDetails,
   SecuritySnapshot,
 } from '@baggers/market-data-adapter';
 import { PolygonMapper } from './polygon-mapper';
 import { paginatedFetch } from './paginated-fetch';
+import { batchRequest } from '@baggers/batch-request';
 
 export class PolygonAdapter extends MarketDataAdapter<
   IRestClient,
@@ -33,8 +35,32 @@ export class PolygonAdapter extends MarketDataAdapter<
     return results.map((t) => t.ticker);
   }
 
-  getAllSecuritySnapshots(): Promise<SecuritySnapshot[]> {
-    throw new Error('Method not implemented.');
+  async getLastTrade(ticker: string): Promise<LastTrade> {
+    // TODO: implement trade mapper
+
+    const { results } = await this.client.stocks.lastTrade(ticker);
+
+    return {
+      _id: ticker,
+      p: results.p,
+      s: results.s,
+    };
+  }
+
+  async batchGetLastTrade(
+    tickers: string[],
+    batchSize = 4000
+  ): Promise<LastTrade[]> {
+    const batchedFunctions = tickers.map(
+      (t) => () => this.getLastTrade(t)
+    );
+    return batchRequest(batchedFunctions, batchSize);
+  }
+
+  async getAllSecuritySnapshots(): Promise<SecuritySnapshot[]> {
+    const { tickers } = await this.client.stocks.snapshotAllTickers();
+
+    return tickers.map((t) => this.mapper.mapSecuritySnapshot(t));
   }
 
   async getSecurityDetails(ticker: string): Promise<SecurityDetails> {
@@ -42,7 +68,7 @@ export class PolygonAdapter extends MarketDataAdapter<
       const { results } = await this.client.reference.tickerDetails(
         ticker
       );
-      return this.mapper.mapSecurity(results);
+      return this.mapper.mapSecurityDetails(results);
     } catch (e) {
       console.error('Could not find ticker ' + ticker);
       console.error(e);
@@ -54,49 +80,9 @@ export class PolygonAdapter extends MarketDataAdapter<
     tickers: string[],
     batchSize = 4000
   ): Promise<SecurityDetails[]> {
-    let remaining = tickers.length;
-    let results: SecurityDetails[] = [];
-
-    while (remaining > 0) {
-      const batchStart = tickers.length - remaining;
-      const batchEnd = batchStart + Math.min(batchSize, remaining);
-      const batch = tickers.slice(batchStart, batchEnd);
-      let errors = 0;
-      console.log(batch.length);
-
-      console.log('Fetching batch of ', batch.length, '...');
-      const t = Date.now();
-
-      results = [
-        ...results,
-        ...(await Promise.all(
-          batch.map(async (t) => {
-            return this.getSecurityDetails(t)
-              .then((results) => {
-                remaining -= 1;
-                return results;
-              })
-              .catch(() => {
-                errors += 1;
-                return null;
-              });
-          })
-        )),
-      ].filter((r) => !!r);
-
-      console.log('Fetch finished');
-      console.table({
-        batchTime: (Date.now() - t) / 1000,
-        errors,
-      });
-      console.log(
-        'Total fetched ',
-        tickers.length - remaining,
-        ' / ',
-        tickers.length
-      );
-    }
-
-    return results;
+    const batchedFunctions = tickers.map(
+      (t) => () => this.getSecurityDetails(t)
+    );
+    return batchRequest(batchedFunctions, batchSize);
   }
 }

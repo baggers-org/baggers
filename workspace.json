@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "batch-request": "libs/batch-request",
     "cron-init-tickers": "apps/cron-init-tickers",
     "cron-ticker-snapshots": "apps/cron-ticker-snapshots",
     "e2e": "apps/e2e",

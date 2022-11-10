@@ -41,4 +41,40 @@ describe('polygonAdapter', () => {
       `);
     });
   });
+
+  it('should handle a single entity', async () => {
+    const adapter = new PolygonAdapter(PolygonMockClient);
+
+    const results = await adapter.batchGetSecurityDetails(
+      ['TSLA'],
+      1
+    );
+
+    expect(results).toHaveLength(1);
+
+    expect(results.map((r) => r._id)).toMatchInlineSnapshot(`
+        Array [
+          "TSLA",
+        ]
+      `);
+  });
+
+  it('should continue even with errors', async () => {
+    const adapter = new PolygonAdapter({
+      ...PolygonMockClient,
+      reference: {
+        ...PolygonMockClient.reference,
+        tickerDetails() {
+          throw Error('Not found');
+        },
+      },
+    });
+
+    const results = await adapter.batchGetSecurityDetails(
+      ['TSLA'],
+      1
+    );
+
+    expect(results).toHaveLength(0);
+  });
 });

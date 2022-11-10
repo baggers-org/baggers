@@ -1,4 +1,8 @@
-import { SecurityDetails, SecuritySnapshot } from './types';
+import {
+  LastTrade,
+  SecurityDetails,
+  SecuritySnapshot,
+} from './types';
 
 export abstract class MarketDataAdapter<TClient, TMapper> {
   mapper: TMapper;
@@ -30,4 +34,6 @@ export abstract class MarketDataAdapter<TClient, TMapper> {
    * that the market data hsa to offer
    */
   abstract getAllSecuritySnapshots(): Promise<SecuritySnapshot[]>;
+
+  abstract getLastTrade(ticker: string): Promise<LastTrade>;
 }

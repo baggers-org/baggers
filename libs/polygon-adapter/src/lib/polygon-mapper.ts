@@ -1,12 +1,19 @@
+import { AssetClass, TickerType } from '@baggers/graphql-types';
 import {
-  AssetClass,
-  Security,
-  TickerType,
-} from '@baggers/graphql-types';
-import { MarketDataMapper } from '@baggers/market-data-adapter';
-import { PolygonTicker } from './polygon-types';
+  MarketDataMapper,
+  SecurityDetails,
+  SecuritySnapshot,
+} from '@baggers/market-data-adapter';
+import { SnapshotInfo } from '@polygon.io/client-js/lib/rest/stocks/snapshots';
+import {
+  PolygonTicker,
+  PolygonTickerSnapshot,
+} from './polygon-types';
 
-export class PolygonMapper extends MarketDataMapper {
+export class PolygonMapper extends MarketDataMapper<
+  PolygonTicker,
+  PolygonTickerSnapshot
+> {
   mapTickerType(source: string): TickerType {
     // Our TickerType interface is a 1:1 with Polygon ticker type
     // no need to map in this case
@@ -21,7 +28,7 @@ export class PolygonMapper extends MarketDataMapper {
     }
   }
 
-  mapSecurity(source: PolygonTicker): Security {
+  mapSecurityDetails(source: PolygonTicker): SecurityDetails {
     return {
       _id: source.ticker,
       figi: source.composite_figi,
@@ -52,6 +59,15 @@ export class PolygonMapper extends MarketDataMapper {
         totalEmployees: source.total_employees,
         weightedSharesOutstanding: source.weighted_shares_outstanding,
       },
+    };
+  }
+
+  mapSecuritySnapshot(source: SnapshotInfo): SecuritySnapshot {
+    return {
+      _id: source.ticker,
+      latestPrice: source.lastTrade?.p,
+      todaysChange: source.todaysChange,
+      todaysChangePercent: source.todaysChangePerc,
     };
   }
 }
