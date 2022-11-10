@@ -25,11 +25,6 @@ describe('getTickerSnapshots', () => {
         _id: 'TSLA',
         latestPrice: 95,
         assetClass: AssetClass.Stock,
-        tickerSnapshot: {
-          lastTrade: {
-            p: 95,
-          },
-        },
       });
 
     // Return a valid snapshot, ie. price is greater than 0
@@ -63,12 +58,8 @@ describe('getTickerSnapshots', () => {
           "_id": "TSLA",
           "assetClass": "stock",
           "latestPrice": 100,
-          "tickerSnapshot": Object {
-            "lastTrade": Object {
-              "p": 100,
-            },
-            "ticker": "TSLA",
-          },
+          "todaysChange": null,
+          "todaysChangePercent": null,
         },
       ]
     `);
@@ -83,14 +74,6 @@ describe('getTickerSnapshots', () => {
         // WE got 666 from the last valid snapshot update in this case
         latestPrice: 666,
         assetClass: AssetClass.Stock,
-        tickerSnapshot: {
-          prevDay: {
-            c: 100,
-          },
-          lastTrade: {
-            p: 666,
-          },
-        },
       });
 
     mockPolygonStocksClientMethod({
@@ -122,14 +105,6 @@ describe('getTickerSnapshots', () => {
         "_id": "ONDS",
         "assetClass": "stock",
         "latestPrice": 666,
-        "tickerSnapshot": Object {
-          "lastTrade": Object {
-            "p": 666,
-          },
-          "prevDay": Object {
-            "c": 100,
-          },
-        },
       }
     `);
   });
