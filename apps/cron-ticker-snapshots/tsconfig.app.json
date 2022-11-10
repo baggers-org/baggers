@@ -7,5 +7,5 @@
     "importHelpers": true
   },
   "exclude": ["jest.config.ts", "**/*.spec.ts", "**/*.test.ts", "tests"],
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../../libs/polygon-adapter/src/lib/env.ts"]
 }

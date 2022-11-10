@@ -1,3 +1,17 @@
+/**
+ * NOTE: This entity is not used at the moment -
+ * it maps directly to the ITickerSnapshot interface from
+ * the polygon rest API.
+ *
+ * However on 9/11/22 I decided to de-couple our entities from
+ * the market data provider, and instead use adapters
+ * to map the provider into the format we want.
+ *
+ * This will make it easy to switch out market data provider in future
+ * or even add new ones.
+ *
+ * Leaving this entity in here incase I do need to extract some info again
+ */
 import { ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 

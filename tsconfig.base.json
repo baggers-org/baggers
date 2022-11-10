@@ -18,7 +18,10 @@
     "baseUrl": ".",
     "paths": {
       "@baggers/graphql-types": ["libs/graphql-types/src/index.ts"],
+      "@baggers/market-data-adapter": ["libs/market-data-adapter/src/index.ts"],
       "@baggers/math": ["libs/math/src/index.ts"],
+      "@baggers/mongo-client": ["libs/mongo-client/src/index.ts"],
+      "@baggers/polygon-adapter": ["libs/polygon-adapter/src/index.ts"],
       "@baggers/sdk": ["libs/sdk/src/index.ts"],
       "@baggers/security-util": ["libs/security-util/src/index.ts"],
       "@baggers/test": ["libs/test/src/index.ts"],

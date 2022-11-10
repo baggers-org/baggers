@@ -1,7 +1,6 @@
 import { restClient } from '@polygon.io/client-js';
 import { Security } from '@baggers/graphql-types';
-import { MongoClient } from 'mongodb';
-import { env } from './env';
+import { AnyBulkWriteOperation, MongoClient } from 'mongodb';
 
 export const getTickerSnapshots = async (mongoClient: MongoClient) => {
   const polygon = restClient(env.POLYGON_API_KEY);
@@ -16,7 +15,7 @@ export const getTickerSnapshots = async (mongoClient: MongoClient) => {
     .db('baggers')
     .collection<Security>('securities');
 
-  const operations = tickers
+  const operations: AnyBulkWriteOperation<Security>[] = tickers
     .filter((t) => !!t?.lastTrade?.p)
     .map((t) => ({
       updateOne: {
@@ -24,13 +23,12 @@ export const getTickerSnapshots = async (mongoClient: MongoClient) => {
         update: [
           {
             $set: {
-              _id: t.ticker,
               latestPrice: t?.lastTrade?.p,
-              tickerSnapshot: t,
+              todaysChange: t?.todaysChange,
+              todaysChangePercent: t?.todaysChangePerc,
             },
           },
         ],
-        upsert: true,
       },
     }));
   if (!operations.length) {

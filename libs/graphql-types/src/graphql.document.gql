@@ -226,12 +226,10 @@ fragment AllSecurityData on Security {
   name
   region
   latestPrice
+  todaysChange
+  todaysChangePercent
   tickerDetails {
     ...AllTickerDetails
-  }
-
-  tickerSnapshot {
-    ...AllTickerSnapshot
   }
 }
 
@@ -270,54 +268,6 @@ fragment AllTickerDetails on TickerDetails {
   totalEmployees
   type
   weightedSharesOutstanding
-}
-
-
-fragment AllTickerSnapshot on TickerSnapshot {
-  day {
-    c
-    h
-    l
-    o
-    v
-    vw
-  }
-  lastQuote {
-    P
-    S
-    p
-    s
-    t
-  }
-  lastTrade {
-    c
-    i
-    p
-    s
-    t
-    x
-  }
-  min {
-    av
-    c
-    h
-    l
-    o
-    v
-    vw
-  }
-  prevDay {
-    c
-    h
-    l
-    o
-    v
-    vw
-  }
-  ticker
-  todaysChange
-  todaysChangePerc
-  updated
 }
 
 

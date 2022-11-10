@@ -3,7 +3,6 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { AssetClass } from '../enums/asset-class.enum';
 import { TickerDetails } from './ticker-details.entity';
-import { TickerSnapshot } from './ticker-snapshot.entity';
 
 export type SecurityDocument = Document & Security;
 
@@ -35,9 +34,11 @@ export class Security {
   @Prop()
   latestPrice?: number;
 
-  @Field(() => TickerSnapshot)
   @Prop()
-  tickerSnapshot?: TickerSnapshot;
+  todaysChange?: number;
+
+  @Prop()
+  todaysChangePercent?: number;
 
   @Field(() => TickerDetails)
   tickerDetails?: TickerDetails;

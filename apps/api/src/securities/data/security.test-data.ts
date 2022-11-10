@@ -10,41 +10,8 @@ export const A: Security = {
   region: 'US',
   assetClass: AssetClass.stock,
   latestPrice: 54.5,
-  tickerSnapshot: {
-    day: {
-      c: 0,
-      h: 0,
-      l: 0,
-      o: 0,
-      v: 0,
-      vw: 0,
-    },
-    lastQuote: null,
-    lastTrade: {
-      p: 54.5,
-    },
-    min: {
-      av: 12516,
-      c: 54.5,
-      h: 54.5,
-      l: 54.5,
-      o: 54.5,
-      v: 560,
-      vw: 54.5,
-    },
-    prevDay: {
-      c: 55.98,
-      h: 58.06,
-      l: 55.12,
-      o: 56.38,
-      v: 3414924,
-      vw: 56.0815,
-    },
-    ticker: 'NET',
-    todaysChange: -1.4799999999999969,
-    todaysChangePerc: -2.643801357627719,
-    updated: 1666959600000000000,
-  },
+  todaysChange: -1.4799999999999969,
+  todaysChangePercent: -2.643801357627719,
 };
 
 export const NET: Security = {
@@ -56,41 +23,8 @@ export const NET: Security = {
   region: 'US',
   assetClass: AssetClass.stock,
   latestPrice: 222.83,
-  tickerSnapshot: {
-    day: {
-      c: 0,
-      h: 0,
-      l: 0,
-      o: 0,
-      v: 0,
-      vw: 0,
-    },
-    lastQuote: null,
-    lastTrade: {
-      p: 222.83,
-    },
-    min: {
-      av: 439699,
-      c: 222.83,
-      h: 222.83,
-      l: 222.82,
-      o: 222.82,
-      v: 1803,
-      vw: 222.8443,
-    },
-    prevDay: {
-      c: 225.09,
-      h: 233.81,
-      l: 222.85,
-      o: 229.77,
-      v: 61632874,
-      vw: 226.1389,
-    },
-    ticker: 'TSLA',
-    todaysChange: -2.140000000000015,
-    todaysChangePerc: -0.9507308187836042,
-    updated: 1666960104387139800,
-  },
+  todaysChange: -2.140000000000015,
+  todaysChangePercent: -0.9507308187836042,
 };
 export const TSLA: Security = {
   exchange: 'XNAS',
@@ -101,41 +35,8 @@ export const TSLA: Security = {
   region: 'US',
   assetClass: AssetClass.stock,
   latestPrice: 120,
-  tickerSnapshot: {
-    day: {
-      c: 0,
-      h: 0,
-      l: 0,
-      o: 0,
-      v: 0,
-      vw: 0,
-    },
-    lastQuote: null,
-    lastTrade: {
-      p: 120,
-    },
-    min: {
-      av: 2323,
-      c: 120,
-      h: 3,
-      l: 23,
-      o: 2,
-      v: 2,
-      vw: 23,
-    },
-    prevDay: {
-      c: 3.84,
-      h: 4.03,
-      l: 3.75,
-      o: 4.03,
-      v: 383336,
-      vw: 3.8402,
-    },
-    ticker: 'ONDS',
-    todaysChange: 0,
-    todaysChangePerc: 0,
-    updated: 0,
-  },
+  todaysChange: 0,
+  todaysChangePercent: 0,
 };
 
 export const SBSI: Security = {
@@ -147,41 +48,8 @@ export const SBSI: Security = {
   region: 'US',
   assetClass: AssetClass.stock,
   latestPrice: 33.01,
-  tickerSnapshot: {
-    day: {
-      c: 0,
-      h: 0,
-      l: 0,
-      o: 0,
-      v: 0,
-      vw: 0,
-    },
-    lastQuote: null,
-    lastTrade: {
-      p: 33.01,
-    },
-    min: {
-      av: 0,
-      c: 0,
-      h: 0,
-      l: 0,
-      o: 0,
-      v: 0,
-      vw: 0,
-    },
-    prevDay: {
-      c: 33.01,
-      h: 33.69,
-      l: 32.49,
-      o: 32.49,
-      v: 155895,
-      vw: 33.2222,
-    },
-    ticker: 'SBSI',
-    todaysChange: 0,
-    todaysChangePerc: 0,
-    updated: 0,
-  },
+  todaysChange: 0,
+  todaysChangePercent: 0,
 };
 
 export const Securities = [A, NET, TSLA, SBSI];

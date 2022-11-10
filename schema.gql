@@ -329,52 +329,8 @@ type Security {
   name: String
   region: String
   tickerDetails: TickerDetails
-  tickerSnapshot: TickerSnapshot
-}
-
-type SnapshotDay {
-  c: Float
-  h: Float
-  l: Float
-  o: Float
-  v: Float
-  vw: Float
-}
-
-type SnapshotLastQuote {
-  P: Float
-  S: Float
-  p: Float
-  s: Float
-  t: Float
-}
-
-type SnapshotLastTrade {
-  c: [String!]
-  i: String
-  p: Float
-  s: Float
-  t: Float
-  x: Float
-}
-
-type SnapshotMin {
-  av: Float
-  c: Float
-  h: Float
-  l: Float
-  o: Float
-  v: Float
-  vw: Float
-}
-
-type SnapshotPrevDay {
-  c: Float
-  h: Float
-  l: Float
-  o: Float
-  v: Float
-  vw: Float
+  todaysChange: Float
+  todaysChangePercent: Float
 }
 
 type TickerDetails {
@@ -396,18 +352,6 @@ type TickerDetails {
   totalEmployees: Float
   type: TickerType
   weightedSharesOutstanding: Float
-}
-
-type TickerSnapshot {
-  day: SnapshotDay
-  lastQuote: SnapshotLastQuote
-  lastTrade: SnapshotLastTrade
-  min: SnapshotMin
-  prevDay: SnapshotPrevDay
-  ticker: String
-  todaysChange: Float
-  todaysChangePerc: Float
-  updated: Float
 }
 
 enum TickerType {
