@@ -4,7 +4,7 @@ metadata:
   name: cron-init-tickers
 spec:
   # Every 15th minute during market hours
-  schedule: '*/15 14-21 * * 1-5'
+  schedule: '0 12  * * *'
   jobTemplate:
     spec:
       template:
@@ -13,6 +13,10 @@ spec:
             - name: cron-init-tickers
               image: eu.gcr.io/baggers-367917/cron-init-tickers:latest
               imagePullPolicy: Always
+              resources:
+                requests:
+                  cpu: 2
+
               envFrom:
                 - secretRef:
                     name: api-env
