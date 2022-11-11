@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IRestClient, restClient } from '@polygon.io/client-js';
-import { EnvService } from '~/env';
+import { EnvService } from '@api/env';
 
 @Injectable()
 export class PolygonService {

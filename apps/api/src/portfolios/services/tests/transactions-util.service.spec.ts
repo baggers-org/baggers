@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { PortfolioWithTransactions } from '~/portfolios/data';
-import { SecuritiesUtilServiceMock } from '~/securities';
-import { SecuritiesUtilService } from '~/securities/securities-util.service';
+import { PortfolioWithTransactions } from '@api/portfolios/data';
+import { SecuritiesUtilServiceMock } from '@api/securities';
+import { SecuritiesUtilService } from '@api/securities/securities-util.service';
 import { HoldingsUtilService } from '../holdings-util.service';
 import { TransactionsUtilService } from '../transactions-util.service';
 
@@ -19,7 +19,9 @@ describe('TransactionsUtilService', () => {
       .useClass(SecuritiesUtilServiceMock)
       .compile();
 
-    service = mod.get<TransactionsUtilService>(TransactionsUtilService);
+    service = mod.get<TransactionsUtilService>(
+      TransactionsUtilService
+    );
   });
   describe('applyTransactions', () => {
     it('should apply basic buy/sell and cash transactions to a given portfolio', () => {
@@ -28,8 +30,9 @@ describe('TransactionsUtilService', () => {
       );
 
       expect(resultingPortfolio.holdings).toHaveLength(3);
-      expect(resultingPortfolio.holdings.map((h) => ({ ...h, _id: null })))
-        .toMatchInlineSnapshot(`
+      expect(
+        resultingPortfolio.holdings.map((h) => ({ ...h, _id: null }))
+      ).toMatchInlineSnapshot(`
         Array [
           Object {
             "_id": null,

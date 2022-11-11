@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { checkAdminMiddleware } from '~/auth';
+import { checkAdminMiddleware } from '@api/auth';
 import { PlaidItemError } from './plaid-item-error.entity';
-import { Institution } from '~/institutions';
-import { User } from '~/users';
+import { Institution } from '@api/institutions';
+import { User } from '@api/users';
 
 export type PlaidItemDocument = PlaidItem & Document;
 /**
@@ -39,4 +39,5 @@ export class PlaidItem {
   lastWebhookTime: Date;
 }
 
-export const PlaidItemSchema = SchemaFactory.createForClass(PlaidItem);
+export const PlaidItemSchema =
+  SchemaFactory.createForClass(PlaidItem);

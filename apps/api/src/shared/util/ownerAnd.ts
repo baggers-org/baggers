@@ -1,5 +1,5 @@
 import { FilterQuery } from 'mongoose';
-import { Auth0AccessTokenPayload } from '~/auth';
+import { Auth0AccessTokenPayload } from '@api/auth';
 
 /**
  * This should be used anywhere we want to find resources where the current user

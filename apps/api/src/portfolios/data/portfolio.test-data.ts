@@ -1,12 +1,12 @@
-import { Securities } from '~/securities';
-import { User1, User2 } from '~/users';
+import { Securities } from '@api/securities';
+import { User1, User2 } from '@api/users';
 import mongoose from 'mongoose';
 import { ImportedTransactions } from './transaction.test-data';
 import { PopulatedPortfolio, Portfolio } from '../entities';
-import { ObjectId } from '~/shared';
+import { ObjectId } from '@api/shared';
 import { Holdings1, ImportedHoldings } from './holding.test-data';
 import { PlaidAccountType } from '../enums';
-import { PlaidAccountSubtype } from '~/plaid-items/enums/plaid-account-subtype.enum';
+import { PlaidAccountSubtype } from '@api/plaid-items/enums/plaid-account-subtype.enum';
 
 export const Portfolio1: Portfolio = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),
@@ -70,7 +70,9 @@ export const PortfolioWithNoHoldings: Portfolio = {
   transactions: [],
 };
 
-export const getPopulated = (portfolio: Portfolio): PopulatedPortfolio => {
+export const getPopulated = (
+  portfolio: Portfolio
+): PopulatedPortfolio => {
   return {
     ...portfolio,
     transactions: portfolio.transactions.map((tran) => ({

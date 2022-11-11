@@ -1,5 +1,8 @@
 import { Test } from '@nestjs/testing';
-import { OpenFigiMappingResponse, OpenFigiModule } from '~/open-figi';
+import {
+  OpenFigiMappingResponse,
+  OpenFigiModule,
+} from '@api/open-figi';
 import { ImportedDBLTX, ImportedSBSI, SBSI } from '../data';
 import { SecuritiesServiceMock } from '../mocks';
 import { SecuritiesUtilService } from '../securities-util.service';
@@ -65,7 +68,9 @@ describe('Securities Util Service', () => {
         ImportedDBLTX,
         ImportedDBLTX,
       ]);
-      expect(securities.get(ImportedDBLTX.security_id)).toBeUndefined();
+      expect(
+        securities.get(ImportedDBLTX.security_id)
+      ).toBeUndefined();
     });
 
     describe('Failures', () => {
@@ -80,7 +85,9 @@ describe('Securities Util Service', () => {
           ImportedSBSI,
         ]);
 
-        expect(securities.get(ImportedSBSI.security_id)).toEqual(SBSI);
+        expect(securities.get(ImportedSBSI.security_id)).toEqual(
+          SBSI
+        );
       });
 
       it('when OpenFIGI is unavailable we should still resort to searching our database', async () => {
@@ -89,7 +96,9 @@ describe('Securities Util Service', () => {
           ImportedSBSI,
         ]);
 
-        expect(securities.get(ImportedSBSI.security_id)).toEqual(SBSI);
+        expect(securities.get(ImportedSBSI.security_id)).toEqual(
+          SBSI
+        );
       });
     });
   });

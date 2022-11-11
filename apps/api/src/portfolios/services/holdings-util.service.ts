@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Security } from '~/securities';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
-import { ObjectId } from '~/shared';
+import { Security } from '@api/securities';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { ObjectId } from '@api/shared';
 import { Holding, PortfolioDocument } from '../entities';
 import { HoldingDirection, HoldingSource } from '../enums';
 
@@ -47,15 +47,24 @@ export class HoldingsUtilService {
       (h) => this.hashHolding(h) === holdingHash
     );
   }
-  findCashHoldingIndex(holdings: Holding[], currency: string): number {
+  findCashHoldingIndex(
+    holdings: Holding[],
+    currency: string
+  ): number {
     return holdings.findIndex(
-      (h) => h.currency === currency && h.assetClass === AssetClass.cash
+      (h) =>
+        h.currency === currency && h.assetClass === AssetClass.cash
     );
   }
 
-  findHolding(holdingsToSearch: Holding[], holdingToFind: Holding): Holding {
+  findHolding(
+    holdingsToSearch: Holding[],
+    holdingToFind: Holding
+  ): Holding {
     const holdingHash = this.hashHolding(holdingToFind);
-    return holdingsToSearch.find((h) => this.hashHolding(h) === holdingHash);
+    return holdingsToSearch.find(
+      (h) => this.hashHolding(h) === holdingHash
+    );
   }
 
   /**
@@ -147,7 +156,10 @@ export class HoldingsUtilService {
     holdingToUpsert: Holding,
     updateFn: (holding: Holding) => Holding
   ): Holding[] {
-    const existingIndex = this.findHoldingIndex(holdings, holdingToUpsert);
+    const existingIndex = this.findHoldingIndex(
+      holdings,
+      holdingToUpsert
+    );
     if (existingIndex >= 0) {
       return [
         ...holdings.slice(0, existingIndex),
@@ -163,7 +175,10 @@ export class HoldingsUtilService {
     holdingToUpsert: Holding,
     updateFn: (holding: Holding) => Holding
   ): Holding[] {
-    const existingIndex = this.findHoldingIndex(holdings, holdingToUpsert);
+    const existingIndex = this.findHoldingIndex(
+      holdings,
+      holdingToUpsert
+    );
     if (existingIndex >= 0) {
       return [
         ...holdings.slice(0, existingIndex),

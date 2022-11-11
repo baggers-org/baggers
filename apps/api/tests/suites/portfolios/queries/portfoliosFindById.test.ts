@@ -1,5 +1,9 @@
-import { ImportedPortfolio, Portfolio1, PublicPortfolio } from '~/portfolios';
-import { User1, User2 } from '~/users';
+import {
+  ImportedPortfolio,
+  Portfolio1,
+  PublicPortfolio,
+} from '@api/portfolios';
+import { User1, User2 } from '@api/users';
 import { TestSdk, User1Sdk } from '../../../test-sdk';
 
 export const portfoliosFindByIdTests = () =>
@@ -140,7 +144,10 @@ export const portfoliosFindByIdTests = () =>
       // Check exposure is correct, with respesct to the cash levels
       expect(
         Math.ceil(
-          portfolio.holdings.reduce((acc, curr) => acc + curr.exposure, 0)
+          portfolio.holdings.reduce(
+            (acc, curr) => acc + curr.exposure,
+            0
+          )
         )
       ).toEqual(100);
 
@@ -209,7 +216,9 @@ export const portfoliosFindByIdTests = () =>
         expect(portfolio.holdings[1].marketValue).toBeGreaterThan(
           portfolio.holdings[2].marketValue
         );
-        const unmatchedHoldings = portfolio.holdings.filter((h) => !h.security);
+        const unmatchedHoldings = portfolio.holdings.filter(
+          (h) => !h.security
+        );
         // DBLTX
         expect(unmatchedHoldings).toHaveLength(2);
         expect(unmatchedHoldings[0]).toMatchInlineSnapshot(`
@@ -234,7 +243,9 @@ export const portfoliosFindByIdTests = () =>
           }
         `);
 
-        const matchedHoldings = portfolio.holdings.filter((h) => h.security);
+        const matchedHoldings = portfolio.holdings.filter(
+          (h) => h.security
+        );
         expect(matchedHoldings).toHaveLength(2);
 
         expect(matchedHoldings[0].security._id).toBe('TSLA');

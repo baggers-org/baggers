@@ -2,9 +2,9 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
-import { ImportedSecurity, Security } from '~/securities';
-import { BaseDocument, ObjectId } from '~/shared';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { ImportedSecurity, Security } from '@api/securities';
+import { BaseDocument, ObjectId } from '@api/shared';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
 import { Transaction } from './transaction';
 import { InvestmentTransactionSubtype } from 'plaid';
 
@@ -65,7 +65,8 @@ export class Holding extends BaseDocument {
       importedSecurity: transaction.importedSecurity,
       currency: transaction.currency,
       costBasis:
-        transaction.price * transaction.quantity + (transaction.fees || 0) || 1,
+        transaction.price * transaction.quantity +
+          (transaction.fees || 0) || 1,
       direction: shortTypes.includes(transaction.subType)
         ? HoldingDirection.short
         : HoldingDirection.long,

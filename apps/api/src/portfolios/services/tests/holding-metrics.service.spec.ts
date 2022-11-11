@@ -2,7 +2,7 @@ import {
   A,
   SecuritiesService,
   SecuritiesServiceMock,
-} from '~/securities';
+} from '@api/securities';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
@@ -11,10 +11,10 @@ import {
   getPopulated,
   ImportedPortfolio,
   PublicPortfolio,
-} from '~/portfolios/data';
-import { SecuritiesUtilService } from '~/securities/securities-util.service';
-import { OpenFigiModule } from '~/open-figi';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
+} from '@api/portfolios/data';
+import { SecuritiesUtilService } from '@api/securities/securities-util.service';
+import { OpenFigiModule } from '@api/open-figi';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;

@@ -1,4 +1,4 @@
-import { A } from '~/securities';
+import { A } from '@api/securities';
 import { TestSdk } from '../../../test-sdk';
 
 export const securitiesFindByIdTest = () =>

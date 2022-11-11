@@ -1,6 +1,12 @@
-import { TSLA, A, ImportedDBLTX, ImportedSBSI, SBSI } from '~/securities';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
-import { ObjectId } from '~/shared';
+import {
+  TSLA,
+  A,
+  ImportedDBLTX,
+  ImportedSBSI,
+  SBSI,
+} from '@api/securities';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { ObjectId } from '@api/shared';
 import { Holding } from '../entities';
 import { HoldingSource, HoldingDirection } from '../enums';
 

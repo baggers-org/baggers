@@ -1,23 +1,27 @@
-import { Auth0AccessTokenPayload } from '~/auth';
-import { PlaidAccount, PlaidItem, PlaidItemsService } from '~/plaid-items';
+import { Auth0AccessTokenPayload } from '@api/auth';
+import {
+  PlaidAccount,
+  PlaidItem,
+  PlaidItemsService,
+} from '@api/plaid-items';
 import {
   HoldingSource,
   PortfoliosService,
   Transaction,
   Holding,
   Portfolio,
-} from '~/portfolios';
-import { ObjectId } from '~/shared';
-import { PlaidClientService } from '~/plaid-client';
+} from '@api/portfolios';
+import { ObjectId } from '@api/shared';
+import { PlaidClientService } from '@api/plaid-client';
 import { Injectable } from '@nestjs/common';
 import {
   InvestmentsHoldingsGetResponse,
   InvestmentsTransactionsGetResponse,
 } from 'plaid';
 import { ImportResponse } from './dto';
-import { ImportedSecurity } from '~/securities';
-import { SecuritiesUtilService } from '~/securities/securities-util.service';
-import { SecurityMap } from '~/securities/types';
+import { ImportedSecurity } from '@api/securities';
+import { SecuritiesUtilService } from '@api/securities/securities-util.service';
+import { SecurityMap } from '@api/securities/types';
 
 @Injectable()
 export class PortfolioImportService {
@@ -58,7 +62,8 @@ export class PortfolioImportService {
         security: security?._id,
         plaidTransactionId: t.investment_transaction_id,
         plaidAccountId: t.account_id,
-        assetClass: security?.assetClass || importedSecurity?.assetClass,
+        assetClass:
+          security?.assetClass || importedSecurity?.assetClass,
         importedSecurity,
       };
       return transaction;
@@ -90,7 +95,8 @@ export class PortfolioImportService {
         importedSecurity,
         currency: t.iso_currency_code,
         security: security?._id,
-        assetClass: security?.assetClass || importedSecurity?.assetClass,
+        assetClass:
+          security?.assetClass || importedSecurity?.assetClass,
         _id: new ObjectId(),
       };
 
@@ -101,7 +107,9 @@ export class PortfolioImportService {
   /**
    * This function will look at a plaid item and
    */
-  async getPortfoliosFromItem(item: string | PlaidItem): Promise<Portfolio[]> {
+  async getPortfoliosFromItem(
+    item: string | PlaidItem
+  ): Promise<Portfolio[]> {
     let plaidItem: PlaidItem;
 
     if (typeof item === 'string') {
@@ -116,7 +124,9 @@ export class PortfolioImportService {
       accessToken
     );
 
-    const holdingsResponse = await this.plaid.getHoldings(accessToken);
+    const holdingsResponse = await this.plaid.getHoldings(
+      accessToken
+    );
 
     const importedSecurities: ImportedSecurity[] = [
       ...transactionsResponse.securities.map((s) =>
@@ -136,7 +146,9 @@ export class PortfolioImportService {
     const portfolios = accounts.map((account, index) => {
       // const cash = account.balances.available;
       const name =
-        account.name || account.official_name || 'imported portfolio ' + index;
+        account.name ||
+        account.official_name ||
+        'imported portfolio ' + index;
 
       const holdings: Holding[] = this.importHoldings(
         holdingsResponse,
@@ -177,7 +189,9 @@ export class PortfolioImportService {
     publicToken: string,
     currentUser: Auth0AccessTokenPayload
   ): Promise<ImportResponse> {
-    const { access_token } = await this.plaid.publicTokenExchange(publicToken);
+    const { access_token } = await this.plaid.publicTokenExchange(
+      publicToken
+    );
 
     const plaidItem = await this.plaid.getItem(access_token);
 

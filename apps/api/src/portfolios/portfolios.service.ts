@@ -9,9 +9,12 @@ import {
   Portfolio,
   PopulatedPortfolio,
 } from './entities/portfolio.entity';
-import { HoldingMetricsService, PortfolioMetricsService } from './services';
-import { Auth0AccessTokenPayload } from '~/auth';
-import { ObjectId, RemoveMultipleResponse } from '~/shared';
+import {
+  HoldingMetricsService,
+  PortfolioMetricsService,
+} from './services';
+import { Auth0AccessTokenPayload } from '@api/auth';
+import { ObjectId, RemoveMultipleResponse } from '@api/shared';
 
 @Injectable()
 export class PortfoliosService {
@@ -44,7 +47,8 @@ export class PortfoliosService {
         h1.marketValue > h2.marketValue ? -1 : 1
       ),
       cash: this.portfolioMetricsService.calculateCash(portfolio),
-      totalValue: this.portfolioMetricsService.calculateTotalValue(portfolio),
+      totalValue:
+        this.portfolioMetricsService.calculateTotalValue(portfolio),
     };
   }
 
@@ -66,7 +70,10 @@ export class PortfoliosService {
         ],
       })
       .orFail(
-        () => new NotFoundException('Could not find a portfolio with this id')
+        () =>
+          new NotFoundException(
+            'Could not find a portfolio with this id'
+          )
       )
       .populate({
         path: 'holdings',
@@ -79,7 +86,8 @@ export class PortfoliosService {
       .populate('owner')
       .lean();
 
-    const portfolioWithMetrics = this.getPortfolioWithMetrics(portfolio);
+    const portfolioWithMetrics =
+      this.getPortfolioWithMetrics(portfolio);
 
     return portfolioWithMetrics;
   }
@@ -111,14 +119,20 @@ export class PortfoliosService {
     }));
   }
 
-  async removeOne(_id: ObjectId, currentUser: Auth0AccessTokenPayload) {
+  async removeOne(
+    _id: ObjectId,
+    currentUser: Auth0AccessTokenPayload
+  ) {
     return this.portfolioModel
       .findOneAndDelete({
         _id,
         owner: currentUser.sub,
       })
       .orFail(
-        () => new NotFoundException('Could not find a portfolio with this id')
+        () =>
+          new NotFoundException(
+            'Could not find a portfolio with this id'
+          )
       );
   }
 
@@ -134,7 +148,10 @@ export class PortfoliosService {
         },
       })
       .orFail(
-        () => new NotFoundException('Could not find any portfolios to delete')
+        () =>
+          new NotFoundException(
+            'Could not find any portfolios to delete'
+          )
       );
   }
 
@@ -155,7 +172,10 @@ export class PortfoliosService {
         { returnDocument: 'after' }
       )
       .orFail(
-        () => new NotFoundException('Could not find a portfolio with this id')
+        () =>
+          new NotFoundException(
+            'Could not find a portfolio with this id'
+          )
       );
   }
 }

@@ -1,4 +1,4 @@
-import { User1 } from '~/users';
+import { User1 } from '@api/users';
 import { TestSdk, User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosRemoveMultipleTests = () =>
@@ -28,9 +28,10 @@ export const portfoliosRemoveMultipleTests = () =>
       expect(createdIds).toContain(id3);
 
       // We should be able to delete them all at once
-      const { portfoliosRemoveMultiple } = await sdk.portfoliosRemoveMultiple({
-        _ids: [id1, id2, id3],
-      });
+      const { portfoliosRemoveMultiple } =
+        await sdk.portfoliosRemoveMultiple({
+          _ids: [id1, id2, id3],
+        });
 
       expect(portfoliosRemoveMultiple.acknowledged).toBe(true);
       expect(portfoliosRemoveMultiple.deletedCount).toEqual(3);

@@ -1,5 +1,5 @@
-import { Auth0AccessTokenPayload } from '~/auth';
-import { ObjectId } from '~/shared';
+import { Auth0AccessTokenPayload } from '@api/auth';
+import { ObjectId } from '@api/shared';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -7,10 +7,13 @@ import { AddHoldingInput } from '../dto/add-holding';
 import { Holding, Portfolio, PortfolioDocument } from '../entities';
 import { HoldingDirection, HoldingSource } from '../enums';
 import { HoldingsUtilService } from './holdings-util.service';
-import { ownerAnd } from '~/shared/util/ownerAnd';
+import { ownerAnd } from '@api/shared/util/ownerAnd';
 import { AddTransactionInput } from '../dto/add-transaction.input';
-import { SecuritiesService } from '~/securities';
-import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import { SecuritiesService } from '@api/securities';
+import {
+  InvestmentTransactionSubtype,
+  InvestmentTransactionType,
+} from 'plaid';
 import { TransactionsService } from './transactions.service';
 
 @Injectable()
@@ -31,13 +34,16 @@ export class HoldingsService {
     const newHolding: Holding = {
       ...input,
       _id: new ObjectId(),
-      costBasis: input.averagePrice * input.quantity + input.brokerFees,
+      costBasis:
+        input.averagePrice * input.quantity + input.brokerFees,
       source: HoldingSource.direct,
     };
 
     // Lookup the security, to get its details for the transaction
 
-    const security = await this.securitiesService.findById(input.security);
+    const security = await this.securitiesService.findById(
+      input.security
+    );
 
     const transaction: AddTransactionInput = {
       amount: input.quantity * input.averagePrice,
@@ -60,7 +66,10 @@ export class HoldingsService {
       transaction.subType = InvestmentTransactionSubtype.SellShort;
     }
 
-    await this.transactionsService.addTransaction(transaction, currentUser);
+    await this.transactionsService.addTransaction(
+      transaction,
+      currentUser
+    );
 
     const portfolio = await this.portfolioModel
       .findOneAndUpdate(
@@ -107,7 +116,9 @@ export class HoldingsService {
           },
         }
       )
-      .orFail(() => new NotFoundException(`Could not remove the holding`));
+      .orFail(
+        () => new NotFoundException(`Could not remove the holding`)
+      );
     return res._id;
   }
 }

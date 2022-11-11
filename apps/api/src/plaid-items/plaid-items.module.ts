@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { EnvModule } from '~/env';
+import { EnvModule } from '@api/env';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { PlaidItem, PlaidItemSchema } from './entities/plaid-item.entity';
+import {
+  PlaidItem,
+  PlaidItemSchema,
+} from './entities/plaid-item.entity';
 import { PlaidItemsService } from './plaid-items.service';
-import { PlaidClientModule } from '~/plaid-client';
+import { PlaidClientModule } from '@api/plaid-client';
 
 @Module({
   imports: [

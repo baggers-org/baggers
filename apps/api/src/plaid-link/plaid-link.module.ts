@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PlaidClientModule } from '~/plaid-client';
+import { PlaidClientModule } from '@api/plaid-client';
 import { PlaidLinkResolver } from './plaid-link.resolver';
 
 @Module({

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { PortfoliosModule } from '~/portfolios';
+import { PortfoliosModule } from '@api/portfolios';
 import { PortfolioImportService } from './portfolio-import.service';
-import { PlaidItemsModule } from '~/plaid-items';
-import { PlaidClientModule } from '~/plaid-client';
+import { PlaidItemsModule } from '@api/plaid-items';
+import { PlaidClientModule } from '@api/plaid-client';
 import { PortfolioImportResolver } from './portfolio-import.resolver';
-import { SecuritiesModule } from '~/securities';
+import { SecuritiesModule } from '@api/securities';
 
 @Module({
   imports: [

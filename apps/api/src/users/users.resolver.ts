@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { Auth0AccessTokenPayload, CurrentUser } from '~/auth';
+import { Auth0AccessTokenPayload, CurrentUser } from '@api/auth';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -32,7 +32,10 @@ export class UsersResolver {
   ) {
     if (updateUserInput._id !== currentUser.sub)
       throw new UnauthorizedException();
-    return this.usersService.update(updateUserInput._id, updateUserInput);
+    return this.usersService.update(
+      updateUserInput._id,
+      updateUserInput
+    );
   }
 
   @Mutation(() => User)

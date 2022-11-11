@@ -8,13 +8,17 @@ import {
 
 import mongoose from 'mongoose';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
-import { Auth0AccessTokenPayload, CurrentUser, Public } from '~/auth';
+import {
+  Auth0AccessTokenPayload,
+  CurrentUser,
+  Public,
+} from '@api/auth';
 import {
   RecordId,
   ObjectIdScalar,
   RemoveMultipleResponse,
   ObjectId,
-} from '~/shared';
+} from '@api/shared';
 import { AddHoldingInput } from './dto/add-holding';
 import { HoldingsService } from './services/holdings.service';
 
@@ -29,8 +33,12 @@ export class PortfoliosResolver {
    * Inits an empty portfolio belonging to the currently logged in user
    */
   @Mutation(() => RecordId, { name: 'portfoliosInitEmpty' })
-  async initEmpty(@CurrentUser() currentUser: Auth0AccessTokenPayload) {
-    const { _id } = await this.portfoliosService.initEmpty(currentUser);
+  async initEmpty(
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    const { _id } = await this.portfoliosService.initEmpty(
+      currentUser
+    );
 
     return {
       _id,
@@ -38,7 +46,9 @@ export class PortfoliosResolver {
   }
 
   @Public()
-  @Query(() => PopulatedPortfolioWithMetrics, { name: 'portfoliosFindById' })
+  @Query(() => PopulatedPortfolioWithMetrics, {
+    name: 'portfoliosFindById',
+  })
   findById(
     @Args('_id', { type: () => ObjectIdScalar })
     _id: mongoose.Types.ObjectId,
@@ -63,7 +73,9 @@ export class PortfoliosResolver {
     return this.portfoliosService.removeOne(_id, currentUser);
   }
 
-  @Mutation(() => RemoveMultipleResponse, { name: 'portfoliosRemoveMultiple' })
+  @Mutation(() => RemoveMultipleResponse, {
+    name: 'portfoliosRemoveMultiple',
+  })
   removeMultiple(
     @Args('_ids', { type: () => [ObjectIdScalar] })
     _ids: mongoose.Types.ObjectId[],
@@ -92,8 +104,10 @@ export class PortfoliosResolver {
 
   @Mutation(() => ObjectIdScalar, { name: 'portfoliosRemoveHolding' })
   async removeHolding(
-    @Args('portfolioId', { type: () => ObjectIdScalar }) portfolioId: ObjectId,
-    @Args('holdingId', { type: () => ObjectIdScalar }) holdingId: ObjectId,
+    @Args('portfolioId', { type: () => ObjectIdScalar })
+    portfolioId: ObjectId,
+    @Args('holdingId', { type: () => ObjectIdScalar })
+    holdingId: ObjectId,
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ): Promise<mongoose.Types.ObjectId> {
     return this.holdingsService.removeHolding(

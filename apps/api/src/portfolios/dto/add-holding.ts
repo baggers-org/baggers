@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { HoldingDirection } from '../enums';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
 
 @InputType()
 export class AddHoldingInput {

@@ -3,8 +3,8 @@ import { CreatePlaidItemInput } from './dto/create-plaid-item.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { PlaidItem, PlaidItemDocument } from './entities';
 import { Model } from 'mongoose';
-import { PlaidClientService } from '~/plaid-client';
-import { Auth0AccessTokenPayload } from '~/auth';
+import { PlaidClientService } from '@api/plaid-client';
+import { Auth0AccessTokenPayload } from '@api/auth';
 
 @Injectable()
 export class PlaidItemsService {
@@ -14,7 +14,10 @@ export class PlaidItemsService {
     private plaid: PlaidClientService
   ) {}
 
-  create(input: CreatePlaidItemInput, currentUser: Auth0AccessTokenPayload) {
+  create(
+    input: CreatePlaidItemInput,
+    currentUser: Auth0AccessTokenPayload
+  ) {
     return this.plaidItemsModel.create({
       ...input,
       owner: currentUser.sub,
@@ -25,7 +28,8 @@ export class PlaidItemsService {
     return this.plaidItemsModel
       .findById(id)
       .orFail(
-        () => new NotFoundException('Could not find an item with this id')
+        () =>
+          new NotFoundException('Could not find an item with this id')
       );
   }
 }

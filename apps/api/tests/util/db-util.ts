@@ -1,4 +1,4 @@
-import { JwtAuthGuard } from '~/auth';
+import { JwtAuthGuard } from '@api/auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { createTestDb, TEST_DB_NAME } from './createTestDb';
@@ -13,33 +13,34 @@ const setupTestDatabase = async () => {
   }
   return globalThis.__MONGOD__;
 };
-export const setupTestApp = async (): Promise<INestApplication | null> => {
-  await setupTestDatabase();
-  const testingModule = await Test.createTestingModule({
-    imports: [
-      globalThis.__MONGOD__
-        ? MongooseModule.forRoot(globalThis.__MONGOD__.getUri(), {
-            dbName: TEST_DB_NAME,
-          })
-        : undefined,
-      AppModule,
-    ],
-  })
-    .overrideProvider(JwtAuthGuard)
-    .useClass(MockAuthGuard)
-    .compile();
+export const setupTestApp =
+  async (): Promise<INestApplication | null> => {
+    await setupTestDatabase();
+    const testingModule = await Test.createTestingModule({
+      imports: [
+        globalThis.__MONGOD__
+          ? MongooseModule.forRoot(globalThis.__MONGOD__.getUri(), {
+              dbName: TEST_DB_NAME,
+            })
+          : undefined,
+        AppModule,
+      ],
+    })
+      .overrideProvider(JwtAuthGuard)
+      .useClass(MockAuthGuard)
+      .compile();
 
-  const app = testingModule.createNestApplication();
-  setupApp(app);
+    const app = testingModule.createNestApplication();
+    setupApp(app);
 
-  await app.init();
+    await app.init();
 
-  try {
-    await app.listen(4000);
-  } catch (e) {
-    //
-    return null;
-  }
+    try {
+      await app.listen(4000);
+    } catch (e) {
+      //
+      return null;
+    }
 
-  return app;
-};
+    return app;
+  };

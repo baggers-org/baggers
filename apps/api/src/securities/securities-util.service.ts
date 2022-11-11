@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { FilterQuery } from 'mongoose';
-import { OpenFigiMappingResponse, OpenFigiService } from '~/open-figi';
+import {
+  OpenFigiMappingResponse,
+  OpenFigiService,
+} from '@api/open-figi';
 import { ImportedSecurity, SecurityDocument } from './entities';
 import { SecuritiesService } from './securities.service';
 import { SecurityMap } from './types';
@@ -37,19 +40,23 @@ export class SecuritiesUtilService {
       console.error(e);
     }
 
-    const lookupMap: Map<ImportedSecurity, { figi?: string; symbol?: string }> =
-      new Map(
-        uniqImported.map((security, index) => [
-          security,
-          {
-            figi: figiMap?.[index]?.data?.[0]?.figi,
-            symbol: security.ticker_symbol,
-          },
-        ])
-      );
+    const lookupMap: Map<
+      ImportedSecurity,
+      { figi?: string; symbol?: string }
+    > = new Map(
+      uniqImported.map((security, index) => [
+        security,
+        {
+          figi: figiMap?.[index]?.data?.[0]?.figi,
+          symbol: security.ticker_symbol,
+        },
+      ])
+    );
 
     const lookup = [...lookupMap.values()];
-    const figis = lookup.filter((lookup) => lookup.figi).map((l) => l.figi);
+    const figis = lookup
+      .filter((lookup) => lookup.figi)
+      .map((l) => l.figi);
     const symbols = lookup
       .filter((lookup) => lookup.symbol)
       .map((l) => l.symbol);
@@ -70,7 +77,9 @@ export class SecuritiesUtilService {
       ],
     };
 
-    const matchedSecurities = await this.securitiesService.find(query);
+    const matchedSecurities = await this.securitiesService.find(
+      query
+    );
 
     return new Map(
       uniqImported.map((imported) => {
@@ -79,7 +88,8 @@ export class SecuritiesUtilService {
         return [
           imported.security_id,
           matchedSecurities.find(
-            (security) => security.figi === figi || security._id === symbol
+            (security) =>
+              security.figi === figi || security._id === symbol
           ),
         ];
       })

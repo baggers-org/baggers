@@ -1,7 +1,7 @@
 import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 import { Test } from '@nestjs/testing';
-import { EnvModule } from '~/env';
-import { PlaidClientService } from '~/plaid-client';
+import { EnvModule } from '@api/env';
+import { PlaidClientService } from '@api/plaid-client';
 import { User1Sdk } from '~test-sdk';
 
 jest.setTimeout(30000);
@@ -35,11 +35,16 @@ export const portfoliosBeginImportTests = () =>
         expect(ids).toHaveLength(9);
 
         // Grab the portfolios
-        const { portfoliosCreated } = await User1Sdk().portfoliosCreated();
+        const { portfoliosCreated } =
+          await User1Sdk().portfoliosCreated();
 
         created = portfoliosCreated
           .filter((created) => ids.includes(created._id))
-          .map((c) => ({ ...c, _id: 'dummy', plaidAccountId: 'dummy' }));
+          .map((c) => ({
+            ...c,
+            _id: 'dummy',
+            plaidAccountId: 'dummy',
+          }));
 
         expect(created).toHaveLength(9);
       });
@@ -57,7 +62,9 @@ export const portfoliosBeginImportTests = () =>
           expect(moneyMarket.cash).toEqual(43200);
         });
         test('Plaid Checking', () => {
-          const checking = created.find((c) => c.name === 'Plaid Checking');
+          const checking = created.find(
+            (c) => c.name === 'Plaid Checking'
+          );
           expect(checking.totalValue).toEqual(110);
           expect(checking.top5Holdings).toHaveLength(0);
           expect(checking.description).toMatchInlineSnapshot(

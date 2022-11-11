@@ -1,10 +1,10 @@
-import { NET, TSLA } from '~/securities';
+import { NET, TSLA } from '@api/securities';
 import { Test } from '@nestjs/testing';
 import { Holding } from '../../entities';
 import { HoldingDirection } from '../../enums/holding-direction.enum';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingsUtilService } from '../holdings-util.service';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
 
 describe('Holdings Service', () => {
   let service: HoldingsUtilService;

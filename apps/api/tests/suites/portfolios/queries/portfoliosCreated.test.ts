@@ -1,5 +1,5 @@
-import { ImportedPortfolio } from '~/portfolios';
-import { User1 } from '~/users';
+import { ImportedPortfolio } from '@api/portfolios';
+import { User1 } from '@api/users';
 import { TestSdk } from '~test-sdk';
 
 export const portfoliosCreatedTests = () =>
@@ -10,7 +10,8 @@ export const portfoliosCreatedTests = () =>
       const { portfoliosCreated } = await sdk.portfoliosCreated();
 
       expect(portfoliosCreated).toHaveLength(3);
-      expect(portfoliosCreated[1].top5Holdings).toMatchInlineSnapshot(`
+      expect(portfoliosCreated[1].top5Holdings)
+        .toMatchInlineSnapshot(`
         Array [
           Object {
             "assetClass": "cash",

@@ -1,5 +1,5 @@
-import { Portfolio1 } from '~/portfolios';
-import { A, TSLA } from '~/securities';
+import { Portfolio1 } from '@api/portfolios';
+import { A, TSLA } from '@api/securities';
 import { HoldingDirection, AssetClass } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 

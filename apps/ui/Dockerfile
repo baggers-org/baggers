@@ -29,3 +29,5 @@ COPY --from=base-deps baggers/node_modules /baggers-ui/node_modules
 
 # TODO: prune dependencies here, its far too slow at the moment as its installing all dependenices again for some reason
 CMD ["node_modules/.bin/remix-serve", "build"]
+
+TEST

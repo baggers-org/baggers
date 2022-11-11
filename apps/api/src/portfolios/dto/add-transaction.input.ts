@@ -1,7 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
-import { ObjectId, ObjectIdScalar } from '~/shared';
+import {
+  InvestmentTransactionSubtype,
+  InvestmentTransactionType,
+} from 'plaid';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { ObjectId, ObjectIdScalar } from '@api/shared';
 
 @InputType()
 export class AddTransactionInput {

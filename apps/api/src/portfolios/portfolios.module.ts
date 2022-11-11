@@ -1,15 +1,21 @@
 import { Module } from '@nestjs/common';
 import { PortfoliosService } from './portfolios.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Portfolio, PortfolioSchema } from './entities/portfolio.entity';
+import {
+  Portfolio,
+  PortfolioSchema,
+} from './entities/portfolio.entity';
 import { PortfoliosResolver } from './portfolios.resolver';
-import { HoldingMetricsService, PortfolioMetricsService } from './services';
+import {
+  HoldingMetricsService,
+  PortfolioMetricsService,
+} from './services';
 import { HoldingsService } from './services/holdings.service';
-import { PlaidClientModule } from '~/plaid-client';
-import { PlaidItemsModule } from '~/plaid-items';
+import { PlaidClientModule } from '@api/plaid-client';
+import { PlaidItemsModule } from '@api/plaid-items';
 import { TransactionsUtilService } from './services/transactions-util.service';
 import { HoldingsUtilService } from './services/holdings-util.service';
-import { SecuritiesModule } from '~/securities';
+import { SecuritiesModule } from '@api/securities';
 import { TransactionsService } from './services/transactions.service';
 
 @Module({

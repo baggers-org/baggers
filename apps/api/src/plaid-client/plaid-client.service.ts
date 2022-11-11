@@ -9,8 +9,8 @@ import {
   Products,
   SandboxPublicTokenCreateRequestOptions,
 } from 'plaid';
-import { Auth0AccessTokenPayload } from '~/auth';
-import { EnvService } from '~/env';
+import { Auth0AccessTokenPayload } from '@api/auth';
+import { EnvService } from '@api/env';
 
 @Injectable()
 export class PlaidClientService {

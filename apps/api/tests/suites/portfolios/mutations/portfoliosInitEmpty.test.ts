@@ -1,5 +1,5 @@
-import { ObjectId } from '~/shared';
-import { User1 } from '~/users';
+import { ObjectId } from '@api/shared';
+import { User1 } from '@api/users';
 import { TestSdk } from '~test-sdk';
 
 export const portfoliosInitEmptyTests = () =>
@@ -17,7 +17,8 @@ export const portfoliosInitEmptyTests = () =>
         });
 
       expect(ObjectId.isValid(createdId));
-      expect({ ...createdPortfolio, _id: undefined }).toMatchInlineSnapshot(`
+      expect({ ...createdPortfolio, _id: undefined })
+        .toMatchInlineSnapshot(`
         Object {
           "_id": undefined,
           "cash": 0,

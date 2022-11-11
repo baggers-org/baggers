@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
-import { EnvService } from '~/env';
-import { ImportedSecurity } from '~/securities';
+import { EnvService } from '@api/env';
+import { ImportedSecurity } from '@api/securities';
 import {
   OpenFigiMappingIdTypes,
   OpenFigiMappingJob,
@@ -18,7 +18,9 @@ export class OpenFigiService {
   // TODO: implement cache for mapping jobs
   // IE -> checkMappingJobCache(openFigiMappingJob): OpenFigiMappingResponseItem
 
-  private securityToMappingJob(security: ImportedSecurity): OpenFigiMappingJob {
+  private securityToMappingJob(
+    security: ImportedSecurity
+  ): OpenFigiMappingJob {
     const { isin, cusip, sedol, ticker_symbol } = security;
 
     if (isin) {

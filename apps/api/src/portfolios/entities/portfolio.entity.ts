@@ -1,14 +1,14 @@
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { PlaidAccount, PlaidItem } from '~/plaid-items';
+import { PlaidAccount, PlaidItem } from '@api/plaid-items';
 import {
   Holding,
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
 } from './holding.entity';
 import { PopulatedTransaction, Transaction } from './transaction';
-import { OwnedDocument } from '~/users';
+import { OwnedDocument } from '@api/users';
 
 export type PortfolioDocument = Portfolio & Document;
 
@@ -92,4 +92,5 @@ export class PopulatedPortfolioWithMetrics extends OmitType(
   @Field(() => [PopulatedTransaction])
   transactions: PopulatedTransaction[];
 }
-export const PortfolioSchema = SchemaFactory.createForClass(Portfolio);
+export const PortfolioSchema =
+  SchemaFactory.createForClass(Portfolio);

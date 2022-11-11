@@ -33,7 +33,8 @@
       "@baggers/test-data": ["libs/test-data/src/index.ts"],
       "@baggers/type-util": ["libs/type-util/src/index.ts"],
       "@baggers/util": ["libs/util/src/index.ts"],
-      "~/*": ["./apps/ui/app/*", "./apps/api/src/*"],
+      "~/*": ["./apps/ui/app/*"],
+      "@api/*": ["./apps/api/src/*"],
       "~test-sdk": ["apps/api/tests/test-sdk.ts"]
     }
   },

@@ -1,4 +1,4 @@
-import { User1, User2 } from '~/users';
+import { User1, User2 } from '@api/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const usersFindByIdTest = () =>

@@ -1,4 +1,4 @@
-import { Portfolio1 } from '~/portfolios';
+import { Portfolio1 } from '@api/portfolios';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosUpdateOneTests = () =>
@@ -9,17 +9,19 @@ export const portfoliosUpdateOneTests = () =>
         portfoliosInitEmpty: { _id },
       } = await User1Sdk().portfoliosInitEmpty();
 
-      const { portfoliosUpdateOne } = await User1Sdk().portfoliosUpdateOne({
-        _id,
-        input: {
-          name: 'My new portfolio',
-          description: 'Description',
-          cash: 2394,
-          private: false,
-        },
-      });
+      const { portfoliosUpdateOne } =
+        await User1Sdk().portfoliosUpdateOne({
+          _id,
+          input: {
+            name: 'My new portfolio',
+            description: 'Description',
+            cash: 2394,
+            private: false,
+          },
+        });
 
-      expect({ ...portfoliosUpdateOne, _id: undefined }).toMatchInlineSnapshot(`
+      expect({ ...portfoliosUpdateOne, _id: undefined })
+        .toMatchInlineSnapshot(`
         Object {
           "_id": undefined,
           "createdAt": "2022-01-17T00:00:00.000Z",

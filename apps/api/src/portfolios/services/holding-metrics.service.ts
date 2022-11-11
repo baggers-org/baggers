@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
 import {
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
@@ -10,10 +10,13 @@ import { getSecurityPrice } from '@baggers/security-util';
 
 @Injectable()
 export class HoldingMetricsService {
-  constructor(private portfolioMetricsService: PortfolioMetricsService) {}
+  constructor(
+    private portfolioMetricsService: PortfolioMetricsService
+  ) {}
 
   calculateMarketValue(holding: PopulatedHolding) {
-    if (holding.assetClass === AssetClass.cash) return holding.quantity;
+    if (holding.assetClass === AssetClass.cash)
+      return holding.quantity;
 
     if (holding.security) {
       return (
@@ -30,9 +33,15 @@ export class HoldingMetricsService {
     );
   }
 
-  calculateExposure(holding: PopulatedHolding, portfolioTotalValue: number) {
+  calculateExposure(
+    holding: PopulatedHolding,
+    portfolioTotalValue: number
+  ) {
     try {
-      return (this.calculateMarketValue(holding) / portfolioTotalValue) * 100;
+      return (
+        (this.calculateMarketValue(holding) / portfolioTotalValue) *
+        100
+      );
     } catch (e) {
       throw new Error(
         'Tried to calculate exposure for holding' +
@@ -48,14 +57,18 @@ export class HoldingMetricsService {
       return this.calculateMarketValue(holding) - holding.costBasis;
     } catch (e) {
       throw new Error(
-        'Tried to calculate profitLossUsd for holding' + JSON.stringify(holding)
+        'Tried to calculate profitLossUsd for holding' +
+          JSON.stringify(holding)
       );
     }
   }
 
   calculateProfitLossPercent(holding: PopulatedHolding) {
     try {
-      return (this.calculateProfitLossUsd(holding) / holding.costBasis) * 100;
+      return (
+        (this.calculateProfitLossUsd(holding) / holding.costBasis) *
+        100
+      );
     } catch (e) {
       throw new Error(
         'Tried to calculate profitLossPercent for holding' +
@@ -88,8 +101,10 @@ export class HoldingMetricsService {
         marketValue: +this.calculateMarketValue(holding) || null,
         exposure: +this.calculateExposure(holding, totalValue),
         profitLossUsd: +this.calculateProfitLossUsd(holding) || null,
-        profitLossPercent: +this.calculateProfitLossPercent(holding) || null,
-        dailyProfitLossUsd: +this.calculateDailyProfitLossUsd(holding) || null,
+        profitLossPercent:
+          +this.calculateProfitLossPercent(holding) || null,
+        dailyProfitLossUsd:
+          +this.calculateDailyProfitLossUsd(holding) || null,
       };
     });
   }

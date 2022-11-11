@@ -1,8 +1,11 @@
-import { NET, TSLA } from '~/securities';
-import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import { NET, TSLA } from '@api/securities';
+import {
+  InvestmentTransactionSubtype,
+  InvestmentTransactionType,
+} from 'plaid';
 import { Transaction } from '../entities';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
-import { ObjectId } from '~/shared';
+import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { ObjectId } from '@api/shared';
 
 export const ImportedTransactions: Transaction[] = [
   {
