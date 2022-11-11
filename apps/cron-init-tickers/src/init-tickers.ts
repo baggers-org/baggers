@@ -54,8 +54,9 @@ export const initTickers = async (mongo: MongoClient) => {
   console.log('---------------------------');
 
   console.table({
-    ...res.result,
-    ...res.result.opTime,
+    nNewTickers: res.nUpserted,
+    nUpdated: res.nModified,
+    writeErrors: res.result.writeErrors,
   });
 
   process.exit(0);

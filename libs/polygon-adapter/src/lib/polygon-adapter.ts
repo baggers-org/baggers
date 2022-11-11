@@ -1,4 +1,5 @@
-import { IRestClient } from '@polygon.io/client-js';
+import { IRestClient, ITickerDetails } from '@polygon.io/client-js';
+import http from 'http';
 import { defaultPolygonRestClient } from './polygon-client';
 import {
   LastTrade,
@@ -9,6 +10,8 @@ import {
 import { PolygonMapper } from './polygon-mapper';
 import { paginatedFetch } from './paginated-fetch';
 import { batchRequest } from '@baggers/batch-request';
+import axios from 'axios';
+import { env } from './env';
 
 export class PolygonAdapter extends MarketDataAdapter<
   IRestClient,
@@ -49,7 +52,7 @@ export class PolygonAdapter extends MarketDataAdapter<
 
   async batchGetLastTrade(
     tickers: string[],
-    batchSize = 4000
+    batchSize = 1000
   ): Promise<LastTrade[]> {
     const batchedFunctions = tickers.map(
       (t) => () => this.getLastTrade(t)
@@ -65,10 +68,18 @@ export class PolygonAdapter extends MarketDataAdapter<
 
   async getSecurityDetails(ticker: string): Promise<SecurityDetails> {
     try {
-      const { results } = await this.client.reference.tickerDetails(
-        ticker
+      const { data } = await axios.get<ITickerDetails>(
+        `/v3/reference/tickers/${ticker}`,
+        {
+          baseURL: 'https://api.polygon.io',
+          params: {
+            apiKey: env.POLYGON_API_KEY,
+          },
+          httpAgent: new http.Agent({ keepAlive: true }),
+        }
       );
-      return this.mapper.mapSecurityDetails(results);
+
+      return this.mapper.mapSecurityDetails(data.results);
     } catch (e) {
       console.error('Could not find ticker ' + ticker);
       console.error(e);
@@ -78,7 +89,7 @@ export class PolygonAdapter extends MarketDataAdapter<
 
   async batchGetSecurityDetails(
     tickers: string[],
-    batchSize = 4000
+    batchSize = 1000
   ): Promise<SecurityDetails[]> {
     const batchedFunctions = tickers.map(
       (t) => () => this.getSecurityDetails(t)
