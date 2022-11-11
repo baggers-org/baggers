@@ -25,7 +25,7 @@ COPY --from=ui-build /baggers/dist/apps/ui  /baggers-ui/
 # TODO: generate package.json for remix projects, i think i can update
 # Nrwl/remix and get this functionality
 COPY --from=base-deps baggers/package.json /baggers/package-lock.json  /baggers-ui/
-COPY --from=base-deps baggers/node_modules/ /baggers-ui/
+COPY --from=base-deps baggers/node_modules /baggers-ui/node_modules
 
 # TODO: prune dependencies here, its far too slow at the moment as its installing all dependenices again for some reason
-CMD ["node", "build/main.js"]
+CMD ["node_modules/.bin/remix-serve", "build"]
