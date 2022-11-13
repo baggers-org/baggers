@@ -18,8 +18,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
+      - name: Set Shas
+        run: echo "NX_BASE=$(git rev-parse HEAD~1)" >> $GITHUB_ENV
 
       - name: Gcloud auth
         uses: 'google-github-actions/auth@v0'

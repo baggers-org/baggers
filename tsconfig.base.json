@@ -17,7 +17,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@baggers/batch-request": ["libs/batch-request/src/index.ts"],
       "@baggers/graphql-types": ["libs/graphql-types/src/index.ts"],
       "@baggers/market-data-adapter": [
         "libs/market-data-adapter/src/index.ts"
