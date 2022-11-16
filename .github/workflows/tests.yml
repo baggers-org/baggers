@@ -15,9 +15,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
@@ -27,7 +24,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔬 Lint
-        run: npx nx affected --target=lint --parallel=3
+        run: yarn lint
 
   typecheck:
     name: ʦ TypeScript
@@ -41,9 +38,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
@@ -53,7 +47,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🔎 Type check
-        run: npx nx affected --target=type-check --parallel=3
+        run: yarn type-check
 
   test:
     name: ⚡ Test
@@ -67,9 +61,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: NRWL Set Shas
-        uses: nrwl/nx-set-shas@v2
-
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
@@ -79,11 +70,9 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: ⚡ Run tests
-        run: npx nx affected --target=test --parallel=3 --coverage
+        run: yarn test
         env:
           OPEN_FIGI_KEY: ${{ secrets.OPEN_FIGI_KEY }}
           PLAID_ENV: ${{ secrets.PLAID_ENV }}
           PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
           PLAID_CLIENT_SECRET: ${{ secrets.PLAID_CLIENT_SECRET }}
-          IEX_BASE_URL: ${{ secrets.IEX_BASE_URL }}
-          IEX_TOKEN: ${{ secrets.IEX_TOKEN }}

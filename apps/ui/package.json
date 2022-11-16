@@ -8,6 +8,7 @@
     "build": "npm run build:css && NODE_OPTIONS='-r ./esbuild-overrides' remix build",
     "build:css": "tailwindcss -m -i app/styles/input.css -o app/styles/app.css",
     "dev": "concurrently \"npm run dev:css\" \"NODE_OPTIONS='-r ./esbuild-overrides' remix dev\"",
+    "deploy": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui",
     "dev:css": "tailwindcss -w -i app/styles/input.css -o app/styles/app.css",
     "start": "remix-serve build",
     "docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/ui:latest",

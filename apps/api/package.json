@@ -6,7 +6,8 @@
 		"dev": "nest start --watch",
 		"test": "jest --runInBand",
 		"lint": "eslint src",
-		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest"
+		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest",
+		"deploy": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui"
 	},
 	"dependencies": {
 		"@baggers/graphql-types": "*",
