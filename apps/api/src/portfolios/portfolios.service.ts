@@ -13,8 +13,8 @@ import {
   HoldingMetricsService,
   PortfolioMetricsService,
 } from './services';
-import { Auth0AccessTokenPayload } from '@api/auth';
-import { ObjectId, RemoveMultipleResponse } from '@api/shared';
+import { Auth0AccessTokenPayload } from '~/auth';
+import { ObjectId, RemoveMultipleResponse } from '~/shared';
 
 @Injectable()
 export class PortfoliosService {

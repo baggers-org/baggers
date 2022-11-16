@@ -1,0 +1,17 @@
+{
+	"name": "@baggers/security-util",
+	"version": "0.0.0",
+	"dependencies": {
+		"@baggers/graphql-types": "*",
+		"@baggers/webpack": "*"
+	},
+	"main": "build/index.js",
+	"types": "build/index.d.ts",
+	"scripts": {
+		"build": "webpack && tsc -p ./tsconfig.lib.json --emitDeclarationOnly",
+		"dev": "webpack -w",
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	}
+}

@@ -4,7 +4,7 @@ import { User } from './entities/user.entity';
 import { UnauthorizedException } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { Auth0AccessTokenPayload, CurrentUser } from '@api/auth';
+import { Auth0AccessTokenPayload, CurrentUser } from '~/auth';
 
 @Resolver(() => User)
 export class UsersResolver {

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "jest.config.ts",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "src/generated"
+  ],
+  "include": ["src/**/*.ts"],
+  "compilerOptions": {
+    "outDir": "build"
+  }
+}

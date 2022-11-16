@@ -1,3 +1,4 @@
+/// <reference path="../global.d.ts" />
 import { INestApplication } from '@nestjs/common';
 import { setupTestApp } from '../util/db-util';
 import './mocks';

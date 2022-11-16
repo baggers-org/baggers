@@ -1,4 +1,4 @@
-import { ObjectId, ObjectIdScalar } from '@api/shared';
+import { ObjectId, ObjectIdScalar } from '~/shared';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()

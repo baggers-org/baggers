@@ -2,7 +2,7 @@ import {
   A,
   SecuritiesService,
   SecuritiesServiceMock,
-} from '@api/securities';
+} from '~/securities';
 import { Test } from '@nestjs/testing';
 import { HoldingSource } from '../../enums/holding-source.enum';
 import { HoldingMetricsService } from '../holding-metrics.service';
@@ -11,10 +11,10 @@ import {
   getPopulated,
   ImportedPortfolio,
   PublicPortfolio,
-} from '@api/portfolios/data';
-import { SecuritiesUtilService } from '@api/securities/securities-util.service';
-import { OpenFigiModule } from '@api/open-figi';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
+} from '~/portfolios/data';
+import { SecuritiesUtilService } from '~/securities/securities-util.service';
+import { OpenFigiModule } from '~/open-figi';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 describe('HoldingMetricsService', () => {
   let service: HoldingMetricsService;
@@ -85,7 +85,7 @@ describe('HoldingMetricsService', () => {
       expect(() =>
         service.calculateExposure({ averagePrice: 2 } as any, 0)
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Tried to calculate exposure for holding{\\"averagePrice\\":2} and total value 0"`
+        `"Tried to calculate exposure for holding{"averagePrice":2} and total value 0"`
       );
     });
   });
@@ -109,7 +109,7 @@ describe('HoldingMetricsService', () => {
       expect(() =>
         service.calculateProfitLossUsd({ averagePrice: 2 } as any)
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Tried to calculate profitLossUsd for holding{\\"averagePrice\\":2}"`
+        `"Tried to calculate profitLossUsd for holding{"averagePrice":2}"`
       );
     });
   });
@@ -133,7 +133,7 @@ describe('HoldingMetricsService', () => {
       expect(() =>
         service.calculateProfitLossPercent({ averagePrice: 2 } as any)
       ).toThrowErrorMatchingInlineSnapshot(
-        `"Tried to calculate profitLossPercent for holding{\\"averagePrice\\":2}"`
+        `"Tried to calculate profitLossPercent for holding{"averagePrice":2}"`
       );
     });
   });
@@ -162,28 +162,29 @@ describe('HoldingMetricsService', () => {
           .calculateHoldingMetrics(getPopulated(PublicPortfolio))
           .map((h) => ({ ...h, security: undefined }))
       ).toMatchInlineSnapshot(`
-        Array [
-          Object {
+        [
+          {
             "_id": "62d2cd45c63873e235c99531",
             "assetClass": "cash",
+            "averagePrice": 1,
+            "costBasis": 1239.32,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "exposure": 41.52771820716276,
             "marketValue": 1239.32,
-            "profitLossPercent": null,
-            "profitLossUsd": null,
+            "profitLossPercent": 0,
+            "profitLossUsd": 0,
             "quantity": 1239.32,
             "security": undefined,
             "source": "direct",
           },
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99532",
             "assetClass": "stock",
             "averagePrice": 383.9,
-            "brokerFees": 0,
             "costBasis": 3839,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "direction": "long",
             "exposure": 40.210165129744794,
             "marketValue": 1200,
@@ -193,11 +194,10 @@ describe('HoldingMetricsService', () => {
             "security": undefined,
             "source": "broker",
           },
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99533",
             "assetClass": "stock",
             "averagePrice": 4794.2,
-            "brokerFees": 0,
             "costBasis": 47942,
             "currency": "USD",
             "dailyProfitLossUsd": -14.799999999999969,
@@ -220,29 +220,31 @@ describe('HoldingMetricsService', () => {
           getPopulated(ImportedPortfolio)
         )
       ).toMatchInlineSnapshot(`
-        Array [
-          Object {
+        [
+          {
             "_id": "62d2cd45c63873e235c99531",
             "assetClass": "cash",
+            "averagePrice": 1,
+            "costBasis": 1239.32,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "exposure": 22.975813956937493,
             "marketValue": 1239.32,
-            "profitLossPercent": null,
-            "profitLossUsd": null,
+            "profitLossPercent": 0,
+            "profitLossUsd": 0,
             "quantity": 1239.32,
             "security": undefined,
             "source": "direct",
           },
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99567",
             "assetClass": "stock",
             "averagePrice": 10,
             "costBasis": 100,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "exposure": 8.008869080945194,
-            "importedSecurity": Object {
+            "importedSecurity": {
               "assetClass": "stock",
               "close_price_as_of": null,
               "currency": "USD",
@@ -269,15 +271,15 @@ describe('HoldingMetricsService', () => {
             "security": undefined,
             "source": "broker",
           },
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99569",
             "assetClass": "stock",
             "averagePrice": 409,
             "costBasis": 49,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "exposure": 30.598700041898248,
-            "importedSecurity": Object {
+            "importedSecurity": {
               "assetClass": "stock",
               "close_price_as_of": null,
               "currency": "USD",
@@ -301,7 +303,7 @@ describe('HoldingMetricsService', () => {
             "profitLossPercent": 3268.3673469387754,
             "profitLossUsd": 1601.5,
             "quantity": 50,
-            "security": Object {
+            "security": {
               "_id": "SBSI",
               "assetClass": "stock",
               "currency": "USD",
@@ -315,19 +317,19 @@ describe('HoldingMetricsService', () => {
             },
             "source": "broker",
           },
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99570",
             "assetClass": "stock",
             "averagePrice": 1000,
             "costBasis": 42,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "exposure": 44.49371711636219,
             "marketValue": 2400,
             "profitLossPercent": 5614.285714285715,
             "profitLossUsd": 2358,
             "quantity": 20,
-            "security": Object {
+            "security": {
               "_id": "TSLA",
               "assetClass": "stock",
               "currency": "USD",

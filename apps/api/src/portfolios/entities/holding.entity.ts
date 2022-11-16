@@ -2,9 +2,9 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { HoldingDirection } from '../enums/holding-direction.enum';
 import { HoldingSource } from '../enums/holding-source.enum';
-import { ImportedSecurity, Security } from '@api/securities';
-import { BaseDocument, ObjectId } from '@api/shared';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { ImportedSecurity, Security } from '~/securities';
+import { BaseDocument, ObjectId } from '~/shared';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { Transaction } from './transaction';
 import { InvestmentTransactionSubtype } from 'plaid';
 
@@ -29,16 +29,13 @@ export class Holding extends BaseDocument {
   plaidAccountId?: string;
 
   @Prop({ default: 0.0 })
-  averagePrice?: number;
+  averagePrice: number;
 
   @Prop({ default: 0.0 })
-  costBasis?: number;
+  costBasis: number;
 
   @Prop()
   currency: string;
-
-  @Prop({ default: 0.0 })
-  brokerFees?: number;
 
   @Field(() => HoldingDirection)
   @Prop({
@@ -60,12 +57,11 @@ export class Holding extends BaseDocument {
     return {
       _id: new ObjectId(),
       averagePrice: transaction.price || 1,
-      brokerFees: transaction.fees,
       plaidAccountId: transaction.plaidAccountId,
       importedSecurity: transaction.importedSecurity,
       currency: transaction.currency,
       costBasis:
-        transaction.price * transaction.quantity +
+        (transaction.price || 0) * transaction.quantity +
           (transaction.fees || 0) || 1,
       direction: shortTypes.includes(transaction.subType)
         ? HoldingDirection.short
@@ -78,19 +74,12 @@ export class Holding extends BaseDocument {
         : HoldingSource.transactions,
     };
   }
-
-  static unpopulate(holding: PopulatedHolding): Holding {
-    return {
-      ...holding,
-      security: holding.security._id,
-    };
-  }
 }
 
 @ObjectType()
 export class PopulatedHolding extends Holding {
   @Field(() => Security, { nullable: true })
-  security?: Security | null;
+  security?: Security;
 }
 
 // To our GraphQL - this is what will always be returned, the naming is just
@@ -102,11 +91,11 @@ export class PopulatedHoldingWithMetrics extends PopulatedHolding {
 
   exposure: number;
 
-  marketValue?: number;
+  marketValue: number;
 
-  profitLossUsd?: number;
+  profitLossUsd: number;
 
-  profitLossPercent?: number;
+  profitLossPercent: number;
 
-  dailyProfitLossUsd?: number;
+  dailyProfitLossUsd: number;
 }

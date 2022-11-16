@@ -3,7 +3,7 @@ import { SecuritiesService } from './securities.service';
 import { SecuritiesResolver } from './securities.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Security, SecuritySchema } from './entities/security.entity';
-import { OpenFigiModule } from '@api/open-figi';
+import { OpenFigiModule } from '~/open-figi';
 import { SecuritiesUtilService } from './securities-util.service';
 
 @Module({

@@ -19,7 +19,7 @@ export class ImportedSecurity {
    * @memberof Security
    */
   @Field({ nullable: true })
-  @Prop()
+  @Prop({ type: String })
   isin: string | null;
   /**
    * 9-character CUSIP, an identifier assigned to North American securities.
@@ -27,7 +27,7 @@ export class ImportedSecurity {
    * @memberof Security
    */
   @Field({ nullable: true })
-  @Prop()
+  @Prop({ type: String })
   cusip: string | null;
   /**
    * 7-character SEDOL, an identifier assigned to securities in the UK.
@@ -35,30 +35,30 @@ export class ImportedSecurity {
    * @memberof Security
    */
   @Field({ nullable: true })
-  @Prop()
+  @Prop({ type: String })
   sedol: string | null;
   /**
    * An identifier given to the security by the institution
    * @type {string}
    * @memberof Security
    */
-  @Prop()
   @Field({ nullable: true })
+  @Prop({ type: String })
   institution_security_id: string | null;
   /**
    * If `institution_security_id` is present, this field indicates the Plaid `institution_id` of the institution to whom the identifier belongs.
    * @type {string}
    * @memberof Security
    */
-  @Prop()
   @Field({ nullable: true })
+  @Prop({ type: String })
   institution_id: string | null;
   /**
    * In certain cases, Plaid will provide the ID of another security whose performance resembles this security, typically when the original security has low volume, or when a private security can be modeled with a publicly traded security.
    * @type {string}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: String })
   @Field({ nullable: true })
   proxy_security_id: string | null;
   /**
@@ -66,24 +66,24 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop()
   @Field({ nullable: true })
+  @Prop({ type: String })
   name: string | null;
   /**
    * The security’s trading symbol for publicly traded securities, and otherwise a short identifier if available.
    * @type {string}
    * @memberof Security
    */
-  @Prop()
   @Field({ nullable: true })
+  @Prop({ type: String })
   ticker_symbol: string | null;
   /**
    * Indicates that a security is a highly liquid asset and can be treated like cash.
    * @type {boolean}
    * @memberof Security
    */
-  @Prop()
   @Field({ nullable: true })
+  @Prop({ type: Boolean })
   is_cash_equivalent: boolean | null;
   /**
   is_cash_equivalent: boolean | null;
@@ -101,14 +101,14 @@ export class ImportedSecurity {
    * @memberof Security
    */
   @Prop({ enum: AssetClass, type: String })
-  @Field(() => AssetClass, { nullable: true })
-  assetClass: AssetClass | null;
+  @Field(() => AssetClass)
+  assetClass: AssetClass;
   /**
    * Price of the security at the close of the previous trading session. Null for non-public securities.   If the security is a foreign currency this field will be updated daily and will be priced in USD.   If the security is a cryptocurrency, this field will be updated multiple times a day. As crypto prices can fluctuate quickly and data may become stale sooner than other asset classes, please refer to update_datetime with the time when the price was last updated.
    * @type {number}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: Number })
   @Field({ nullable: true })
   latestPrice: number | null;
   /**
@@ -116,7 +116,7 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: String })
   @Field({ nullable: true })
   close_price_as_of: string | null;
   /**
@@ -124,7 +124,7 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: String })
   @Field({ nullable: true })
   update_datetime?: string | null;
   /**
@@ -132,7 +132,7 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: String })
   @Field({ nullable: true })
   currency: string | null;
   /**
@@ -140,7 +140,7 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Prop()
+  @Prop({ type: String })
   @Field({ nullable: true })
   unofficial_currency_code: string | null;
 
@@ -148,7 +148,7 @@ export class ImportedSecurity {
   isImported?: boolean;
 
   static fromPlaidSecurity(security: Security): ImportedSecurity {
-    const mapSecurityType = (type: string): AssetClass => {
+    const mapSecurityType = (type: string | null): AssetClass => {
       switch (type) {
         case 'cash':
           return AssetClass.cash;

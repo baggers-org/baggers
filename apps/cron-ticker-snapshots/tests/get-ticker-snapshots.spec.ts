@@ -4,6 +4,8 @@ import { getTickerSnapshots } from '../../cron-ticker-snapshots/src/get-ticker-s
 import { mockPolygonStocksClientMethod } from './util';
 import { AssetClass, Security } from '@baggers/graphql-types';
 
+jest.mock('@baggers/env', () => ({ setupEnv: () => ({}) }));
+
 describe('getTickerSnapshots', () => {
   let mongod: MongoMemoryServer;
   let mockMongoClient: MongoClient;
@@ -53,8 +55,8 @@ describe('getTickerSnapshots', () => {
         .find()
         .toArray()
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "_id": "TSLA",
           "assetClass": "stock",
           "latestPrice": 100,
@@ -101,7 +103,7 @@ describe('getTickerSnapshots', () => {
         .collection('securities')
         .findOne({ _id: 'ONDS' })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "_id": "ONDS",
         "assetClass": "stock",
         "latestPrice": 666,

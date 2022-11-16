@@ -1,5 +1,5 @@
-import { ObjectId } from '@api/shared';
-import { User1 } from '@api/users';
+import { ObjectId } from '~/shared';
+import { User1 } from '~/users';
 import { TestSdk } from '~test-sdk';
 
 export const portfoliosInitEmptyTests = () =>
@@ -19,21 +19,21 @@ export const portfoliosInitEmptyTests = () =>
       expect(ObjectId.isValid(createdId));
       expect({ ...createdPortfolio, _id: undefined })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": undefined,
           "cash": 0,
           "createdAt": "2022-01-17T00:00:00.000Z",
           "description": "",
-          "holdings": Array [],
+          "holdings": [],
           "name": "",
-          "owner": Object {
+          "owner": {
             "_id": "google-oauth1-233838",
             "createdAt": "2001-01-01T00:00:00.000Z",
             "displayName": "Warren Buffet",
-            "emails": Array [
+            "emails": [
               "wbuffet666@berkshire.com",
             ],
-            "photos": Array [
+            "photos": [
               "https://link.come/warrens_face.png",
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
@@ -41,7 +41,7 @@ export const portfoliosInitEmptyTests = () =>
           "plaidAccount": null,
           "private": true,
           "totalValue": 0,
-          "transactions": Array [],
+          "transactions": [],
           "updatedAt": "2022-01-17T00:00:00.000Z",
         }
       `);

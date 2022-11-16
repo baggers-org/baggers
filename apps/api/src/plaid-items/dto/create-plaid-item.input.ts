@@ -6,5 +6,5 @@ export class CreatePlaidItemInput {
 
   accessToken: string;
 
-  institution: string;
+  institution?: string | null;
 }

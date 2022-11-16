@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { EnvModule } from '@api/env';
+import { EnvModule } from '~/env';
 import { PolygonService } from './polygon.service';
 
 @Module({

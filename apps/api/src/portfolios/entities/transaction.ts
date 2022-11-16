@@ -1,13 +1,13 @@
-import { ImportedSecurity, Security } from '@api/securities';
-import { ObjectId, ObjectIdScalar } from '@api/shared';
-import { User } from '@api/users';
+import { ImportedSecurity, Security } from '~/securities';
+import { ObjectId, ObjectIdScalar } from '~/shared';
+import { User } from '~/users';
 import { Field, ObjectType, OmitType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import {
   InvestmentTransactionSubtype,
   InvestmentTransactionType,
 } from 'plaid';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 @ObjectType('TransactionFromDb')
 export class Transaction {
@@ -32,8 +32,8 @@ export class Transaction {
   amount: number;
 
   @Prop({ default: 0 })
-  @Field({ nullable: true })
-  fees?: number;
+  @Field()
+  fees: number;
 
   @Prop()
   @Field()
@@ -80,13 +80,6 @@ export class Transaction {
   @Field(() => User, { nullable: true })
   @Prop({ type: String, ref: 'User' })
   createdBy?: string;
-
-  static unpopulate(transaction: PopulatedTransaction): Transaction {
-    return {
-      ...transaction,
-      security: transaction.security._id,
-    };
-  }
 }
 @ObjectType('Transaction')
 export class PopulatedTransaction extends OmitType(Transaction, [

@@ -11,11 +11,11 @@ import {
   PortfolioMetricsService,
 } from './services';
 import { HoldingsService } from './services/holdings.service';
-import { PlaidClientModule } from '@api/plaid-client';
-import { PlaidItemsModule } from '@api/plaid-items';
+import { PlaidClientModule } from '~/plaid-client';
+import { PlaidItemsModule } from '~/plaid-items';
 import { TransactionsUtilService } from './services/transactions-util.service';
 import { HoldingsUtilService } from './services/holdings-util.service';
-import { SecuritiesModule } from '@api/securities';
+import { SecuritiesModule } from '~/securities';
 import { TransactionsService } from './services/transactions.service';
 
 @Module({

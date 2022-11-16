@@ -31,7 +31,7 @@ export class PlaidAccount {
    * @type {string}
    * @memberof AccountBase
    */
-  @Prop()
+  @Prop({ type: String })
   official_name?: string | null;
   /**
    *
@@ -45,6 +45,6 @@ export class PlaidAccount {
    * @type {AccountSubtype}
    * @memberof AccountBase
    */
-  @Prop()
+  @Prop({ type: String })
   subtype?: string | null;
 }

@@ -1,5 +1,5 @@
-import { PartialTokenPayload } from '@api/auth';
-import { CreateUserInput, User1, User2 } from '@api/users';
+import { PartialTokenPayload } from '~/auth';
+import { CreateUserInput, User1, User2 } from '~/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const usersFindOrCreateTest = () =>
@@ -24,14 +24,14 @@ export const usersFindOrCreateTest = () =>
       });
 
       expect(usersFindOrCreate).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "new_user",
           "createdAt": "2022-01-17T00:00:00.000Z",
           "displayName": "Something",
-          "emails": Array [
+          "emails": [
             "email",
           ],
-          "photos": Array [
+          "photos": [
             "photo",
           ],
           "updatedAt": "2022-01-17T00:00:00.000Z",
@@ -53,14 +53,14 @@ export const usersFindOrCreateTest = () =>
       });
 
       expect(usersFindOrCreate).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "google-oauth1-233838",
           "createdAt": "2001-01-01T00:00:00.000Z",
           "displayName": "Test",
-          "emails": Array [
+          "emails": [
             "test",
           ],
-          "photos": Array [
+          "photos": [
             "test",
           ],
           "updatedAt": "2001-01-01T00:00:00.000Z",

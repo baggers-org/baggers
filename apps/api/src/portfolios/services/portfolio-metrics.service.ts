@@ -1,7 +1,7 @@
 import { getSecurityPrice } from '@baggers/security-util';
 import { Injectable } from '@nestjs/common';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
-import { SecuritiesUtilService } from '@api/securities/securities-util.service';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { SecuritiesUtilService } from '~/securities/securities-util.service';
 import { PopulatedPortfolio } from '../entities';
 
 @Injectable()

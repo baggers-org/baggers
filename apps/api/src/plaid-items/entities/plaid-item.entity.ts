@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { checkAdminMiddleware } from '@api/auth';
+import { checkAdminMiddleware } from '~/auth';
 import { PlaidItemError } from './plaid-item-error.entity';
-import { Institution } from '@api/institutions';
-import { User } from '@api/users';
+import { Institution } from '~/institutions';
+import { User } from '~/users';
 
 export type PlaidItemDocument = PlaidItem & Document;
 /**
@@ -24,7 +24,7 @@ export class PlaidItem {
 
   @Prop()
   @Field(() => String, { middleware: [checkAdminMiddleware] })
-  accessToken?: string;
+  accessToken: string;
 
   @Field(() => Institution)
   @Prop({ type: () => String, ref: Institution.name })

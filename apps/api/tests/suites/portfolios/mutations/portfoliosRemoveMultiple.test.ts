@@ -1,4 +1,4 @@
-import { User1 } from '@api/users';
+import { User1 } from '~/users';
 import { TestSdk, User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosRemoveMultipleTests = () =>
@@ -52,11 +52,11 @@ export const portfoliosRemoveMultipleTests = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "extensions": Object {
+          [
+            {
+              "extensions": {
                 "code": "404",
-                "response": Object {
+                "response": {
                   "error": "Not Found",
                   "message": "Could not find any portfolios to delete",
                   "statusCode": 404,

@@ -101,6 +101,6 @@ export const getTickerSnapshots = async (
     totalTimeForJob: (Date.now() - t) / 1000,
   });
 
-  process.exit(0);
+  return;
   // insert tickerSnapshot object for every security and also make sure we have
 };

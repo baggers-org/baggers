@@ -1,8 +1,8 @@
 import {
   Auth0AccessTokenPayload,
   checkOwnerMiddleware,
-} from '@api/auth';
-import { Timestamps } from '@api/shared';
+} from '~/auth';
+import { Timestamps } from '~/shared';
 import { Extensions, Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';

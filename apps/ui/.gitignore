@@ -1,4 +1,6 @@
-.cache
-build
-public/build
-.env*
+node_modules
+
+/.cache
+/build
+/public/build
+.env

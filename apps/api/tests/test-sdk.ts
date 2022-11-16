@@ -1,4 +1,4 @@
-import { User1, User2 } from '@api/users';
+import { User1, User2 } from '~/users';
 import { SdkBuilder } from '@baggers/sdk';
 import { getAppUrl } from './jest/setup';
 

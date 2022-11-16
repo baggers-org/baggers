@@ -1,0 +1,9 @@
+{
+  "extends": "@baggers/tsconfig/remix.json",
+  "include": ["**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.spec.tsx", "__tests__", "build"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "build"
+  }
+}

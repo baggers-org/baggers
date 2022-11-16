@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 import {
   PopulatedHolding,
   PopulatedHoldingWithMetrics,
@@ -79,8 +79,7 @@ export class HoldingMetricsService {
 
   calculateDailyProfitLossUsd(holding: PopulatedHolding) {
     try {
-      if (!holding.security) return null;
-      return holding.quantity * holding.security.todaysChange;
+      return holding.quantity * (holding.security?.todaysChange || 0);
     } catch (e) {
       throw new Error(
         'Tried to calculate dailyProfitLossUsd for holding' +
@@ -98,13 +97,12 @@ export class HoldingMetricsService {
     return portfolio.holdings.map((holding) => {
       return {
         ...holding,
-        marketValue: +this.calculateMarketValue(holding) || null,
+        marketValue: +this.calculateMarketValue(holding),
         exposure: +this.calculateExposure(holding, totalValue),
-        profitLossUsd: +this.calculateProfitLossUsd(holding) || null,
-        profitLossPercent:
-          +this.calculateProfitLossPercent(holding) || null,
+        profitLossUsd: +this.calculateProfitLossUsd(holding),
+        profitLossPercent: +this.calculateProfitLossPercent(holding),
         dailyProfitLossUsd:
-          +this.calculateDailyProfitLossUsd(holding) || null,
+          +this.calculateDailyProfitLossUsd(holding),
       };
     });
   }

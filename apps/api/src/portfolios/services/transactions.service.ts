@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Auth0AccessTokenPayload } from '@api/auth';
-import { ObjectId } from '@api/shared';
-import { ownerAnd } from '@api/shared/util/ownerAnd';
+import { Auth0AccessTokenPayload } from '~/auth';
+import { ObjectId } from '~/shared';
+import { ownerAnd } from '~/shared/util/ownerAnd';
 import { AddTransactionInput } from '../dto/add-transaction.input';
 import { Portfolio, PortfolioDocument } from '../entities';
 

@@ -1,0 +1,22 @@
+{
+	"name": "@baggers/remix-auth0",
+	"version": "0.0.0",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"dependencies": {
+		"@baggers/env": "*",
+		"remix-auth": "^3.3.0",
+		"remix-auth-auth0": "^1.4.1",
+		"@baggers/webpack": "*"
+	},
+	"peerDependencies": {
+		"@remix-run/node": "*"
+	},
+	"scripts": {
+		"build": "webpack",
+		"dev": "webpack -w",
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	}
+}

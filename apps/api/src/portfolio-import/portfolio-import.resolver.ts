@@ -1,4 +1,4 @@
-import { Auth0AccessTokenPayload, CurrentUser } from '@api/auth';
+import { Auth0AccessTokenPayload, CurrentUser } from '~/auth';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { ImportResponse } from './dto/import-response';
 import { PortfolioImportService } from './portfolio-import.service';

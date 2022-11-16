@@ -1,27 +1,27 @@
-import { Auth0AccessTokenPayload } from '@api/auth';
+import { Auth0AccessTokenPayload } from '~/auth';
 import {
   PlaidAccount,
   PlaidItem,
   PlaidItemsService,
-} from '@api/plaid-items';
+} from '~/plaid-items';
 import {
   HoldingSource,
   PortfoliosService,
   Transaction,
   Holding,
   Portfolio,
-} from '@api/portfolios';
-import { ObjectId } from '@api/shared';
-import { PlaidClientService } from '@api/plaid-client';
+} from '~/portfolios';
+import { ObjectId } from '~/shared';
+import { PlaidClientService } from '~/plaid-client';
 import { Injectable } from '@nestjs/common';
 import {
   InvestmentsHoldingsGetResponse,
   InvestmentsTransactionsGetResponse,
 } from 'plaid';
 import { ImportResponse } from './dto';
-import { ImportedSecurity } from '@api/securities';
-import { SecuritiesUtilService } from '@api/securities/securities-util.service';
-import { SecurityMap } from '@api/securities/types';
+import { ImportedSecurity } from '~/securities';
+import { SecuritiesUtilService } from '~/securities/securities-util.service';
+import { SecurityMap } from '~/securities/types';
 
 @Injectable()
 export class PortfolioImportService {
@@ -38,36 +38,46 @@ export class PortfolioImportService {
   ): Transaction[] {
     const { investment_transactions, securities } = response;
 
-    return investment_transactions.map((t) => {
-      const plaidSecurity = securities.find(
-        (s) => s.security_id === t.security_id
-      );
+    return investment_transactions
+      .map((t) => {
+        const plaidSecurity = securities.find(
+          (s) => s.security_id === t.security_id
+        );
 
-      const importedSecurity =
-        ImportedSecurity.fromPlaidSecurity(plaidSecurity);
+        if (!plaidSecurity) {
+          // TODO: fail silently
+          console.error('Could not find security ', plaidSecurity);
+          return null;
+        }
 
-      const security = securityMap.get(importedSecurity.security_id);
+        const importedSecurity =
+          ImportedSecurity.fromPlaidSecurity(plaidSecurity);
 
-      const transaction: Transaction = {
-        _id: new ObjectId(),
-        name: t.name,
-        currency: t.iso_currency_code,
-        date: new Date(t.date),
-        price: t.price,
-        amount: t.amount,
-        type: t.type,
-        subType: t.subtype,
-        fees: t.fees,
-        quantity: t.quantity,
-        security: security?._id,
-        plaidTransactionId: t.investment_transaction_id,
-        plaidAccountId: t.account_id,
-        assetClass:
-          security?.assetClass || importedSecurity?.assetClass,
-        importedSecurity,
-      };
-      return transaction;
-    });
+        const security = securityMap.get(
+          importedSecurity.security_id
+        );
+
+        const transaction: Transaction = {
+          _id: new ObjectId(),
+          name: t.name,
+          currency: t.iso_currency_code || 'USD',
+          date: new Date(t.date),
+          price: t.price,
+          amount: t.amount,
+          type: t.type,
+          subType: t.subtype,
+          fees: t.fees || 0,
+          quantity: t.quantity,
+          security: security?._id,
+          plaidTransactionId: t.investment_transaction_id,
+          plaidAccountId: t.account_id,
+          assetClass:
+            security?.assetClass || importedSecurity?.assetClass,
+          importedSecurity,
+        };
+        return transaction;
+      })
+      .filter((t: Transaction | null): t is Transaction => !!t);
   }
 
   importHoldings(
@@ -76,32 +86,42 @@ export class PortfolioImportService {
   ): Holding[] {
     const { holdings, securities } = response;
 
-    return holdings.map((t) => {
-      const plaidSecurity = securities.find(
-        (s) => s.security_id === t.security_id
-      );
-      const importedSecurity =
-        ImportedSecurity.fromPlaidSecurity(plaidSecurity);
+    return holdings
+      .map((t) => {
+        const plaidSecurity = securities.find(
+          (s) => s.security_id === t.security_id
+        );
 
-      const security = securityMap.get(importedSecurity.security_id);
+        if (!plaidSecurity) {
+          // TODO: fail silently
+          console.error('Could not find security ', plaidSecurity);
+          return null;
+        }
+        const importedSecurity =
+          ImportedSecurity.fromPlaidSecurity(plaidSecurity);
 
-      const holding: Holding = {
-        averagePrice: t.cost_basis,
-        costBasis: t.cost_basis * t.quantity,
-        quantity: t.quantity,
-        plaidAccountId: t.account_id,
-        institutionValue: t.institution_value,
-        source: HoldingSource.broker,
-        importedSecurity,
-        currency: t.iso_currency_code,
-        security: security?._id,
-        assetClass:
-          security?.assetClass || importedSecurity?.assetClass,
-        _id: new ObjectId(),
-      };
+        const security = securityMap.get(
+          importedSecurity.security_id
+        );
 
-      return holding;
-    });
+        const holding: Holding = {
+          averagePrice: t.cost_basis || 0,
+          costBasis: (t.cost_basis || 1) * t.quantity,
+          quantity: t.quantity,
+          plaidAccountId: t.account_id,
+          institutionValue: t.institution_value,
+          source: HoldingSource.broker,
+          importedSecurity,
+          currency: t.iso_currency_code || 'USD',
+          security: security?._id,
+          assetClass:
+            security?.assetClass || importedSecurity?.assetClass,
+          _id: new ObjectId(),
+        };
+
+        return holding;
+      })
+      .filter((t: Holding | null): t is Holding => !!t);
   }
 
   /**

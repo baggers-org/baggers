@@ -1,0 +1,13 @@
+mutation portfoliosAddHolding(
+  $_id: ObjectId!
+  $input: AddHoldingInput!
+) {
+  portfoliosAddHolding(_id: $_id, input: $input) {
+    _id
+    holdings {
+      averagePrice
+      costBasis
+      quantity
+    }
+  }
+}

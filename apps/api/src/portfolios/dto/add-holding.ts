@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { HoldingDirection } from '../enums';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
 
 @InputType()
 export class AddHoldingInput {
@@ -15,9 +15,6 @@ export class AddHoldingInput {
 
   @Field()
   averagePrice: number;
-
-  @Field({ defaultValue: 0 })
-  brokerFees?: number;
 
   @Field(() => HoldingDirection)
   direction?: HoldingDirection;

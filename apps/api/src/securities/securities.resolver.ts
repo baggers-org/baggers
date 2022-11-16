@@ -1,7 +1,7 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { SecuritiesService } from './securities.service';
 import { Security } from './entities/security.entity';
-import { Public } from '@api/auth';
+import { Public } from '~/auth';
 
 @Resolver(() => Security)
 export class SecuritiesResolver {

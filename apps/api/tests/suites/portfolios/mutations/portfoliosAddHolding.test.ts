@@ -1,5 +1,5 @@
-import { Portfolio1 } from '@api/portfolios';
-import { A, TSLA } from '@api/securities';
+import { Portfolio1 } from '~/portfolios';
+import { A, TSLA } from '~/securities';
 import { HoldingDirection, AssetClass } from '@baggers/graphql-types';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
@@ -36,11 +36,10 @@ export const portfoliosAddHoldingTest = () =>
       expect(portfolio.holdings.length).toBe(1);
       expect({ ...portfolio.holdings[0], _id: null })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": null,
           "assetClass": "stock",
           "averagePrice": 105.4,
-          "brokerFees": 0,
           "costBasis": 105.4,
           "currency": "USD",
           "dailyProfitLossUsd": -1.4799999999999969,
@@ -52,7 +51,7 @@ export const portfoliosAddHoldingTest = () =>
           "profitLossPercent": -48.292220113852,
           "profitLossUsd": -50.900000000000006,
           "quantity": 1,
-          "security": Object {
+          "security": {
             "_id": "A",
             "assetClass": "stock",
             "currency": "USD",
@@ -88,11 +87,10 @@ export const portfoliosAddHoldingTest = () =>
       expect(portfolio.holdings.length).toBe(1);
       expect({ ...portfolio.holdings[0], _id: null })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": null,
           "assetClass": "stock",
           "averagePrice": 125.35,
-          "brokerFees": 0,
           "costBasis": 626.76,
           "currency": "USD",
           "dailyProfitLossUsd": -7.399999999999984,
@@ -104,7 +102,7 @@ export const portfoliosAddHoldingTest = () =>
           "profitLossPercent": -56.522432829153104,
           "profitLossUsd": -354.26,
           "quantity": 5,
-          "security": Object {
+          "security": {
             "_id": "A",
             "assetClass": "stock",
             "currency": "USD",
@@ -151,7 +149,7 @@ export const portfoliosAddHoldingTest = () =>
         security: null,
         _id: null,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": null,
           "amount": 105.4,
           "currency": "USD",
@@ -171,7 +169,7 @@ export const portfoliosAddHoldingTest = () =>
         security: null,
         _id: null,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": null,
           "amount": 521.36,
           "currency": "USD",
@@ -191,7 +189,7 @@ export const portfoliosAddHoldingTest = () =>
         security: null,
         _id: null,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": null,
           "amount": 300,
           "currency": "USD",
@@ -223,11 +221,11 @@ export const portfoliosAddHoldingTest = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "extensions": Object {
+          [
+            {
+              "extensions": {
                 "code": "404",
-                "response": Object {
+                "response": {
                   "error": "Not Found",
                   "message": "Could not find a portfolio to add a transaction to",
                   "statusCode": 404,

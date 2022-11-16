@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
-import { EnvService } from '@api/env';
-import { ImportedSecurity } from '@api/securities';
+import { EnvService } from '~/env';
+import { ImportedSecurity } from '~/securities';
 import {
   OpenFigiMappingIdTypes,
   OpenFigiMappingJob,
@@ -44,7 +44,7 @@ export class OpenFigiService {
     // Default to using the ticker
     return {
       idType: OpenFigiMappingIdTypes.TICKER,
-      idValue: ticker_symbol,
+      idValue: ticker_symbol || '',
     };
   }
 

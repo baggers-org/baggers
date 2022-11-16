@@ -1,8 +1,5 @@
 import { Test } from '@nestjs/testing';
-import {
-  OpenFigiMappingResponse,
-  OpenFigiModule,
-} from '@api/open-figi';
+import { OpenFigiMappingResponse, OpenFigiModule } from '~/open-figi';
 import { ImportedDBLTX, ImportedSBSI, SBSI } from '../data';
 import { SecuritiesServiceMock } from '../mocks';
 import { SecuritiesUtilService } from '../securities-util.service';

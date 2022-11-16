@@ -10,7 +10,7 @@ export type SecurityDocument = Document & Security;
 @Schema()
 export class Security {
   @Prop()
-  _id?: string;
+  _id: string;
 
   @Prop()
   figi?: string;
@@ -41,6 +41,7 @@ export class Security {
   todaysChangePercent?: number;
 
   @Field(() => TickerDetails)
+  @Prop({ type: TickerDetails })
   tickerDetails?: TickerDetails;
 
   @Prop({ default: false })
