@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"scripts": {
 		"build": "nest build",
-		"dev": "nest start --watch",
+		"dev": "NODE_ENV=development nest start --watch",
 		"test": "jest --runInBand",
 		"lint": "eslint src",
 		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest",

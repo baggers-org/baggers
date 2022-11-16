@@ -18,7 +18,7 @@ export class ImportedSecurity {
    * @type {string}
    * @memberof Security
    */
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Prop({ type: String })
   isin: string | null;
   /**

@@ -1,6 +1,5 @@
 {
 	"extends": "@baggers/tsconfig/base.json",
-	"files": [],
 	"include": [
 		"src/**.ts"
 	],

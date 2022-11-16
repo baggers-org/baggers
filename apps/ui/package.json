@@ -34,6 +34,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@baggers/tsconfig": "*",
+    "@fal-works/esbuild-plugin-regexp-externals": "^1.1.0",
     "@remix-run/dev": "^1.7.5",
     "@remix-run/eslint-config": "^1.7.5",
     "@types/react": "^18.0.15",

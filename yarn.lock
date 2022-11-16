@@ -1926,6 +1926,13 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fal-works/esbuild-plugin-regexp-externals@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@fal-works/esbuild-plugin-regexp-externals/-/esbuild-plugin-regexp-externals-1.1.0.tgz#5b2096f4cad990f18251cec473042bdc69e12fe6"
+  integrity sha512-UjUI6Aysmx1hlkcxEuQ7v99SCoH32PV/1T2lb7X+I0mPU88CsZbORK8bNN0ooa7BGyDdniKIi+AiaTS9ijqVsA==
+  dependencies:
+    esbuild "^0.8.39"
+
 "@gar/promisify@^1.0.1":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
@@ -6277,6 +6284,11 @@ esbuild@0.14.51:
     esbuild-windows-32 "0.14.51"
     esbuild-windows-64 "0.14.51"
     esbuild-windows-arm64 "0.14.51"
+
+esbuild@^0.8.39:
+  version "0.8.57"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.57.tgz#a42d02bc2b57c70bcd0ef897fe244766bb6dd926"
+  integrity sha512-j02SFrUwFTRUqiY0Kjplwjm1psuzO1d6AjaXKuOR9hrY0HuPsT6sV42B6myW34h1q4CRy+Y3g4RU/cGJeI/nNA==
 
 escalade@^3.1.1:
   version "3.1.1"

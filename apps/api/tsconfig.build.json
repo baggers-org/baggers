@@ -8,6 +8,10 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "target": "es2015",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~test-sdk": ["tests/test-sdk.ts"]
+    },
     "plugins": [
       {
         "name": "@nestjs/graphql/plugin",

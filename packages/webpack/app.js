@@ -28,7 +28,7 @@ module.exports = {
           options: {
             configFile: path.resolve(
               process.cwd(),
-              'tsconfig.lib.json'
+              'tsconfig.build.json'
             ),
           },
         },

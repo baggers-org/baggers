@@ -10,4 +10,23 @@ module.exports = {
     libraryTarget: 'commonjs',
     path: path.resolve(process.cwd(), 'build'),
   },
+
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /(node_modules)/,
+        use: {
+          // `.swcrc` can be used to configure swc
+          loader: 'ts-loader',
+          options: {
+            configFile: path.resolve(
+              process.cwd(),
+              'tsconfig.lib.json'
+            ),
+          },
+        },
+      },
+    ],
+  },
 };

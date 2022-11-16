@@ -1,9 +1,9 @@
 {
 	"name": "@baggers/sdk",
 	"version": "0.0.0",
-	"main": "build/index.js",
+	"main": "src/index.ts",
 	"scripts": {
-		"build": "graphql-codegen && tsc -p ./tsconfig.lib.json",
+		"build": "graphql-codegen",
 		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
 		"lint": "eslint src",
 		"test": "jest"
