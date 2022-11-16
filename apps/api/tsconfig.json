@@ -2,7 +2,11 @@
   "extends": "@baggers/tsconfig/nest.json",
   "files": ["src/main.ts"],
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~test-sdk": ["tests/test-sdk.ts"]
+    }
   },
   "references": [
     {

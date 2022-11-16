@@ -17,7 +17,7 @@ export function Avatar({
     'dark:hover:text-dark'
   );
 
-  if (loadError) {
+  if (loadError || !src) {
     return (
       <div
         className={clsx(

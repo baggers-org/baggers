@@ -1,11 +1,4 @@
 {
   "root": true,
-  "extends": ["baggers"],
-  "settings": {
-    "import/resolver": {
-      "typescript": {
-        "project": "apps/api/tsconfig.json"
-      }
-    }
-  }
+  "extends": ["baggers"]
 }

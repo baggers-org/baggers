@@ -1,7 +1,5 @@
-import React from 'react';
-
 export type AvatarProps = {
-  src: string;
+  src?: string;
   alt: string;
-  fallbackInitials: React.ReactElement;
+  fallbackInitials: string;
 };
