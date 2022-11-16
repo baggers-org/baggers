@@ -9,7 +9,7 @@ jest.mock('@baggers/env', () => ({ setupEnv: () => ({}) }));
 describe('getTickerSnapshots', () => {
   let mongod: MongoMemoryServer;
   let mockMongoClient: MongoClient;
-  beforeAll(async () => {
+  beforeEach(async () => {
     mongod = await MongoMemoryServer.create({
       instance: {
         port: 8888,
@@ -96,6 +96,10 @@ describe('getTickerSnapshots', () => {
     });
     await getTickerSnapshots(mockMongoClient);
 
+    await new Promise((resolve) =>
+      setTimeout(() => resolve(true), 2000)
+    );
+
     // Or snapshots should not change
     expect(
       await mockMongoClient
@@ -111,7 +115,7 @@ describe('getTickerSnapshots', () => {
     `);
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     console.log('Cleaning up mongo process');
     await mockMongoClient.close();
     await mongod.stop({ doCleanup: true });
