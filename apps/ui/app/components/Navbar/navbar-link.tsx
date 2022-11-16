@@ -13,7 +13,7 @@ export function NavbarLink({ option, active }: NavbarLinkProps) {
     'hover:underline',
     'hover:opacity-100'
   );
-  if (option.additionalOptions) {
+  if (option.additionalOptions || !option.to) {
     return <div className={classes}>{option.label}</div>;
   }
   return (
