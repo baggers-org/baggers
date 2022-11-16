@@ -1,17 +1,19 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
     "types": ["jest", "node"],
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "strict": false,
+    "useUnknownInCatchVariables": false,
+    "paths": {
+      "~/*": ["./src/*"],
+      "~test-sdk": ["tests/test-sdk.ts"]
+    }
   },
   "include": [
-    "jest.config.ts",
     "**/*.test.ts",
     "**/*.spec.ts",
     "**/*.d.ts",
+    "tests/global.d.ts",
     "tests/**/*.ts",
     "tests/suites/**/.ts"
   ]

@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PolygonService } from '@api/polygon/polygon.service';
+import { PolygonService } from '~/polygon/polygon.service';
 import { ChartPriceRangeOptions } from './dto/chart-price-range-options.input';
 import { Aggregate } from './entities/aggregate.entity';
 
+// TODO: change to MarketDataAdapter and use
+// DI to inject PolygonAdapter globallt
 @Injectable()
 export class ChartsService {
   constructor(private polygon: PolygonService) {}
@@ -17,6 +19,8 @@ export class ChartsService {
       options.from,
       options.to
     );
+
+    if (!results) throw Error('Error fetching chart');
 
     return results;
   }

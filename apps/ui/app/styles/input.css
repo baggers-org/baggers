@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .border-search-light {
+    padding: 0.5rem;
+    border: double 1px transparent;
+    border-radius: 6px;
+    background-image: linear-gradient(white, white),
+      linear-gradient(to right, orange, yellow);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .border-search-dark {
+    padding: 0.5rem;
+    border: double 1px transparent;
+    border-radius: 45px;
+    background-image: linear-gradient(
+        rgb(39, 46, 72),
+        rgb(45, 42, 63)
+      ),
+      linear-gradient(rgba(36, 97, 247, 1), rgba(154, 106, 255, 1));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .border-search-dark:focus {
+    border: double 3px transparent;
+  }
+}

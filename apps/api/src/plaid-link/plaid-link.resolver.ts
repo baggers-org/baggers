@@ -1,5 +1,5 @@
-import { Auth0AccessTokenPayload, CurrentUser } from '@api/auth';
-import { PlaidClientService } from '@api/plaid-client';
+import { Auth0AccessTokenPayload, CurrentUser } from '~/auth';
+import { PlaidClientService } from '~/plaid-client';
 import { Query, Resolver } from '@nestjs/graphql';
 
 @Resolver()

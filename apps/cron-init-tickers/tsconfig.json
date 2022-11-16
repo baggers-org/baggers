@@ -1,7 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "files": [],
-  "include": [],
+  "extends": "@baggers/tsconfig/base.json",
   "references": [
     {
       "path": "./tsconfig.app.json"

@@ -5,7 +5,7 @@ import { TickerType } from '../enums/ticker-type.enum';
 @ObjectType()
 export class TickerDetails {
   @Prop()
-  active: boolean;
+  active?: boolean;
   @Prop()
   iconUrl?: string;
   @Prop()
@@ -21,11 +21,11 @@ export class TickerDetails {
   @Prop()
   listDate?: string;
   @Prop()
-  market: string;
+  market?: string;
   @Prop()
   marketCap?: number;
   @Prop()
-  name: string;
+  name?: string;
   @Prop()
   phoneNumber?: string;
   @Prop()

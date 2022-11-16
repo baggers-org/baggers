@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { InvestmentTransactionSubtype, InvestmentTransactionType } from 'plaid';
+import {
+  InvestmentTransactionSubtype,
+  InvestmentTransactionType,
+} from 'plaid';
 import { Transaction, Holding, Portfolio } from '../entities';
 import { HoldingsUtilService } from './holdings-util.service';
 
@@ -7,7 +10,10 @@ import { HoldingsUtilService } from './holdings-util.service';
 export class TransactionsUtilService {
   constructor(private holdingsUtil: HoldingsUtilService) {}
 
-  applyTransaction(portfolio: Portfolio, transaction: Transaction): Portfolio {
+  applyTransaction(
+    portfolio: Portfolio,
+    transaction: Transaction
+  ): Portfolio {
     switch (transaction.type) {
       case InvestmentTransactionType.Buy: {
         return this.applyBuy(portfolio, transaction);
@@ -17,6 +23,9 @@ export class TransactionsUtilService {
       }
       case InvestmentTransactionType.Cash: {
         return this.applyCash(portfolio, transaction);
+      }
+      default: {
+        return portfolio;
       }
     }
   }
@@ -36,7 +45,10 @@ export class TransactionsUtilService {
   //=====
   // Apply specific transaction functions
 
-  applyBuy(portfolio: Portfolio, transaction: Transaction): Portfolio {
+  applyBuy(
+    portfolio: Portfolio,
+    transaction: Transaction
+  ): Portfolio {
     let { holdings } = portfolio;
     const { subType, amount, security } = transaction;
     // We ignore transactions that we have not matched
@@ -52,7 +64,10 @@ export class TransactionsUtilService {
           holdings,
           newHolding,
           (holding) => {
-            return this.holdingsUtil.combineHoldings(newHolding, holding);
+            return this.holdingsUtil.combineHoldings(
+              newHolding,
+              holding
+            );
           }
         );
         break;
@@ -73,7 +88,10 @@ export class TransactionsUtilService {
     };
   }
 
-  applySell(portfolio: Portfolio, transaction: Transaction): Portfolio {
+  applySell(
+    portfolio: Portfolio,
+    transaction: Transaction
+  ): Portfolio {
     let { holdings } = portfolio;
     const { subType, security } = transaction;
 
@@ -85,20 +103,22 @@ export class TransactionsUtilService {
 
     switch (subType) {
       case InvestmentTransactionSubtype.Sell: {
-        holdings = this.holdingsUtil.updateHolding(
-          holdings,
-          Holding.fromTransaction(transaction),
-          (holding) => {
-            const newQuantity = holding.quantity + transaction.quantity;
-            // Sell will need to be negated
-            newCash = -transaction.amount;
-            return {
-              ...holding,
-              quantity: newQuantity,
-              costBasis: holding.averagePrice * newQuantity,
-            };
-          }
-        );
+        holdings =
+          this.holdingsUtil.updateHolding(
+            holdings,
+            Holding.fromTransaction(transaction),
+            (holding) => {
+              const newQuantity =
+                holding.quantity + transaction.quantity;
+              // Sell will need to be negated
+              newCash = -transaction.amount;
+              return {
+                ...holding,
+                quantity: newQuantity,
+                costBasis: holding.averagePrice * newQuantity,
+              };
+            }
+          ) || holdings;
 
         break;
       }
@@ -115,7 +135,10 @@ export class TransactionsUtilService {
     };
   }
 
-  applyCash(portfolio: Portfolio, transaction: Transaction): Portfolio {
+  applyCash(
+    portfolio: Portfolio,
+    transaction: Transaction
+  ): Portfolio {
     const { amount } = transaction;
 
     const holdings = this.holdingsUtil.modifyCashLevels(

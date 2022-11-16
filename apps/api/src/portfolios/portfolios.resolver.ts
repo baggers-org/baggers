@@ -8,17 +8,13 @@ import {
 
 import mongoose from 'mongoose';
 import { UpdatePortfolioInput } from './dto/update-portfolio.input';
-import {
-  Auth0AccessTokenPayload,
-  CurrentUser,
-  Public,
-} from '@api/auth';
+import { Auth0AccessTokenPayload, CurrentUser, Public } from '~/auth';
 import {
   RecordId,
   ObjectIdScalar,
   RemoveMultipleResponse,
   ObjectId,
-} from '@api/shared';
+} from '~/shared';
 import { AddHoldingInput } from './dto/add-holding';
 import { HoldingsService } from './services/holdings.service';
 

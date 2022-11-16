@@ -1,77 +1,111 @@
-import i18next from 'i18next';
-import { renderToString } from 'react-dom/server';
-import { initReactI18next } from 'react-i18next';
-import { CacheProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
-import createEmotionServer from '@emotion/server/create-instance';
-
-import {
-  createEmotionCache,
-  GlobalStyles,
-  Mode,
-  ThemeProvider,
-} from '~/styles';
+import { PassThrough } from 'stream';
+import type { EntryContext } from '@remix-run/node';
+import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
-import { EntryContext } from '@remix-run/server-runtime';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import isbot from 'isbot';
+import { renderToPipeableStream } from 'react-dom/server';
 
-export default async function handleRequest(
+const ABORT_DELAY = 5000;
+
+export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
   remixContext: EntryContext
 ) {
-  await i18next.use(initReactI18next).init({
-    supportedLngs: [`en`, `es`],
-    defaultNS: `common`,
-    fallbackLng: `en`,
-    react: { useSuspense: false },
+  return isbot(request.headers.get('user-agent'))
+    ? handleBotRequest(
+        request,
+        responseStatusCode,
+        responseHeaders,
+        remixContext
+      )
+    : handleBrowserRequest(
+        request,
+        responseStatusCode,
+        responseHeaders,
+        remixContext
+      );
+}
+
+function handleBotRequest(
+  request: Request,
+  responseStatusCode: number,
+  responseHeaders: Headers,
+  remixContext: EntryContext
+) {
+  return new Promise((resolve, reject) => {
+    let didError = false;
+
+    const { pipe, abort } = renderToPipeableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        onAllReady() {
+          const body = new PassThrough();
+
+          responseHeaders.set('Content-Type', 'text/html');
+
+          resolve(
+            new Response(body, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            })
+          );
+
+          pipe(body);
+        },
+        onShellError(error: unknown) {
+          reject(error);
+        },
+        onError(error: unknown) {
+          didError = true;
+
+          console.error(error);
+        },
+      }
+    );
+
+    setTimeout(abort, ABORT_DELAY);
   });
-  const cache = createEmotionCache();
-  const { extractCriticalToChunks } = createEmotionServer(cache);
+}
 
-  const theme = request.headers
-    .get(`cookie`)
-    ?.match(/baggers_theme=(\w*)/)?.[1] as Mode;
+function handleBrowserRequest(
+  request: Request,
+  responseStatusCode: number,
+  responseHeaders: Headers,
+  remixContext: EntryContext
+) {
+  return new Promise((resolve, reject) => {
+    let didError = false;
 
-  const MuiRemixServer = () => (
-    <CacheProvider value={cache}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <ThemeProvider defaultMode={theme}>
-          <GlobalStyles />
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline />
-          <RemixServer context={remixContext} url={request.url} />
-        </ThemeProvider>
-      </LocalizationProvider>
-    </CacheProvider>
-  );
+    const { pipe, abort } = renderToPipeableStream(
+      <RemixServer context={remixContext} url={request.url} />,
+      {
+        onShellReady() {
+          const body = new PassThrough();
 
-  // Render the component to a string.
-  const html = renderToString(<MuiRemixServer />);
+          responseHeaders.set('Content-Type', 'text/html');
 
-  // Grab the CSS from emotion
-  const { styles } = extractCriticalToChunks(html);
+          resolve(
+            new Response(body, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            })
+          );
 
-  let stylesHTML = ``;
+          pipe(body);
+        },
+        onShellError(err: unknown) {
+          reject(err);
+        },
+        onError(error: unknown) {
+          didError = true;
 
-  styles.forEach(({ key, ids, css }) => {
-    const emotionKey = `${key} ${ids.join(` `)}`;
-    const newStyleTag = `<style data-emotion="${emotionKey}">${css}</style>`;
-    stylesHTML = `${stylesHTML}${newStyleTag}`;
-  });
+          console.error(error);
+        },
+      }
+    );
 
-  // Add the emotion style tags after the insertion point meta tag
-  const markup = html.replace(
-    /<meta(\s)*name="emotion-insertion-point"(\s)*content="emotion-insertion-point"(\s)*\/>/,
-    `<meta name="emotion-insertion-point" content="emotion-insertion-point"/>${stylesHTML}`
-  );
-
-  responseHeaders.set(`Content-Type`, `text/html`);
-
-  return new Response(`<!DOCTYPE html>${markup}`, {
-    status: responseStatusCode,
-    headers: responseHeaders,
+    setTimeout(abort, ABORT_DELAY);
   });
 }

@@ -2,11 +2,18 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
+    "webpack": true,
     "plugins": [
       {
         "name": "@nestjs/graphql",
         "options": {
-          "introspectComments": true
+          "introspectComments": true,
+          "typeFileNameSuffix": [
+            ".input.ts",
+            ".args.ts",
+            ".entity.ts",
+            ".model.ts"
+          ]
         }
       }
     ]

@@ -1,17 +1,15 @@
-import * as joi from 'joi';
+import { setupEnv } from '@baggers/env';
 
-export const env = {
-  PLAID_CLIENT_ID: joi.required(),
-  PLAID_CLIENT_SECRET: joi.required(),
-  PLAID_ENV: joi.required(),
-  API_URL: joi.required(),
-  ATLAS_CLUSTER_URI: joi.required(),
-  SESSION_SECRET: joi.required(),
-  AUTH0_DOMAIN: joi.required(),
-  POLYGON_REST_URI: joi.required(),
-  POLYGON_API_KEY: joi.required(),
-  NODE_ENV: joi.required().valid('development', 'production', 'test'),
-  OPEN_FIGI_KEY: joi.required(),
-};
-
-export const EnvironmentSchema = joi.object(env);
+export const env = setupEnv([
+  'PLAID_CLIENT_ID',
+  'PLAID_CLIENT_SECRET',
+  'PLAID_ENV',
+  'API_URL',
+  'ATLAS_CLUSTER_URI',
+  'SESSION_SECRET',
+  'AUTH0_DOMAIN',
+  'POLYGON_REST_URI',
+  'POLYGON_API_KEY',
+  'NODE_ENV',
+  'OPEN_FIGI_KEY',
+]);

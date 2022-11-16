@@ -4,9 +4,9 @@ import {
   ImportedDBLTX,
   ImportedSBSI,
   SBSI,
-} from '@api/securities';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
-import { ObjectId } from '@api/shared';
+} from '~/securities';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { ObjectId } from '~/shared';
 import { Holding } from '../entities';
 import { HoldingSource, HoldingDirection } from '../enums';
 
@@ -16,6 +16,8 @@ const TestCashHolding: Holding = {
   source: HoldingSource.direct,
   assetClass: AssetClass.cash,
   currency: 'USD',
+  averagePrice: 1,
+  costBasis: 1239.32,
 };
 export const Holdings1: Holding[] = [
   // Market value 1239.32
@@ -27,7 +29,6 @@ export const Holdings1: Holding[] = [
     averagePrice: 383.9,
     costBasis: 3839,
     currency: 'USD',
-    brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
     assetClass: AssetClass.stock,
@@ -41,7 +42,6 @@ export const Holdings1: Holding[] = [
     averagePrice: 4794.2,
     costBasis: 47942,
     currency: 'USD',
-    brokerFees: 0,
     direction: HoldingDirection.long,
     quantity: 10,
     assetClass: AssetClass.stock,

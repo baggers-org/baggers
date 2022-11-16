@@ -1,4 +1,4 @@
-import { User1 } from '@api/users';
+import { User1 } from '~/users';
 import { TestSdk, User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosRemoveOneTests = () =>
@@ -22,20 +22,20 @@ export const portfoliosRemoveOneTests = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-                  Array [
-                    Object {
-                      "extensions": Object {
-                        "code": "404",
-                        "response": Object {
-                          "error": "Not Found",
-                          "message": "Could not find a portfolio with this id",
-                          "statusCode": 404,
-                        },
-                      },
-                      "message": "Could not find a portfolio with this id",
-                    },
-                  ]
-              `);
+          [
+            {
+              "extensions": {
+                "code": "404",
+                "response": {
+                  "error": "Not Found",
+                  "message": "Could not find a portfolio with this id",
+                  "statusCode": 404,
+                },
+              },
+              "message": "Could not find a portfolio with this id",
+            },
+          ]
+        `);
       }
     });
 
@@ -49,11 +49,11 @@ export const portfoliosRemoveOneTests = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "extensions": Object {
+          [
+            {
+              "extensions": {
                 "code": "404",
-                "response": Object {
+                "response": {
                   "error": "Not Found",
                   "message": "Could not find a portfolio with this id",
                   "statusCode": 404,

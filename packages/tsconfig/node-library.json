@@ -1,0 +1,15 @@
+{
+	"extends": "@baggers/tsconfig/base.json",
+	"include": [
+		"src/**.ts"
+	],
+	"compilerOptions": {
+		"declaration": true,
+		"outDir": "build",
+		"module": "commonjs",
+		"noEmit": false,
+		"types": [
+			"node"
+		]
+	}
+}

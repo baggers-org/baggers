@@ -3,8 +3,8 @@ import { CreatePlaidItemInput } from './dto/create-plaid-item.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { PlaidItem, PlaidItemDocument } from './entities';
 import { Model } from 'mongoose';
-import { PlaidClientService } from '@api/plaid-client';
-import { Auth0AccessTokenPayload } from '@api/auth';
+import { PlaidClientService } from '~/plaid-client';
+import { Auth0AccessTokenPayload } from '~/auth';
 
 @Injectable()
 export class PlaidItemsService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Security } from '@api/securities';
-import { AssetClass } from '@api/securities/enums/asset-class.enum';
-import { ObjectId } from '@api/shared';
+import { Security } from '~/securities';
+import { AssetClass } from '~/securities/enums/asset-class.enum';
+import { ObjectId } from '~/shared';
 import { Holding, PortfolioDocument } from '../entities';
 import { HoldingDirection, HoldingSource } from '../enums';
 
@@ -13,6 +13,8 @@ export class HoldingsUtilService {
       currency,
       quantity: amount,
       assetClass: AssetClass.cash,
+      averagePrice: 1,
+      costBasis: amount,
       source: HoldingSource.transactions,
       direction: HoldingDirection.long,
     };
@@ -60,7 +62,7 @@ export class HoldingsUtilService {
   findHolding(
     holdingsToSearch: Holding[],
     holdingToFind: Holding
-  ): Holding {
+  ): Holding | undefined {
     const holdingHash = this.hashHolding(holdingToFind);
     return holdingsToSearch.find(
       (h) => this.hashHolding(h) === holdingHash
@@ -82,16 +84,26 @@ export class HoldingsUtilService {
   }
 
   hashHolding(holding: Holding) {
-    let securityId: ObjectId | string;
+    let securityId: ObjectId | string | null = null;
     const { security, importedSecurity } = holding;
+
+    if (holding.assetClass === AssetClass.cash) {
+      return `${holding.assetClass}${holding.currency}`;
+    }
+
     if (security) {
       if (security instanceof Security) {
-        securityId = security._id;
+        if (!security._id) securityId = security._id;
       } else {
         securityId = security;
       }
     } else if (importedSecurity) {
       securityId = importedSecurity.security_id;
+    }
+
+    if (!securityId) {
+      console.error('could not hash holding', holding);
+      throw new Error('Hashing error');
     }
     return `${securityId}${holding.direction}${holding.assetClass}${holding.currency}`;
   }
@@ -130,7 +142,7 @@ export class HoldingsUtilService {
   getMergedHoldings(holdings: Holding[]) {
     const mergedHoldings: Holding[] = [];
 
-    const seen = {};
+    const seen: Record<string, Holding> = {};
 
     const newHoldings = holdings.filter((holding, index) => {
       const holdingHash = this.hashHolding(holding);
@@ -174,7 +186,7 @@ export class HoldingsUtilService {
     holdings: Holding[] = [],
     holdingToUpsert: Holding,
     updateFn: (holding: Holding) => Holding
-  ): Holding[] {
+  ): Holding[] | undefined {
     const existingIndex = this.findHoldingIndex(
       holdings,
       holdingToUpsert

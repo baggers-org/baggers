@@ -1,0 +1,20 @@
+{
+	"name": "cron-init-tickers",
+	"version": "0.0.0",
+	"scripts": {
+		"build": "webpack",
+		"dev": "webpack -w",
+		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-init-tickers:latest"
+	},
+	"dependencies": {
+		"@baggers/graphql-types": "*",
+		"@baggers/mongo-client": "*",
+		"@baggers/polygon-adapter": "*",
+		"mongodb": "^4.9.0"
+	},
+	"devDependencies": {
+		"@baggers/tsconfig": "*",
+		"@baggers/webpack": "*",
+		"eslint-config-baggers": "*"
+	}
+}

@@ -1,10 +1,16 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "files": [],
-  "include": [],
+  "extends": "@baggers/tsconfig/nest.json",
+  "files": ["src/main.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~test-sdk": ["tests/test-sdk.ts"]
+    }
+  },
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.build.json"
     },
     {
       "path": "./tsconfig.spec.json"

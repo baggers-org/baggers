@@ -1,0 +1,3 @@
+{
+  "extends": "@baggers/tsconfig/node-library.json"
+}

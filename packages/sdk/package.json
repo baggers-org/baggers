@@ -1,0 +1,17 @@
+{
+	"name": "@baggers/sdk",
+	"version": "0.0.0",
+	"main": "src/index.ts",
+	"scripts": {
+		"build": "graphql-codegen",
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	},
+	"dependencies": {
+		"graphql-request": "^4.0.0",
+		"graphql": "^16.5.0",
+		"@baggers/tsconfig": "*",
+		"@graphql-codegen/typescript-graphql-request": "^4.5.8"
+	}
+}

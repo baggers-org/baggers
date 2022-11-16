@@ -1,5 +1,5 @@
-import { Auth0AccessTokenPayload } from '@api/auth';
-import { ObjectId } from '@api/shared';
+import { Auth0AccessTokenPayload } from '~/auth';
+import { ObjectId } from '~/shared';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -7,9 +7,9 @@ import { AddHoldingInput } from '../dto/add-holding';
 import { Holding, Portfolio, PortfolioDocument } from '../entities';
 import { HoldingDirection, HoldingSource } from '../enums';
 import { HoldingsUtilService } from './holdings-util.service';
-import { ownerAnd } from '@api/shared/util/ownerAnd';
+import { ownerAnd } from '~/shared/util/ownerAnd';
 import { AddTransactionInput } from '../dto/add-transaction.input';
-import { SecuritiesService } from '@api/securities';
+import { SecuritiesService } from '~/securities';
 import {
   InvestmentTransactionSubtype,
   InvestmentTransactionType,
@@ -34,8 +34,7 @@ export class HoldingsService {
     const newHolding: Holding = {
       ...input,
       _id: new ObjectId(),
-      costBasis:
-        input.averagePrice * input.quantity + input.brokerFees,
+      costBasis: input.averagePrice * input.quantity,
       source: HoldingSource.direct,
     };
 
@@ -52,8 +51,9 @@ export class HoldingsService {
       quantity: input.quantity,
       security: input.security,
       assetClass: input.assetClass,
+      // TODO: fees
+      fees: 0,
       currency: input.currency,
-      fees: input.brokerFees || 0,
       date: input.transactionDate,
       name: `BUY ${security.name}`,
       type: InvestmentTransactionType.Buy,

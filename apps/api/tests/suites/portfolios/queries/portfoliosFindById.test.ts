@@ -2,8 +2,8 @@ import {
   ImportedPortfolio,
   Portfolio1,
   PublicPortfolio,
-} from '@api/portfolios';
-import { User1, User2 } from '@api/users';
+} from '~/portfolios';
+import { User1, User2 } from '~/users';
 import { TestSdk, User1Sdk } from '../../../test-sdk';
 
 export const portfoliosFindByIdTests = () =>
@@ -25,21 +25,21 @@ export const portfoliosFindByIdTests = () =>
         // Some weird bug started happening with only this date, no idea why - bizarre
         updatedAt: undefined,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "62d2cd45c63873e235c99532",
           "cash": 1239.32,
           "createdAt": "2001-01-01T00:00:00.000Z",
           "description": "",
           "holdings": undefined,
           "name": "Wells Fargo - Plaid isa",
-          "owner": Object {
+          "owner": {
             "_id": "google-oauth1-233838",
             "createdAt": "2001-01-01T00:00:00.000Z",
             "displayName": "Warren Buffet",
-            "emails": Array [
+            "emails": [
               "wbuffet666@berkshire.com",
             ],
-            "photos": Array [
+            "photos": [
               "https://link.come/warrens_face.png",
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
@@ -66,21 +66,20 @@ export const portfoliosFindByIdTests = () =>
         ...portfolio.holdings[0],
         security: null,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "62d2cd45c63873e235c99531",
           "assetClass": "cash",
-          "averagePrice": null,
-          "brokerFees": null,
-          "costBasis": null,
+          "averagePrice": 1,
+          "costBasis": 1239.32,
           "currency": "USD",
-          "dailyProfitLossUsd": null,
+          "dailyProfitLossUsd": 0,
           "direction": null,
           "exposure": 41.52771820716276,
           "importedSecurity": null,
           "institutionValue": null,
           "marketValue": 1239.32,
-          "profitLossPercent": null,
-          "profitLossUsd": null,
+          "profitLossPercent": 0,
+          "profitLossUsd": 0,
           "quantity": 1239.32,
           "security": null,
           "source": "direct",
@@ -88,14 +87,13 @@ export const portfoliosFindByIdTests = () =>
       `);
       expect({ ...portfolio.holdings[1], security: null })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "62d2cd45c63873e235c99532",
           "assetClass": "stock",
           "averagePrice": 383.9,
-          "brokerFees": 0,
           "costBasis": 3839,
           "currency": "USD",
-          "dailyProfitLossUsd": null,
+          "dailyProfitLossUsd": 0,
           "direction": "long",
           "exposure": 40.210165129744794,
           "importedSecurity": null,
@@ -111,11 +109,10 @@ export const portfoliosFindByIdTests = () =>
 
       expect({ ...portfolio.holdings[2], security: null })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "62d2cd45c63873e235c99533",
           "assetClass": "stock",
           "averagePrice": 4794.2,
-          "brokerFees": 0,
           "costBasis": 47942,
           "currency": "USD",
           "dailyProfitLossUsd": -14.799999999999969,
@@ -136,7 +133,7 @@ export const portfoliosFindByIdTests = () =>
         ...portfolio.holdings[3],
         security: null,
       }).toMatchInlineSnapshot(`
-        Object {
+        {
           "security": null,
         }
       `);
@@ -163,11 +160,11 @@ export const portfoliosFindByIdTests = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "extensions": Object {
+          [
+            {
+              "extensions": {
                 "code": "404",
-                "response": Object {
+                "response": {
                   "error": "Not Found",
                   "message": "Could not find a portfolio with this id",
                   "statusCode": 404,
@@ -188,12 +185,12 @@ export const portfoliosFindByIdTests = () =>
         _id: PublicPortfolio._id,
       });
       expect(portfoliosFindById.owner).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "fb-something123",
           "createdAt": "2001-01-01T00:00:00.000Z",
           "displayName": "Daniel Cooke",
           "emails": null,
-          "photos": Array [
+          "photos": [
             "https://link.come/dans_face.png",
           ],
           "updatedAt": "2001-01-01T00:00:00.000Z",
@@ -222,21 +219,20 @@ export const portfoliosFindByIdTests = () =>
         // DBLTX
         expect(unmatchedHoldings).toHaveLength(2);
         expect(unmatchedHoldings[0]).toMatchInlineSnapshot(`
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99531",
             "assetClass": "cash",
-            "averagePrice": null,
-            "brokerFees": null,
-            "costBasis": null,
+            "averagePrice": 1,
+            "costBasis": 1239.32,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "direction": null,
             "exposure": 22.975813956937493,
             "importedSecurity": null,
             "institutionValue": null,
             "marketValue": 1239.32,
-            "profitLossPercent": null,
-            "profitLossUsd": null,
+            "profitLossPercent": 0,
+            "profitLossUsd": 0,
             "quantity": 1239.32,
             "security": null,
             "source": "direct",
@@ -253,14 +249,13 @@ export const portfoliosFindByIdTests = () =>
           ...matchedHoldings[0],
           security: null,
         }).toMatchInlineSnapshot(`
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99570",
             "assetClass": "stock",
             "averagePrice": 1000,
-            "brokerFees": null,
             "costBasis": 42,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "direction": null,
             "exposure": 44.49371711636219,
             "importedSecurity": null,
@@ -279,17 +274,16 @@ export const portfoliosFindByIdTests = () =>
           ...matchedHoldings[1],
           security: null,
         }).toMatchInlineSnapshot(`
-          Object {
+          {
             "_id": "62d2cd45c63873e235c99569",
             "assetClass": "stock",
             "averagePrice": 409,
-            "brokerFees": null,
             "costBasis": 49,
             "currency": "USD",
-            "dailyProfitLossUsd": null,
+            "dailyProfitLossUsd": 0,
             "direction": null,
             "exposure": 30.598700041898248,
-            "importedSecurity": Object {
+            "importedSecurity": {
               "assetClass": "stock",
               "currency": "USD",
               "latestPrice": 34.73,

@@ -1,0 +1,37 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "module": "commonjs",
+    "types": ["node"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "target": "es2015",
+    "paths": {
+      "~/*": ["./src/*"],
+      "~test-sdk": ["tests/test-sdk.ts"]
+    },
+    "plugins": [
+      {
+        "name": "@nestjs/graphql/plugin",
+        "options": {
+          "introspectComments": true,
+          "typeFileNameSuffix": [
+            ".input.ts",
+            ".args.ts",
+            ".entity.ts",
+            ".model.ts"
+          ]
+        }
+      }
+    ]
+  },
+  "exclude": [
+    "../../packages/jest-preset/jest-preset.js",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "tests"
+  ],
+  "include": ["**/*.ts", "../../packages/jest-preset/jest-preset.js"]
+}

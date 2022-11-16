@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import * as jwks from 'jwks-rsa';
 import { Auth0AccessTokenPayload } from './types';
-import { EnvService } from '@api/env';
+import { env } from '~/env/env.schema';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -11,10 +11,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   private audience: string;
 
-  constructor(private envService: EnvService) {
-    const domain = envService.get('AUTH0_DOMAIN');
+  constructor() {
+    const domain = env.AUTH0_DOMAIN;
 
-    const apiUrl = envService.get('API_URL');
+    const apiUrl = env.API_URL;
     const audience = `${apiUrl}/graphql`;
     const issuer = `https://${domain}/`;
 

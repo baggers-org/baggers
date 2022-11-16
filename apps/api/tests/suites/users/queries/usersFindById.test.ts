@@ -1,4 +1,4 @@
-import { User1, User2 } from '@api/users';
+import { User1, User2 } from '~/users';
 import { TestSdk } from '../../../test-sdk';
 
 export const usersFindByIdTest = () =>
@@ -11,14 +11,14 @@ export const usersFindByIdTest = () =>
       });
 
       expect(usersFindById).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "google-oauth1-233838",
           "createdAt": "2001-01-01T00:00:00.000Z",
           "displayName": "Warren Buffet",
-          "emails": Array [
+          "emails": [
             "wbuffet666@berkshire.com",
           ],
-          "photos": Array [
+          "photos": [
             "https://link.come/warrens_face.png",
           ],
           "updatedAt": "2001-01-01T00:00:00.000Z",
@@ -33,12 +33,12 @@ export const usersFindByIdTest = () =>
         _id: User2._id,
       });
       expect(usersFindById).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "fb-something123",
           "createdAt": "2001-01-01T00:00:00.000Z",
           "displayName": "Daniel Cooke",
           "emails": null,
-          "photos": Array [
+          "photos": [
             "https://link.come/dans_face.png",
           ],
           "updatedAt": "2001-01-01T00:00:00.000Z",
@@ -53,14 +53,14 @@ export const usersFindByIdTest = () =>
         _id: User2._id,
       });
       expect(usersFindById).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "fb-something123",
           "createdAt": "2001-01-01T00:00:00.000Z",
           "displayName": "Daniel Cooke",
-          "emails": Array [
+          "emails": [
             "dcooke123@gmail.com",
           ],
-          "photos": Array [
+          "photos": [
             "https://link.come/dans_face.png",
           ],
           "updatedAt": "2001-01-01T00:00:00.000Z",

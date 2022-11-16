@@ -1,5 +1,5 @@
-import { PartialTokenPayload } from '@api/auth';
-import { AdminUser, User1, User2 } from '@api/users';
+import { PartialTokenPayload } from '~/auth';
+import { AdminUser, User1, User2 } from '~/users';
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-host';
 import { GqlExecutionContext } from '@nestjs/graphql';

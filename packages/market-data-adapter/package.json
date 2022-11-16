@@ -1,0 +1,13 @@
+{
+	"name": "@baggers/market-data-adapter",
+	"version": "0.0.0",
+	"main": "src/index.ts",
+	"dependencies": {
+		"@baggers/graphql-types": "*"
+	},
+	"scripts": {
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	}
+}

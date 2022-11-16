@@ -1,9 +1,8 @@
-import { EnvModule } from '@api/env';
 import { Module } from '@nestjs/common';
 import { PlaidClientService } from './plaid-client.service';
 
 @Module({
-  imports: [EnvModule],
+  imports: [],
   providers: [PlaidClientService],
   exports: [PlaidClientService],
 })

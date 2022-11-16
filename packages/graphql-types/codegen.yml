@@ -1,0 +1,8 @@
+overwrite: true
+schema: '../../apps/api/schema.gql'
+documents: 'src/graphql.document.gql'
+generates:
+  src/generated/index.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'

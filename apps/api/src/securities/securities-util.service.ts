@@ -3,7 +3,7 @@ import { FilterQuery } from 'mongoose';
 import {
   OpenFigiMappingResponse,
   OpenFigiService,
-} from '@api/open-figi';
+} from '~/open-figi';
 import { ImportedSecurity, SecurityDocument } from './entities';
 import { SecuritiesService } from './securities.service';
 import { SecurityMap } from './types';
@@ -42,7 +42,7 @@ export class SecuritiesUtilService {
 
     const lookupMap: Map<
       ImportedSecurity,
-      { figi?: string; symbol?: string }
+      { figi?: string; symbol: string | null }
     > = new Map(
       uniqImported.map((security, index) => [
         security,
@@ -84,12 +84,13 @@ export class SecuritiesUtilService {
     return new Map(
       uniqImported.map((imported) => {
         // Use the lookup map to work backwards and link up the securities
-        const { figi, symbol } = lookupMap.get(imported);
+        const sec = lookupMap.get(imported);
         return [
           imported.security_id,
           matchedSecurities.find(
             (security) =>
-              security.figi === figi || security._id === symbol
+              security.figi === sec?.figi ||
+              security._id === sec?.symbol
           ),
         ];
       })

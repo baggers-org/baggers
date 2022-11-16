@@ -4,10 +4,12 @@ import { getTickerSnapshots } from '../../cron-ticker-snapshots/src/get-ticker-s
 import { mockPolygonStocksClientMethod } from './util';
 import { AssetClass, Security } from '@baggers/graphql-types';
 
+jest.mock('@baggers/env', () => ({ setupEnv: () => ({}) }));
+
 describe('getTickerSnapshots', () => {
   let mongod: MongoMemoryServer;
   let mockMongoClient: MongoClient;
-  beforeAll(async () => {
+  beforeEach(async () => {
     mongod = await MongoMemoryServer.create({
       instance: {
         port: 8888,
@@ -53,8 +55,8 @@ describe('getTickerSnapshots', () => {
         .find()
         .toArray()
     ).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "_id": "TSLA",
           "assetClass": "stock",
           "latestPrice": 100,
@@ -94,6 +96,10 @@ describe('getTickerSnapshots', () => {
     });
     await getTickerSnapshots(mockMongoClient);
 
+    await new Promise((resolve) =>
+      setTimeout(() => resolve(true), 2000)
+    );
+
     // Or snapshots should not change
     expect(
       await mockMongoClient
@@ -101,7 +107,7 @@ describe('getTickerSnapshots', () => {
         .collection('securities')
         .findOne({ _id: 'ONDS' })
     ).toMatchInlineSnapshot(`
-      Object {
+      {
         "_id": "ONDS",
         "assetClass": "stock",
         "latestPrice": 666,
@@ -109,7 +115,7 @@ describe('getTickerSnapshots', () => {
     `);
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     console.log('Cleaning up mongo process');
     await mockMongoClient.close();
     await mongod.stop({ doCleanup: true });

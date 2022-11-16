@@ -1,4 +1,4 @@
-import { Portfolio1 } from '@api/portfolios';
+import { Portfolio1 } from '~/portfolios';
 import { User1Sdk, User2Sdk } from '~test-sdk';
 
 export const portfoliosUpdateOneTests = () =>
@@ -22,7 +22,7 @@ export const portfoliosUpdateOneTests = () =>
 
       expect({ ...portfoliosUpdateOne, _id: undefined })
         .toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": undefined,
           "createdAt": "2022-01-17T00:00:00.000Z",
           "description": "Description",
@@ -82,11 +82,11 @@ export const portfoliosUpdateOneTests = () =>
         });
       } catch (e) {
         expect(e.response.errors).toMatchInlineSnapshot(`
-          Array [
-            Object {
-              "extensions": Object {
+          [
+            {
+              "extensions": {
                 "code": "404",
-                "response": Object {
+                "response": {
                   "error": "Not Found",
                   "message": "Could not find a portfolio with this id",
                   "statusCode": 404,

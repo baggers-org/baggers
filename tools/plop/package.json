@@ -1,0 +1,10 @@
+{
+	"name": "@baggers/plop",
+	"version": "0.0.0",
+	"scripts": {
+		"generate": "plop"
+	},
+	"devDependencies": {
+		"plop": "^3.1.1"
+	}
+}

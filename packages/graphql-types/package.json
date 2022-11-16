@@ -1,0 +1,16 @@
+{
+	"name": "@baggers/graphql-types",
+	"version": "0.0.0",
+	"main": "src/index.ts",
+	"scripts": {
+		"prebuild": "node scripts/mergeGraphQLDocuments.js",
+		"build": "graphql-codegen"
+	},
+	"dependencies": {
+		"@baggers/tsconfig": "*",
+		"graphql": "^16.5.0",
+		"@graphql-codegen/cli": "^2.13.11",
+		"@graphql-codegen/typescript": "^2.8.1",
+		"@graphql-codegen/typescript-operations": "^2.5.6"
+	}
+}

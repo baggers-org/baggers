@@ -1,7 +1,51 @@
 {
-	"name": "@baggers/ui",
-	"private": true,
-	"description": "",
-	"license": "",
-	"sideEffects": false
+  "name": "ui",
+  "private": true,
+  "version": "0.0.0",
+  "sideEffects": false,
+  "scripts": {
+    "lint": "eslint app",
+    "build": "npm run build:css && NODE_OPTIONS='-r ./esbuild-overrides' remix build",
+    "build:css": "tailwindcss -m -i app/styles/input.css -o app/styles/app.css",
+    "dev": "concurrently \"npm run dev:css\" \"NODE_OPTIONS='-r ./esbuild-overrides' remix dev\"",
+    "deploy": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui",
+    "dev:css": "tailwindcss -w -i app/styles/input.css -o app/styles/app.css",
+    "start": "remix-serve build",
+    "docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/ui:latest",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@baggers/graphql-types": "*",
+    "@baggers/remix-auth0": "*",
+    "@baggers/sdk": "*",
+    "@baggers/tailwind": "*",
+    "@remix-run/node": "^1.7.5",
+    "@remix-run/react": "^1.7.5",
+    "@remix-run/serve": "^1.7.5",
+    "clsx": "^1.2.1",
+    "i18next-fs-backend": "^2.0.0",
+    "isbot": "^3.5.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-i18next": "^12.0.0",
+    "remix-i18next": "^4.1.1",
+    "tabler-icons-react": "^1.55.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.19.1",
+    "@baggers/tsconfig": "*",
+    "@fal-works/esbuild-plugin-regexp-externals": "^1.1.0",
+    "@remix-run/dev": "^1.7.5",
+    "@remix-run/eslint-config": "^1.7.5",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "concurrently": "^7.5.0",
+    "esbuild-plugin-svgr": "^1.0.1",
+    "eslint": "^8.23.1",
+    "eslint-config-baggers": "*",
+    "typescript": "^4.7.4"
+  },
+  "engines": {
+    "node": ">=14"
+  }
 }

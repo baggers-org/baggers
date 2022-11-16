@@ -1,12 +1,12 @@
-import { Securities } from '@api/securities';
-import { User1, User2 } from '@api/users';
+import { Securities } from '~/securities';
+import { User1, User2 } from '~/users';
 import mongoose from 'mongoose';
 import { ImportedTransactions } from './transaction.test-data';
 import { PopulatedPortfolio, Portfolio } from '../entities';
-import { ObjectId } from '@api/shared';
+import { ObjectId } from '~/shared';
 import { Holdings1, ImportedHoldings } from './holding.test-data';
 import { PlaidAccountType } from '../enums';
-import { PlaidAccountSubtype } from '@api/plaid-items/enums/plaid-account-subtype.enum';
+import { PlaidAccountSubtype } from '~/plaid-items/enums/plaid-account-subtype.enum';
 
 export const Portfolio1: Portfolio = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),

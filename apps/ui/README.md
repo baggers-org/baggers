@@ -1,14 +1,13 @@
-# Welcome to Nx + Remix!
+# Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
-- [Nx Docs](https://nx.dev)
 
 ## Development
 
 From your terminal:
 
 ```sh
-npx nx dev web
+npm run dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -18,13 +17,13 @@ This starts your app in development mode, rebuilding assets on file changes.
 First, build your app for production:
 
 ```sh
-npx nx build web
+npm run build
 ```
 
 Then run the app in production mode:
 
 ```sh
-npx nx start web
+npm start
 ```
 
 Now you'll need to pick a host to deploy it to.
@@ -35,8 +34,8 @@ If you're familiar with deploying node applications, the built-in Remix app serv
 
 Make sure to deploy the output of `remix build`
 
-- `packages/web/build/`
-- `packages/web/public/build/`
+- `build/`
+- `public/build/`
 
 ### Using a Template
 

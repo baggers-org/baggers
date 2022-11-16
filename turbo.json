@@ -1,0 +1,48 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "API_URL"
+  ],
+  "pipeline": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "build/**",
+        ".next/**",
+        "build/**"
+      ]
+    },
+    "sdk#build": {
+      "dependsOn": [
+        "^graphql-types#build"
+      ],
+      "outputs": [
+        "build/**"
+      ]
+    },
+    "type-check": {},
+    "lint": {
+      "outputs": []
+    },
+    "generate": {
+      "cache": false
+    },
+    "docker": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "build/**"
+      ]
+    },
+    "test": {
+      "cache": false
+    }
+  }
+}

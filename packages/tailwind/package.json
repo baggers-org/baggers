@@ -1,0 +1,12 @@
+{
+	"name": "@baggers/tailwind",
+	"main": "tailwind.config.js",
+	"version": "0.0.0",
+	"dependencies": {
+		"tailwindcss": "^0.0.0-insiders.30df062"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.13",
+		"postcss": "^8.4.19"
+	}
+}

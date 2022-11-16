@@ -1,4 +1,4 @@
-import { A } from '@api/securities';
+import { A } from '~/securities';
 import { TestSdk } from '../../../test-sdk';
 
 export const securitiesFindByIdTest = () =>
@@ -12,7 +12,7 @@ export const securitiesFindByIdTest = () =>
       });
 
       expect(securitiesFindById).toMatchInlineSnapshot(`
-        Object {
+        {
           "_id": "A",
           "assetClass": "stock",
           "currency": "USD",

@@ -1,4 +1,4 @@
-import { BaseDocument } from '@api/shared';
+import { BaseDocument } from '~/shared';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop } from '@nestjs/mongoose';
 import { User } from './user.entity';

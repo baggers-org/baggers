@@ -1,0 +1,19 @@
+{
+	"name": "@baggers/polygon-adapter",
+	"main": "src/index.ts",
+	"version": "0.0.0",
+	"dependencies": {
+		"@baggers/env": "*",
+		"@baggers/graphql-types": "*",
+		"@baggers/market-data-adapter": "*",
+		"@polygon.io/client-js": "^6.0.6",
+		"axios": "^1.1.3",
+		"limiter": "^2.1.0"
+	},
+	"devDependencies": {},
+	"scripts": {
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	}
+}

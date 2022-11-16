@@ -1,7 +1,6 @@
 import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 import { Test } from '@nestjs/testing';
-import { EnvModule } from '@api/env';
-import { PlaidClientService } from '@api/plaid-client';
+import { PlaidClientService } from '~/plaid-client';
 import { User1Sdk } from '~test-sdk';
 
 jest.setTimeout(30000);
@@ -11,7 +10,7 @@ export const portfoliosBeginImportTests = () =>
     let plaidClient: PlaidClientService;
     beforeAll(async () => {
       const mod = await Test.createTestingModule({
-        imports: [EnvModule],
+        imports: [],
         providers: [PlaidClientService],
       }).compile();
 
@@ -54,6 +53,8 @@ export const portfoliosBeginImportTests = () =>
           const moneyMarket = created.find(
             (c) => c.name === 'Plaid Money Market'
           );
+          if (!moneyMarket)
+            throw Error('Could not find find money markey');
           expect(moneyMarket.totalValue).toEqual(43200);
           expect(moneyMarket.top5Holdings).toHaveLength(0);
           expect(moneyMarket.description).toMatchInlineSnapshot(
@@ -65,6 +66,7 @@ export const portfoliosBeginImportTests = () =>
           const checking = created.find(
             (c) => c.name === 'Plaid Checking'
           );
+          if (!checking) throw Error('Could not find find checking ');
           expect(checking.totalValue).toEqual(110);
           expect(checking.top5Holdings).toHaveLength(0);
           expect(checking.description).toMatchInlineSnapshot(
@@ -77,15 +79,16 @@ export const portfoliosBeginImportTests = () =>
       describe('Investment portfolios', () => {
         test('Plaid IRA', () => {
           const ira = created.find((c) => c.name === 'Plaid IRA');
+          if (!ira) throw Error('Could not find find ira ');
           expect(ira.totalValue).toEqual(320.76);
           expect(ira.top5Holdings).toHaveLength(3);
           expect(ira.top5Holdings).toMatchInlineSnapshot(`
-            Array [
-              Object {
+            [
+              {
                 "assetClass": "stock",
                 "costBasis": 200,
                 "exposure": 65.70332959221848,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "stock",
                   "currency": "USD",
                   "latestPrice": 42.15,
@@ -95,11 +98,11 @@ export const portfoliosBeginImportTests = () =>
                 "marketValue": 210.75,
                 "security": null,
               },
-              Object {
+              {
                 "assetClass": "derivative",
                 "costBasis": 100,
                 "exposure": 34.29355281207133,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "derivative",
                   "currency": "USD",
                   "latestPrice": 0.011,
@@ -109,11 +112,11 @@ export const portfoliosBeginImportTests = () =>
                 "marketValue": 110,
                 "security": null,
               },
-              Object {
+              {
                 "assetClass": "cash",
                 "costBasis": 0.01,
                 "exposure": 0.003117595710188303,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "cash",
                   "currency": "USD",
                   "latestPrice": 1,
@@ -133,18 +136,19 @@ export const portfoliosBeginImportTests = () =>
         test('Plaid 401k', () => {
           const _401k = created.find((c) => c.name === 'Plaid 401k');
 
+          if (!_401k) throw Error('Could not find find 401k ');
           expect(_401k.description).toMatchInlineSnapshot(
             `"This portfolio has been imported from your broker"`
           );
           // expect(_401k.cash).toBe(12461.24268);
           expect(_401k.top5Holdings).toHaveLength(5);
           expect(_401k.top5Holdings).toMatchInlineSnapshot(`
-            Array [
-              Object {
+            [
+              {
                 "assetClass": "cash",
                 "costBasis": 12345.67,
                 "exposure": 52.101063403278744,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "cash",
                   "currency": "USD",
                   "latestPrice": 1,
@@ -154,11 +158,11 @@ export const portfoliosBeginImportTests = () =>
                 "marketValue": 12345.67,
                 "security": null,
               },
-              Object {
+              {
                 "assetClass": "stock",
                 "costBasis": 6390,
                 "exposure": 29.672699005132593,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "stock",
                   "currency": "USD",
                   "latestPrice": 34.73,
@@ -166,18 +170,18 @@ export const portfoliosBeginImportTests = () =>
                   "ticker_symbol": "SBSI",
                 },
                 "marketValue": 7031.129999999999,
-                "security": Object {
+                "security": {
                   "_id": "SBSI",
                   "latestPrice": 33.01,
                   "name": "Southside Bancshares Inc",
                   "region": "US",
                 },
               },
-              Object {
+              {
                 "assetClass": "stock",
                 "costBasis": 1666.5,
                 "exposure": 7.832143661993229,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "stock",
                   "currency": "USD",
                   "latestPrice": 24.5,
@@ -187,11 +191,11 @@ export const portfoliosBeginImportTests = () =>
                 "marketValue": 1855.875,
                 "security": null,
               },
-              Object {
+              {
                 "assetClass": "stock",
                 "costBasis": 1500.75,
                 "exposure": 5.79721695401935,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "stock",
                   "currency": "USD",
                   "latestPrice": 13.73,
@@ -201,11 +205,11 @@ export const portfoliosBeginImportTests = () =>
                 "marketValue": 1373.6865,
                 "security": null,
               },
-              Object {
+              {
                 "assetClass": "stock",
                 "costBasis": 542.041,
                 "exposure": 2.6853443801006263,
-                "importedSecurity": Object {
+                "importedSecurity": {
                   "assetClass": "stock",
                   "currency": "USD",
                   "latestPrice": 27,
