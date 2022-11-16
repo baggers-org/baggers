@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { IRestClient, restClient } from '@polygon.io/client-js';
-import { EnvService } from '~/env';
+import { env } from '~/env/env.schema';
 
 @Injectable()
 export class PolygonService {
   public client: IRestClient;
 
-  constructor(private envService: EnvService) {
-    this.client = restClient(envService.get('POLYGON_API_KEY'));
+  constructor() {
+    this.client = restClient(env.POLYGON_API_KEY);
   }
 }

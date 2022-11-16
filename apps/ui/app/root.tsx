@@ -13,7 +13,6 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import { Navbar } from './components/Navbar';
-import { useRootData } from './hooks/useRootData';
 import { isAuthenticated } from './server/policy.server';
 
 import styles from './styles/app.css';

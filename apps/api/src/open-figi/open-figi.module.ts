@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { EnvModule } from '~/env';
 import { OpenFigiService } from './open-figi.service';
 
 @Module({
-  imports: [EnvModule],
+  imports: [],
   providers: [OpenFigiService],
   exports: [OpenFigiService],
 })

@@ -1,16 +1,14 @@
 import { envSchema } from 'env-schema';
-import process from 'process';
 import { Static, TString, Type } from '@sinclair/typebox';
 
-export function setupEnv(keys: string[]) {
+export function setupEnv<TKey extends string>(keys: readonly TKey[]) {
   const schema = Type.Object({
-    ...keys.reduce<Record<string, TString>>(
+    ...keys.reduce<Record<TKey, TString>>(
       (ac, cur) => ({ ...ac, [cur]: Type.String() }),
-      {}
+      {} as Record<TKey, TString>
     ),
   });
 
-  console.log('env ', process.cwd());
   type Schema = Static<typeof schema>;
 
   return envSchema<Schema>({

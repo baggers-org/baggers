@@ -1,4 +1,4 @@
-const base = require('./base');
+const base = require('./app');
 const process = require('process');
 const path = require('path');
 

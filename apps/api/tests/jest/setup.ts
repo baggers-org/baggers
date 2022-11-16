@@ -3,6 +3,19 @@ import { INestApplication } from '@nestjs/common';
 import { setupTestApp } from '../util/db-util';
 import './mocks';
 
+jest.mock('@baggers/env', () => ({
+  setupEnv: () => {
+    if (!process.env.CI) {
+      const config = require('dotenv').config().parsed;
+      console.log(config);
+
+      return config;
+    }
+
+    return {};
+  },
+}));
+
 let app: INestApplication;
 let url: string;
 

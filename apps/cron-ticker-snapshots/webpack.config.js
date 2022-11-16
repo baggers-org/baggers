@@ -1,4 +1,4 @@
-const base = require('@baggers/webpack/base');
+const base = require('@baggers/webpack/app');
 module.exports = {
   ...base,
 };

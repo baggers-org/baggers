@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { EnvModule } from '~/env';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import {
@@ -12,7 +11,6 @@ import { PlaidClientModule } from '~/plaid-client';
 @Module({
   imports: [
     PlaidClientModule,
-    EnvModule,
     MongooseModule.forFeature([
       {
         name: PlaidItem.name,

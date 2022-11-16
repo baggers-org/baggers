@@ -8,12 +8,12 @@
     "tools/*"
   ],
   "scripts": {
-    "build": "turbo run build --color",
-    "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "type-check": "turbo run type-check",
-    "docker": "turbo run docker",
+    "build": "FORCE_COLOR=1 turbo run build --color",
+    "dev": "FORCE_COLOR=1 turbo run dev --parallel",
+    "lint": "FORCE_COLOR=1 turbo run lint",
+    "test": "FORCE_COLOR=1 turbo run test -- --passWithNoTests",
+    "type-check": "FORCE_COLOR=1 turbo run type-check",
+    "docker": "FORCE_COLOR=1 turbo run docker",
     "generate": "npm run generate --prefix tools/plop",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

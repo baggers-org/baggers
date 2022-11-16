@@ -2,10 +2,21 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  testPathIgnorePatterns: ['node_modules', 'tests/suites', 'dist'],
+  passWithNoTests: true,
+  testPathIgnorePatterns: [
+    'node_modules',
+    'tests/suites',
+    'dist',
+    'build',
+  ],
   coveragePathIgnorePatterns: ['node_modules', 'tests'],
   transform: {
-    '^.+\\.[tj]s$': 'ts-jest',
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+      },
+    ],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageThreshold: {

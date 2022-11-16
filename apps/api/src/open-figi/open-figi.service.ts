@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
-import { EnvService } from '~/env';
+import { env } from '~/env/env.schema';
 import { ImportedSecurity } from '~/securities';
 import {
   OpenFigiMappingIdTypes,
@@ -13,8 +13,6 @@ const VERSION = `v3`;
 
 @Injectable()
 export class OpenFigiService {
-  constructor(private envService: EnvService) {}
-
   // TODO: implement cache for mapping jobs
   // IE -> checkMappingJobCache(openFigiMappingJob): OpenFigiMappingResponseItem
 
@@ -57,7 +55,7 @@ export class OpenFigiService {
       {
         headers: {
           'content-type': `application/json`,
-          'X-OPENFIGI-APIKEY': this.envService.get('OPEN_FIGI_KEY'),
+          'X-OPENFIGI-APIKEY': env.OPEN_FIGI_KEY,
         },
       }
     );

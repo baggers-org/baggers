@@ -1,6 +1,5 @@
 import { PortfoliosCreatedQuery } from '@baggers/graphql-types';
 import { Test } from '@nestjs/testing';
-import { EnvModule } from '~/env';
 import { PlaidClientService } from '~/plaid-client';
 import { User1Sdk } from '~test-sdk';
 
@@ -11,7 +10,7 @@ export const portfoliosBeginImportTests = () =>
     let plaidClient: PlaidClientService;
     beforeAll(async () => {
       const mod = await Test.createTestingModule({
-        imports: [EnvModule],
+        imports: [],
         providers: [PlaidClientService],
       }).compile();
 
