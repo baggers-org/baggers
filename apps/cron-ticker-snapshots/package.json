@@ -5,7 +5,7 @@
 		"build": "webpack",
 		"dev": "webpack -w",
 		"test": "jest",
-		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest --cache-from type=gha --cache-to type=gha,mode=max",
+		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest --cache-from type=gha --cache-to type=gha,mode=max --push",
 		"docker:push": "docker push eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest"
 	},
 	"dependencies": {

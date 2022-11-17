@@ -1,8 +1,8 @@
 export function NavbarClip() {
   return (
     <svg
-      className="dark:text-background-dark"
-      style={{ position: 'absolute', bottom: 0 }}
+      className="dark:text-background-dark text-background-light"
+      style={{ position: 'absolute', bottom: -1 }}
       viewBox="879.739 29.735 408.521 90.265"
       width="400"
       height="70%"

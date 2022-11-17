@@ -13,6 +13,7 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import { Navbar } from './components/Navbar';
+import { useNavbarOptions } from './hooks/useNavbarOptions';
 import { isAuthenticated } from './server/policy.server';
 
 import styles from './styles/app.css';
@@ -58,35 +59,13 @@ export default function App() {
         />
       </head>
       <body className="dark:bg-background-dark bg-background-light dark:text-text-dark text-text-light">
-        <div className="flex place-content-center">
-          <Navbar
-            options={[
-              {
-                key: '/',
-                label: 'Home',
-                to: '/',
-              },
-              {
-                key: '/portfolios',
-                label: 'Portfolio',
-                to: '/portfolios/created',
-              },
-              {
-                key: '/news',
-                label: 'News',
-                to: '/news',
-              },
-              {
-                key: '/discover',
-                label: 'Discover',
-                to: '/discover',
-              },
-            ]}
-          />
+        <div>
+          <Navbar options={useNavbarOptions()} />
+          <div className="pt-32">
+            <Outlet />
+          </div>
         </div>
-        <div className="pt-32">
-          <Outlet />
-        </div>
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

@@ -11,8 +11,7 @@
     "deploy": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui",
     "dev:css": "tailwindcss -w -i app/styles/input.css -o app/styles/app.css",
     "start": "remix-serve build",
-    "docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/ui:latest --cache-from type=gha --cahe-to type=gha,mode=max",
-    "docker:push": "docker push eu.gcr.io/baggers-367917/ui:latest",
+    "docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/ui:latest --cache-from type=gha --cache-to type=gha,mode=max --push",
     "type-check": "tsc"
   },
   "dependencies": {

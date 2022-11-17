@@ -6,8 +6,7 @@
 		"dev": "NODE_ENV=development nest start --watch",
 		"test": "jest --runInBand",
 		"lint": "eslint src",
-		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest --cache-from type=gha --cache-to type=gha,mode=max",
-		"docker:push": "docker push eu.gcr.io/baggers-367917/api:latest",
+		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest --cache-from type=gha --cache-to type=gha,mode=max --push",
 		"deploy": "kubectl rollout restart deployment ui && kubectl rollout status deployment ui"
 	},
 	"dependencies": {

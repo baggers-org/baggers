@@ -13,7 +13,7 @@ export function Navbar({ options }: NavbarProps) {
     <nav
       className={clsx(
         'bg-gradient-to-b',
-        'from-secondary-light to-primary-light',
+        'from-[rgba(36,97,247,0.2)] to-[rgba(116,47,246,0.3)]',
         'dark:from-[rgba(84,116,254,0.6)]',
         'dark:to-[rgba(154,106,255,0.5)]',
         'rounded-[65px]',
@@ -26,7 +26,6 @@ export function Navbar({ options }: NavbarProps) {
         'w-full',
         'overflow-hidden',
         'h-24',
-        'max-w-[100rem]',
         'ml-auto',
         'mr-auto'
       )}

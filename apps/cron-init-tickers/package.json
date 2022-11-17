@@ -4,8 +4,7 @@
 	"scripts": {
 		"build": "webpack",
 		"dev": "webpack -w",
-		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-init-tickers:latest --cache-from type=gha --cache-to type=gha,mode=max",
-		"docker:push": "docker push eu.gcr.io/baggers-367917/cron-init-tickers:latest"
+		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-init-tickers:latest --cache-from type=gha --cache-to type=gha,mode=max --push"
 	},
 	"dependencies": {
 		"@baggers/graphql-types": "*",
