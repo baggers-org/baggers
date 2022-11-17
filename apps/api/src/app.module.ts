@@ -26,7 +26,10 @@ import { env } from './env/env.schema';
     MongooseModule.forRoot(env.ATLAS_CLUSTER_URI),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'schema.gql'),
+      autoSchemaFile:
+        env.NODE_ENV === 'development'
+          ? join(process.cwd(), '../../packages/schema/schema.gql')
+          : false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       playground: false,
       introspection: true,
