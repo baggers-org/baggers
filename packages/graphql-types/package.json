@@ -7,7 +7,6 @@
 		"build": "graphql-codegen"
 	},
 	"dependencies": {
-		"@baggers/tsconfig": "*",
 		"graphql": "^16.5.0",
 		"@graphql-codegen/cli": "^2.13.11",
 		"@graphql-codegen/typescript": "^2.8.1",

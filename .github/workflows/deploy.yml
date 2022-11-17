@@ -38,6 +38,9 @@ jobs:
       - name: 🐳 Docker build
         run: yarn docker --filter=[HEAD~1]
 
+      - name: 🐳 Docker push
+        run: yarn docker:push --filter=[HEAD~1]
+
   deploy:
     name: '🚀 Deploy to Production 🚀'
     needs: build

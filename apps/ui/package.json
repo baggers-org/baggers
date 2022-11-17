@@ -12,6 +12,7 @@
     "dev:css": "tailwindcss -w -i app/styles/input.css -o app/styles/app.css",
     "start": "remix-serve build",
     "docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/ui:latest",
+    "docker:push": "docker push eu.gcr.io/baggers-367917/ui:latest",
     "type-check": "tsc"
   },
   "dependencies": {

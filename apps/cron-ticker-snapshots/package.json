@@ -5,7 +5,8 @@
 		"build": "webpack",
 		"dev": "webpack -w",
 		"test": "jest",
-		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-init-tickers:latest"
+		"docker": "docker build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest",
+		"docker:push": "docker push eu.gcr.io/baggers-367917/cron-ticker-snapshots:latest"
 	},
 	"dependencies": {
 		"@baggers/graphql-types": "*",
