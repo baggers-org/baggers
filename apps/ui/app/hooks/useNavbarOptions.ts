@@ -17,8 +17,13 @@ export const useNavbarOptions = (): NavbarOption[] => {
       additionalOptions: [
         {
           key: '/portfolios/created',
-          label: t('created', 'Created'),
+          label: t('created_portfolios', 'Created portfolios'),
           to: '/portfolios/created',
+        },
+        {
+          key: '/portfolios/following',
+          label: t('followed_portfolios', 'Followed portfolios'),
+          to: '/portfolios/following',
         },
       ],
     },

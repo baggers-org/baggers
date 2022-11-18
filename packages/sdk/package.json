@@ -11,6 +11,7 @@
 	"dependencies": {
 		"@baggers/tsconfig": "*",
 		"@baggers/schema": "*",
+		"@baggers/graphql-types": "*",
 		"graphql-request": "^4.0.0",
 		"graphql": "^16.5.0",
 		"@graphql-codegen/typescript-graphql-request": "^4.5.8"

@@ -1,0 +1,20 @@
+{
+	"name": "@baggers/ui-components",
+	"main": "src/index.ts",
+	"version": "0.0.0",
+	"scripts": {
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	},
+	"dependencies": {
+		"@headlessui/react": "^1.7.4",
+		"clsx": "^1.2.1",
+		"tabler-icons-react": "^1.55.0"
+	},
+	"peerDependencies": {
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0"
+	},
+	"devDependencies": {}
+}

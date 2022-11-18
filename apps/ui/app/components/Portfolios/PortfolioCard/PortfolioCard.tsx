@@ -1,8 +1,8 @@
-import { Portfolio } from '@baggers/graphql-types';
+import { PortfolioSummary } from '@baggers/graphql-types';
 import { tlsx } from '~/util/clsx';
 
 export type PortfolioCardProps = {
-  portfolio: Portfolio;
+  portfolio: PortfolioSummary;
 };
 export function PortfolioCard({ portfolio }: PortfolioCardProps) {
   return (

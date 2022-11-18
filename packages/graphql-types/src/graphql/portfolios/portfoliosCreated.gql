@@ -1,30 +1,5 @@
 query portfoliosCreated {
   portfoliosCreated {
-    _id
-    owner {
-      ...FullUser
-    }
-    name
-    cash
-    private
-    description
-    updatedAt
-    createdAt
-    totalValue
-    plaidAccount {
-      ...FullPlaidAccount
-    }
-    top5Holdings {
-      costBasis
-      exposure
-      assetClass
-      marketValue
-      importedSecurity {
-        ...AllImportedSecurityData
-      }
-      security {
-        ...SecuritySummary
-      }
-    }
+    ...FullPortfolioSummary
   }
 }

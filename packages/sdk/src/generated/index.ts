@@ -326,7 +326,6 @@ export type PortfolioSummary = {
   plaidAccount?: Maybe<PlaidAccount>;
   plaidItem?: Maybe<PlaidItem>;
   private: Scalars['Boolean'];
-  top5Holdings: Array<Holding>;
   totalValue: Scalars['Float'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -597,7 +596,7 @@ export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketV
 
 export type FullPlaidAccountFragment = { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } };
 
-export type PortfolioSummaryFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null };
+export type FullPortfolioSummaryFragment = { __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null };
 
 export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null }> };
 
@@ -625,7 +624,7 @@ export type PortfoliosBeginImportMutation = { __typename?: 'Mutation', portfolio
 export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, name: string, cash: number, private: boolean, description?: string | null, updatedAt?: any | null, createdAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, top5Holdings: Array<{ __typename?: 'Holding', costBasis: number, exposure: number, assetClass: AssetClass, marketValue: number, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, name?: string | null, region?: string | null, latestPrice?: number | null } | null }> }> };
+export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null }> };
 
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
@@ -730,8 +729,8 @@ export const FullPlaidAccountFragmentDoc = gql`
   }
 }
     `;
-export const PortfolioSummaryFragmentDoc = gql`
-    fragment PortfolioSummary on Portfolio {
+export const FullPortfolioSummaryFragmentDoc = gql`
+    fragment FullPortfolioSummary on PortfolioSummary {
   _id
   cash
   owner {
@@ -859,11 +858,25 @@ export const PortfolioTransactionsFragmentDoc = gql`
     ${AllTransactionDataFragmentDoc}`;
 export const AllPortfolioDataFragmentDoc = gql`
     fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  createdAt
+  updatedAt
+  plaidAccount {
+    ...FullPlaidAccount
+  }
+  totalValue
   ...PortfolioHoldings
   ...PortfolioTransactions
 }
-    ${PortfolioSummaryFragmentDoc}
+    ${FullUserFragmentDoc}
+${FullPlaidAccountFragmentDoc}
 ${PortfolioHoldingsFragmentDoc}
 ${PortfolioTransactionsFragmentDoc}`;
 export const SecuritySummaryFragmentDoc = gql`
@@ -915,38 +928,10 @@ export const PortfoliosBeginImportDocument = gql`
 export const PortfoliosCreatedDocument = gql`
     query portfoliosCreated {
   portfoliosCreated {
-    _id
-    owner {
-      ...FullUser
-    }
-    name
-    cash
-    private
-    description
-    updatedAt
-    createdAt
-    totalValue
-    plaidAccount {
-      ...FullPlaidAccount
-    }
-    top5Holdings {
-      costBasis
-      exposure
-      assetClass
-      marketValue
-      importedSecurity {
-        ...AllImportedSecurityData
-      }
-      security {
-        ...SecuritySummary
-      }
-    }
+    ...FullPortfolioSummary
   }
 }
-    ${FullUserFragmentDoc}
-${FullPlaidAccountFragmentDoc}
-${AllImportedSecurityDataFragmentDoc}
-${SecuritySummaryFragmentDoc}`;
+    ${FullPortfolioSummaryFragmentDoc}`;
 export const PortfoliosFindByIdDocument = gql`
     query portfoliosFindById($_id: ObjectId!) {
   portfoliosFindById(_id: $_id) {

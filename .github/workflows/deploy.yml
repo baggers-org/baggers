@@ -6,8 +6,12 @@ on:
       - main
 
 jobs:
+  test:
+    uses: './.github/workflows/tests.yml'
+    secrets: inherit
   build:
     name: 🐳 Build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs

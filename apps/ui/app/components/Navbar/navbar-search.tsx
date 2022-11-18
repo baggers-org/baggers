@@ -1,4 +1,4 @@
-import { SearchInput } from '../Forms';
+import { SearchInput } from '@baggers/ui-components';
 import { NavbarClip } from './navbar-clip';
 
 export function NavbarSearch() {

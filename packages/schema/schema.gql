@@ -254,7 +254,6 @@ type PortfolioSummary {
   plaidAccount: PlaidAccount
   plaidItem: PlaidItem
   private: Boolean!
-  top5Holdings: [Holding!]!
   totalValue: Float!
   updatedAt: DateTime
 }

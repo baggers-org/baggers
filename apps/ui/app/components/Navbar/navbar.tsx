@@ -24,7 +24,6 @@ export function Navbar({ options }: NavbarProps) {
         'place-items-center',
         'absolute',
         'w-full',
-        'overflow-hidden',
         'h-24',
         'ml-auto',
         'mr-auto'

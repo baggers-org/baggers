@@ -7,7 +7,6 @@ jest.mock('@baggers/env', () => ({
   setupEnv: () => {
     if (!process.env.CI) {
       const config = require('dotenv').config().parsed;
-      console.log(config);
 
       return config;
     }

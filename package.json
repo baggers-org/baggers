@@ -13,7 +13,8 @@
     "lint": "FORCE_COLOR=1 turbo run lint",
     "test": "FORCE_COLOR=1 turbo run test -- --passWithNoTests",
     "type-check": "FORCE_COLOR=1 turbo run type-check",
-    "docker": "FORCE_COLOR=1 turbo run docker",
+    "docker": "FORCE_COLOR=1 turbo run docker --continue --parallel",
+    "deploy": "FORCE_COLOR=1 turbo run deploy --continue --parallel",
     "generate": "npm run generate --prefix tools/plop",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

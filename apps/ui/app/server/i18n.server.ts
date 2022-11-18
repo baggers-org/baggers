@@ -12,9 +12,9 @@ export const i18next = new RemixI18Next({
     ...i18nConfig,
     backend: {
       loadPath: resolve(
-        join(__dirname, '../public/locales/{{lng}}/{{ns}}.json')
+        join(__dirname, '../../public/locales/{{lng}}/{{ns}}.json')
       ),
     },
   },
-  backend: Backend,
+  backend: Backend as any,
 });

@@ -1,4 +1,7 @@
-import { PortfoliosCreatedQuery } from '@baggers/sdk/src/generated';
+import {
+  PortfoliosCreatedQuery,
+  PortfolioSummary,
+} from '@baggers/graphql-types';
 import {
   ActionFunction,
   json,
@@ -12,29 +15,8 @@ import { authenticatedSdk } from '~/server/sdk.server';
 import { tlsx } from '~/util/clsx';
 
 export const loader: LoaderFunction = async ({ request }) => {
-  // const sdk = await authenticatedSdk(request);
-  // return sdk.portfoliosCreated();
-
-  return {
-    portfoliosCreated: [
-      {
-        name: 'Test',
-        cash: 12482.2323232,
-        private: true,
-        owner: {
-          displayName: 'Daniel Cooke',
-        },
-      },
-      {
-        name: 'Hello',
-        cash: 12482.2323232,
-        private: true,
-        owner: {
-          displayName: 'Daniel Cooke',
-        },
-      },
-    ],
-  } as PortfoliosCreatedQuery;
+  const sdk = await authenticatedSdk(request);
+  return sdk.portfoliosCreated();
 };
 
 export const meta: MetaFunction = () => ({
@@ -67,7 +49,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 export default function CreatedPortfoliosPage() {
   const { portfoliosCreated } =
-    useLoaderData<ReturnType<typeof loader>>();
+    useLoaderData<PortfoliosCreatedQuery>();
 
   return (
     <Form method="post">
@@ -85,7 +67,7 @@ export default function CreatedPortfoliosPage() {
         )}
       >
         {portfoliosCreated.map((portfolio) => (
-          <PortfolioCard portfolio={portfolio} />
+          <PortfolioCard portfolio={portfolio as PortfolioSummary} />
         ))}
       </div>
     </Form>

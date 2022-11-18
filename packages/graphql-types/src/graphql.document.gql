@@ -59,7 +59,7 @@ fragment FullPlaidAccount on PlaidAccount {
 }
 
 
-fragment PortfolioSummary on Portfolio {
+fragment FullPortfolioSummary on PortfolioSummary {
   _id
   cash
   owner {
@@ -88,7 +88,20 @@ fragment PortfolioHoldings on Portfolio {
 }
 
 fragment AllPortfolioData on Portfolio {
-  ...PortfolioSummary
+  _id
+  cash
+  owner {
+    ...FullUser
+  }
+  name
+  description
+  private
+  createdAt
+  updatedAt
+  plaidAccount {
+    ...FullPlaidAccount
+  }
+  totalValue
   ...PortfolioHoldings
   ...PortfolioTransactions
 }
@@ -138,32 +151,7 @@ mutation portfoliosBeginImport($publicToken: String!) {
 
 query portfoliosCreated {
   portfoliosCreated {
-    _id
-    owner {
-      ...FullUser
-    }
-    name
-    cash
-    private
-    description
-    updatedAt
-    createdAt
-    totalValue
-    plaidAccount {
-      ...FullPlaidAccount
-    }
-    top5Holdings {
-      costBasis
-      exposure
-      assetClass
-      marketValue
-      importedSecurity {
-        ...AllImportedSecurityData
-      }
-      security {
-        ...SecuritySummary
-      }
-    }
+    ...FullPortfolioSummary
   }
 }
 

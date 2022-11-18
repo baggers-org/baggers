@@ -3,7 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Form } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
-import { Avatar } from '../Avatar/avatar';
+import { Avatar } from '../../../../../packages/ui-components/src/lib/avatar/avatar';
 
 export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();

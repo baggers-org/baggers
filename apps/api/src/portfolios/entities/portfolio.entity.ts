@@ -62,10 +62,7 @@ export class PortfolioWithMetrics extends Portfolio {
 export class PortfolioSummary extends OmitType(PortfolioWithMetrics, [
   'holdings',
   'transactions',
-]) {
-  @Field(() => [PopulatedHoldingWithMetrics])
-  top5Holdings: PopulatedHoldingWithMetrics[];
-}
+]) {}
 
 @ObjectType('Portfolio')
 export class PopulatedPortfolioWithMetrics extends OmitType(

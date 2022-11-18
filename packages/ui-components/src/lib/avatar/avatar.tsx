@@ -10,7 +10,8 @@ export function Avatar({
   const [loadError, setError] = useState(false);
   const commonClasses = clsx(
     'rounded-full',
-    'w-16',
+    'w-12',
+    'h-12',
     'hover:cursor-pointer',
     'hover:border-2',
     'hover:primary-light',

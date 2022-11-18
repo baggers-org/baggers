@@ -1,5 +1,5 @@
 import { Search } from 'tabler-icons-react';
-import { tlsx } from '~/util/clsx';
+import { tlsx } from '../../util/clsx';
 
 export function SearchInput() {
   return (
