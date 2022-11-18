@@ -3,15 +3,20 @@ const { compilerOptions } = require('./tsconfig.build.json');
 module.exports = {
   preset: 'jest-preset',
   rootDir: '.',
-  globals: {
-    'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
-      astTransformers: {
-        before: ['<rootDir>/tests/e2e-transformer.js'],
+  transform: {
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        astTransformers: {
+          before: ['<rootDir>/tests/e2e-transformer.js'],
+        },
       },
-    },
+    ],
   },
-  setupFilesAfterEnv: ['<rootDir>/tests/jest/setup.ts'],
+  // globalSetup: '<rootDir>/tests/jest/globalSetup.ts',
+  // globalTeardown: '<rootDir>/tests/jest/globalTeardown.ts',
+  setupFilesAfterEnv: ['<rootDir>/tests/jest/setupFilesAfterEnv.ts'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
   }),

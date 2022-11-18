@@ -20,23 +20,10 @@ import { PolygonService } from './polygon/polygon.service';
 import { PolygonModule } from './polygon/polygon.module';
 import { env } from './env/env.schema';
 
-import { MongoMemoryServer } from 'mongodb-memory-server';
-
 @Module({
   imports: [
     AuthModule,
-    MongooseModule.forRootAsync({
-      useFactory: async () => {
-        const mongod = await MongoMemoryServer.create();
-
-        const uri = mongod.getUri();
-        console.log(uri);
-
-        return {
-          uri,
-        };
-      },
-    }),
+    MongooseModule.forRoot(env.ATLAS_CLUSTER_URI),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile:

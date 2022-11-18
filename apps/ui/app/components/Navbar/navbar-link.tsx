@@ -19,8 +19,6 @@ export function NavbarLink({ option, active }: NavbarLinkProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  console.log(isMenuOpen);
-
   if (option.additionalOptions && typeof document !== 'undefined') {
     return (
       <div
@@ -36,7 +34,12 @@ export function NavbarLink({ option, active }: NavbarLinkProps) {
         <Menu open={isMenuOpen} static>
           {option.additionalOptions.map((o) => (
             <MenuItem key={o.to}>
-              <Link to={o.to || '/'} tabIndex={-1}>
+              <Link
+                to={o.to || '/'}
+                tabIndex={-1}
+                className="flex place-content-between gap-4"
+              >
+                {o?.icon}
                 {o.label}
               </Link>
             </MenuItem>

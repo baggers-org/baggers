@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Form, Link, useSubmit } from '@remix-run/react';
+import { Form, useSubmit } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { Avatar } from '../../../../../packages/ui-components/src/lib/avatar/avatar';
 import { Menu, MenuItem } from '@baggers/ui-components';

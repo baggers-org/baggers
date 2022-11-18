@@ -1,10 +1,18 @@
+import { INestApplication } from '@nestjs/common';
 import { securitiesFindByIdTest } from './suites/securities/queries/securitiesFindById.test';
+import { setupTestApp } from './util/db-util';
 
-jest.mock('@baggers/env', () => ({
-  setupEnv: () => ({}),
-}));
 describe('Securities', () => {
+  let app: INestApplication;
+  beforeAll(async () => {
+    app = await setupTestApp();
+  });
+
   describe('Queries', () => {
     securitiesFindByIdTest();
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });

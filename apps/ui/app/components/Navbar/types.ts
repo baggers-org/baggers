@@ -1,7 +1,10 @@
+import React from 'react';
+
 export type NavbarOption = {
   key: string;
   label: string;
   to?: string;
+  icon?: React.ReactElement;
   additionalOptions?: NavbarOption[];
 };
 

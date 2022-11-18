@@ -115,7 +115,6 @@ export class PortfoliosService {
       ...p,
       holdings: undefined,
       transactions: undefined,
-      top5Holdings: p.holdings.slice(0, 5),
     }));
   }
 

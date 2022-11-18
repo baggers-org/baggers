@@ -1,7 +1,8 @@
 import { Db } from 'mongodb';
-import { Users } from '~/users';
-import { Securities } from '~/securities';
-import { Portfolios } from '~/portfolios';
+// Do not use tsconfig path aliases in here
+import { Users } from '../../src/users';
+import { Securities } from '../../src/securities';
+import { Portfolios } from '../../src/portfolios';
 
 /* eslint-disable */
 export const seedTestDb = async (db: Db) => {

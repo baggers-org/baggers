@@ -1,9 +1,10 @@
 import { User1, User2 } from '~/users';
 import { SdkBuilder } from '@baggers/sdk';
-import { getAppUrl } from './jest/setup';
 
 export const TestSdk = () => {
-  return new SdkBuilder().setUrl(getAppUrl());
+  return new SdkBuilder().setUrl(
+    `http://[::1]:${globalThis.__PORT__}`
+  );
 };
 
 export const User1Sdk = () =>

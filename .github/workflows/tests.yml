@@ -72,8 +72,3 @@ jobs:
 
       - name: ⚡ Run tests
         run: yarn test
-        env:
-          OPEN_FIGI_KEY: ${{ secrets.OPEN_FIGI_KEY }}
-          PLAID_ENV: ${{ secrets.PLAID_ENV }}
-          PLAID_CLIENT_ID: ${{ secrets.PLAID_CLIENT_ID }}
-          PLAID_CLIENT_SECRET: ${{ secrets.PLAID_CLIENT_SECRET }}

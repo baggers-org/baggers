@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from '~/auth';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { createTestDb, TEST_DB_NAME } from './createTestDb';
@@ -6,18 +5,21 @@ import { MockAuthGuard } from './MockAuthGuard';
 import { AppModule } from '../../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { setupApp } from '../../src/setupApp';
+import { JwtAuthGuard } from '~/auth';
+import tk from 'timekeeper';
 
 const setupTestDatabase = async () => {
-  if (!global.__MONGOD__) {
-    global.__MONGOD__ = await createTestDb();
+  if (!globalThis.__MONGOD__) {
+    globalThis.__MONGOD__ = await createTestDb();
   }
-  return global.__MONGOD__;
+  return globalThis.__MONGOD__;
 };
 export const setupTestApp = async (): Promise<INestApplication> => {
   await setupTestDatabase();
+
   const testingModule: any = await Test.createTestingModule({
     imports: [
-      global.__MONGOD__
+      globalThis.__MONGOD__
         ? (MongooseModule.forRoot(global.__MONGOD__.getUri(), {
             dbName: TEST_DB_NAME,
           }) as any)
@@ -30,12 +32,16 @@ export const setupTestApp = async (): Promise<INestApplication> => {
     .compile();
 
   const app = testingModule.createNestApplication();
+
+  tk.freeze(new Date('2022/01/17'));
   setupApp(app);
 
   await app.init();
 
+  globalThis.__APP__ = app;
+  globalThis.__PORT__ = Math.floor(Math.random() * 5000 + 4000);
   try {
-    await app.listen(4000);
+    await app.listen(globalThis.__PORT__);
   } catch (e) {
     //
   }

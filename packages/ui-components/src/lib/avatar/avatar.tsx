@@ -4,7 +4,7 @@ import { clsx } from 'clsx';
 
 export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(
   (props, ref) => {
-    const { alt, fallbackInitials, src } = props;
+    const { fallbackInitials, src } = props;
     const [loadError, setError] = useState(false);
     const commonClasses = clsx(
       'rounded-full',

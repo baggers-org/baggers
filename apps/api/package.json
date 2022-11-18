@@ -4,7 +4,7 @@
 	"scripts": {
 		"build": "nest build",
 		"dev": "NODE_ENV=development nest start --watch",
-		"test": "jest --runInBand",
+		"test": "jest --forceExit",
 		"lint": "eslint src",
 		"type-check": "tsc -p ./tsconfig.build.json --noEmit",
 		"docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/api:latest --cache-from type=gha --cache-to type=gha,mode=max --push",
@@ -51,6 +51,7 @@
 		"eslint-config-baggers": "*",
 		"mongodb-memory-server": "^8.10.0",
 		"timekeeper": "^2.2.0",
-		"ts-jest": "^29.0.3"
+		"ts-jest": "^29.0.3",
+		"tsconfig-paths": "^4.1.0"
 	}
 }
