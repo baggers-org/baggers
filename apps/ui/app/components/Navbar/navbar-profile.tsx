@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Form } from '@remix-run/react';
+import { Form, Link, useSubmit } from '@remix-run/react';
 import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { Avatar } from '../../../../../packages/ui-components/src/lib/avatar/avatar';
+import { Menu, MenuItem } from '@baggers/ui-components';
+import { Logout } from 'tabler-icons-react';
 
 export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();
@@ -11,8 +13,7 @@ export const ProfileButton: React.FC = () => {
 
   const { t } = useTranslation(`common`);
 
-  console.log(user);
-
+  const submit = useSubmit();
   if (!user) {
     return (
       <Form method="post" action="/auth/auth0/login">
@@ -23,11 +24,30 @@ export const ProfileButton: React.FC = () => {
 
   return (
     <>
-      <Avatar
-        src={profilePhoto}
-        fallbackInitials={user.displayName?.[0]}
-        alt={t('profile_alt', 'Your profile')}
-      />
+      <Menu
+        offsetX={-60}
+        button={
+          <Avatar
+            src={profilePhoto}
+            fallbackInitials={user.displayName?.[0]}
+            alt={t('profile_alt', 'Your profile')}
+          />
+        }
+      >
+        <MenuItem
+          onClick={() =>
+            submit(
+              {},
+              {
+                action: '/auth/auth0/logout',
+                method: 'post',
+              }
+            )
+          }
+        >
+          <Logout /> {t('logout', 'Logout')}
+        </MenuItem>
+      </Menu>
     </>
   );
 };

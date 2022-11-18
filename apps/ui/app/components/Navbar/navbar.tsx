@@ -46,7 +46,9 @@ export function Navbar({ options }: NavbarProps) {
         ))}
       </div>
       <NavbarSearch />
-      <ProfileButton />
+      <div className="mr-3">
+        <ProfileButton />
+      </div>
     </nav>
   );
 }

@@ -46,13 +46,27 @@ export class Auth0Routes<TUser extends Record<string, unknown>> {
   private setAction() {
     this.action = ({ params, request }) => {
       if (params['*']?.includes('/login')) {
-        console.log('In here ');
-
         try {
           return this.auth0Authenticator.authenticator.authenticate(
             `auth0`,
             request,
             this.options
+          );
+        } catch (e) {
+          console.error(e);
+          return new Response(
+            JSON.stringify({
+              message: `There was an error authenticating the user`,
+            }),
+            { status: 500 }
+          );
+        }
+      }
+      if (params['*']?.includes('/logout')) {
+        try {
+          return this.auth0Authenticator.authenticator.logout(
+            request,
+            { redirectTo: '/' }
           );
         } catch (e) {
           console.error(e);

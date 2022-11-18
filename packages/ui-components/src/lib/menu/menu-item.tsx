@@ -1,8 +1,12 @@
 import { tlsx } from '../../util/clsx';
 import { Menu as HeadlessMenu } from '@headlessui/react';
 import { PropsWithChildren } from 'react';
+import { MenuItemProps } from './types';
 
-export function MenuItem({ children }: PropsWithChildren) {
+export function MenuItem({
+  children,
+  ...rest
+}: PropsWithChildren<MenuItemProps>) {
   return (
     <HeadlessMenu.Item
       as="li"
@@ -11,7 +15,12 @@ export function MenuItem({ children }: PropsWithChildren) {
         'px-6 py-2',
         'focus:drop-shadow-none',
         'focus:outline-none',
-
+        'w-max',
+        'flex',
+        'place-content-between',
+        'gap-7',
+        'hover:cursor-pointer',
+        'dark:hover:text-text-dark',
         'focus:outline-primary-light',
         'focus:dark:outline-primary-dark',
         'hover:outline-paper-light',
@@ -20,6 +29,7 @@ export function MenuItem({ children }: PropsWithChildren) {
         'hover:bg-primary-transparent-light dark:hover:bg-primary-transparent-dark',
         'rounded-[15px]'
       )}
+      {...rest}
     >
       {children}
     </HeadlessMenu.Item>

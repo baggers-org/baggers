@@ -13,6 +13,8 @@ export const getTickerSnapshots = async (
   const polygon = new PolygonAdapter();
   const snapshots = await polygon.getAllSecuritySnapshots();
 
+  console.log(snapshots);
+
   const operations: AnyBulkWriteOperation<Security>[] = snapshots
     // Make sure we have a latest price and not 0
     .filter((t) => !!t?.latestPrice)

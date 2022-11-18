@@ -20,7 +20,7 @@ describe('getTickerSnapshots', () => {
 
   it('given a new VALID snapshot it should set the last price to 100 and lastTrade.p to 100', async () => {
     // Enter our first snapshot
-    mockMongoClient
+    await mockMongoClient
       .db('baggers')
       .collection<Security>('securities')
       .insertOne({
@@ -68,7 +68,7 @@ describe('getTickerSnapshots', () => {
   });
 
   it('given an empty snapshot it should re-use our previously saved latestPrice as 666', async () => {
-    mockMongoClient
+    await mockMongoClient
       .db('baggers')
       .collection<Security>('securities')
       .insertOne({
