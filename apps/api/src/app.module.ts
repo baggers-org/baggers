@@ -29,7 +29,7 @@ import { env } from './env/env.schema';
       autoSchemaFile:
         env.NODE_ENV === 'development'
           ? join(process.cwd(), '../../packages/schema/schema.gql')
-          : false,
+          : true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       playground: false,
       introspection: true,
