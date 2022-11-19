@@ -34,9 +34,9 @@ COPY --from=installer /app/apps/ui/package.json .
  
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nestjs:nodejs /app/ui/build/ ./apps/build/
-COPY --from=installer --chown=nestjs:nodejs /app/apps/ui/public/ ./apps/public/
+COPY --from=installer --chown=nestjs:nodejs /app/apps/ui/build/ ./build/
+COPY --from=installer --chown=nestjs:nodejs /app/apps/ui/public/ ./public/
 COPY --from=installer --chown=nestjs:nodejs /app/packages/ ./packages/
 COPY --from=installer --chown=nestjs:nodejs /app/node_modules/ ./node_modules
  
-CMD node_modules/.bin/remix-serve ./apps/ui/build
+CMD node_modules/.bin/remix-serve build

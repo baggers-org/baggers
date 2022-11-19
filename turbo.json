@@ -14,14 +14,6 @@
         "build/**"
       ]
     },
-    "sdk#build": {
-      "dependsOn": [
-        "^graphql-types#build"
-      ],
-      "outputs": [
-        "build/**"
-      ]
-    },
     "type-check": {},
     "lint": {
       "outputs": []
@@ -30,6 +22,9 @@
       "cache": false
     },
     "docker": {
+      "cache": false
+    },
+    "deploy": {
       "cache": false
     },
     "dev": {
