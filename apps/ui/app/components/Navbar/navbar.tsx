@@ -22,7 +22,7 @@ export function Navbar({ options }: NavbarProps) {
         'flex',
         'place-content-between',
         'place-items-center',
-        'absolute',
+        'relative',
         'w-full',
         'h-24',
         'ml-auto',

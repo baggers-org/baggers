@@ -1,3 +1,4 @@
+import { tlsx } from '@baggers/ui-components/src/util/clsx';
 import {
   Headers,
   LinksFunction,
@@ -11,8 +12,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react';
+import clsx from 'clsx';
 import { Navbar } from './components/Navbar';
+import {
+  NonFlashOfWrongThemeEls,
+  ThemeProvider,
+  useTheme,
+} from './components/theme';
+import { getThemeSession } from './cookies/theme.cookie';
 import { useNavbarOptions } from './hooks/useNavbarOptions';
 import { isAuthenticated } from './server/policy.server';
 
@@ -38,16 +47,20 @@ export const loader: LoaderFunction = async ({
   request,
 }): Promise<RootData> => {
   const headers = new Headers();
+  const themeSession = await getThemeSession(request);
   const user = await isAuthenticated(request, headers);
 
   return {
     user,
+    theme: themeSession.getTheme(),
   };
 };
 
-export default function App() {
+export function App() {
+  const [theme] = useTheme();
+  const data = useLoaderData<RootData>();
   return (
-    <html lang="en">
+    <html lang="en" className={clsx(theme, 'transition-colors')}>
       <head>
         <Meta />
         <Links />
@@ -57,13 +70,18 @@ export default function App() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
+        <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
-      <body className="dark:bg-background-dark bg-background-light dark:text-text-dark text-text-light">
+      <body
+        className={tlsx(
+          'dark:bg-background-dark bg-background-light',
+          'dark:text-text-dark text-text-light',
+          'px-12'
+        )}
+      >
         <div>
           <Navbar options={useNavbarOptions()} />
-          <div className="pt-32">
-            <Outlet />
-          </div>
+          <Outlet />
         </div>
 
         <ScrollRestoration />
@@ -71,5 +89,14 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function AppWithProvider() {
+  const data = useLoaderData<RootData>();
+  return (
+    <ThemeProvider specifiedTheme={data.theme}>
+      <App />
+    </ThemeProvider>
   );
 }

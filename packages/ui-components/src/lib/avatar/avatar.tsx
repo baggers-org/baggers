@@ -1,15 +1,31 @@
 import { forwardRef, useState } from 'react';
 import { AvatarProps } from './types';
 import { clsx } from 'clsx';
+import { withLabel } from './with-label';
 
-export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(
-  (props, ref) => {
+export const Avatar = withLabel(
+  forwardRef<HTMLImageElement, AvatarProps>((props, ref) => {
     const { fallbackInitials, src } = props;
     const [loadError, setError] = useState(false);
+
+    const getSize = () => {
+      const { size } = props;
+
+      switch (size) {
+        case 'sm': {
+          return ['w-8', 'h-8', 'text-sm'];
+        }
+        case 'lg': {
+          return ['w-16', 'h-16', 'text-xl'];
+        }
+        default: {
+          return ['w-12', 'h-12', 'text-md'];
+        }
+      }
+    };
     const commonClasses = clsx(
       'rounded-full',
-      'w-12',
-      'h-12',
+      ...getSize(),
       'hover:cursor-pointer',
       'hover:border-2',
       'hover:primary-light',
@@ -25,8 +41,6 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(
             'place-content-center',
             'place-items-center',
             'flex',
-            'h-16',
-            'text-3xl',
             commonClasses
           )}
         >
@@ -44,5 +58,5 @@ export const Avatar = forwardRef<HTMLImageElement, AvatarProps>(
         {...props}
       />
     );
-  }
+  })
 );

@@ -1,7 +1,6 @@
 {
   "extends": "@baggers/tsconfig/remix.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "build"
   }
 }

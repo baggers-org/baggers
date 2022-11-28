@@ -6,6 +6,7 @@ import { useCurrentUser } from '~/hooks/useCurrentUser';
 import { Avatar } from '../../../../../packages/ui-components/src/lib/avatar/avatar';
 import { Menu, MenuItem } from '@baggers/ui-components';
 import { Logout } from 'tabler-icons-react';
+import { Theme, useTheme } from '../theme';
 
 export const ProfileButton: React.FC = () => {
   const user = useCurrentUser();
@@ -13,6 +14,7 @@ export const ProfileButton: React.FC = () => {
 
   const { t } = useTranslation(`common`);
 
+  const [theme, setTheme] = useTheme();
   const submit = useSubmit();
   if (!user) {
     return (
@@ -35,6 +37,7 @@ export const ProfileButton: React.FC = () => {
         }
       >
         <MenuItem
+          textSecondary
           onClick={() =>
             submit(
               {},
@@ -46,6 +49,18 @@ export const ProfileButton: React.FC = () => {
           }
         >
           <Logout /> {t('logout', 'Logout')}
+        </MenuItem>
+        <hr />
+        <MenuItem
+          onClick={() => {
+            setTheme((p) =>
+              p === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
+            );
+          }}
+        >
+          {theme === Theme.DARK
+            ? t('switch_to_light_theme', 'Switch to light theme')
+            : t('switch_to_dark_theme', 'Switch to dark theme')}
         </MenuItem>
       </Menu>
     </>

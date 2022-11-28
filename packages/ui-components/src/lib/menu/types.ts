@@ -12,7 +12,9 @@ export type MenuTransitionProps = {
   open?: boolean;
 };
 
-export type MenuItemProps = React.DetailedHTMLProps<
+export type MenuItemProps = {
+  textSecondary?: boolean;
+} & React.DetailedHTMLProps<
   React.LiHTMLAttributes<HTMLLIElement>,
   HTMLLIElement
 >;

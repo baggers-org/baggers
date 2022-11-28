@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@baggers/graphql-types": "*",
+    "@baggers/env": "*",
     "@baggers/remix-auth0": "*",
     "@baggers/sdk": "*",
     "@baggers/tailwind": "*",

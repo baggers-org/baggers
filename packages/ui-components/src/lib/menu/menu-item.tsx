@@ -25,9 +25,12 @@ export function MenuItem({
         'focus:dark:outline-primary-dark',
         'hover:outline-paper-light',
         'hover:dark:outline-paper-dark',
+        'dark:text-text-secondary-dark',
         'font-[400]',
         'hover:bg-primary-transparent-light dark:hover:bg-primary-transparent-dark',
-        'rounded-[15px]'
+        rest.textSecondary
+          ? 'text-secondary-light dark:text-secondary-dark'
+          : ''
       )}
       {...rest}
     >

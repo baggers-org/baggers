@@ -1,2 +1,1 @@
-export * from './PortfolioCard';
-
+export * from './portfolio-card';
