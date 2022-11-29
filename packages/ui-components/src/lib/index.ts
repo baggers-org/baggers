@@ -1,4 +1,5 @@
 export * from './avatar';
+export * from './charts';
 export * from './menu';
 export * from './button';
 export * from './search-input';

@@ -7,7 +7,7 @@ export function PortfolioCardTotalValue({
 }: PortfolioCardProps) {
   const { t } = useTranslation();
   return (
-    <div className="place-self-center font-[Helvetica] grid place-items-center">
+    <div className="font-[Helvetica] grid">
       <span className="text-sm font-thin">
         {t('total_value', 'Total value')}
       </span>

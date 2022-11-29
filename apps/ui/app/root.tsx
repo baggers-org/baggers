@@ -1,4 +1,3 @@
-import { tlsx } from '@baggers/ui-components/src/util/clsx';
 import {
   Headers,
   LinksFunction,
@@ -74,7 +73,7 @@ export function App() {
         />
       </head>
       <body
-        className={tlsx(
+        className={clsx(
           'dark:bg-background-dark bg-background-light',
           'dark:text-text-dark text-text-light',
           'px-12'

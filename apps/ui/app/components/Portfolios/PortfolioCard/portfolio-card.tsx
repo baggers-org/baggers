@@ -2,6 +2,7 @@ import { PortfolioSummary } from '@baggers/graphql-types';
 import { Link } from '@remix-run/react';
 import { useT } from '~/hooks/useT';
 import { tlsx } from '~/util/clsx';
+import { PortfolioCardChart } from './portfolio-card-chart';
 import { PortfolioCardHeader } from './portfolio-card-header';
 import { PortfolioCardInnerCard } from './portfolio-card-inner-card';
 import { PortfolioCardPerformance } from './portfolio-card-performance';
@@ -20,7 +21,7 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       className={tlsx(
         'dark:bg-paper-dark bg-paper-light',
         'rounded-3xl',
-        'h-[600px]',
+        'h-[800px]',
         'drop-shadow-md',
         'hover:cursor-pointer',
         'hover:outline hover:dark:outline-primary-dark hover:outline-primary-light',
@@ -31,8 +32,13 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       )}
     >
       <PortfolioCardInnerCard>
-        <PortfolioCardHeader portfolio={portfolio} />
-        <PortfolioCardTotalValue portfolio={portfolio} />
+        <div>
+          <PortfolioCardHeader portfolio={portfolio} />
+          <div className="flex place-content-center mt-12">
+            <PortfolioCardTotalValue portfolio={portfolio} />
+          </div>
+        </div>
+        <PortfolioCardChart />
         <PortfolioCardPerformance portfolio={portfolio} />
       </PortfolioCardInnerCard>
       <PortfolioCardTags portfolio={portfolio} />

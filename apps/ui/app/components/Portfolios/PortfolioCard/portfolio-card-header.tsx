@@ -20,7 +20,9 @@ export function PortfolioCardHeader({
           'py-3'
         )}
       >
-        <span className="text-lg font-bold">{portfolio.name}</span>
+        <span className="text-lg font-bold">
+          {portfolio.name || 'Unnamed Portfolio'}
+        </span>
         <span className="text-xs line-clamp-1">
           {portfolio.description}
         </span>

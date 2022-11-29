@@ -16,7 +16,8 @@
     "docker": "FORCE_COLOR=1 turbo run docker --continue --parallel",
     "deploy": "FORCE_COLOR=1 turbo run deploy --continue --parallel",
     "generate": "npm run generate --prefix tools/plop",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "postinstall": "patch-package"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",

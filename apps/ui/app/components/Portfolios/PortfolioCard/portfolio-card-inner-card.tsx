@@ -15,11 +15,13 @@ export function PortfolioCardInnerCard({
         'from-[rgba(84,116,254,0.1)]',
         'to-[rgba(154,106,255,0.2)]',
         'rounded-3xl',
+        'w-full',
         'transition-all',
         'h-5/6',
         'pt-4',
         'pb-8',
-        'grid'
+        'flex flex-col',
+        'place-content-between'
       )}
     >
       {children}
