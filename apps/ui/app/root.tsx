@@ -59,9 +59,11 @@ export const loader: LoaderFunction = async ({
 export function App() {
   const [theme] = useTheme();
   const data = useLoaderData<RootData>();
+
   return (
     <html lang="en" className={clsx(theme, 'transition-colors')}>
       <head>
+        <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
         <Meta />
         <Links />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,7 +72,6 @@ export function App() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet"
         />
-        <NonFlashOfWrongThemeEls ssrTheme={Boolean(data.theme)} />
       </head>
       <body
         className={tlsx(

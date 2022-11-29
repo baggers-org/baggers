@@ -806,11 +806,6 @@ video {
   background-color: rgb(26 32 48 / var(--tw-bg-opacity));
 }
 
-.bg-background-dark {
-  --tw-bg-opacity: 1;
-  background-color: rgb(30 32 35 / var(--tw-bg-opacity));
-}
-
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -1153,12 +1148,6 @@ video {
 .group:hover .group-hover\:bg-primary-light {
   --tw-bg-opacity: 1;
   background-color: rgb(116 47 246 / var(--tw-bg-opacity));
-}
-
-.group:hover .group-hover\:from-\[rgba\(36\2c 97\2c 247\2c 0\.23\)\] {
-  --tw-gradient-from: rgba(36,97,247,0.23);
-  --tw-gradient-to: rgb(36 97 247 / 0);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .group:hover .group-hover\:underline {
