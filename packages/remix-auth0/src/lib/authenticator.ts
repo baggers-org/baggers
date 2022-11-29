@@ -22,7 +22,6 @@ export class Auth0Authenticator<
       AUTH0_CLIENT_SECRET,
       AUTH0_DOMAIN,
       AUTH0_AUDIENCE,
-      AUTH0_SCOPE,
     } = env;
 
     this.onAuth = onAuthFn;
@@ -31,7 +30,7 @@ export class Auth0Authenticator<
       clientSecret: AUTH0_CLIENT_SECRET,
       domain: AUTH0_DOMAIN,
       callbackURL: `${AUTH0_APP_URL}/auth/auth0/callback`,
-      scope: AUTH0_SCOPE,
+      scope: `openid profile email offline_access`,
       // Frontned will only ever communicate with the db via the GraphQL endpoint
       audience: AUTH0_AUDIENCE,
     };
