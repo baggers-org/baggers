@@ -1,6 +1,6 @@
 import { Tag } from '@baggers/ui-components';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'tabler-icons-react';
+import { FaLink } from 'react-icons/fa';
 import { PortfolioCardProps } from './portfolio-card';
 
 export function PortfolioCardTags({ portfolio }: PortfolioCardProps) {
@@ -16,7 +16,7 @@ export function PortfolioCardTags({ portfolio }: PortfolioCardProps) {
         <Tag>Consumer</Tag>
         {portfolio?.plaidItem ? (
           <Tag>
-            <Link size={16} />
+            <FaLink size={16} />
             Linked
           </Tag>
         ) : null}

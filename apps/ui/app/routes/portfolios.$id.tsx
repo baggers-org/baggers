@@ -5,12 +5,16 @@ import {
   MetaFunction,
 } from '@remix-run/node';
 
-import type { PortfoliosFindByIdQuery } from '@baggers/graphql-types';
+import type {
+  Portfolio,
+  PortfoliosFindByIdQuery,
+} from '@baggers/graphql-types';
 import { useLoaderData } from '@remix-run/react';
 import {
   authenticatedSdk,
   unauthenticatedSdk,
 } from '~/server/sdk.server';
+import { ViewPortfolioHeader } from '~/pages/portfolios/view-portfolio/header/view-portfolio-header';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: data
@@ -22,7 +26,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   const { id } = params;
   const sdk = await unauthenticatedSdk(request);
 
-  return sdk.portfoliosFindById({ _id: id });
+  const { portfoliosFindById } = await sdk.portfoliosFindById({
+    _id: id,
+  });
+
+  return portfoliosFindById;
 };
 
 export const action: ActionFunction = async ({ params, request }) => {
@@ -43,8 +51,11 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function PortfoloLayout() {
-  const { portfoliosFindById } =
-    useLoaderData<PortfoliosFindByIdQuery>();
+  const portfolio = useLoaderData<Portfolio>();
 
-  return <div>{JSON.stringify(portfoliosFindById)}</div>;
+  return (
+    <div>
+      <ViewPortfolioHeader portfolio={portfolio as Portfolio} />
+    </div>
+  );
 }

@@ -20,9 +20,9 @@ export function MenuItems({
       className={tlsx(
         'dark:bg-paper-dark bg-paper-light',
         'rounded-lg',
-        'p-1',
         'absolute',
         'z-50',
+        'drop-shadow-lg',
         '-translate-x-1/4',
         'w-max'
       )}

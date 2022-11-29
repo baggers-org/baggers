@@ -1,3 +1,3 @@
 export function MenuDivider() {
-  return <hr />;
+  return <hr className="opacity-20" />;
 }

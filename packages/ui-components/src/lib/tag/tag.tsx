@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
+import { FaCross } from 'react-icons/fa';
 import { tlsx } from '../../util/clsx';
-import { X } from 'tabler-icons-react';
 
 export type TagProps = {
   removable?: boolean;
@@ -15,10 +15,11 @@ export function Tag({
     <span
       className={tlsx(
         'dark:bg-primary-transparent-dark bg-primary-transparent-light p-2',
-        'rounded-lg',
+        'rounded-3xl',
         'font-normal',
         'text-sm',
         'flex',
+        'px-5',
         'place-items-center',
         'gap-1',
         'max-w-fit',
@@ -27,7 +28,10 @@ export function Tag({
     >
       {children}
       {removable ? (
-        <X className="hover:pointer:cursor" onClick={onRemove} />
+        <FaCross
+          className="hover:pointer:cursor"
+          onClick={onRemove}
+        />
       ) : null}
     </span>
   );

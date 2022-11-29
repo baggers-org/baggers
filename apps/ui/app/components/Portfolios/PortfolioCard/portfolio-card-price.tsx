@@ -43,7 +43,7 @@ export function PortfolioCardPrice({
       <span className="text-xs">{label}</span>
       {!value && 'N/A'}
       {value ? (
-        <span className={getColor() + ' ' + 'font-semibold'}>
+        <span className={getColor() + ' ' + 'font-medium'}>
           {value > 0 ? `+${formattedValue}` : formattedValue}
         </span>
       ) : null}

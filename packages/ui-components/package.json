@@ -10,7 +10,7 @@
 	"dependencies": {
 		"@headlessui/react": "^1.7.4",
 		"clsx": "^1.2.1",
-		"tabler-icons-react": "^1.55.0"
+		"react-icons": "^4.7.1"
 	},
 	"peerDependencies": {
 		"react": "^18.0.0",

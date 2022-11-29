@@ -4,16 +4,22 @@
 
 @layer utilities {
   .border-search-light {
-    padding: 0.5rem;
     border: double 1px transparent;
-    border-radius: 6px;
+
     background-image: linear-gradient(
-        rgb(255, 255, 255),
-        rgb(255, 255, 255)
+        rgb(228, 229, 251),
+        rgb(224, 228, 251)
       ),
       linear-gradient(rgb(36, 97, 247, 1), rgb(116, 47, 246, 1));
     background-origin: border-box;
     background-clip: padding-box, border-box;
+  }
+
+  .border-search-light::placeholder {
+    color: #742ff6;
+  }
+  .border-search-dark::placeholder {
+    color: rgba(242, 242, 242, 0.7);
   }
 
   .border-search-dark {
@@ -31,5 +37,12 @@
 
   .border-search-dark:focus {
     border: double 3px transparent;
+  }
+
+  .text-shadow-primary-light {
+    text-shadow: 0 0 0.01px #742ff6;
+  }
+  .text-shadow-primary-dark {
+    text-shadow: 0 0 0.01px #9a6aff;
   }
 }

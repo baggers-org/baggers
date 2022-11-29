@@ -19,8 +19,6 @@ export async function getThemeSession(request: Request) {
   return {
     getTheme: () => {
       const themeValue = session.get('theme');
-      console.log(themeValue);
-
       return isTheme(themeValue) ? themeValue : null;
     },
     setTheme: (theme: Theme) => session.set('theme', theme),

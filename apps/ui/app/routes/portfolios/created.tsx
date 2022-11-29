@@ -9,10 +9,9 @@ import {
   MetaFunction,
   redirect,
 } from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
-import { PortfolioCard } from '~/components/Portfolios/PortfolioCard';
+import { useLoaderData } from '@remix-run/react';
+import { CreatedPortfolios } from '~/pages';
 import { authenticatedSdk } from '~/server/sdk.server';
-import { tlsx } from '~/util/clsx';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const sdk = await authenticatedSdk(request);
@@ -51,24 +50,12 @@ export default function CreatedPortfoliosPage() {
   const { portfoliosCreated } =
     useLoaderData<PortfoliosCreatedQuery>();
 
+  if (!portfoliosCreated) {
+    return <></>;
+  }
   return (
-    <Form method="post">
-      <button type="submit" name="intent" value="create">
-        Create Portfolio
-      </button>
-
-      <div
-        className={tlsx(
-          'grid grid-cols-1 gap-3',
-          'md:grid-cols-2',
-          'xl:grid-cols-3',
-          '2xl:grid-cols-4'
-        )}
-      >
-        {portfoliosCreated.map((portfolio) => (
-          <PortfolioCard portfolio={portfolio as PortfolioSummary} />
-        ))}
-      </div>
-    </Form>
+    <CreatedPortfolios
+      portfolios={portfoliosCreated as PortfolioSummary[]}
+    />
   );
 }

@@ -16,8 +16,8 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@baggers/graphql-types": "*",
     "@baggers/env": "*",
+    "@baggers/graphql-types": "*",
     "@baggers/remix-auth0": "*",
     "@baggers/sdk": "*",
     "@baggers/tailwind": "*",
@@ -34,13 +34,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
-    "remix-i18next": "^4.1.1",
-    "tabler-icons-react": "^1.55.0"
+    "react-icons": "^4.7.1",
+    "remix-i18next": "^4.1.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@baggers/tsconfig": "*",
-    "i18next-parser": "^7.0.3",
     "@fal-works/esbuild-plugin-regexp-externals": "^1.1.0",
     "@remix-run/dev": "^1.7.5",
     "@remix-run/eslint-config": "^1.7.5",
@@ -51,6 +50,7 @@
     "esbuild-plugin-svgr": "^1.0.1",
     "eslint": "^8.23.1",
     "eslint-config-baggers": "*",
+    "i18next-parser": "^7.0.3",
     "i18next-scanner": "^4.1.0",
     "typescript": "^4.7.4"
   },

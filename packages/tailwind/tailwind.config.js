@@ -11,6 +11,7 @@ module.exports = {
           'Montserrat',
           ...defaultTheme.fontFamily.sans,
         ],
+        heading: ['Montserrat'],
       },
     },
     colors: {
@@ -27,6 +28,7 @@ module.exports = {
       'text-light': '#232323',
       'text-dark': '#FAFAFA',
       'text-secondary-dark': 'rgba(242, 242, 242, 0.7)',
+      'text-secondary-light': ' #585858',
       'profit-dark': '#39E940',
       'profit-light': '#39E940',
       'loss-light': '#C62828',

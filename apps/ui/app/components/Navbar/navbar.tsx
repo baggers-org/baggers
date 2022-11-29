@@ -19,6 +19,7 @@ export function Navbar({ options }: NavbarProps) {
         'rounded-[65px]',
         'p-5',
         'my-4',
+        'mb-8',
         'flex',
         'place-content-between',
         'place-items-center',
@@ -29,8 +30,8 @@ export function Navbar({ options }: NavbarProps) {
         'mr-auto'
       )}
     >
-      <div className="h-max font-extrabold grid place-content-center place-items-center ml-2">
-        <div className="w-10 h-10">
+      <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl ">
+        <div className="w-12 h-12 text-primary-light dark:text-primary-dark">
           <Logo />
         </div>
         BAGGERS

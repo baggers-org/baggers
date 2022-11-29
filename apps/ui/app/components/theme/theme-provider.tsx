@@ -96,15 +96,11 @@ const clientThemeCode = `
     ? 'dark'
     : 'light';
   const cl = document.documentElement.classList;
-  console.log(cl)
-  console.log(cl.contains('dark'))
   const themeAlreadyApplied = cl.contains('light') || cl.contains('dark');
-    console.log('in here')
   if (themeAlreadyApplied) {
     // this script shouldn't exist if the theme is already applied!
     console.warn('This message should not be logged - weird')
   } else {
-    console.log('adding ', theme)
   document.documentElement.classList.add(theme)
   }
 })();

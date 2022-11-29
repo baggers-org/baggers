@@ -1,9 +1,9 @@
 import { Link } from '@remix-run/react';
 import { NavbarLinkProps } from './types';
+import { FaChevronDown } from 'react-icons/fa';
 import { clsx } from 'clsx';
 import { Menu, MenuItem } from '@baggers/ui-components';
 import { useState } from 'react';
-import { ChevronDown } from 'tabler-icons-react';
 
 export function NavbarLink({ option, active }: NavbarLinkProps) {
   const classes = clsx(
@@ -19,7 +19,7 @@ export function NavbarLink({ option, active }: NavbarLinkProps) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  if (option.additionalOptions && typeof document !== 'undefined') {
+  if (option.additionalOptions) {
     return (
       <div
         tabIndex={0}
@@ -29,7 +29,7 @@ export function NavbarLink({ option, active }: NavbarLinkProps) {
       >
         <span className="flex place-items-center gap-1 ">
           {option.label}
-          <ChevronDown width={16} />
+          <FaChevronDown width={16} />
         </span>
         <Menu open={isMenuOpen} static>
           {option.additionalOptions.map((o) => (

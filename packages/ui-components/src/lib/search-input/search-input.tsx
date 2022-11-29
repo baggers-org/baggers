@@ -1,13 +1,14 @@
-import { Search } from 'tabler-icons-react';
 import { tlsx } from '../../util/clsx';
+import { FaSearch } from 'react-icons/fa';
 
 export function SearchInput() {
   return (
     <div className="relative flex place-items-center">
       <div className="absolute ml-2">
-        <Search />
+        <FaSearch />
       </div>
       <input
+        placeholder="Search..."
         className={tlsx(
           'rounded-full',
           'border-search-light',
@@ -20,6 +21,7 @@ export function SearchInput() {
           'py-2',
           'px-2',
           'border-double',
+          'w-full',
           'border-2'
         )}
       />

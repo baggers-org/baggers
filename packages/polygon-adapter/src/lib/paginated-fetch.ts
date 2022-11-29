@@ -22,12 +22,12 @@ export async function paginatedFetch<TResultsType>(
 
       next_url = data.next_url;
       results = [...results, ...data.results];
-
-      console.log('Fetched ', results.length);
     }
     return results;
   } catch (e) {
-    console.error('There was an error in polygon adapter paginatedFetch');
+    console.error(
+      'There was an error in polygon adapter paginatedFetch'
+    );
     console.error(e);
     throw e;
   }

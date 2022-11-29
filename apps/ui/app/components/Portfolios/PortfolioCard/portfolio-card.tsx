@@ -16,13 +16,15 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
 
   return (
     <Link
-      to={`/portfolios/${portfolio._id}`}
+      to={`/portfolios/${portfolio._id}/overview`}
       className={tlsx(
         'dark:bg-paper-dark bg-paper-light',
         'rounded-3xl',
         'h-[600px]',
+        'drop-shadow-md',
         'hover:cursor-pointer',
         'hover:outline hover:dark:outline-primary-dark hover:outline-primary-light',
+        'transition-[outline_0.001s_ease-in]',
         'flex',
         'flex-col',
         'group'
