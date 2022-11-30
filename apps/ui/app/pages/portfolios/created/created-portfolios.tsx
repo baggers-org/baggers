@@ -22,7 +22,7 @@ export function CreatedPortfolios({
         )}
       >
         {portfolios.map((portfolio) => (
-          <PortfolioCard portfolio={portfolio} />
+          <PortfolioCard portfolio={portfolio} key={portfolio._id} />
         ))}
       </div>
     </Form>

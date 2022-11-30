@@ -7,6 +7,8 @@ import { MenuItems } from './menu-items';
 
 export function Menu({
   children,
+  offsetX,
+  offsetY,
   ...rest
 }: PropsWithChildren<MenuProps>) {
   return (
@@ -15,11 +17,7 @@ export function Menu({
         <HeadlessMenu.Button>{rest.button}</HeadlessMenu.Button>
       ) : null}
       <MenuTransition open={rest.open}>
-        <MenuItems
-          offsetX={rest.offsetX}
-          offsetY={rest.offsetY}
-          static
-        >
+        <MenuItems offsetX={offsetX} offsetY={offsetY} static>
           {children}
         </MenuItems>
       </MenuTransition>

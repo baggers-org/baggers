@@ -4,6 +4,7 @@ import {
   LoaderFunction,
   MetaFunction,
 } from '@remix-run/node';
+import { motion } from 'framer-motion';
 import {
   Links,
   LiveReload,
@@ -14,6 +15,7 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import clsx from 'clsx';
+import { AnimatePresence } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import {
   NonFlashOfWrongThemeEls,
@@ -80,7 +82,15 @@ export function App() {
       >
         <Navbar options={useNavbarOptions()} />
         <div className="pt-36 px-12">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.main
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Outlet />
+            </motion.main>
+          </AnimatePresence>
         </div>
 
         <ScrollRestoration />

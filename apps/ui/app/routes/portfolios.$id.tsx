@@ -5,10 +5,7 @@ import {
   MetaFunction,
 } from '@remix-run/node';
 
-import type {
-  Portfolio,
-  PortfoliosFindByIdQuery,
-} from '@baggers/graphql-types';
+import type { Portfolio } from '@baggers/graphql-types';
 import { useLoaderData } from '@remix-run/react';
 import {
   authenticatedSdk,
@@ -17,9 +14,7 @@ import {
 import { ViewPortfolioHeader } from '~/pages/portfolios/view-portfolio/header/view-portfolio-header';
 
 export const meta: MetaFunction = ({ data }) => ({
-  title: data
-    ? `${(data as PortfoliosFindByIdQuery)?.portfoliosFindById?.name}`
-    : 'Not found',
+  title: data ? `${data?.name}` : 'Not found',
 });
 
 export const loader: LoaderFunction = async ({ params, request }) => {
