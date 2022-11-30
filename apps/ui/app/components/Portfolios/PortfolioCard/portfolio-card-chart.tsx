@@ -1,6 +1,5 @@
 import { AreaChart } from '@baggers/ui-components';
 import { useState } from 'react';
-import { Theme, useTheme } from '~/components/theme';
 
 const POINTS = [
   { time: `2018-12-22`, value: 32.51 },
@@ -28,7 +27,7 @@ export const PortfolioCardChart = () => {
   return (
     <AreaChart
       fitContent
-      className="h-[400px]"
+      className="h-[200px]"
       options={{
         layout: {
           background: {

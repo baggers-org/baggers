@@ -75,12 +75,11 @@ export function App() {
       <body
         className={clsx(
           'dark:bg-background-dark bg-background-light',
-          'dark:text-text-dark text-text-light',
-          'px-12'
+          'dark:text-text-dark text-text-light'
         )}
       >
-        <div>
-          <Navbar options={useNavbarOptions()} />
+        <Navbar options={useNavbarOptions()} />
+        <div className="pt-36 px-12">
           <Outlet />
         </div>
 

@@ -5,6 +5,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        '3xl': '1920px',
+        '4xl': '2100px',
+      },
       fontFamily: {
         sans: [
           'Inter',

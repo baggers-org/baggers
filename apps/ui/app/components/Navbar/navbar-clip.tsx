@@ -5,7 +5,6 @@ export function NavbarClip() {
       style={{
         position: 'absolute',
         bottom: -1,
-        width: '400px',
         height: '70%',
       }}
       viewBox="879.739 29.735 408.521 90.265"

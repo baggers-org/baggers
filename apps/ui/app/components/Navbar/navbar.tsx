@@ -12,20 +12,22 @@ export function Navbar({ options }: NavbarProps) {
   return (
     <nav
       className={clsx(
-        'bg-gradient-to-b',
-        'from-[rgba(36,97,247,0.2)] to-[rgba(116,47,246,0.3)]',
-        'dark:from-[rgba(84,116,254,0.6)]',
-        'dark:to-[rgba(154,106,255,0.5)]',
-        'rounded-[65px]',
-        'p-5',
-        'my-4',
+        'px-12',
+        'py-3',
         'mb-8',
         'flex',
+        'bg-gradient-to-b',
+        'bg-background-light',
+        'dark:bg-background-dark',
         'place-content-between',
         'place-items-center',
-        'relative',
         'w-full',
-        'h-24',
+        'fixed',
+        'z-50',
+        'box-border',
+        'border-b',
+        'border-b-[rgba(96,96,96,0.14)]',
+        'dark:border-b-[rgba(96,96,96,0.60)]',
         'ml-auto',
         'mr-auto'
       )}

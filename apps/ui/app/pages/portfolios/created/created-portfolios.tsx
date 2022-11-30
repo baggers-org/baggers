@@ -13,11 +13,12 @@ export function CreatedPortfolios({
 
       <div
         className={tlsx(
-          'space-x-2',
-          'grid grid-cols-1 gap-3',
+          'grid grid-cols-1 gap-12',
           'md:grid-cols-2',
           'xl:grid-cols-3',
-          '2xl:grid-cols-4'
+          '2xl:grid-cols-4',
+          '3xl:grid-cols-5',
+          '4xl:grid-cols-6'
         )}
       >
         {portfolios.map((portfolio) => (

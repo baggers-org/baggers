@@ -7,11 +7,13 @@ export const useNavbarOptions = (): NavbarOption[] => {
 
   const user = useCurrentUser();
   const options = [
-    {
-      key: '/',
-      label: !user ? t('home', 'Home') : t('dashboard', 'Dashboard'),
-      to: '/',
-    },
+    user
+      ? {
+          key: '/',
+          label: t('dashboard', 'Dashboard'),
+          to: '/',
+        }
+      : undefined,
     user
       ? {
           key: '/portfolios',
