@@ -10,7 +10,7 @@ export function ViewPortfolioHeader({
   portfolio,
 }: ViewPortfolioProps) {
   return (
-    <div>
+    <div className="mb-12">
       <div className="flex place-content-between place-items-center">
         <HeaderBackdrop height="400px" />
         <div>

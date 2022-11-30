@@ -19,6 +19,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postinstall": "patch-package"
   },
+  "dependencies": {
+    "postinstall-postinstall": "^2.1.0",
+    "patch-package": "^6.5.0"
+  },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "eslint-config-custom": "*",

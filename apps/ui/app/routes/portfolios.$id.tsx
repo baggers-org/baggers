@@ -6,7 +6,7 @@ import {
 } from '@remix-run/node';
 
 import type { Portfolio } from '@baggers/graphql-types';
-import { useLoaderData } from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
 import {
   authenticatedSdk,
   unauthenticatedSdk,
@@ -51,6 +51,7 @@ export default function PortfoloLayout() {
   return (
     <div>
       <ViewPortfolioHeader portfolio={portfolio as Portfolio} />
+      <Outlet />
     </div>
   );
 }
