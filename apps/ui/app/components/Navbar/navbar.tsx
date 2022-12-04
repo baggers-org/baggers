@@ -22,9 +22,10 @@ export function Navbar({ options }: NavbarProps) {
         'bg-gradient-to-b',
         'bg-background-light',
         'dark:bg-background-dark',
-        'place-content-between',
+        'place-content-start',
         'place-items-center',
         'w-full',
+        'gap-24',
         'fixed',
         'z-40',
         'border-b',
@@ -51,8 +52,8 @@ export function Navbar({ options }: NavbarProps) {
           />
         ))}
       </div>
-      <NavbarSearch />
-      <div className="mr-3">
+      <div className="mr-3 ml-auto flex gap-4">
+        <NavbarSearch />
         <ProfileButton />
       </div>
       {state === 'submitting' ? (

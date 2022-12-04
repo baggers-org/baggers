@@ -14,8 +14,6 @@ export function PortfolioTabs({ portfolio }: ViewPortfolioProps) {
       ?.split(`/`)[0]
   }`;
 
-  console.log(activeTab);
-
   const tabs = [
     {
       label: t('overview', 'Overview'),
