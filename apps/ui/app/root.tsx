@@ -14,15 +14,12 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Navbar } from './components/Navbar';
 import {
   NonFlashOfWrongThemeEls,
   ThemeProvider,
   useTheme,
 } from './components/theme';
 import { getThemeSession } from './cookies/theme.cookie';
-import { useNavbarOptions } from './hooks/useNavbarOptions';
 import { isAuthenticated } from './server/policy.server';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -81,18 +78,7 @@ export function App() {
           'dark:text-text-dark text-text-light'
         )}
       >
-        <Navbar options={useNavbarOptions()} />
-        <div className="pt-36 px-12">
-          <AnimatePresence mode="wait">
-            <motion.main
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <Outlet />
-            </motion.main>
-          </AnimatePresence>
-        </div>
+        <Outlet />
 
         <ScrollRestoration />
         <Scripts />

@@ -2,10 +2,7 @@ import { FaEllipsisV } from 'react-icons/fa';
 import { Menu, MenuDivider, MenuItem } from '../menu';
 import { DataTableMenuProps } from './data-table-menu.props';
 
-export function DataTableMenu<D>({
-  table,
-  column,
-}: DataTableMenuProps<D>) {
+export function DataTableMenu<D>({ column }: DataTableMenuProps<D>) {
   return (
     <Menu button={<FaEllipsisV />}>
       <MenuItem onClick={column.getToggleVisibilityHandler()}>

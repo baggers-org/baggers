@@ -1,12 +1,12 @@
 import { clsx } from 'clsx';
 import { NavbarProps } from './types';
-import { motion } from 'framer-motion';
 import { NavbarLink } from './navbar-link';
 import { useActiveNavbarTab } from './useActiveNavbarTab';
-import Logo from '../../../public/logo.svg';
 import { NavbarSearch } from './navbar-search';
 import { ProfileButton } from './navbar-profile';
 import { useTransition } from '@remix-run/react';
+import { LogoPrimary } from '../logo/logo';
+import { NabvarProgress } from './navbar-progress';
 
 export function Navbar({ options }: NavbarProps) {
   const activeTab = useActiveNavbarTab();
@@ -16,7 +16,7 @@ export function Navbar({ options }: NavbarProps) {
   return (
     <nav
       className={clsx(
-        'px-12',
+        'px-24',
         'py-3',
         'flex',
         'bg-gradient-to-b',
@@ -34,12 +34,7 @@ export function Navbar({ options }: NavbarProps) {
       )}
     >
       <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl ">
-        <div
-          className="w-12 h-12 text-primary-light dark:text-primary-dark"
-          style={{ maxHeight: '3rem', maxWidth: '3rem' }}
-        >
-          <Logo />
-        </div>
+        <LogoPrimary />
         BAGGERS
       </div>
 
@@ -56,45 +51,7 @@ export function Navbar({ options }: NavbarProps) {
         <NavbarSearch />
         <ProfileButton />
       </div>
-      {state === 'submitting' ? (
-        <svg className="w-full absolute h-1 z-50 -left-1 bottom-0">
-          <motion.line
-            style={{
-              stroke: 'rgb(154,106,255)',
-              strokeWidth: '100%',
-            }}
-            initial={{
-              x1: '0',
-              y1: '0',
-              x2: '0',
-              y2: '0',
-            }}
-            transition={{
-              repeat: Infinity,
-              repeatType: 'loop',
-              duration: 1,
-            }}
-            animate={{
-              x1: ['0', '0', '100%'],
-              y1: '0',
-              x2: ['0', '100%', '100%'],
-              y2: '0',
-            }}
-          />
-          <motion.line
-            style={{
-              stroke: 'rgba(154,106,255,0.3)',
-              strokeWidth: '100%',
-            }}
-            initial={{
-              x1: '0',
-              y1: '0',
-              x2: '100%',
-              y2: '0',
-            }}
-          />
-        </svg>
-      ) : null}
+      {state === 'submitting' ? <NabvarProgress /> : null}
     </nav>
   );
 }

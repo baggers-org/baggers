@@ -8,7 +8,6 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
-import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import {
   Table,
