@@ -1,3 +1,4 @@
+import { Form } from '@remix-run/react';
 import { tlsx } from '~/util/clsx';
 import { LandingBrowser } from './landing-browser';
 
@@ -38,18 +39,22 @@ export function LandingPage() {
           </li>
           <li>Join our community of investors for free today.</li>
         </ul>
-        <button
-          className={tlsx(
-            'dark:bg-primary-dark bg-primary-light rounded-full lg:text-lg text-sm font-normal',
-            'p-4',
-            'w-48',
-            'hover:opacity-60',
-            'text-text-dark',
-            'place-self-center'
-          )}
-        >
-          Get started
-        </button>
+        <Form method="post" action="/auth/auth0/login">
+          <button
+            className={tlsx(
+              'dark:bg-primary-dark bg-primary-light rounded-full lg:text-lg text-sm font-normal',
+              'p-4',
+              'w-48',
+              'hover:opacity-60',
+              'text-text-dark',
+              'place-self-center',
+              'lg:place-self-start'
+            )}
+            type="submit"
+          >
+            Get started
+          </button>
+        </Form>
       </div>
       <LandingBrowser />
     </section>

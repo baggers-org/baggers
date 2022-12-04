@@ -35,7 +35,10 @@ export function Navbar({ options }: NavbarProps) {
     >
       <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl ">
         <LogoPrimary />
-        BAGGERS
+        <span>
+          BAGGERS
+          <sub className="text-xs font-heading font-light">alpha</sub>
+        </span>
       </div>
 
       <div className="w-max flex gap-16">

@@ -777,10 +777,6 @@ video {
   width: 900px;
 }
 
-.w-\[800px\] {
-  width: 800px;
-}
-
 .w-48 {
   width: 12rem;
 }
@@ -1274,6 +1270,10 @@ video {
 
 .font-thin {
   font-weight: 100;
+}
+
+.font-light {
+  font-weight: 300;
 }
 
 .uppercase {
@@ -1846,24 +1846,16 @@ video {
     visibility: visible;
   }
 
-  .lg\:mt-48 {
-    margin-top: 12rem;
-  }
-
-  .lg\:mt-52 {
-    margin-top: 13rem;
-  }
-
-  .lg\:mt-56 {
-    margin-top: 14rem;
-  }
-
   .lg\:mt-64 {
     margin-top: 16rem;
   }
 
   .lg\:w-\[800px\] {
     width: 800px;
+  }
+
+  .lg\:place-self-start {
+    place-self: start;
   }
 
   .lg\:bg-\[transparent\] {
