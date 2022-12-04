@@ -4,7 +4,6 @@ import {
   LoaderFunction,
   MetaFunction,
 } from '@remix-run/node';
-import { motion } from 'framer-motion';
 import {
   Links,
   LiveReload,
@@ -15,7 +14,7 @@ import {
   useLoaderData,
 } from '@remix-run/react';
 import clsx from 'clsx';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Navbar } from './components/Navbar';
 import {
   NonFlashOfWrongThemeEls,
@@ -25,6 +24,8 @@ import {
 import { getThemeSession } from './cookies/theme.cookie';
 import { useNavbarOptions } from './hooks/useNavbarOptions';
 import { isAuthenticated } from './server/policy.server';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import styles from './styles/app.css';
 import { RootData } from './types/root-data';
@@ -105,7 +106,9 @@ export default function AppWithProvider() {
   const data = useLoaderData<RootData>();
   return (
     <ThemeProvider specifiedTheme={data.theme}>
-      <App />
+      <DndProvider backend={HTML5Backend}>
+        <App />
+      </DndProvider>
     </ThemeProvider>
   );
 }

@@ -1,4 +1,8 @@
-import { PropsWithChildren } from 'react';
+import {
+  DetailedHTMLProps,
+  PropsWithChildren,
+  ThHTMLAttributes,
+} from 'react';
 import { HTMLProps } from '../../util/html-props';
 
 export type TableProps = PropsWithChildren<
@@ -10,7 +14,10 @@ export type TableHeadProps = PropsWithChildren<
 >;
 
 export type TableHeaderProps = PropsWithChildren<
-  HTMLProps<HTMLTableCellElement>
+  DetailedHTMLProps<
+    ThHTMLAttributes<HTMLTableCellElement>,
+    HTMLTableCellElement
+  >
 >;
 export type TableBodyProps = PropsWithChildren<
   HTMLProps<HTMLTableSectionElement>

@@ -1,11 +1,16 @@
 const app = require('./app');
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 const { merge } = require('webpack-merge');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const {
+  RunScriptWebpackPlugin,
+} = require('run-script-webpack-plugin');
 
-module.exports = function (options) {
+module.exports = function (options, webpack) {
   return {
     ...app,
+    entry: [options.entry],
     module: {
       rules: [
         {
@@ -39,6 +44,12 @@ module.exports = function (options) {
         }),
       ],
     },
-    externals: [/^(?!\.|\/|@baggers|~).+/i],
+    externals: [
+      /^(?!\.|\/|@baggers|~).+/i,
+      nodeExternals({
+        allowlist: ['webpack/hot/poll?100'],
+      }),
+    ],
+    plugins: [...options.plugins],
   };
 };

@@ -9,17 +9,17 @@
 	},
 	"dependencies": {
 		"@headlessui/react": "^1.7.4",
+		"@tanstack/react-table": "^8.7.0",
 		"clsx": "^1.2.1",
+		"framer-motion": "^7.6.18",
 		"lightweight-charts": "^3.8.0",
+		"react-dnd": "^16.0.1",
+		"react-dnd-html5-backend": "^16.0.1",
 		"react-icons": "^4.7.1",
-		"react-table": "^7.8.0",
 		"use-debounce": "^9.0.2"
 	},
 	"peerDependencies": {
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0"
-	},
-	"devDependencies": {
-		"@types/react-table": "^7.7.12"
 	}
 }

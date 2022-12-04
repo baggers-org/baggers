@@ -6,5 +6,13 @@ module.exports = {
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
   watchPaths: ['../../packages/ui-components/**/*.{ts,tsx}'],
-  serverDependenciesToBundle: [/^@baggers\/.*/],
+  serverDependenciesToBundle: [
+    /^@baggers\/.*/,
+    'react-dnd',
+    '@react-dnd/invariant',
+    '@react-dnd/asap',
+    '@react-dnd/shallowequal',
+    'dnd-core',
+    'react-dnd-html5-backend',
+  ],
 };

@@ -17,7 +17,6 @@ export function MenuItem({
         'focus:outline-none',
         'w-full',
         'flex',
-        'rounded-lg',
         'place-items-center',
         'place-content-baseline',
         'gap-7',

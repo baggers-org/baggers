@@ -22,16 +22,21 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return ctx.getContext().req;
   }
   canActivate(context: ExecutionContext) {
-    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const isPublic = this.reflector.getAllAndOverride<boolean>(
+      IS_PUBLIC_KEY,
+      [context.getHandler(), context.getClass()]
+    );
 
     const ctx = GqlExecutionContext.create(context).getContext();
 
     if (isPublic && !ctx.req.headers['authorization']) {
       return true;
     }
+
+    if (!ctx.req.headers['authorization']) {
+      return false;
+    }
+
     return super.canActivate(context);
   }
 }

@@ -10,6 +10,8 @@
   "scripts": {
     "build": "FORCE_COLOR=1 turbo run build --color",
     "dev": "FORCE_COLOR=1 turbo run dev --parallel --filter=ui --filter=api",
+    "dev:ui": "FORCE_COLOR=1 turbo run dev --parallel --filter=ui",
+    "dev:api": "FORCE_COLOR=1 turbo run dev --parallel --filter=api",
     "lint": "FORCE_COLOR=1 turbo run lint",
     "test": "FORCE_COLOR=1 turbo run test -- --passWithNoTests",
     "type-check": "FORCE_COLOR=1 turbo run type-check",

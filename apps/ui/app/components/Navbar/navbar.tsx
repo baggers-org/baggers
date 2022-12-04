@@ -33,7 +33,10 @@ export function Navbar({ options }: NavbarProps) {
       )}
     >
       <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl ">
-        <div className="w-12 h-12 text-primary-light dark:text-primary-dark">
+        <div
+          className="w-12 h-12 text-primary-light dark:text-primary-dark"
+          style={{ maxHeight: '3rem', maxWidth: '3rem' }}
+        >
           <Logo />
         </div>
         BAGGERS

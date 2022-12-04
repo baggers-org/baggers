@@ -16,8 +16,6 @@ import { PlaidItemsModule } from '~/plaid-items';
 import { PlaidLinkModule } from '~/plaid-link';
 import { OpenFigiModule } from './open-figi/open-figi.module';
 import { ChartsModule } from './charts/charts.module';
-import { PolygonService } from './polygon/polygon.service';
-import { PolygonModule } from './polygon/polygon.module';
 import { env } from './env/env.schema';
 
 @Module({
@@ -45,7 +43,6 @@ import { env } from './env/env.schema';
     PlaidLinkModule,
     OpenFigiModule,
     ChartsModule,
-    PolygonModule,
   ],
   controllers: [],
   providers: [
@@ -54,7 +51,6 @@ import { env } from './env/env.schema';
       useExisting: JwtAuthGuard,
     },
     JwtAuthGuard,
-    PolygonService,
   ],
 })
 export class AppModule {}

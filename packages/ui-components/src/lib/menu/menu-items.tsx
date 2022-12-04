@@ -23,6 +23,7 @@ export function MenuItems({
         'absolute',
         'z-50',
         'drop-shadow-lg',
+        'font-heading',
         '-translate-x-1/4',
         'w-max'
       )}
