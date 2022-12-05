@@ -1,6 +1,5 @@
 import { Security } from '@baggers/graphql-types';
-import { PolygonAdapter } from '@baggers/polygon-adapter';
-
+import { MarketData } from '@baggers/market-data';
 import { securitiesCollection } from '@baggers/mongo-client';
 import { AnyBulkWriteOperation, MongoClient } from 'mongodb';
 
@@ -10,10 +9,7 @@ export const getTickerSnapshots = async (
   const t = Date.now();
   console.log('Beginning get ticker snapshots');
 
-  const polygon = new PolygonAdapter();
-  const snapshots = await polygon.getAllSecuritySnapshots();
-
-  console.log(snapshots);
+  const snapshots = await MarketData.getAllSecuritySnapshots();
 
   const operations: AnyBulkWriteOperation<Security>[] = snapshots
     // Make sure we have a latest price and not 0
@@ -65,7 +61,7 @@ export const getTickerSnapshots = async (
 
   console.log('Populating orphans using Last trade endpoint');
 
-  const lastTrades = await polygon.batchGetLastTrade(
+  const lastTrades = await MarketData.batchGetLastTrade(
     orphans.map((o) => o._id)
   );
 

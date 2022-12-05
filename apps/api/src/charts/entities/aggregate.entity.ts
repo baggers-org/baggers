@@ -9,5 +9,7 @@ export class Aggregate {
   o?: number;
   t?: number;
   v?: number;
+  sym?: string;
+  av?: number;
   vw?: number;
 }

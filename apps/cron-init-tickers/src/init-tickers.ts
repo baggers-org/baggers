@@ -1,17 +1,16 @@
 import { Security } from '@baggers/graphql-types';
 import { securitiesCollection } from '@baggers/mongo-client';
-import { PolygonAdapter } from '@baggers/polygon-adapter';
+import { MarketData } from '@baggers/market-data';
 import { AnyBulkWriteOperation, MongoClient } from 'mongodb';
 
 export const initTickers = async (mongo: MongoClient) => {
-  console.log('Beginning init tickers');
-
-  const polygon = new PolygonAdapter();
-  const tickers = await polygon.getAllTickers();
+  const tickers = await MarketData.getAllTickers();
 
   console.log('Enriching securities with ticker details');
 
-  const securities = await polygon.batchGetSecurityDetails(tickers);
+  const securities = await MarketData.batchGetSecurityDetails(
+    tickers
+  );
 
   console.log('Ready to update ', securities.length, ' securities');
 

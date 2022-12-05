@@ -4,12 +4,10 @@ import {
   SecuritySnapshot,
 } from './types';
 
-export abstract class MarketDataAdapter<TClient, TMapper> {
+export abstract class MarketDataAdapter<TMapper> {
   mapper: TMapper;
-  client: TClient;
 
-  constructor(client: TClient, mapper: TMapper) {
-    this.client = client;
+  constructor(mapper: TMapper) {
     this.mapper = mapper;
   }
   /**

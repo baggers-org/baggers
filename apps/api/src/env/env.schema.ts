@@ -12,4 +12,5 @@ export const env = setupEnv([
   'POLYGON_API_KEY',
   'NODE_ENV',
   'OPEN_FIGI_KEY',
+  'WS_URL',
 ]);

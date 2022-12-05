@@ -9,7 +9,7 @@
 	"dependencies": {
 		"@baggers/graphql-types": "*",
 		"@baggers/mongo-client": "*",
-		"@baggers/polygon-adapter": "*",
+		"@baggers/market-data": "*",
 		"mongodb": "^4.9.0"
 	},
 	"devDependencies": {

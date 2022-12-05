@@ -13,11 +13,13 @@ input AddHoldingInput {
 }
 
 type Aggregate {
+  av: Float
   c: Float
   h: Float
   l: Float
   n: Float
   o: Float
+  sym: String
   t: Float
   v: Float
   vw: Float
@@ -290,6 +292,10 @@ type Security {
   tickerDetails: TickerDetails
   todaysChange: Float
   todaysChangePercent: Float
+}
+
+type Subscription {
+  chartRealtime(ticker: String!): Aggregate!
 }
 
 type TickerDetails {

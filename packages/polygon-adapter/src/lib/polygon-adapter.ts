@@ -1,5 +1,6 @@
-import { IRestClient } from '@polygon.io/client-js';
-import { defaultPolygonRestClient } from './polygon-client';
+import { IRestClient, IWebsocketClient } from '@polygon.io/client-js';
+import { defaultPolygonRestClient } from './polygon-rest';
+import { defaultPolygonWebsocketClient } from './polygon-ws';
 import { RateLimiter } from 'limiter';
 import {
   LastTrade,
@@ -10,12 +11,21 @@ import {
 import { PolygonMapper } from './polygon-mapper';
 import { paginatedFetch } from './paginated-fetch';
 
-export class PolygonAdapter extends MarketDataAdapter<
-  IRestClient,
-  PolygonMapper
-> {
-  constructor(client: IRestClient = defaultPolygonRestClient()) {
-    super(client, new PolygonMapper());
+export class PolygonAdapter extends MarketDataAdapter<PolygonMapper> {
+  private client: IRestClient;
+  public socket: IWebsocketClient;
+
+  constructor(
+    rest: IRestClient = defaultPolygonRestClient(),
+    ws: IWebsocketClient = defaultPolygonWebsocketClient()
+  ) {
+    super(new PolygonMapper());
+    this.client = rest;
+    this.socket = ws;
+
+    this.socket.stocks().addEventListener('error', (e) => {
+      console.error(e);
+    });
   }
 
   private polygonLimitter = new RateLimiter({
@@ -42,7 +52,6 @@ export class PolygonAdapter extends MarketDataAdapter<
 
   async getLastTrade(ticker: string): Promise<LastTrade> {
     // TODO: implement trade mapper
-
     const { results, ...rest } = await this.client.stocks.lastTrade(
       ticker
     );

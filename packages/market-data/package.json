@@ -1,0 +1,14 @@
+{
+	"name": "@baggers/market-data",
+	"main": "src/index.ts",
+	"version": "0.0.0",
+	"scripts": {
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	},
+	"devDependencies": {
+		"@baggers/market-data-adapter": "*",
+		"@baggers/polygon-adapter": "*"
+	}
+}

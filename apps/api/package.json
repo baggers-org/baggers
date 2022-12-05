@@ -40,7 +40,8 @@
 		"plaid": "^10.8.0",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "^7.0.0",
-		"tslib": "^2.4.0"
+		"tslib": "^2.4.0",
+		"ws": "^8.11.0"
 	},
 	"devDependencies": {
 		"@baggers/tsconfig": "*",

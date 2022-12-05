@@ -17,6 +17,7 @@ import { PlaidLinkModule } from '~/plaid-link';
 import { OpenFigiModule } from './open-figi/open-figi.module';
 import { ChartsModule } from './charts/charts.module';
 import { env } from './env/env.schema';
+import { MarketDataSocketModule } from './market-data-socket/market-data-socket.module';
 
 @Module({
   imports: [
@@ -33,6 +34,25 @@ import { env } from './env/env.schema';
       introspection: true,
       resolvers: { ObjectId: ObjectIdScalar },
       sortSchema: true,
+      subscriptions: {
+        'graphql-ws': {
+          onConnect: (params) => {
+            console.log(params);
+            throw Error('graphql-ws not implemented on server yet');
+          },
+        },
+        'subscriptions-transport-ws': {
+          onConnect: (params: any) => {
+            return {
+              req: {
+                headers: {
+                  ...params,
+                },
+              },
+            };
+          },
+        },
+      },
     }),
     UsersModule,
     ConfigModule,
@@ -43,6 +63,7 @@ import { env } from './env/env.schema';
     PlaidLinkModule,
     OpenFigiModule,
     ChartsModule,
+    MarketDataSocketModule,
   ],
   controllers: [],
   providers: [

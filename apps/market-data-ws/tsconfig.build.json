@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "build",
+    "module": "commonjs",
+    "types": ["node"],
+    "importHelpers": true
+  },
+  "exclude": [
+    "jest.config.ts__tmpl__",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "tests"
+  ],
+  "include": ["src/**/*.ts", "jest.config.ts__tmpl__"]
+}
