@@ -6,7 +6,7 @@ const env = setupEnv(['API_URL']);
 
 const getAuthenticatedWs = (authHeader: string) => {
   return class NodeWebsocketWithAuth extends WebSocket {
-    constructor(address, protocols) {
+    constructor(address: string, protocols: string) {
       super(address, protocols, {
         headers: {
           // your custom headers go here
@@ -17,7 +17,7 @@ const getAuthenticatedWs = (authHeader: string) => {
   };
 };
 export class SubscriptionsClientBuilder {
-  private authHeader: string;
+  private authHeader = '';
 
   setAuthHeader(authHeader: string) {
     this.authHeader = authHeader;

@@ -35,5 +35,5 @@ export default function Holdings() {
     });
   }, [holdings, portfolio.holdings]);
 
-  return <HoldingsTable holdings={realtimeHoldings} />;
+  return <HoldingsTable holdings={realtimeHoldings as Holding[]} />;
 }

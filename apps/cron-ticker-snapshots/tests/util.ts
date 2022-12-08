@@ -1,5 +1,17 @@
 import * as stocks from '@polygon.io/client-js/lib/rest/stocks';
+import * as websocketClient from '@polygon.io/client-js/lib/websockets';
 
+// TODO: move this all to polygon mock or something
+jest.spyOn(websocketClient, 'websocketClient').mockImplementation(
+  () =>
+    ({
+      stocks() {
+        return {
+          addEventListener: jest.fn(),
+        };
+      },
+    } as any)
+);
 const stocksClientMock = jest.spyOn(stocks, 'stocksClient');
 
 export const mockPolygonStocksClientMethod = (method: any) => {

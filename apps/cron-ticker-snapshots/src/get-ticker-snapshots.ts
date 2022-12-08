@@ -8,8 +8,9 @@ export const getTickerSnapshots = async (
 ) => {
   const t = Date.now();
   console.log('Beginning get ticker snapshots');
+  const marketData = MarketData();
 
-  const snapshots = await MarketData.getAllSecuritySnapshots();
+  const snapshots = await marketData.getAllSecuritySnapshots();
 
   const operations: AnyBulkWriteOperation<Security>[] = snapshots
     // Make sure we have a latest price and not 0
@@ -61,7 +62,7 @@ export const getTickerSnapshots = async (
 
   console.log('Populating orphans using Last trade endpoint');
 
-  const lastTrades = await MarketData.batchGetLastTrade(
+  const lastTrades = await marketData.batchGetLastTrade(
     orphans.map((o) => o._id)
   );
 

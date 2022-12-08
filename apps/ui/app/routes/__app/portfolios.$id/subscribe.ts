@@ -9,7 +9,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const client = await unauthSubscriptionsClient(request);
 
   return new EventStream(request, (send) => {
-    send('init');
+    send('init', '');
     client.subscribe(
       {
         query: `

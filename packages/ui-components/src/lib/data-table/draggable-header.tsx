@@ -100,17 +100,21 @@ export function DraggableColumnHeader<D>({
     >
       <div
         ref={dragRef}
+        style={{
+          background: header.column.getIsPinned()
+            ? 'rgba(116 47 246, 0.5)'
+            : undefined,
+        }}
         className={tlsx(
           header.column.getIsPinned()
             ? 'bg-primary-transparent-light'
             : '',
 
           'group',
-          'font-heading',
-          'shadow-sm',
-          'transition-transform',
-          'bg-paper-light',
-          'dark:bg-paper-dark'
+          'font-normal',
+          'py-2',
+          'px-1',
+          'transition-transform'
         )}
       >
         <div ref={previewRef}>
@@ -132,6 +136,7 @@ export function DraggableColumnHeader<D>({
               <div className="opacity-0 group-hover:opacity-100 transition-all ml-auto">
                 <DataTableMenu table={table} column={header.column} />
               </div>
+              <div className="bg-text-light dark:bg-text-dark opacity-50 w-[1px] h-6" />
             </div>
           )}
         </div>

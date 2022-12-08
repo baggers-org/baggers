@@ -6,16 +6,7 @@ export const TableHeader = forwardRef(
   (props: TableHeaderProps, ref: any) => {
     return (
       <th
-        className={
-          tlsx(
-            'group',
-            'font-heading',
-            'shadow-sm',
-
-            'bg-paper-light',
-            'dark:bg-paper-dark'
-          ) + props.className
-        }
+        className={tlsx('group', 'border-collapse') + props.className}
         {...props}
         ref={ref}
       >

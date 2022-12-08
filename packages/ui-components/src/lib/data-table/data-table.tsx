@@ -73,7 +73,14 @@ export function DataTable<
         {table.getRowModel().rows.map((row) => (
           <TableRow key={row.id}>
             {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id}>
+              <TableCell
+                key={cell.id}
+                style={{
+                  background: cell.column.getIsPinned()
+                    ? 'rgba(116 47 246, 0.3)'
+                    : undefined,
+                }}
+              >
                 {flexRender(
                   cell.column.columnDef.cell,
                   cell.getContext()

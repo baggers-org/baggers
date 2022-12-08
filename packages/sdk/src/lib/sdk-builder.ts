@@ -2,8 +2,13 @@ import { GraphQLClient } from 'graphql-request';
 import { PatchedRequestInit } from 'graphql-request/dist/types';
 import { getSdk } from '../generated';
 
-export const getGraphQlClient = (baseUrl?: string) =>
-  new GraphQLClient(baseUrl || process.env.API_URL);
+export const getGraphQlClient = (baseUrl?: string) => {
+  const url = baseUrl || process.env.API_URL;
+  if (!url) {
+    throw new Error('API URL not defined');
+  }
+  return new GraphQLClient(url);
+};
 
 export class SdkBuilder {
   private options: PatchedRequestInit;

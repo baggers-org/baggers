@@ -59,8 +59,6 @@ export class PortfoliosService {
     _id: ObjectId,
     currentUser: Auth0AccessTokenPayload
   ): Promise<PopulatedPortfolio> {
-    console.log(currentUser);
-
     return this.portfolioModel
       .findOne<PopulatedPortfolio>({
         _id,

@@ -15,13 +15,11 @@ export class PolygonAdapter extends MarketDataAdapter<PolygonMapper> {
   private client: IRestClient;
   public socket: IWebsocketClient;
 
-  constructor(
-    rest: IRestClient = defaultPolygonRestClient(),
-    ws: IWebsocketClient = defaultPolygonWebsocketClient()
-  ) {
+  constructor(rest?: IRestClient, ws?: IWebsocketClient) {
     super(new PolygonMapper());
-    this.client = rest;
-    this.socket = ws;
+
+    this.client = rest || defaultPolygonRestClient();
+    this.socket = ws || defaultPolygonWebsocketClient();
 
     this.socket.stocks().addEventListener('error', (e) => {
       console.error(e);

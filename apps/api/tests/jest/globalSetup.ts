@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { register } from 'tsconfig-paths';
+import { WebSocketServer } from 'ws';
 register();
 import { setupTestApp } from '../util/db-util';
 

@@ -1,5 +1,6 @@
 import { MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
+import WS from 'jest-websocket-mock';
 import { createTestDb, TEST_DB_NAME } from './createTestDb';
 import { MockAuthGuard } from './MockAuthGuard';
 import { AppModule } from '../../src/app.module';
@@ -7,7 +8,6 @@ import { INestApplication } from '@nestjs/common';
 import { setupApp } from '../../src/setupApp';
 import { JwtAuthGuard } from '~/auth';
 import tk from 'timekeeper';
-
 const setupTestDatabase = async () => {
   if (!globalThis.__MONGOD__) {
     globalThis.__MONGOD__ = await createTestDb();

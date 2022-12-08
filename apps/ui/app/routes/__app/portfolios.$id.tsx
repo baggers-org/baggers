@@ -5,20 +5,13 @@ import {
   MetaFunction,
 } from '@remix-run/node';
 
-import type { Portfolio } from '@baggers/graphql-types';
-import {
-  Outlet,
-  useLoaderData,
-  useMatches,
-  useParams,
-} from '@remix-run/react';
+import { Outlet, useLoaderData, useParams } from '@remix-run/react';
 import {
   authenticatedSdk,
   unauthenticatedSdk,
 } from '~/server/sdk.server';
 import { ViewPortfolioHeader } from '~/pages/portfolios/view-portfolio/header/view-portfolio-header';
 import { useEventSource } from 'remix-sse/client';
-import { useMemo } from 'react';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: data ? `${data?.name}` : 'Not found',

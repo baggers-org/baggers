@@ -50,6 +50,8 @@
 		"axios-mock-adapter": "^1.21.2",
 		"dotenv": "^16.0.3",
 		"eslint-config-baggers": "*",
+		"jest-websocket-mock": "^2.4.0",
+		"mock-socket": "^9.1.5",
 		"mongodb-memory-server": "^8.10.0",
 		"timekeeper": "^2.2.0",
 		"ts-jest": "^29.0.3",

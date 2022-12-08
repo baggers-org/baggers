@@ -23,7 +23,7 @@ export function ProfitLoss({ value, isPercent }: ProfitLossProps) {
       : formatCurrency(value);
 
   return value ? (
-    <span className={getColor() + ' ' + 'font-medium'}>
+    <span className={getColor() + 'font-semibold'}>
       {value > 0 ? `+${formattedValue}` : formattedValue}
     </span>
   ) : null;

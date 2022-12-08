@@ -4,11 +4,11 @@ import { MarketData } from '@baggers/market-data';
 import { AnyBulkWriteOperation, MongoClient } from 'mongodb';
 
 export const initTickers = async (mongo: MongoClient) => {
-  const tickers = await MarketData.getAllTickers();
+  const tickers = await MarketData().getAllTickers();
 
   console.log('Enriching securities with ticker details');
 
-  const securities = await MarketData.batchGetSecurityDetails(
+  const securities = await MarketData().batchGetSecurityDetails(
     tickers
   );
 
