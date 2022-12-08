@@ -1,13 +1,24 @@
 import { Avatar } from '@baggers/ui-components';
+import { formatCurrency } from '@baggers/ui-util';
+import { useSubscribe } from 'remix-sse/client';
 import { useT } from '~/hooks/useT';
 import { tlsx } from '~/util/clsx';
-import { formatCurrency } from '~/util/format-currency';
 import { ViewPortfolioProps } from '../types';
 
 export function PortfolioHeaderRight({
   portfolio,
 }: ViewPortfolioProps) {
   const t = useT('portfolio_tracker');
+
+  const totalValue = useSubscribe(
+    `/portfolios/${portfolio._id}/subscribe`,
+    'totalValue',
+    {
+      returnLatestOnly: true,
+      deserialize: (raw) => Number(raw),
+    }
+  );
+
   return (
     <div className="flex gap-8">
       <div className="flex flex-col place-items-end text-right gap-4">
@@ -15,7 +26,7 @@ export function PortfolioHeaderRight({
           {t('total_value', 'Total value')}
         </span>
         <span className="text-5xl font-bold text-primary-light dark:text-primary-dark">
-          {formatCurrency(portfolio.totalValue)}
+          {formatCurrency(totalValue || portfolio.totalValue)}
         </span>
       </div>
       <div

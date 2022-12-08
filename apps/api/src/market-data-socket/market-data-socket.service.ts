@@ -31,8 +31,6 @@ export class MarketDataSocketService {
     return new Observable((subscriber) => {
       this.socket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data.toString());
-
-        console.log(data);
         subscriber.next(data);
       });
     });

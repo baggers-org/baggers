@@ -3,6 +3,7 @@ export * from './charts';
 export * from './data-table';
 export * from './menu';
 export * from './button';
+export * from './profit-loss';
 export * from './search-input';
 export * from './tabs';
 export * from './table';

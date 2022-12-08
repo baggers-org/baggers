@@ -2,6 +2,9 @@ import { GraphQLClient } from 'graphql-request';
 import { PatchedRequestInit } from 'graphql-request/dist/types';
 import { getSdk } from '../generated';
 
+export const getGraphQlClient = (baseUrl?: string) =>
+  new GraphQLClient(baseUrl || process.env.API_URL);
+
 export class SdkBuilder {
   private options: PatchedRequestInit;
   private baseUrl?: string;

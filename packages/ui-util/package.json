@@ -1,0 +1,10 @@
+{
+	"name": "@baggers/ui-util",
+	"main": "src/index.ts",
+	"version": "0.0.0",
+	"scripts": {
+		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
+		"lint": "eslint src",
+		"test": "jest"
+	}
+}

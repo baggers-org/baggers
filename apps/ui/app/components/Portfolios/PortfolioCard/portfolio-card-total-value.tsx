@@ -1,5 +1,5 @@
+import { formatCurrency } from '@baggers/ui-util';
 import { useTranslation } from 'react-i18next';
-import { formatCurrency } from '~/util/format-currency';
 import { PortfolioCardProps } from './portfolio-card';
 
 export function PortfolioCardTotalValue({

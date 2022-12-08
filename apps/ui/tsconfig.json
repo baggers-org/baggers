@@ -1,6 +1,11 @@
 {
   "extends": "@baggers/tsconfig/remix.json",
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "remix.env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "../../packages/ui-util/src/lib/format-currency.ts"
+  ],
   "compilerOptions": {
     "paths": {
       "~/*": ["./app/*"]

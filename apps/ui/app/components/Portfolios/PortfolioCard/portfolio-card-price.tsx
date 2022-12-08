@@ -1,7 +1,6 @@
+import { ProfitLoss } from '@baggers/ui-components';
 import { PropsWithChildren } from 'react';
 import { tlsx } from '~/util/clsx';
-import { formatCurrency } from '~/util/format-currency';
-import { isProfitLossOrNeutral } from '~/util/is-profit-loss-or-neutral';
 
 export interface PortfolioCardPriceProps {
   label?: string | null;
@@ -13,21 +12,6 @@ export function PortfolioCardPrice({
   value,
   isPercent,
 }: PropsWithChildren<PortfolioCardPriceProps>) {
-  const getColor = () => {
-    const delta = isProfitLossOrNeutral(value);
-
-    if (delta === `profit`) {
-      return 'text-profit-light dark:text-profit-dark';
-    }
-    if (delta === `loss`) {
-      return 'text-loss-light dark:text-loss-dark';
-    }
-  };
-
-  const formattedValue =
-    isPercent && value
-      ? `${value.toFixed(2)}%`
-      : formatCurrency(value);
   return (
     <div
       className={tlsx(
@@ -41,12 +25,7 @@ export function PortfolioCardPrice({
       )}
     >
       <span className="text-xs">{label}</span>
-      {!value && 'N/A'}
-      {value ? (
-        <span className={getColor() + ' ' + 'font-medium'}>
-          {value > 0 ? `+${formattedValue}` : formattedValue}
-        </span>
-      ) : null}
+      <ProfitLoss value={value} isPercent={isPercent} />
     </div>
   );
 }

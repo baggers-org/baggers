@@ -26,6 +26,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import styles from './styles/app.css';
 import { RootData } from './types/root-data';
+import { RemixSseProvider } from 'remix-sse/client';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -93,7 +94,9 @@ export default function AppWithProvider() {
   return (
     <ThemeProvider specifiedTheme={data.theme}>
       <DndProvider backend={HTML5Backend}>
-        <App />
+        <RemixSseProvider>
+          <App />
+        </RemixSseProvider>
       </DndProvider>
     </ThemeProvider>
   );

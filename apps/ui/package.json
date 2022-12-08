@@ -22,11 +22,15 @@
     "@baggers/sdk": "*",
     "@baggers/tailwind": "*",
     "@baggers/ui-components": "*",
+    "@baggers/ui-util": "*",
     "@remix-run/node": "^1.7.5",
     "@remix-run/react": "^1.7.5",
     "@remix-run/serve": "^1.7.5",
     "clsx": "^1.2.1",
     "framer-motion": "^7.6.15",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "graphql-ws": "^5.11.2",
     "i18next": "^22.0.6",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-fs-backend": "^2.0.0",
@@ -38,7 +42,8 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.0.0",
     "react-icons": "^4.7.1",
-    "remix-i18next": "^4.1.1"
+    "remix-i18next": "^4.1.1",
+    "remix-sse": "^3.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -46,6 +51,7 @@
     "@fal-works/esbuild-plugin-regexp-externals": "^1.1.0",
     "@remix-run/dev": "^1.7.5",
     "@remix-run/eslint-config": "^1.7.5",
+    "@types/graphql": "^14.5.0",
     "@types/i18next-fs-backend": "^1.1.2",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",

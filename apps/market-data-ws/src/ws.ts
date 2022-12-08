@@ -25,7 +25,17 @@ polygonWs.addEventListener('message', (e) => {
 });
 export const markteDataWs: FastifyPluginAsync = async (fastify) => {
   fastify.get('/', { websocket: true }, (connection) => {
+    polygonWs.addEventListener('error', (e) => {
+      console.error(e);
+      connection.socket.send(e.message);
+    });
+    polygonWs.addEventListener('message', (ev) => {
+      connection.socket.send(ev.data);
+    });
+
     connection.socket.on('message', (message) => {
+      console.log('mes ', message);
+
       let data;
       try {
         data = JSON.parse(message.toString());
@@ -35,14 +45,6 @@ export const markteDataWs: FastifyPluginAsync = async (fastify) => {
       }
       console.log('Message received ', data);
       polygonWs.send(message);
-
-      polygonWs.addEventListener('error', (e) => {
-        console.error(e);
-        connection.socket.send(e.message);
-      });
-      polygonWs.addEventListener('message', (ev) => {
-        connection.socket.send(ev.data);
-      });
     });
   });
 };

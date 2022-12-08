@@ -296,6 +296,7 @@ type Security {
 
 type Subscription {
   chartRealtime(ticker: String!): Aggregate!
+  portfoliosSubscribeToMarketData(_id: ObjectId!): Portfolio
 }
 
 type TickerDetails {

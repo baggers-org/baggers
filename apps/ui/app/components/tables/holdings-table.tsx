@@ -2,8 +2,9 @@ import { Holding } from '@baggers/graphql-types';
 import {
   createColumnHelper,
   DataTable,
+  ProfitLoss,
 } from '@baggers/ui-components';
-import { formatCurrency } from '~/util/format-currency';
+import { formatCurrency } from '@baggers/ui-util';
 
 export type HoldingsTableProps = {
   holdings: Holding[];
@@ -42,6 +43,27 @@ const columns = [
       const val = getValue();
       if (!val) return 'N/A';
       return formatCurrency(val);
+    },
+  }),
+  column.accessor('profitLossPercent', {
+    id: 'profitLossPercent',
+    header: 'P/L %',
+    cell: ({ getValue }) => {
+      return <ProfitLoss value={getValue()} isPercent />;
+    },
+  }),
+  column.accessor('profitLossUsd', {
+    id: 'profitLossUsd',
+    header: 'P/L $',
+    cell: ({ getValue }) => {
+      return <ProfitLoss value={getValue()} />;
+    },
+  }),
+  column.accessor('dailyProfitLossUsd', {
+    id: 'dailtyProfitLossUsd',
+    header: 'Todays P/L $',
+    cell: ({ getValue }) => {
+      return <ProfitLoss value={getValue()} />;
     },
   }),
 ];

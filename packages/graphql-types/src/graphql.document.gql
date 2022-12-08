@@ -1,6 +1,7 @@
-
-
-query chartSecurityPrice($ticker: String!, $options: ChartPriceRangeOptions!) {
+query chartSecurityPrice(
+  $ticker: String!
+  $options: ChartPriceRangeOptions!
+) {
   chartSecurityPrice(options: $options, ticker: $ticker) {
     c
     h
@@ -13,11 +14,9 @@ query chartSecurityPrice($ticker: String!, $options: ChartPriceRangeOptions!) {
   }
 }
 
-
 query plaidLinkToken {
   plaidLinkToken
 }
-
 
 fragment AllHoldingData on Holding {
   _id
@@ -45,7 +44,6 @@ fragment AllHoldingData on Holding {
   }
 }
 
-
 fragment FullPlaidAccount on PlaidAccount {
   type
   name
@@ -57,7 +55,6 @@ fragment FullPlaidAccount on PlaidAccount {
     available
   }
 }
-
 
 fragment FullPortfolioSummary on PortfolioSummary {
   _id
@@ -106,7 +103,6 @@ fragment AllPortfolioData on Portfolio {
   ...PortfolioTransactions
 }
 
-
 fragment AllTransactionData on Transaction {
   _id
   name
@@ -126,7 +122,6 @@ fragment AllTransactionData on Transaction {
   subType
 }
 
-
 mutation portfoliosAddHolding(
   $_id: ObjectId!
   $input: AddHoldingInput!
@@ -141,21 +136,17 @@ mutation portfoliosAddHolding(
   }
 }
 
-
 mutation portfoliosBeginImport($publicToken: String!) {
   portfoliosBeginImport(publicToken: $publicToken) {
     importedIds
   }
 }
 
-
 query portfoliosCreated {
   portfoliosCreated {
     ...FullPortfolioSummary
   }
 }
-
-
 
 query portfoliosFindById($_id: ObjectId!) {
   portfoliosFindById(_id: $_id) {
@@ -170,14 +161,15 @@ mutation portfoliosInitEmpty {
   }
 }
 
-
 mutation portfoliosRemoveHolding(
   $portfolioId: ObjectId!
   $holdingId: ObjectId!
 ) {
-  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
+  portfoliosRemoveHolding(
+    portfolioId: $portfolioId
+    holdingId: $holdingId
+  )
 }
-
 
 mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   portfoliosRemoveMultiple(_ids: $_ids) {
@@ -186,15 +178,23 @@ mutation portfoliosRemoveMultiple($_ids: [ObjectId!]!) {
   }
 }
 
-
 mutation portfoliosRemoveOne($_id: ObjectId!) {
   portfoliosRemoveOne(_id: $_id) {
     _id
   }
 }
 
+subscription portfoliosSubscribeToMarketData($id: ObjectId!) {
+  portfoliosSubscribeToMarketData(_id: $id) {
+    _id
+    ...AllPortfolioData
+  }
+}
 
-mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
+mutation portfoliosUpdateOne(
+  $_id: ObjectId!
+  $input: UpdatePortfolioInput!
+) {
   portfoliosUpdateOne(_id: $_id, input: $input) {
     _id
     createdAt
@@ -204,7 +204,6 @@ mutation portfoliosUpdateOne($_id: ObjectId!, $input: UpdatePortfolioInput!) {
     updatedAt
   }
 }
-
 
 fragment AllSecurityData on Security {
   _id
@@ -237,7 +236,6 @@ fragment SecuritySummary on Security {
   latestPrice
 }
 
-
 fragment AllTickerDetails on TickerDetails {
   active
   cik
@@ -259,7 +257,6 @@ fragment AllTickerDetails on TickerDetails {
   weightedSharesOutstanding
 }
 
-
 query securitiesFindById($_id: String!) {
   securitiesFindById(_id: $_id) {
     _id
@@ -267,14 +264,12 @@ query securitiesFindById($_id: String!) {
   }
 }
 
-
 query securitiesSearch($searchTerm: String!) {
   securitiesSearch(searchTerm: $searchTerm) {
     _id
     ...AllSecurityData
   }
 }
-
 
 fragment FullUser on User {
   _id
@@ -285,14 +280,12 @@ fragment FullUser on User {
   updatedAt
 }
 
-
 query usersFindById($_id: ID!) {
   usersFindById(_id: $_id) {
     _id
     ...FullUser
   }
 }
-
 
 mutation usersFindOrCreate($input: CreateUserInput!) {
   usersFindOrCreate(input: $input) {

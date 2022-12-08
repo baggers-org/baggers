@@ -15,6 +15,8 @@ import {
 } from './services';
 import { Auth0AccessTokenPayload } from '~/auth';
 import { ObjectId, RemoveMultipleResponse } from '~/shared';
+import { map, Observable } from 'rxjs';
+import { MarketDataSocketService } from '~/market-data-socket/market-data-socket.service';
 
 @Injectable()
 export class PortfoliosService {
@@ -22,7 +24,8 @@ export class PortfoliosService {
     @InjectModel(Portfolio.name)
     private portfolioModel: Model<PortfolioDocument>,
     private portfolioMetricsService: PortfolioMetricsService,
-    private holdingMetricsService: HoldingMetricsService
+    private holdingMetricsService: HoldingMetricsService,
+    private marketDataSocket: MarketDataSocketService
   ) {}
 
   initEmpty(currentUser: Auth0AccessTokenPayload) {
@@ -52,11 +55,13 @@ export class PortfoliosService {
     };
   }
 
-  async findById(
+  private async getPopulatedPortfolio(
     _id: ObjectId,
     currentUser: Auth0AccessTokenPayload
-  ): Promise<PopulatedPortfolioWithMetrics> {
-    const portfolio = await this.portfolioModel
+  ): Promise<PopulatedPortfolio> {
+    console.log(currentUser);
+
+    return this.portfolioModel
       .findOne<PopulatedPortfolio>({
         _id,
         $or: [
@@ -85,11 +90,54 @@ export class PortfoliosService {
       })
       .populate('owner')
       .lean();
+  }
 
-    const portfolioWithMetrics =
-      this.getPortfolioWithMetrics(portfolio);
+  async findById(
+    _id: ObjectId,
+    currentUser: Auth0AccessTokenPayload
+  ): Promise<PopulatedPortfolioWithMetrics> {
+    return this.getPortfolioWithMetrics(
+      await this.getPopulatedPortfolio(_id, currentUser)
+    );
+  }
 
-    return portfolioWithMetrics;
+  async subscribeById(
+    _id: ObjectId,
+    currentUser: Auth0AccessTokenPayload
+  ): Promise<Observable<PopulatedPortfolioWithMetrics>> {
+    const portfolio = await this.getPopulatedPortfolio(
+      _id,
+      currentUser
+    );
+
+    const portfolioTickers = portfolio.holdings
+      // Ignore imported securities
+      .map((h) => h.security?._id)
+      .filter((ticker): ticker is string => !!ticker);
+
+    return this.marketDataSocket
+      .subscribeToAggregateData(portfolioTickers)
+      .pipe(
+        map((agg) => {
+          const aggregate = agg.pop();
+          const latestPrice = aggregate?.c;
+
+          const ticker = aggregate?.sym;
+
+          portfolio.holdings.forEach((h, index) => {
+            if (h.security?._id === ticker) {
+              if (
+                portfolio.holdings?.[index]?.security?.latestPrice
+              ) {
+                portfolio.holdings[index].security!.latestPrice =
+                  latestPrice;
+              }
+            }
+          });
+
+          return this.getPortfolioWithMetrics(portfolio);
+        })
+      );
   }
 
   async findCreated(

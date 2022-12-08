@@ -6,12 +6,19 @@ import {
 } from '@remix-run/node';
 
 import type { Portfolio } from '@baggers/graphql-types';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import {
+  Outlet,
+  useLoaderData,
+  useMatches,
+  useParams,
+} from '@remix-run/react';
 import {
   authenticatedSdk,
   unauthenticatedSdk,
 } from '~/server/sdk.server';
 import { ViewPortfolioHeader } from '~/pages/portfolios/view-portfolio/header/view-portfolio-header';
+import { useEventSource } from 'remix-sse/client';
+import { useMemo } from 'react';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: data ? `${data?.name}` : 'Not found',
@@ -46,11 +53,14 @@ export const action: ActionFunction = async ({ params, request }) => {
 };
 
 export default function PortfoloLayout() {
-  const portfolio = useLoaderData<Portfolio>();
+  const { id } = useParams();
+  const portfolio = useLoaderData();
+
+  useEventSource(`/portfolios/${id}/subscribe`);
 
   return (
     <div>
-      <ViewPortfolioHeader portfolio={portfolio as Portfolio} />
+      <ViewPortfolioHeader portfolio={portfolio} />
       <Outlet />
     </div>
   );

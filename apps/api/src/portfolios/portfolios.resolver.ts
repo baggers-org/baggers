@@ -1,4 +1,10 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Subscription,
+} from '@nestjs/graphql';
 import { PortfoliosService } from './portfolios.service';
 import {
   PopulatedPortfolioWithMetrics,
@@ -17,6 +23,8 @@ import {
 } from '~/shared';
 import { AddHoldingInput } from './dto/add-holding';
 import { HoldingsService } from './services/holdings.service';
+import { observableToAsyncIterable } from '~/market-data-socket/observableToAsyncITerable';
+import { map } from 'rxjs';
 
 @Resolver(() => Portfolio)
 export class PortfoliosResolver {
@@ -51,6 +59,32 @@ export class PortfoliosResolver {
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     return this.portfoliosService.findById(_id, currentUser);
+  }
+
+  @Public()
+  @Subscription(() => PopulatedPortfolioWithMetrics, {
+    name: 'portfoliosSubscribeToMarketData',
+    nullable: true,
+  })
+  async subscribeById(
+    @Args('_id', { type: () => ObjectIdScalar })
+    _id: mongoose.Types.ObjectId,
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    const obs = await this.portfoliosService.subscribeById(
+      _id,
+      currentUser
+    );
+
+    return observableToAsyncIterable(
+      obs.pipe(
+        map((portfolio) => {
+          return {
+            portfoliosSubscribeToMarketData: portfolio,
+          };
+        })
+      )
+    );
   }
 
   @Query(() => [PortfolioSummary], {

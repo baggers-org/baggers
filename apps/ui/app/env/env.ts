@@ -1,3 +1,3 @@
 import { setupEnv } from '@baggers/env';
 
-export const env = setupEnv(['AUTH0_SECRET']);
+export const env = setupEnv(['AUTH0_SECRET', 'API_URL']);

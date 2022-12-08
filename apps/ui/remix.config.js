@@ -5,7 +5,10 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
-  watchPaths: ['../../packages/ui-components/**/*.{ts,tsx}'],
+  watchPaths: [
+    '../../packages/ui-components/**/*.{ts,tsx}',
+    '../../packages/sdk/**/*.{ts,tsx}',
+  ],
   serverDependenciesToBundle: [
     /^@baggers\/.*/,
     'react-dnd',

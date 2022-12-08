@@ -6,7 +6,10 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { join } from 'path';
 import { APP_GUARD } from '@nestjs/core';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  Context,
+} from 'apollo-server-core';
 import { SecuritiesModule } from '~/securities';
 import { ObjectIdScalar } from '~/shared';
 import { PortfoliosModule } from '~/portfolios';
@@ -36,9 +39,16 @@ import { MarketDataSocketModule } from './market-data-socket/market-data-socket.
       sortSchema: true,
       subscriptions: {
         'graphql-ws': {
-          onConnect: (params) => {
-            console.log(params);
-            throw Error('graphql-ws not implemented on server yet');
+          onConnect: (context: Context<any>) => {
+            const auth =
+              context.extra.request.headers.authorization ||
+              context.connectionParams.authorization;
+
+            context.req = {
+              headers: {
+                authorization: auth,
+              },
+            };
           },
         },
         'subscriptions-transport-ws': {

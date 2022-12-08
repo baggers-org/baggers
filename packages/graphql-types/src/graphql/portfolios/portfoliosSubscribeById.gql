@@ -1,0 +1,6 @@
+subscription portfoliosSubscribeToMarketData($id: ObjectId!) {
+  portfoliosSubscribeToMarketData(_id: $id) {
+    _id
+    ...AllPortfolioData
+  }
+}

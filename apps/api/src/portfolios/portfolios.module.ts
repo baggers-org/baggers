@@ -17,9 +17,11 @@ import { TransactionsUtilService } from './services/transactions-util.service';
 import { HoldingsUtilService } from './services/holdings-util.service';
 import { SecuritiesModule } from '~/securities';
 import { TransactionsService } from './services/transactions.service';
+import { MarketDataSocketModule } from '~/market-data-socket/market-data-socket.module';
 
 @Module({
   imports: [
+    MarketDataSocketModule,
     SecuritiesModule,
     MongooseModule.forFeature([
       {
