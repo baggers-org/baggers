@@ -11,6 +11,8 @@
     "dev": "NODE_ENV=development concurrently \"webpack -w\" \"nodemon build/main.js\"",
     "docker": "docker buildx build ../../ -f ./Dockerfile -t eu.gcr.io/baggers-367917/market-data-ws:latest --cache-from type=gha --cache-to type=gha,mode=max --push",
     "docker:push": "docker push eu.gcr.io/baggers-367917/market-data-ws:latest",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src",
     "deploy": "kubectl rollout restart deployment market-data-ws && kubectl rollout status deployment market-data-ws"
   },
   "keywords": [],
@@ -22,11 +24,12 @@
     "ws": "^8.11.0"
   },
   "devDependencies": {
+    "@baggers/env": "*",
     "@baggers/tsconfig": "*",
     "@baggers/webpack": "*",
-    "eslint-config-baggers": "*",
-    "@baggers/env": "*",
+    "@types/ws": "^8.5.3",
     "concurrently": "^7.6.0",
+    "eslint-config-baggers": "*",
     "nodemon": "^2.0.20",
     "tap": "^16.1.0"
   }

@@ -1,11 +1,3 @@
 {
-  "extends": "@baggers/tsconfig/base.json",
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
+  "extends": "@baggers/tsconfig/base.json"
 }

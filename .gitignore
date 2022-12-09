@@ -2,6 +2,8 @@
 out
 .env
 
+*.tsbuildinfo
+
 # dependencies
 node_modules
 .pnp

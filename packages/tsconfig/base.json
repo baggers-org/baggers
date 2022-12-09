@@ -3,6 +3,7 @@
   "display": "Default",
   "compilerOptions": {
     "composite": false,
+    "incremental": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,

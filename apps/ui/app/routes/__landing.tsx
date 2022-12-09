@@ -28,16 +28,18 @@ export default function LandingPageLayout() {
         >
           <nav
             className={tlsx(
-              'flex place-content-start place-items-center gap-8 lg:py-3 lg:px-24',
+              'flex lg:place-content-start place-items-center lg:gap-8 lg:py-3 lg:px-24',
               'bg-primary-light',
               'lg:bg-[transparent]',
               'px-4',
-              'py-3'
+              'py-3',
+              'w-full',
+              'box-border'
             )}
           >
             <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl text-text-dark">
               <LogoWhite />
-              <span className="invisible lg:visible">
+              <span className="invisible lg:visible hidden">
                 BAGGERS
                 <sub className="text-xs font-heading font-light">
                   alpha

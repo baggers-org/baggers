@@ -679,6 +679,10 @@ video {
   margin-bottom: 1.5rem;
 }
 
+.box-border {
+  box-sizing: border-box;
+}
+
 .inline {
   display: inline;
 }
@@ -902,10 +906,6 @@ video {
   gap: 1.75rem;
 }
 
-.gap-8 {
-  gap: 2rem;
-}
-
 .gap-24 {
   gap: 6rem;
 }
@@ -928,6 +928,10 @@ video {
 
 .gap-12 {
   gap: 3rem;
+}
+
+.gap-8 {
+  gap: 2rem;
 }
 
 .place-self-start {
@@ -1890,6 +1894,14 @@ video {
 
   .lg\:w-\[800px\] {
     width: 800px;
+  }
+
+  .lg\:place-content-start {
+    place-content: start;
+  }
+
+  .lg\:gap-8 {
+    gap: 2rem;
   }
 
   .lg\:place-self-start {
