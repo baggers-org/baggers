@@ -1,5 +1,5 @@
 import Fastify from 'fastify';
-import { markteDataWs } from './ws';
+import { markteDataWs } from './market-data-websocket';
 const fastify = Fastify({
   logger: true,
 });
