@@ -21,6 +21,7 @@ import { OpenFigiModule } from './open-figi/open-figi.module';
 import { ChartsModule } from './charts/charts.module';
 import { env } from './env/env.schema';
 import { MarketDataSocketModule } from './market-data-socket/market-data-socket.module';
+import { AlphaTestersModule } from './alpha-testers/alpha-testers.module';
 
 @Module({
   imports: [
@@ -74,6 +75,7 @@ import { MarketDataSocketModule } from './market-data-socket/market-data-socket.
     OpenFigiModule,
     ChartsModule,
     MarketDataSocketModule,
+    AlphaTestersModule,
   ],
   controllers: [],
   providers: [

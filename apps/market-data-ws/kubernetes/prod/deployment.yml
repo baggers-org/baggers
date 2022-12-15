@@ -26,3 +26,7 @@ spec:
               cpu: '0.25'
           ports:
             - containerPort: 5000
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5

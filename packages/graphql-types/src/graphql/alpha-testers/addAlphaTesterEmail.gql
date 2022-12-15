@@ -1,0 +1,5 @@
+mutation addAlphaTesterEmail($email: String!) {
+  addAlphaTesterEmail(email: $email) {
+    _id
+  }
+}

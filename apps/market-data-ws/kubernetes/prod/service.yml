@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: market-data-ws
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: market-data-ws
   ports:

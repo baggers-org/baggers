@@ -139,6 +139,7 @@ type Institution {
 }
 
 type Mutation {
+  addAlphaTesterEmail(email: String!): RecordId!
   portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioFromDb!
   portfoliosBeginImport(publicToken: String!): ImportResponse!
   portfoliosInitEmpty: RecordId!

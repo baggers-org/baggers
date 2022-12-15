@@ -643,6 +643,10 @@ video {
   margin-top: 4rem;
 }
 
+.mt-8 {
+  margin-top: 2rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -737,6 +741,10 @@ video {
 
 .h-\[800px\] {
   height: 800px;
+}
+
+.h-14 {
+  height: 3.5rem;
 }
 
 .h-\[200px\] {
@@ -1113,8 +1121,8 @@ video {
   padding: 0.5rem;
 }
 
-.p-4 {
-  padding: 1rem;
+.p-3 {
+  padding: 0.75rem;
 }
 
 .px-8 {
@@ -1878,6 +1886,10 @@ video {
 }
 
 @media (min-width: 768px) {
+  .md\:visible {
+    visibility: visible;
+  }
+
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1902,10 +1914,6 @@ video {
 
   .lg\:gap-8 {
     gap: 2rem;
-  }
-
-  .lg\:place-self-start {
-    place-self: start;
   }
 
   .lg\:bg-\[transparent\] {

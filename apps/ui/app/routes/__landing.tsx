@@ -39,7 +39,7 @@ export default function LandingPageLayout() {
           >
             <div className="flex gap-4 place-items-center font-[Poppins] font-bold text-2xl text-text-dark">
               <LogoWhite />
-              <span className="invisible lg:visible hidden">
+              <span className="invisible md:visible">
                 BAGGERS
                 <sub className="text-xs font-heading font-light">
                   alpha
@@ -47,7 +47,7 @@ export default function LandingPageLayout() {
               </span>
             </div>
             <div className="flex gap-4 place-items-center ml-auto">
-              <button className="px-7 py-2 rounded-2xl bg-[rgba(255,255,255,0.5)] invisible lg:visible">
+              <button className="px-7 py-2 rounded-2xl bg-[rgba(255,255,255,0.5)] invisible lg">
                 {t('sign_up', 'Sign up')}
               </button>
               <ProfileButton />

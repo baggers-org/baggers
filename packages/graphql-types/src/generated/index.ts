@@ -1,14 +1,8 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -48,7 +42,7 @@ export type Aggregate = {
 
 export enum AscDesc {
   Asc = 'asc',
-  Desc = 'desc',
+  Desc = 'desc'
 }
 
 export enum AssetClass {
@@ -56,7 +50,7 @@ export enum AssetClass {
   Cryptocurrency = 'cryptocurrency',
   Derivative = 'derivative',
   Fx = 'fx',
-  Stock = 'stock',
+  Stock = 'stock'
 }
 
 export type ChartPriceRangeOptions = {
@@ -98,7 +92,7 @@ export type Holding = {
 
 export enum HoldingDirection {
   Long = 'long',
-  Short = 'short',
+  Short = 'short'
 }
 
 export type HoldingFromDb = {
@@ -122,7 +116,7 @@ export type HoldingFromDb = {
 export enum HoldingSource {
   Broker = 'broker',
   Direct = 'direct',
-  Transactions = 'transactions',
+  Transactions = 'transactions'
 }
 
 export type ImportResponse = {
@@ -161,6 +155,7 @@ export type Institution = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addAlphaTesterEmail: RecordId;
   portfoliosAddHolding: PortfolioFromDb;
   portfoliosBeginImport: ImportResponse;
   portfoliosInitEmpty: RecordId;
@@ -173,40 +168,54 @@ export type Mutation = {
   usersUpdateOne: User;
 };
 
+
+export type MutationAddAlphaTesterEmailArgs = {
+  email: Scalars['String'];
+};
+
+
 export type MutationPortfoliosAddHoldingArgs = {
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 };
 
+
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
 };
+
 
 export type MutationPortfoliosRemoveHoldingArgs = {
   holdingId: Scalars['ObjectId'];
   portfolioId: Scalars['ObjectId'];
 };
 
+
 export type MutationPortfoliosRemoveMultipleArgs = {
   _ids: Array<Scalars['ObjectId']>;
 };
 
+
 export type MutationPortfoliosRemoveOneArgs = {
   _id: Scalars['ObjectId'];
 };
+
 
 export type MutationPortfoliosUpdateOneArgs = {
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 };
 
+
 export type MutationUsersFindOrCreateArgs = {
   input: CreateUserInput;
 };
 
+
 export type MutationUsersRemoveOneArgs = {
   _id: Scalars['ID'];
 };
+
 
 export type MutationUsersUpdateOneArgs = {
   input: UpdateUserInput;
@@ -238,7 +247,7 @@ export enum PlaidAccountType {
   Depository = 'depository',
   Investment = 'investment',
   Loan = 'loan',
-  Other = 'other',
+  Other = 'other'
 }
 
 export type PlaidItem = {
@@ -337,22 +346,27 @@ export type Query = {
   usersFindById: User;
 };
 
+
 export type QueryChartSecurityPriceArgs = {
   options: ChartPriceRangeOptions;
   ticker: Scalars['String'];
 };
 
+
 export type QueryPortfoliosFindByIdArgs = {
   _id: Scalars['ObjectId'];
 };
+
 
 export type QuerySecuritiesFindByIdArgs = {
   _id: Scalars['String'];
 };
 
+
 export type QuerySecuritiesSearchArgs = {
   searchTerm: Scalars['String'];
 };
+
 
 export type QueryUsersFindByIdArgs = {
   _id: Scalars['ID'];
@@ -391,11 +405,13 @@ export type Subscription = {
   portfoliosSubscribeToMarketData?: Maybe<Portfolio>;
 };
 
+
 export type SubscriptionChartRealtimeArgs = {
   ticker: Scalars['String'];
 };
 
-export type SubscriptionportfoliosSubscribeToMarketDataArgs = {
+
+export type SubscriptionPortfoliosSubscribeToMarketDataArgs = {
   _id: Scalars['ObjectId'];
 };
 
@@ -443,7 +459,7 @@ export enum TickerType {
   Right = 'Right',
   Sp = 'Sp',
   Unit = 'Unit',
-  Warrant = 'Warrant',
+  Warrant = 'Warrant'
 }
 
 export enum Timespan {
@@ -453,7 +469,7 @@ export enum Timespan {
   Month = 'month',
   Quarter = 'quarter',
   Week = 'week',
-  Year = 'year',
+  Year = 'year'
 }
 
 export type Transaction = {
@@ -547,7 +563,7 @@ export enum TransactionSubtype {
   TransferFee = 'TransferFee',
   TrustFee = 'TrustFee',
   UnqualifiedGain = 'UnqualifiedGain',
-  Withdrawal = 'Withdrawal',
+  Withdrawal = 'Withdrawal'
 }
 
 export enum TransactionType {
@@ -556,7 +572,7 @@ export enum TransactionType {
   Cash = 'Cash',
   Fee = 'Fee',
   Sell = 'Sell',
-  Transfer = 'Transfer',
+  Transfer = 'Transfer'
 }
 
 export type UpdatePortfolioInput = {
@@ -584,1109 +600,143 @@ export type User = {
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
+export type AddAlphaTesterEmailMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type AddAlphaTesterEmailMutation = { __typename?: 'Mutation', addAlphaTesterEmail: { __typename?: 'RecordId', _id: string } };
+
 export type ChartSecurityPriceQueryVariables = Exact<{
   ticker: Scalars['String'];
   options: ChartPriceRangeOptions;
 }>;
 
-export type ChartSecurityPriceQuery = {
-  __typename?: 'Query';
-  chartSecurityPrice: Array<{
-    __typename?: 'Aggregate';
-    c?: number | null;
-    h?: number | null;
-    l?: number | null;
-    n?: number | null;
-    o?: number | null;
-    t?: number | null;
-    v?: number | null;
-    vw?: number | null;
-  }>;
-};
 
-export type PlaidLinkTokenQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type ChartSecurityPriceQuery = { __typename?: 'Query', chartSecurityPrice: Array<{ __typename?: 'Aggregate', c?: number | null, h?: number | null, l?: number | null, n?: number | null, o?: number | null, t?: number | null, v?: number | null, vw?: number | null }> };
 
-export type PlaidLinkTokenQuery = {
-  __typename?: 'Query';
-  plaidLinkToken: string;
-};
+export type PlaidLinkTokenQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type AllHoldingDataFragment = {
-  __typename?: 'Holding';
-  _id: any;
-  marketValue: number;
-  exposure: number;
-  profitLossUsd: number;
-  profitLossPercent: number;
-  dailyProfitLossUsd: number;
-  averagePrice: number;
-  costBasis: number;
-  institutionValue?: number | null;
-  direction?: HoldingDirection | null;
-  quantity: number;
-  assetClass: AssetClass;
-  source: HoldingSource;
-  currency: string;
-  importedSecurity?: {
-    __typename?: 'ImportedSecurity';
-    latestPrice?: number | null;
-    name?: string | null;
-    ticker_symbol?: string | null;
-    currency?: string | null;
-    assetClass: AssetClass;
-  } | null;
-  security?: {
-    __typename?: 'Security';
-    _id: string;
-    currency?: string | null;
-    exchange?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    latestPrice?: number | null;
-    todaysChange?: number | null;
-    todaysChangePercent?: number | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active?: boolean | null;
-      cik?: string | null;
-      currencyName?: string | null;
-      description?: string | null;
-      homepageUrl?: string | null;
-      iconUrl?: string | null;
-      listDate?: string | null;
-      logoUrl?: string | null;
-      market?: string | null;
-      marketCap?: number | null;
-      name?: string | null;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode?: number | null;
-      sicDescription?: string | null;
-      totalEmployees?: number | null;
-      type?: TickerType | null;
-      weightedSharesOutstanding?: number | null;
-    } | null;
-  } | null;
-};
 
-export type FullPlaidAccountFragment = {
-  __typename?: 'PlaidAccount';
-  type?: PlaidAccountType | null;
-  name?: string | null;
-  subtype?: string | null;
-  official_name?: string | null;
-  account_id: string;
-  balances: {
-    __typename?: 'PlaidAccountBalance';
-    current?: number | null;
-    available?: number | null;
-  };
-};
+export type PlaidLinkTokenQuery = { __typename?: 'Query', plaidLinkToken: string };
 
-export type FullPortfolioSummaryFragment = {
-  __typename?: 'PortfolioSummary';
-  _id: any;
-  cash: number;
-  name: string;
-  description?: string | null;
-  private: boolean;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  totalValue: number;
-  owner: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-  plaidAccount?: {
-    __typename?: 'PlaidAccount';
-    type?: PlaidAccountType | null;
-    name?: string | null;
-    subtype?: string | null;
-    official_name?: string | null;
-    account_id: string;
-    balances: {
-      __typename?: 'PlaidAccountBalance';
-      current?: number | null;
-      available?: number | null;
-    };
-  } | null;
-};
+export type AllHoldingDataFragment = { __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null };
 
-export type PortfolioTransactionsFragment = {
-  __typename?: 'Portfolio';
-  transactions: Array<{
-    __typename?: 'Transaction';
-    _id: any;
-    name: string;
-    date: any;
-    currency: string;
-    quantity: number;
-    amount: number;
-    fees: number;
-    price?: number | null;
-    type: TransactionType;
-    subType: TransactionSubtype;
-    security?: {
-      __typename?: 'Security';
-      _id: string;
-      currency?: string | null;
-      exchange?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      latestPrice?: number | null;
-      todaysChange?: number | null;
-      todaysChangePercent?: number | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active?: boolean | null;
-        cik?: string | null;
-        currencyName?: string | null;
-        description?: string | null;
-        homepageUrl?: string | null;
-        iconUrl?: string | null;
-        listDate?: string | null;
-        logoUrl?: string | null;
-        market?: string | null;
-        marketCap?: number | null;
-        name?: string | null;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode?: number | null;
-        sicDescription?: string | null;
-        totalEmployees?: number | null;
-        type?: TickerType | null;
-        weightedSharesOutstanding?: number | null;
-      } | null;
-    } | null;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      latestPrice?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass: AssetClass;
-    } | null;
-  }>;
-};
+export type FullPlaidAccountFragment = { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } };
 
-export type PortfolioHoldingsFragment = {
-  __typename?: 'Portfolio';
-  holdings: Array<{
-    __typename?: 'Holding';
-    _id: any;
-    marketValue: number;
-    exposure: number;
-    profitLossUsd: number;
-    profitLossPercent: number;
-    dailyProfitLossUsd: number;
-    averagePrice: number;
-    costBasis: number;
-    institutionValue?: number | null;
-    direction?: HoldingDirection | null;
-    quantity: number;
-    assetClass: AssetClass;
-    source: HoldingSource;
-    currency: string;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      latestPrice?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass: AssetClass;
-    } | null;
-    security?: {
-      __typename?: 'Security';
-      _id: string;
-      currency?: string | null;
-      exchange?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      latestPrice?: number | null;
-      todaysChange?: number | null;
-      todaysChangePercent?: number | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active?: boolean | null;
-        cik?: string | null;
-        currencyName?: string | null;
-        description?: string | null;
-        homepageUrl?: string | null;
-        iconUrl?: string | null;
-        listDate?: string | null;
-        logoUrl?: string | null;
-        market?: string | null;
-        marketCap?: number | null;
-        name?: string | null;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode?: number | null;
-        sicDescription?: string | null;
-        totalEmployees?: number | null;
-        type?: TickerType | null;
-        weightedSharesOutstanding?: number | null;
-      } | null;
-    } | null;
-  }>;
-};
+export type FullPortfolioSummaryFragment = { __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null };
 
-export type AllPortfolioDataFragment = {
-  __typename?: 'Portfolio';
-  _id: any;
-  cash: number;
-  name: string;
-  description?: string | null;
-  private: boolean;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-  totalValue: number;
-  owner: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-  plaidAccount?: {
-    __typename?: 'PlaidAccount';
-    type?: PlaidAccountType | null;
-    name?: string | null;
-    subtype?: string | null;
-    official_name?: string | null;
-    account_id: string;
-    balances: {
-      __typename?: 'PlaidAccountBalance';
-      current?: number | null;
-      available?: number | null;
-    };
-  } | null;
-  holdings: Array<{
-    __typename?: 'Holding';
-    _id: any;
-    marketValue: number;
-    exposure: number;
-    profitLossUsd: number;
-    profitLossPercent: number;
-    dailyProfitLossUsd: number;
-    averagePrice: number;
-    costBasis: number;
-    institutionValue?: number | null;
-    direction?: HoldingDirection | null;
-    quantity: number;
-    assetClass: AssetClass;
-    source: HoldingSource;
-    currency: string;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      latestPrice?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass: AssetClass;
-    } | null;
-    security?: {
-      __typename?: 'Security';
-      _id: string;
-      currency?: string | null;
-      exchange?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      latestPrice?: number | null;
-      todaysChange?: number | null;
-      todaysChangePercent?: number | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active?: boolean | null;
-        cik?: string | null;
-        currencyName?: string | null;
-        description?: string | null;
-        homepageUrl?: string | null;
-        iconUrl?: string | null;
-        listDate?: string | null;
-        logoUrl?: string | null;
-        market?: string | null;
-        marketCap?: number | null;
-        name?: string | null;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode?: number | null;
-        sicDescription?: string | null;
-        totalEmployees?: number | null;
-        type?: TickerType | null;
-        weightedSharesOutstanding?: number | null;
-      } | null;
-    } | null;
-  }>;
-  transactions: Array<{
-    __typename?: 'Transaction';
-    _id: any;
-    name: string;
-    date: any;
-    currency: string;
-    quantity: number;
-    amount: number;
-    fees: number;
-    price?: number | null;
-    type: TransactionType;
-    subType: TransactionSubtype;
-    security?: {
-      __typename?: 'Security';
-      _id: string;
-      currency?: string | null;
-      exchange?: string | null;
-      assetClass: AssetClass;
-      figi?: string | null;
-      name?: string | null;
-      region?: string | null;
-      latestPrice?: number | null;
-      todaysChange?: number | null;
-      todaysChangePercent?: number | null;
-      tickerDetails?: {
-        __typename?: 'TickerDetails';
-        active?: boolean | null;
-        cik?: string | null;
-        currencyName?: string | null;
-        description?: string | null;
-        homepageUrl?: string | null;
-        iconUrl?: string | null;
-        listDate?: string | null;
-        logoUrl?: string | null;
-        market?: string | null;
-        marketCap?: number | null;
-        name?: string | null;
-        phoneNumber?: string | null;
-        shareClassOutstanding?: number | null;
-        sicCode?: number | null;
-        sicDescription?: string | null;
-        totalEmployees?: number | null;
-        type?: TickerType | null;
-        weightedSharesOutstanding?: number | null;
-      } | null;
-    } | null;
-    importedSecurity?: {
-      __typename?: 'ImportedSecurity';
-      latestPrice?: number | null;
-      name?: string | null;
-      ticker_symbol?: string | null;
-      currency?: string | null;
-      assetClass: AssetClass;
-    } | null;
-  }>;
-};
+export type PortfolioTransactionsFragment = { __typename?: 'Portfolio', transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null }> };
 
-export type AllTransactionDataFragment = {
-  __typename?: 'Transaction';
-  _id: any;
-  name: string;
-  date: any;
-  currency: string;
-  quantity: number;
-  amount: number;
-  fees: number;
-  price?: number | null;
-  type: TransactionType;
-  subType: TransactionSubtype;
-  security?: {
-    __typename?: 'Security';
-    _id: string;
-    currency?: string | null;
-    exchange?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    latestPrice?: number | null;
-    todaysChange?: number | null;
-    todaysChangePercent?: number | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active?: boolean | null;
-      cik?: string | null;
-      currencyName?: string | null;
-      description?: string | null;
-      homepageUrl?: string | null;
-      iconUrl?: string | null;
-      listDate?: string | null;
-      logoUrl?: string | null;
-      market?: string | null;
-      marketCap?: number | null;
-      name?: string | null;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode?: number | null;
-      sicDescription?: string | null;
-      totalEmployees?: number | null;
-      type?: TickerType | null;
-      weightedSharesOutstanding?: number | null;
-    } | null;
-  } | null;
-  importedSecurity?: {
-    __typename?: 'ImportedSecurity';
-    latestPrice?: number | null;
-    name?: string | null;
-    ticker_symbol?: string | null;
-    currency?: string | null;
-    assetClass: AssetClass;
-  } | null;
-};
+export type PortfolioHoldingsFragment = { __typename?: 'Portfolio', holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null }> };
+
+export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null }> };
+
+export type AllTransactionDataFragment = { __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null };
 
 export type PortfoliosAddHoldingMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: AddHoldingInput;
 }>;
 
-export type PortfoliosAddHoldingMutation = {
-  __typename?: 'Mutation';
-  portfoliosAddHolding: {
-    __typename?: 'PortfolioFromDb';
-    _id: any;
-    holdings: Array<{
-      __typename?: 'HoldingFromDb';
-      averagePrice: number;
-      costBasis: number;
-      quantity: number;
-    }>;
-  };
-};
+
+export type PortfoliosAddHoldingMutation = { __typename?: 'Mutation', portfoliosAddHolding: { __typename?: 'PortfolioFromDb', _id: any, holdings: Array<{ __typename?: 'HoldingFromDb', averagePrice: number, costBasis: number, quantity: number }> } };
 
 export type PortfoliosBeginImportMutationVariables = Exact<{
   publicToken: Scalars['String'];
 }>;
 
-export type PortfoliosBeginImportMutation = {
-  __typename?: 'Mutation';
-  portfoliosBeginImport: {
-    __typename?: 'ImportResponse';
-    importedIds: Array<any>;
-  };
-};
 
-export type PortfoliosCreatedQueryVariables = Exact<{
-  [key: string]: never;
-}>;
+export type PortfoliosBeginImportMutation = { __typename?: 'Mutation', portfoliosBeginImport: { __typename?: 'ImportResponse', importedIds: Array<any> } };
 
-export type PortfoliosCreatedQuery = {
-  __typename?: 'Query';
-  portfoliosCreated: Array<{
-    __typename?: 'PortfolioSummary';
-    _id: any;
-    cash: number;
-    name: string;
-    description?: string | null;
-    private: boolean;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    totalValue: number;
-    owner: {
-      __typename?: 'User';
-      _id: string;
-      displayName: string;
-      emails?: Array<string> | null;
-      photos: Array<string>;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    };
-    plaidAccount?: {
-      __typename?: 'PlaidAccount';
-      type?: PlaidAccountType | null;
-      name?: string | null;
-      subtype?: string | null;
-      official_name?: string | null;
-      account_id: string;
-      balances: {
-        __typename?: 'PlaidAccountBalance';
-        current?: number | null;
-        available?: number | null;
-      };
-    } | null;
-  }>;
-};
+export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null }> };
 
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosFindByIdQuery = {
-  __typename?: 'Query';
-  portfoliosFindById: {
-    __typename?: 'Portfolio';
-    _id: any;
-    cash: number;
-    name: string;
-    description?: string | null;
-    private: boolean;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    totalValue: number;
-    owner: {
-      __typename?: 'User';
-      _id: string;
-      displayName: string;
-      emails?: Array<string> | null;
-      photos: Array<string>;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    };
-    plaidAccount?: {
-      __typename?: 'PlaidAccount';
-      type?: PlaidAccountType | null;
-      name?: string | null;
-      subtype?: string | null;
-      official_name?: string | null;
-      account_id: string;
-      balances: {
-        __typename?: 'PlaidAccountBalance';
-        current?: number | null;
-        available?: number | null;
-      };
-    } | null;
-    holdings: Array<{
-      __typename?: 'Holding';
-      _id: any;
-      marketValue: number;
-      exposure: number;
-      profitLossUsd: number;
-      profitLossPercent: number;
-      dailyProfitLossUsd: number;
-      averagePrice: number;
-      costBasis: number;
-      institutionValue?: number | null;
-      direction?: HoldingDirection | null;
-      quantity: number;
-      assetClass: AssetClass;
-      source: HoldingSource;
-      currency: string;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        latestPrice?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass: AssetClass;
-      } | null;
-      security?: {
-        __typename?: 'Security';
-        _id: string;
-        currency?: string | null;
-        exchange?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        latestPrice?: number | null;
-        todaysChange?: number | null;
-        todaysChangePercent?: number | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active?: boolean | null;
-          cik?: string | null;
-          currencyName?: string | null;
-          description?: string | null;
-          homepageUrl?: string | null;
-          iconUrl?: string | null;
-          listDate?: string | null;
-          logoUrl?: string | null;
-          market?: string | null;
-          marketCap?: number | null;
-          name?: string | null;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode?: number | null;
-          sicDescription?: string | null;
-          totalEmployees?: number | null;
-          type?: TickerType | null;
-          weightedSharesOutstanding?: number | null;
-        } | null;
-      } | null;
-    }>;
-    transactions: Array<{
-      __typename?: 'Transaction';
-      _id: any;
-      name: string;
-      date: any;
-      currency: string;
-      quantity: number;
-      amount: number;
-      fees: number;
-      price?: number | null;
-      type: TransactionType;
-      subType: TransactionSubtype;
-      security?: {
-        __typename?: 'Security';
-        _id: string;
-        currency?: string | null;
-        exchange?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        latestPrice?: number | null;
-        todaysChange?: number | null;
-        todaysChangePercent?: number | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active?: boolean | null;
-          cik?: string | null;
-          currencyName?: string | null;
-          description?: string | null;
-          homepageUrl?: string | null;
-          iconUrl?: string | null;
-          listDate?: string | null;
-          logoUrl?: string | null;
-          market?: string | null;
-          marketCap?: number | null;
-          name?: string | null;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode?: number | null;
-          sicDescription?: string | null;
-          totalEmployees?: number | null;
-          type?: TickerType | null;
-          weightedSharesOutstanding?: number | null;
-        } | null;
-      } | null;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        latestPrice?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass: AssetClass;
-      } | null;
-    }>;
-  };
-};
 
-export type PortfoliosInitEmptyMutationVariables = Exact<{
-  [key: string]: never;
-}>;
+export type PortfoliosFindByIdQuery = { __typename?: 'Query', portfoliosFindById: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null }> } };
 
-export type PortfoliosInitEmptyMutation = {
-  __typename?: 'Mutation';
-  portfoliosInitEmpty: { __typename?: 'RecordId'; _id: string };
-};
+export type PortfoliosInitEmptyMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PortfoliosInitEmptyMutation = { __typename?: 'Mutation', portfoliosInitEmpty: { __typename?: 'RecordId', _id: string } };
 
 export type PortfoliosRemoveHoldingMutationVariables = Exact<{
   portfolioId: Scalars['ObjectId'];
   holdingId: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveHoldingMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveHolding: any;
-};
+
+export type PortfoliosRemoveHoldingMutation = { __typename?: 'Mutation', portfoliosRemoveHolding: any };
 
 export type PortfoliosRemoveMultipleMutationVariables = Exact<{
   _ids: Array<Scalars['ObjectId']> | Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveMultipleMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveMultiple: {
-    __typename?: 'RemoveMultipleResponse';
-    acknowledged: boolean;
-    deletedCount: number;
-  };
-};
+
+export type PortfoliosRemoveMultipleMutation = { __typename?: 'Mutation', portfoliosRemoveMultiple: { __typename?: 'RemoveMultipleResponse', acknowledged: boolean, deletedCount: number } };
 
 export type PortfoliosRemoveOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
 
-export type PortfoliosRemoveOneMutation = {
-  __typename?: 'Mutation';
-  portfoliosRemoveOne: { __typename?: 'RecordId'; _id: string };
-};
 
-export type portfoliosSubscribeToMarketDataSubscriptionVariables =
-  Exact<{
-    id: Scalars['ObjectId'];
-  }>;
+export type PortfoliosRemoveOneMutation = { __typename?: 'Mutation', portfoliosRemoveOne: { __typename?: 'RecordId', _id: string } };
 
-export type portfoliosSubscribeToMarketDataSubscription = {
-  __typename?: 'Subscription';
-  portfoliosSubscribeToMarketData?: {
-    __typename?: 'Portfolio';
-    _id: any;
-    cash: number;
-    name: string;
-    description?: string | null;
-    private: boolean;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-    totalValue: number;
-    owner: {
-      __typename?: 'User';
-      _id: string;
-      displayName: string;
-      emails?: Array<string> | null;
-      photos: Array<string>;
-      createdAt?: any | null;
-      updatedAt?: any | null;
-    };
-    plaidAccount?: {
-      __typename?: 'PlaidAccount';
-      type?: PlaidAccountType | null;
-      name?: string | null;
-      subtype?: string | null;
-      official_name?: string | null;
-      account_id: string;
-      balances: {
-        __typename?: 'PlaidAccountBalance';
-        current?: number | null;
-        available?: number | null;
-      };
-    } | null;
-    holdings: Array<{
-      __typename?: 'Holding';
-      _id: any;
-      marketValue: number;
-      exposure: number;
-      profitLossUsd: number;
-      profitLossPercent: number;
-      dailyProfitLossUsd: number;
-      averagePrice: number;
-      costBasis: number;
-      institutionValue?: number | null;
-      direction?: HoldingDirection | null;
-      quantity: number;
-      assetClass: AssetClass;
-      source: HoldingSource;
-      currency: string;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        latestPrice?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass: AssetClass;
-      } | null;
-      security?: {
-        __typename?: 'Security';
-        _id: string;
-        currency?: string | null;
-        exchange?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        latestPrice?: number | null;
-        todaysChange?: number | null;
-        todaysChangePercent?: number | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active?: boolean | null;
-          cik?: string | null;
-          currencyName?: string | null;
-          description?: string | null;
-          homepageUrl?: string | null;
-          iconUrl?: string | null;
-          listDate?: string | null;
-          logoUrl?: string | null;
-          market?: string | null;
-          marketCap?: number | null;
-          name?: string | null;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode?: number | null;
-          sicDescription?: string | null;
-          totalEmployees?: number | null;
-          type?: TickerType | null;
-          weightedSharesOutstanding?: number | null;
-        } | null;
-      } | null;
-    }>;
-    transactions: Array<{
-      __typename?: 'Transaction';
-      _id: any;
-      name: string;
-      date: any;
-      currency: string;
-      quantity: number;
-      amount: number;
-      fees: number;
-      price?: number | null;
-      type: TransactionType;
-      subType: TransactionSubtype;
-      security?: {
-        __typename?: 'Security';
-        _id: string;
-        currency?: string | null;
-        exchange?: string | null;
-        assetClass: AssetClass;
-        figi?: string | null;
-        name?: string | null;
-        region?: string | null;
-        latestPrice?: number | null;
-        todaysChange?: number | null;
-        todaysChangePercent?: number | null;
-        tickerDetails?: {
-          __typename?: 'TickerDetails';
-          active?: boolean | null;
-          cik?: string | null;
-          currencyName?: string | null;
-          description?: string | null;
-          homepageUrl?: string | null;
-          iconUrl?: string | null;
-          listDate?: string | null;
-          logoUrl?: string | null;
-          market?: string | null;
-          marketCap?: number | null;
-          name?: string | null;
-          phoneNumber?: string | null;
-          shareClassOutstanding?: number | null;
-          sicCode?: number | null;
-          sicDescription?: string | null;
-          totalEmployees?: number | null;
-          type?: TickerType | null;
-          weightedSharesOutstanding?: number | null;
-        } | null;
-      } | null;
-      importedSecurity?: {
-        __typename?: 'ImportedSecurity';
-        latestPrice?: number | null;
-        name?: string | null;
-        ticker_symbol?: string | null;
-        currency?: string | null;
-        assetClass: AssetClass;
-      } | null;
-    }>;
-  } | null;
-};
+export type PortfoliosSubscribeToMarketDataSubscriptionVariables = Exact<{
+  id: Scalars['ObjectId'];
+}>;
+
+
+export type PortfoliosSubscribeToMarketDataSubscription = { __typename?: 'Subscription', portfoliosSubscribeToMarketData?: { __typename?: 'Portfolio', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null, holdings: Array<{ __typename?: 'Holding', _id: any, marketValue: number, exposure: number, profitLossUsd: number, profitLossPercent: number, dailyProfitLossUsd: number, averagePrice: number, costBasis: number, institutionValue?: number | null, direction?: HoldingDirection | null, quantity: number, assetClass: AssetClass, source: HoldingSource, currency: string, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null }>, transactions: Array<{ __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null }> } | null };
 
 export type PortfoliosUpdateOneMutationVariables = Exact<{
   _id: Scalars['ObjectId'];
   input: UpdatePortfolioInput;
 }>;
 
-export type PortfoliosUpdateOneMutation = {
-  __typename?: 'Mutation';
-  portfoliosUpdateOne: {
-    __typename?: 'PortfolioFromDb';
-    _id: any;
-    createdAt?: any | null;
-    description?: string | null;
-    name: string;
-    private: boolean;
-    updatedAt?: any | null;
-  };
-};
 
-export type AllSecurityDataFragment = {
-  __typename?: 'Security';
-  _id: string;
-  currency?: string | null;
-  exchange?: string | null;
-  assetClass: AssetClass;
-  figi?: string | null;
-  name?: string | null;
-  region?: string | null;
-  latestPrice?: number | null;
-  todaysChange?: number | null;
-  todaysChangePercent?: number | null;
-  tickerDetails?: {
-    __typename?: 'TickerDetails';
-    active?: boolean | null;
-    cik?: string | null;
-    currencyName?: string | null;
-    description?: string | null;
-    homepageUrl?: string | null;
-    iconUrl?: string | null;
-    listDate?: string | null;
-    logoUrl?: string | null;
-    market?: string | null;
-    marketCap?: number | null;
-    name?: string | null;
-    phoneNumber?: string | null;
-    shareClassOutstanding?: number | null;
-    sicCode?: number | null;
-    sicDescription?: string | null;
-    totalEmployees?: number | null;
-    type?: TickerType | null;
-    weightedSharesOutstanding?: number | null;
-  } | null;
-};
+export type PortfoliosUpdateOneMutation = { __typename?: 'Mutation', portfoliosUpdateOne: { __typename?: 'PortfolioFromDb', _id: any, createdAt?: any | null, description?: string | null, name: string, private: boolean, updatedAt?: any | null } };
 
-export type AllImportedSecurityDataFragment = {
-  __typename?: 'ImportedSecurity';
-  latestPrice?: number | null;
-  name?: string | null;
-  ticker_symbol?: string | null;
-  currency?: string | null;
-  assetClass: AssetClass;
-};
+export type AllSecurityDataFragment = { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null };
 
-export type SecuritySummaryFragment = {
-  __typename?: 'Security';
-  _id: string;
-  name?: string | null;
-  region?: string | null;
-  latestPrice?: number | null;
-};
+export type AllImportedSecurityDataFragment = { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass };
 
-export type AllTickerDetailsFragment = {
-  __typename?: 'TickerDetails';
-  active?: boolean | null;
-  cik?: string | null;
-  currencyName?: string | null;
-  description?: string | null;
-  homepageUrl?: string | null;
-  iconUrl?: string | null;
-  listDate?: string | null;
-  logoUrl?: string | null;
-  market?: string | null;
-  marketCap?: number | null;
-  name?: string | null;
-  phoneNumber?: string | null;
-  shareClassOutstanding?: number | null;
-  sicCode?: number | null;
-  sicDescription?: string | null;
-  totalEmployees?: number | null;
-  type?: TickerType | null;
-  weightedSharesOutstanding?: number | null;
-};
+export type SecuritySummaryFragment = { __typename?: 'Security', _id: string, name?: string | null, region?: string | null, latestPrice?: number | null };
+
+export type AllTickerDetailsFragment = { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null };
 
 export type SecuritiesFindByIdQueryVariables = Exact<{
   _id: Scalars['String'];
 }>;
 
-export type SecuritiesFindByIdQuery = {
-  __typename?: 'Query';
-  securitiesFindById: {
-    __typename?: 'Security';
-    _id: string;
-    currency?: string | null;
-    exchange?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    latestPrice?: number | null;
-    todaysChange?: number | null;
-    todaysChangePercent?: number | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active?: boolean | null;
-      cik?: string | null;
-      currencyName?: string | null;
-      description?: string | null;
-      homepageUrl?: string | null;
-      iconUrl?: string | null;
-      listDate?: string | null;
-      logoUrl?: string | null;
-      market?: string | null;
-      marketCap?: number | null;
-      name?: string | null;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode?: number | null;
-      sicDescription?: string | null;
-      totalEmployees?: number | null;
-      type?: TickerType | null;
-      weightedSharesOutstanding?: number | null;
-    } | null;
-  };
-};
+
+export type SecuritiesFindByIdQuery = { __typename?: 'Query', securitiesFindById: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } };
 
 export type SecuritiesSearchQueryVariables = Exact<{
   searchTerm: Scalars['String'];
 }>;
 
-export type SecuritiesSearchQuery = {
-  __typename?: 'Query';
-  securitiesSearch: Array<{
-    __typename?: 'Security';
-    _id: string;
-    currency?: string | null;
-    exchange?: string | null;
-    assetClass: AssetClass;
-    figi?: string | null;
-    name?: string | null;
-    region?: string | null;
-    latestPrice?: number | null;
-    todaysChange?: number | null;
-    todaysChangePercent?: number | null;
-    tickerDetails?: {
-      __typename?: 'TickerDetails';
-      active?: boolean | null;
-      cik?: string | null;
-      currencyName?: string | null;
-      description?: string | null;
-      homepageUrl?: string | null;
-      iconUrl?: string | null;
-      listDate?: string | null;
-      logoUrl?: string | null;
-      market?: string | null;
-      marketCap?: number | null;
-      name?: string | null;
-      phoneNumber?: string | null;
-      shareClassOutstanding?: number | null;
-      sicCode?: number | null;
-      sicDescription?: string | null;
-      totalEmployees?: number | null;
-      type?: TickerType | null;
-      weightedSharesOutstanding?: number | null;
-    } | null;
-  }>;
-};
 
-export type FullUserFragment = {
-  __typename?: 'User';
-  _id: string;
-  displayName: string;
-  emails?: Array<string> | null;
-  photos: Array<string>;
-  createdAt?: any | null;
-  updatedAt?: any | null;
-};
+export type SecuritiesSearchQuery = { __typename?: 'Query', securitiesSearch: Array<{ __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null }> };
+
+export type FullUserFragment = { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null };
 
 export type UsersFindByIdQueryVariables = Exact<{
   _id: Scalars['ID'];
 }>;
 
-export type UsersFindByIdQuery = {
-  __typename?: 'Query';
-  usersFindById: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-};
+
+export type UsersFindByIdQuery = { __typename?: 'Query', usersFindById: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };
 
 export type UsersFindOrCreateMutationVariables = Exact<{
   input: CreateUserInput;
 }>;
 
-export type UsersFindOrCreateMutation = {
-  __typename?: 'Mutation';
-  usersFindOrCreate: {
-    __typename?: 'User';
-    _id: string;
-    displayName: string;
-    emails?: Array<string> | null;
-    photos: Array<string>;
-    createdAt?: any | null;
-    updatedAt?: any | null;
-  };
-};
+
+export type UsersFindOrCreateMutation = { __typename?: 'Mutation', usersFindOrCreate: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null } };
