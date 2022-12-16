@@ -27,6 +27,7 @@ spec:
           ports:
             - containerPort: 5000
           livenessProbe:
-            tcpSocket:
-              port: 5000
+            httpGet:
+              path: /healthz
+              port: 8080
             initialDelaySeconds: 5

@@ -8,6 +8,12 @@ fastify.register(import('@fastify/websocket'));
 
 fastify.register(markteDataWs);
 
+fastify.get('/healthz', (request, reply) => {
+  reply.send({
+    hello: 'im alive',
+  });
+});
+
 const start = async () => {
   try {
     await fastify.listen({ port: 5000 });
