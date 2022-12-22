@@ -16,7 +16,7 @@ fastify.get('/healthz', (request, reply) => {
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 5000 });
+    await fastify.listen({ port: 5000, host: '0.0.0.0' });
     console.log(
       `Market data websocket listening on ws://localhost:5000`
     );
