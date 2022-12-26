@@ -1,17 +1,50 @@
-import { Button } from '@baggers/ui-components';
-import { FaChartPie, FaCog, FaPlusCircle } from 'react-icons/fa';
+import {
+  Button,
+  Menu,
+  MenuDivider,
+  MenuItem,
+} from '@baggers/ui-components';
+import {
+  FaCog,
+  FaFolderPlus,
+  FaPlus,
+  FaPlusSquare,
+} from 'react-icons/fa';
+import { useCurrentPortfolioView } from '~/hooks/useCurrentPortfolioView';
 import { useT } from '~/hooks/useT';
 
 export function HeaderActions() {
   const t = useT('portfolio_tracker');
+
+  const view = useCurrentPortfolioView();
+
   return (
     <div className="flex gap-2 pb-2">
-      <Button variant="mono" endIcon={<FaChartPie />}>
-        {t('add_widget', 'Add widget')}{' '}
-      </Button>
-      <Button variant="mono" endIcon={<FaPlusCircle />}>
-        {t('create_view', 'Create view')}{' '}
-      </Button>
+      <Menu
+        button={
+          <Button variant="mono" endIcon={<FaPlus />}>
+            {t('add', 'New ...')}
+          </Button>
+        }
+      >
+        <MenuItem>
+          <FaPlusSquare />
+          {`New panel in '${view.toLocaleUpperCase()}'`}
+        </MenuItem>
+        <MenuItem>
+          <FaFolderPlus />
+          {`New view`}
+        </MenuItem>
+        <MenuDivider />
+        <MenuItem>
+          <FaPlus />
+          {`New holding`}
+        </MenuItem>
+        <MenuItem>
+          <FaPlus />
+          {`New transaction`}
+        </MenuItem>
+      </Menu>
       <Button variant="mono" endIcon={<FaCog />}>
         {t('settings', 'Settings')}{' '}
       </Button>

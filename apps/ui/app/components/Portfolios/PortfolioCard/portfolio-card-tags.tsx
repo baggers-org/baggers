@@ -10,10 +10,6 @@ export function PortfolioCardTags({ portfolio }: PortfolioCardProps) {
       <span className="font-semibold">{t('tags', 'Tags')}:</span>
       <span className="flex gap-2 place-items-center flex-wrap">
         <Tag>Dividend</Tag>
-        <Tag>Growth</Tag>
-        <Tag>Value</Tag>
-        <Tag>Tech</Tag>
-        <Tag>Consumer</Tag>
         {portfolio?.plaidItem ? (
           <Tag>
             <FaLink size={16} />
