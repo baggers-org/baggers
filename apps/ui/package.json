@@ -27,6 +27,7 @@
     "@remix-run/react": "^1.7.5",
     "@remix-run/serve": "^1.7.5",
     "clsx": "^1.2.1",
+    "dayjs": "^1.11.7",
     "framer-motion": "^7.6.15",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",

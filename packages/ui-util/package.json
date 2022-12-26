@@ -6,5 +6,8 @@
 		"type-check": "tsc -p ./tsconfig.lib.json --noEmit",
 		"lint": "eslint src",
 		"test": "jest"
+	},
+	"dependencies": {
+		"dayjs": "^1.11.7"
 	}
 }
