@@ -55,7 +55,11 @@ export function DataTable<
   });
 
   return (
-    <Table>
+    <Table
+      style={{
+        width: table.getCenterTotalSize(),
+      }}
+    >
       <TableHead>
         {table.getHeaderGroups().map((group) => (
           <TableRow key={group.id}>
@@ -79,6 +83,7 @@ export function DataTable<
                   background: cell.column.getIsPinned()
                     ? 'rgba(116 47 246, 0.3)'
                     : undefined,
+                  width: cell.column.getSize(),
                 }}
               >
                 {flexRender(

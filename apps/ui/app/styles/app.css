@@ -623,6 +623,16 @@ video {
   z-index: 20;
 }
 
+.-mx-32 {
+  margin-left: -8rem;
+  margin-right: -8rem;
+}
+
+.-mx-24 {
+  margin-left: -6rem;
+  margin-right: -6rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -687,6 +697,14 @@ video {
   box-sizing: border-box;
 }
 
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
 .inline {
   display: inline;
 }
@@ -695,8 +713,16 @@ video {
   display: flex;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .table {
   display: table;
+}
+
+.inline-table {
+  display: inline-table;
 }
 
 .table-cell {
@@ -759,6 +785,10 @@ video {
   height: 600px;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .max-h-fit {
   max-height: -moz-fit-content;
   max-height: fit-content;
@@ -806,13 +836,40 @@ video {
   min-width: fit-content;
 }
 
+.min-w-max {
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+
+.min-w-\[150px\] {
+  min-width: 150px;
+}
+
+.min-w-\[300px\] {
+  min-width: 300px;
+}
+
 .max-w-fit {
   max-width: -moz-fit-content;
   max-width: fit-content;
 }
 
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.table-fixed {
+  table-layout: fixed;
+}
+
 .border-collapse {
   border-collapse: collapse;
+}
+
+.border-spacing-0 {
+  --tw-border-spacing-x: 0px;
+  --tw-border-spacing-y: 0px;
+  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
 }
 
 .-translate-x-1\/4 {
@@ -840,6 +897,10 @@ video {
   cursor: pointer;
 }
 
+.cursor-col-resize {
+  cursor: col-resize;
+}
+
 .select-none {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -864,6 +925,10 @@ video {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
 }
 
 .place-content-center {
@@ -952,6 +1017,26 @@ video {
 
 .place-self-center {
   place-self: center;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+.whitespace-pre {
+  white-space: pre;
 }
 
 .rounded-full {
@@ -1050,6 +1135,22 @@ video {
   border-bottom-color: rgba(96,96,96,0.14);
 }
 
+.border-b-\[rgba\(51\2c 46\2c 60\2c 0\.12\)\] {
+  border-bottom-color: rgba(51,46,60,0.12);
+}
+
+.border-b-\[rgba\(51\2c 46\2c 60\2c 0\.1\)\] {
+  border-bottom-color: rgba(51,46,60,0.1);
+}
+
+.border-b-\[rgba\(51\2c 46\2c 60\2c 0\.05\)\] {
+  border-bottom-color: rgba(51,46,60,0.05);
+}
+
+.border-b-\[rgba\(51\2c 46\2c 60\2c 0\.07\)\] {
+  border-bottom-color: rgba(51,46,60,0.07);
+}
+
 .bg-secondary-light {
   --tw-bg-opacity: 1;
   background-color: rgb(36 97 247 / var(--tw-bg-opacity));
@@ -1088,6 +1189,10 @@ video {
   background-color: rgb(26 32 48 / var(--tw-bg-opacity));
 }
 
+.bg-primary-transparent-dark {
+  background-color: rgba(154, 106, 255, 0.15);
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -1123,6 +1228,10 @@ video {
 
 .p-3 {
   padding: 0.75rem;
+}
+
+.p-12 {
+  padding: 3rem;
 }
 
 .px-8 {
@@ -1193,6 +1302,16 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .pt-36 {
@@ -1695,6 +1814,18 @@ video {
   border-bottom-color: rgba(96,96,96,0.60);
 }
 
+.dark .dark\:border-b-\[rgba\(96\2c 96\2c 96\2c 0\.2\)\] {
+  border-bottom-color: rgba(96,96,96,0.2);
+}
+
+.dark .dark\:border-b-\[rgba\(96\2c 96\2c 96\2c 0\.8\)\] {
+  border-bottom-color: rgba(96,96,96,0.8);
+}
+
+.dark .dark\:border-b-\[rgba\(96\2c 96\2c 96\2c 0\.7\)\] {
+  border-bottom-color: rgba(96,96,96,0.7);
+}
+
 .dark .dark\:bg-secondary-dark {
   --tw-bg-opacity: 1;
   background-color: rgb(84 116 254 / var(--tw-bg-opacity));
@@ -1726,6 +1857,16 @@ video {
 
 .dark .dark\:bg-\[rgba\(26\2c 32\2c 48\2c 0\.91\)\] {
   background-color: rgba(26,32,48,0.91);
+}
+
+.dark .dark\:bg-\[\#42474C\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(66 71 76 / var(--tw-bg-opacity));
+}
+
+.dark .dark\:bg-\[\#383D42\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(56 61 66 / var(--tw-bg-opacity));
 }
 
 .dark .dark\:bg-gradient-to-b {

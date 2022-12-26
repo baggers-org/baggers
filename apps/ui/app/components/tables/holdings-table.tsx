@@ -21,6 +21,7 @@ const columns = [
   column.accessor('security.name', {
     id: 'name',
     header: 'Name',
+    minSize: 300,
   }),
   column.accessor('marketValue', {
     id: 'marketValue',

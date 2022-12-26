@@ -1,5 +1,4 @@
 import { Tag } from '@baggers/ui-components';
-import { HeaderBackdrop } from '~/components/header-backdrop';
 import { tlsx } from '~/util/clsx';
 import { ViewPortfolioProps } from '../types';
 import { HeaderActions } from './header-actions';
@@ -10,9 +9,16 @@ export function ViewPortfolioHeader({
   portfolio,
 }: ViewPortfolioProps) {
   return (
-    <div className="mb-12">
+    <div
+      className={tlsx(
+        'shadow-md',
+        'shadow-[rgba(96,96,96,0.14)]',
+        '-mx-24',
+        'px-24',
+        'mb-12'
+      )}
+    >
       <div className="flex place-content-between place-items-center">
-        <HeaderBackdrop height="400px" />
         <div>
           <h1 className={tlsx('text-5xl', 'font-semibold', 'mb-5')}>
             {portfolio.name}
@@ -22,7 +28,9 @@ export function ViewPortfolioHeader({
             className={tlsx(
               'font-[Poppins] dark:text-text-secondary-dark',
               'text-text-secondary-light',
-              'mb-6'
+              'mb-6',
+              'h-8',
+              'max'
             )}
           >
             {portfolio.description}

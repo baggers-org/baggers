@@ -6,7 +6,15 @@ export const TableHeader = forwardRef(
   (props: TableHeaderProps, ref: any) => {
     return (
       <th
-        className={tlsx('group', 'border-collapse') + props.className}
+        className={
+          tlsx(
+            'group',
+            'border-collapse',
+            'flex-nowrap',
+
+            'border-spacing-0'
+          ) + props.className
+        }
         {...props}
         ref={ref}
       >

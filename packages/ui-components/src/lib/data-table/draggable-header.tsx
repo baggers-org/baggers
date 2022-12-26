@@ -92,10 +92,13 @@ export function DraggableColumnHeader<D>({
       colSpan={header.colSpan}
       ref={dropRef}
       id={header.id}
+      style={{ width: header.getSize() }}
       className={tlsx(
         isOver && canDrop
           ? 'outline outline-1 border-primary-light'
-          : ''
+          : '',
+        'whitespace-nowrap',
+        'border-collapse'
       )}
     >
       <div
@@ -109,11 +112,12 @@ export function DraggableColumnHeader<D>({
           header.column.getIsPinned()
             ? 'bg-primary-transparent-light'
             : '',
+          'bg-primary-transparent-light',
+          'dark:bg-primary-transparent-dark',
 
           'group',
           'font-normal',
           'py-2',
-          'px-1',
           'transition-transform'
         )}
       >
@@ -124,19 +128,28 @@ export function DraggableColumnHeader<D>({
                 header.column.getCanSort() &&
                   'cursor-pointer select-none',
                 'flex w-full place-items-center gap-3',
-                'p-2'
+                'p-2',
+                'flex-nowrap'
               )}
-              onClick={header.column.getToggleSortingHandler()}
+              onClick={(e) => {
+                console.log(e);
+
+                header.column.getToggleSortingHandler?.()?.(e);
+              }}
             >
               {flexRender(
                 header.column.columnDef.header,
                 header.getContext()
               )}
-              {renderSortChevrons(header)}
-              <div className="opacity-0 group-hover:opacity-100 transition-all ml-auto">
+              <div className="relative">
+                {renderSortChevrons(header)}
+              </div>
+              <div
+                className="opacity-0 group-hover:opacity-100 transition-all ml-auto relative"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <DataTableMenu table={table} column={header.column} />
               </div>
-              <div className="bg-text-light dark:bg-text-dark opacity-50 w-[1px] h-6" />
             </div>
           )}
         </div>
