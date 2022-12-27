@@ -19,7 +19,7 @@ export function MenuItems({
       }}
       className={tlsx(
         'dark:bg-paper-dark bg-paper-light',
-        'rounded-lg',
+        'rounded-xl',
         'absolute',
         'z-50',
         'drop-shadow-lg',

@@ -7,7 +7,7 @@ export default function AppLayout() {
   return (
     <>
       <Navbar options={useNavbarOptions()} />
-      <div className="pt-36 px-24">
+      <div className="pt-24 md:pt-36 md:px-24 px-4">
         <AnimatePresence mode="wait">
           <motion.main
             initial={{ opacity: 0 }}

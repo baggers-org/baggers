@@ -20,7 +20,7 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
       to={`/portfolios/${portfolio._id}/overview`}
       className={tlsx(
         'dark:bg-paper-dark bg-paper-light',
-        'rounded-3xl',
+        'rounded-2xl',
         'h-[600px]',
         'drop-shadow-md',
         'hover:cursor-pointer',
@@ -48,7 +48,7 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
           'opacity-[0.85] bg-[#1A2030]',
           'text-paper-light',
           'px-8 py-1',
-          'rounded-r-3xl',
+          'rounded-br-3xl',
           'rounded-tl-3xl',
           'bottom-0',
           'right-0',

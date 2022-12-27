@@ -98,7 +98,7 @@ export function DraggableColumnHeader<D>({
           ? 'outline outline-1 border-primary-light'
           : '',
         'whitespace-nowrap',
-        'border-collapse'
+        'border-none'
       )}
     >
       <div
@@ -112,10 +112,8 @@ export function DraggableColumnHeader<D>({
           header.column.getIsPinned()
             ? 'bg-primary-transparent-light'
             : '',
-          'bg-primary-transparent-light',
-          'dark:bg-primary-transparent-dark',
-
           'group',
+          'border-none',
           'font-normal',
           'py-2',
           'transition-transform'
@@ -129,11 +127,10 @@ export function DraggableColumnHeader<D>({
                   'cursor-pointer select-none',
                 'flex w-full place-items-center gap-3',
                 'p-2',
+                'border-none',
                 'flex-nowrap'
               )}
               onClick={(e) => {
-                console.log(e);
-
                 header.column.getToggleSortingHandler?.()?.(e);
               }}
             >

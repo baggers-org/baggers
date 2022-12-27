@@ -31,26 +31,26 @@ export class HoldingsService {
     input: AddHoldingInput,
     currentUser: Auth0AccessTokenPayload
   ) {
-    const newHolding: Holding = {
-      ...input,
-      _id: new ObjectId(),
-      costBasis: input.averagePrice * input.quantity,
-      source: HoldingSource.direct,
-    };
-
     // Lookup the security, to get its details for the transaction
-
     const security = await this.securitiesService.findById(
       input.security
     );
 
+    const newHolding: Holding = {
+      ...input,
+      _id: new ObjectId(),
+      averagePrice: input.costBasis / input.quantity,
+      source: HoldingSource.direct,
+      assetClass: security.assetClass,
+    };
+
     const transaction: AddTransactionInput = {
-      amount: input.quantity * input.averagePrice,
+      amount: input.quantity * newHolding.averagePrice,
       portfolioId: toPortfolio,
-      price: input.averagePrice,
+      price: newHolding.averagePrice,
       quantity: input.quantity,
       security: input.security,
-      assetClass: input.assetClass,
+      assetClass: security.assetClass,
       // TODO: fees
       fees: 0,
       currency: input.currency,

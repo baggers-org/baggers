@@ -3,8 +3,7 @@
 # ------------------------------------------------------
 
 input AddHoldingInput {
-  assetClass: AssetClass!
-  averagePrice: Float!
+  costBasis: Float!
   currency: String!
   direction: HoldingDirection!
   quantity: Float!
@@ -332,6 +331,7 @@ enum TickerType {
   Eqlk
   Etf
   Etn
+  Ets
   Etv
   Fund
   Gdr

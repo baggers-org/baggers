@@ -33,10 +33,10 @@ export class SecuritiesService {
       ?.aggregate([
         {
           $search: {
-            index: `securitySearch`,
-            text: {
+            index: 'securitySearch',
+            autocomplete: {
+              path: '_id',
               query: term,
-              path: `_id`,
             },
           },
         },

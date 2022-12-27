@@ -20,8 +20,7 @@ export type Scalars = {
 };
 
 export type AddHoldingInput = {
-  assetClass: AssetClass;
-  averagePrice: Scalars['Float'];
+  costBasis: Scalars['Float'];
   currency: Scalars['String'];
   direction: HoldingDirection;
   quantity: Scalars['Float'];

@@ -15,6 +15,9 @@ import { useEventSource } from 'remix-sse/client';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: data ? `${data?.name}` : 'Not found',
+  description:
+    data?.description ||
+    'This stock portfolio does not have a description',
 });
 
 export const loader: LoaderFunction = async ({ params, request }) => {
@@ -52,7 +55,7 @@ export default function PortfoloLayout() {
   useEventSource(`/portfolios/${id}/subscribe`);
 
   return (
-    <div>
+    <div className="mb-12">
       <ViewPortfolioHeader portfolio={portfolio} />
       <Outlet />
     </div>

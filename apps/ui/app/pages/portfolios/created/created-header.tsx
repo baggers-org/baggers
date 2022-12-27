@@ -11,10 +11,8 @@ export function CreatedHeader() {
       <HeaderBackdrop />
       <h1
         className={tlsx(
-          'font-heading',
-          'uppercase',
-          'font-extrabold',
-          'text-4xl'
+          'font-bold',
+          'xl:text-3xl text-xl lg:text-2xl'
         )}
       >
         {t('created_portfolios', 'Created portfolios')}

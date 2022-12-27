@@ -6,6 +6,7 @@ import {
 
 export function ProfitLoss({ value, isPercent }: ProfitLossProps) {
   if (!value) return <>'N/A'</>;
+
   const getColor = () => {
     const delta = isProfitLossOrNeutral(value);
 
@@ -23,7 +24,7 @@ export function ProfitLoss({ value, isPercent }: ProfitLossProps) {
       : formatCurrency(value);
 
   return value ? (
-    <span className={getColor() + 'font-semibold'}>
+    <span className={getColor()}>
       {value > 0 ? `+${formattedValue}` : formattedValue}
     </span>
   ) : null;

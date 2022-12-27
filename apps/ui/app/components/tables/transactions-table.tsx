@@ -45,5 +45,11 @@ const columns = [
 export function TransactionsTable({
   transactions,
 }: TransactionsTableProps) {
-  return <DataTable data={transactions} defaultColumns={columns} />;
+  return (
+    <DataTable
+      data={transactions}
+      defaultColumns={columns}
+      defaultSort={[{ id: 'date', desc: true }]}
+    />
+  );
 }

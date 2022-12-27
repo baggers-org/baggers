@@ -8,6 +8,7 @@ export enum TickerType {
   Bond = 'BOND',
   Etf = 'ETF',
   Etn = 'ETN',
+  Ets = 'ETS',
   Etv = 'ETV',
   Sp = 'SP',
   Adrc = 'ADRC',

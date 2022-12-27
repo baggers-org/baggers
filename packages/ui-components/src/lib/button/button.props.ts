@@ -5,9 +5,9 @@ export type ButtonProps = PropsWithChildren<
     variant?:
       | 'mono'
       | 'massive'
-      | 'normal'
-      | 'filled-primary-light'
-      | 'filled-primary';
+      | 'primary'
+      | 'secondary'
+      | 'tertiary';
 
     endIcon?: React.ReactElement;
   } & React.DetailedHTMLProps<

@@ -28,8 +28,8 @@ export default function Holdings() {
         ...holding,
         ...realtimeHolding,
         security: {
-          ...holding.security,
-          ...realtimeHolding.security,
+          ...(holding?.security || {}),
+          ...(realtimeHolding?.security || {}),
         },
       };
     });

@@ -25,9 +25,8 @@ export const portfoliosAddHoldingTest = () =>
           direction: HoldingDirection.Long,
           security: A._id,
           quantity: 1,
-          averagePrice: 105.4,
+          costBasis: 105.4,
           currency: 'USD',
-          assetClass: AssetClass.Stock as any,
         },
       });
 
@@ -74,9 +73,8 @@ export const portfoliosAddHoldingTest = () =>
         input: {
           direction: HoldingDirection.Long,
           security: A._id,
+          costBasis: 521.36,
           quantity: 4,
-          averagePrice: 130.34,
-          assetClass: AssetClass.Stock as any,
           currency: 'USD',
         },
       });
@@ -124,10 +122,9 @@ export const portfoliosAddHoldingTest = () =>
         _id,
         input: {
           security: TSLA._id,
-          averagePrice: 100,
+          costBasis: 300,
           quantity: 3,
           direction: HoldingDirection.Long,
-          assetClass: AssetClass.Stock as any,
           currency: 'USD',
         },
       });
@@ -212,9 +209,8 @@ export const portfoliosAddHoldingTest = () =>
           _id: Portfolio1._id,
           input: {
             security: TSLA._id,
-            averagePrice: 200,
+            costBasis: 200,
             direction: HoldingDirection.Short,
-            assetClass: AssetClass.Stock as any,
             currency: 'USD',
             quantity: 1,
           },

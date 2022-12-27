@@ -9,7 +9,7 @@ export const TableHeader = forwardRef(
         className={
           tlsx(
             'group',
-            'border-collapse',
+            'border-none',
             'flex-nowrap',
 
             'border-spacing-0'

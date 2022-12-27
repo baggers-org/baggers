@@ -11,8 +11,9 @@ export function ViewPortfolioHeader({
   return (
     <div
       className={tlsx(
-        'shadow-md',
-        'shadow-[rgba(96,96,96,0.14)]',
+        'border-b',
+        'border-b-[rgba(96,96,96,0.14)]',
+        'dark:border-b-[rgba(96,96,96,0.60)]',
         '-mx-24',
         'px-24',
         'mb-12'
@@ -42,7 +43,7 @@ export function ViewPortfolioHeader({
         </div>
         <PortfolioHeaderRight portfolio={portfolio} />
       </div>
-      <div className="mt-16 flex place-content-between">
+      <div className="mt-16 flex place-content-between place-items-end">
         <PortfolioTabs portfolio={portfolio} />
         <HeaderActions />
       </div>
