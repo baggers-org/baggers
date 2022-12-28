@@ -1,6 +1,7 @@
 import { ProfitLossProps } from './profit-loss.props';
 import {
   formatCurrency,
+  formatNumber,
   isProfitLossOrNeutral,
 } from '@baggers/ui-util';
 
@@ -20,7 +21,7 @@ export function ProfitLoss({ value, isPercent }: ProfitLossProps) {
 
   const formattedValue =
     isPercent && value
-      ? `${value.toFixed(2)}%`
+      ? `${formatNumber(value)}%`
       : formatCurrency(value);
 
   return value ? (

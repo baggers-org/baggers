@@ -6,11 +6,11 @@ import {
   Table,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
+import { useMemo } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { tlsx } from '../../util/clsx';
 import { TableHeader } from '../table';
-import { DataTableMenu } from './data-table-menu';
 
 export type DraggableColumnHeaderProps<D> = {
   table: Table<D>;
@@ -86,6 +86,18 @@ export function DraggableColumnHeader<D>({
     type: 'column',
   });
 
+  const isNumeric = useMemo(() => {
+    if (header.column.id) {
+      const originalRow = table.getRowModel().rows[0]?.original;
+
+      const value = header.column.accessorFn?.(originalRow, 0);
+
+      return typeof value === 'number';
+    }
+  }, [header.column.id, table.getRow]);
+
+  console.log(isNumeric);
+
   return (
     <TableHeader
       key={header.id}
@@ -98,7 +110,12 @@ export function DraggableColumnHeader<D>({
           ? 'outline outline-1 border-primary-light'
           : '',
         'whitespace-nowrap',
-        'border-none'
+        'border-none',
+        isNumeric ? 'text-right' : 'text-left',
+        'dark:text-text-secondary-dark',
+        'text-text-secondary-light',
+        'tracking-wider',
+        'uppercase'
       )}
     >
       <div
@@ -126,7 +143,12 @@ export function DraggableColumnHeader<D>({
                 header.column.getCanSort() &&
                   'cursor-pointer select-none',
                 'flex w-full place-items-center gap-3',
+                isNumeric ? 'flex-row-reverse' : 'flex-row',
+                isNumeric ? 'place-content-end' : 'place-items-start',
                 'p-2',
+                header.column.getIsSorted()
+                  ? 'font-bold '
+                  : 'font-normal',
                 'border-none',
                 'flex-nowrap'
               )}
@@ -141,12 +163,14 @@ export function DraggableColumnHeader<D>({
               <div className="relative">
                 {renderSortChevrons(header)}
               </div>
-              <div
-                className="opacity-0 group-hover:opacity-100 transition-all ml-auto relative"
+
+              {/* TODO: find out a nice way to display this menu with right-aligned headers*/}
+              {/* <div
+                className="opacity-0 group-hover:opacity-100 transition-all ml-auto "
                 onClick={(e) => e.stopPropagation()}
               >
                 <DataTableMenu table={table} column={header.column} />
-              </div>
+              </div> */}
             </div>
           )}
         </div>

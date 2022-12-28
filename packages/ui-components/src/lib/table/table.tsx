@@ -9,7 +9,7 @@ export function Table(props: TableProps) {
         'dark:bg-dark-grey-700',
         'overflow-auto',
         'block',
-        'shadow-sm',
+        'shadow-xl',
         'table-fixed',
         'rounded-xl',
         'border-spacing-0'

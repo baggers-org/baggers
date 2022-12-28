@@ -84,6 +84,10 @@ export function DataTable<
                     ? 'rgba(116 47 246, 0.3)'
                     : undefined,
                   width: cell.column.getSize(),
+                  textAlign:
+                    typeof cell.getValue() === 'number'
+                      ? 'right'
+                      : 'left',
                 }}
               >
                 {flexRender(

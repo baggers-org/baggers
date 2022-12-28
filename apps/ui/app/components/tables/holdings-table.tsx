@@ -4,7 +4,7 @@ import {
   DataTable,
   ProfitLoss,
 } from '@baggers/ui-components';
-import { formatCurrency } from '@baggers/ui-util';
+import { formatCurrency, formatNumber } from '@baggers/ui-util';
 
 export type HoldingsTableProps = {
   holdings: Holding[];
@@ -21,12 +21,17 @@ const columns = [
   column.accessor('security.name', {
     id: 'name',
     header: 'Name',
-    minSize: 300,
+    minSize: 500,
   }),
   column.accessor('marketValue', {
     id: 'marketValue',
-    header: 'Market value',
+    header: 'Mkt Value',
     cell: ({ getValue }) => formatCurrency(getValue()),
+  }),
+  column.accessor('exposure', {
+    id: 'exposure',
+    header: '% of Portfolio',
+    cell: ({ getValue }) => formatNumber(getValue()),
   }),
   column.accessor('costBasis', {
     id: 'costBasis',
@@ -36,6 +41,7 @@ const columns = [
   column.accessor('quantity', {
     id: 'quantity',
     header: 'Quantity',
+    cell: ({ getValue }) => formatNumber(getValue()),
   }),
   column.accessor('security.latestPrice', {
     id: 'price',
@@ -56,6 +62,7 @@ const columns = [
   column.accessor('profitLossUsd', {
     id: 'profitLossUsd',
     header: 'P/L $',
+
     cell: ({ getValue }) => {
       return <ProfitLoss value={getValue()} />;
     },
