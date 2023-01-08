@@ -19,13 +19,17 @@ export type Scalars = {
   ObjectId: any;
 };
 
-export type AddHoldingInput = {
-  costBasis: Scalars['Float'];
-  currency: Scalars['String'];
-  direction: HoldingDirection;
+export type AddTransactionInput = {
+  amount: Scalars['Float'];
+  currency?: InputMaybe<Scalars['String']>;
+  date?: InputMaybe<Scalars['DateTime']>;
+  fees?: InputMaybe<Scalars['Float']>;
+  portfolioId: Scalars['ObjectId'];
+  price?: InputMaybe<Scalars['Float']>;
   quantity: Scalars['Float'];
   security: Scalars['String'];
-  transactionDate?: InputMaybe<Scalars['DateTime']>;
+  subType: TransactionSubtype;
+  type: TransactionType;
 };
 
 export type Aggregate = {
@@ -158,10 +162,9 @@ export type Institution = {
 export type Mutation = {
   __typename?: 'Mutation';
   addAlphaTesterEmail: RecordId;
-  portfoliosAddHolding: PortfolioFromDb;
+  portfoliosAddTransaction: PortfolioFromDb;
   portfoliosBeginImport: ImportResponse;
   portfoliosInitEmpty: RecordId;
-  portfoliosRemoveHolding: Scalars['ObjectId'];
   portfoliosRemoveMultiple: RemoveMultipleResponse;
   portfoliosRemoveOne: RecordId;
   portfoliosUpdateOne: PortfolioFromDb;
@@ -176,20 +179,13 @@ export type MutationAddAlphaTesterEmailArgs = {
 };
 
 
-export type MutationPortfoliosAddHoldingArgs = {
-  _id: Scalars['ObjectId'];
-  input: AddHoldingInput;
+export type MutationPortfoliosAddTransactionArgs = {
+  input: AddTransactionInput;
 };
 
 
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
-};
-
-
-export type MutationPortfoliosRemoveHoldingArgs = {
-  holdingId: Scalars['ObjectId'];
-  portfolioId: Scalars['ObjectId'];
 };
 
 
@@ -450,6 +446,7 @@ export enum TickerType {
   Eqlk = 'Eqlk',
   Etf = 'Etf',
   Etn = 'Etn',
+  Ets = 'Ets',
   Etv = 'Etv',
   Fund = 'Fund',
   Gdr = 'Gdr',
@@ -636,13 +633,12 @@ export type AllPortfolioDataFragment = { __typename?: 'Portfolio', _id: any, cas
 
 export type AllTransactionDataFragment = { __typename?: 'Transaction', _id: any, name: string, date: any, currency: string, quantity: number, amount: number, fees: number, price?: number | null, type: TransactionType, subType: TransactionSubtype, security?: { __typename?: 'Security', _id: string, currency?: string | null, exchange?: string | null, assetClass: AssetClass, figi?: string | null, name?: string | null, region?: string | null, latestPrice?: number | null, todaysChange?: number | null, todaysChangePercent?: number | null, tickerDetails?: { __typename?: 'TickerDetails', active?: boolean | null, cik?: string | null, currencyName?: string | null, description?: string | null, homepageUrl?: string | null, iconUrl?: string | null, listDate?: string | null, logoUrl?: string | null, market?: string | null, marketCap?: number | null, name?: string | null, phoneNumber?: string | null, shareClassOutstanding?: number | null, sicCode?: number | null, sicDescription?: string | null, totalEmployees?: number | null, type?: TickerType | null, weightedSharesOutstanding?: number | null } | null } | null, importedSecurity?: { __typename?: 'ImportedSecurity', latestPrice?: number | null, name?: string | null, ticker_symbol?: string | null, currency?: string | null, assetClass: AssetClass } | null };
 
-export type PortfoliosAddHoldingMutationVariables = Exact<{
-  _id: Scalars['ObjectId'];
-  input: AddHoldingInput;
+export type PortfoliosAddTransactionMutationVariables = Exact<{
+  input: AddTransactionInput;
 }>;
 
 
-export type PortfoliosAddHoldingMutation = { __typename?: 'Mutation', portfoliosAddHolding: { __typename?: 'PortfolioFromDb', _id: any, holdings: Array<{ __typename?: 'HoldingFromDb', averagePrice: number, costBasis: number, quantity: number }> } };
+export type PortfoliosAddTransactionMutation = { __typename?: 'Mutation', portfoliosAddTransaction: { __typename?: 'PortfolioFromDb', _id: any } };
 
 export type PortfoliosBeginImportMutationVariables = Exact<{
   publicToken: Scalars['String'];
@@ -667,14 +663,6 @@ export type PortfoliosInitEmptyMutationVariables = Exact<{ [key: string]: never;
 
 
 export type PortfoliosInitEmptyMutation = { __typename?: 'Mutation', portfoliosInitEmpty: { __typename?: 'RecordId', _id: string } };
-
-export type PortfoliosRemoveHoldingMutationVariables = Exact<{
-  portfolioId: Scalars['ObjectId'];
-  holdingId: Scalars['ObjectId'];
-}>;
-
-
-export type PortfoliosRemoveHoldingMutation = { __typename?: 'Mutation', portfoliosRemoveHolding: any };
 
 export type PortfoliosRemoveMultipleMutationVariables = Exact<{
   _ids: Array<Scalars['ObjectId']> | Scalars['ObjectId'];
@@ -950,15 +938,10 @@ export const PlaidLinkTokenDocument = gql`
   plaidLinkToken
 }
     `;
-export const PortfoliosAddHoldingDocument = gql`
-    mutation portfoliosAddHolding($_id: ObjectId!, $input: AddHoldingInput!) {
-  portfoliosAddHolding(_id: $_id, input: $input) {
+export const PortfoliosAddTransactionDocument = gql`
+    mutation portfoliosAddTransaction($input: AddTransactionInput!) {
+  portfoliosAddTransaction(input: $input) {
     _id
-    holdings {
-      averagePrice
-      costBasis
-      quantity
-    }
   }
 }
     `;
@@ -989,11 +972,6 @@ export const PortfoliosInitEmptyDocument = gql`
   portfoliosInitEmpty {
     _id
   }
-}
-    `;
-export const PortfoliosRemoveHoldingDocument = gql`
-    mutation portfoliosRemoveHolding($portfolioId: ObjectId!, $holdingId: ObjectId!) {
-  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
 }
     `;
 export const PortfoliosRemoveMultipleDocument = gql`
@@ -1080,8 +1058,8 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     plaidLinkToken(variables?: PlaidLinkTokenQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PlaidLinkTokenQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PlaidLinkTokenQuery>(PlaidLinkTokenDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'plaidLinkToken', 'query');
     },
-    portfoliosAddHolding(variables: PortfoliosAddHoldingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosAddHoldingMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosAddHoldingMutation>(PortfoliosAddHoldingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosAddHolding', 'mutation');
+    portfoliosAddTransaction(variables: PortfoliosAddTransactionMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosAddTransactionMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosAddTransactionMutation>(PortfoliosAddTransactionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosAddTransaction', 'mutation');
     },
     portfoliosBeginImport(variables: PortfoliosBeginImportMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosBeginImportMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosBeginImportMutation>(PortfoliosBeginImportDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosBeginImport', 'mutation');
@@ -1094,9 +1072,6 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     portfoliosInitEmpty(variables?: PortfoliosInitEmptyMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosInitEmptyMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosInitEmptyMutation>(PortfoliosInitEmptyDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosInitEmpty', 'mutation');
-    },
-    portfoliosRemoveHolding(variables: PortfoliosRemoveHoldingMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosRemoveHoldingMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosRemoveHoldingMutation>(PortfoliosRemoveHoldingDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosRemoveHolding', 'mutation');
     },
     portfoliosRemoveMultiple(variables: PortfoliosRemoveMultipleMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosRemoveMultipleMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosRemoveMultipleMutation>(PortfoliosRemoveMultipleDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosRemoveMultiple', 'mutation');

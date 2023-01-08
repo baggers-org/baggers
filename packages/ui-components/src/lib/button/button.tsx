@@ -141,7 +141,7 @@ function Secondary({
       {...props}
       className={clsx(
         commonClasses,
-        'bg-primary-transparent-light',
+        'bg-light-purple-100',
         'dark:bg-primary-transparent-dark',
         'border-none',
         'hover:outline  hover:outline-1 outline-primary-light dark:outline-primary-dark',

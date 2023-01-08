@@ -3,12 +3,20 @@ import {
   InvestmentTransactionSubtype,
   InvestmentTransactionType,
 } from 'plaid';
+import { Security } from '~/securities';
 import { Transaction, Holding, Portfolio } from '../entities';
 import { HoldingsUtilService } from './holdings-util.service';
 
 @Injectable()
 export class TransactionsUtilService {
   constructor(private holdingsUtil: HoldingsUtilService) {}
+
+  getTransactionName(
+    type: InvestmentTransactionSubtype,
+    security: Security
+  ) {
+    return `${type} ${security.name}`;
+  }
 
   applyTransaction(
     portfolio: Portfolio,

@@ -14,7 +14,7 @@ export function Tag({
   return (
     <span
       className={tlsx(
-        'dark:bg-primary-transparent-dark bg-primary-transparent-light p-2',
+        'dark:bg-primary-transparent-dark bg-light-purple-100 p-2',
         'rounded-3xl',
         'font-normal',
         'text-sm',

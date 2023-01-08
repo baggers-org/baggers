@@ -11,10 +11,8 @@ export class AddTransactionInput {
   @Field(() => ObjectIdScalar)
   portfolioId: ObjectId;
 
-  @Field(() => Date, { defaultValue: () => new Date() })
+  @Field(() => Date, { defaultValue: new Date() })
   date?: Date;
-
-  name: string;
 
   price?: number;
 
@@ -35,7 +33,4 @@ export class AddTransactionInput {
 
   @Field()
   security: string;
-
-  @Field(() => AssetClass)
-  assetClass: AssetClass;
 }

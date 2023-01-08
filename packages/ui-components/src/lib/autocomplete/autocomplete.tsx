@@ -50,7 +50,7 @@ export function Autocomplete({
                   'rounded-xl',
                   'cursor-pointer',
                   active
-                    ? 'bg-primary-transparent-light dark:bg-primary-transparent-dark'
+                    ? 'bg-light-purple-100 dark:bg-primary-transparent-dark'
                     : '',
                   active
                     ? 'dark:text-text-dark text-primary-light'

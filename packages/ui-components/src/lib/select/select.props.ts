@@ -5,6 +5,7 @@ export type SelectOption = {
   id: string;
   label: string;
   renderIcon?: () => ReactElement;
+  defaultValue?: string;
 };
 export type SelectProps = {
   options: SelectOption[];
@@ -12,4 +13,6 @@ export type SelectProps = {
   React.SelectHTMLAttributes<HTMLSelectElement>,
   HTMLSelectElement
 > &
-  InputWrapperProps;
+  InputWrapperProps & {
+    onChange?: (val: string) => void;
+  };

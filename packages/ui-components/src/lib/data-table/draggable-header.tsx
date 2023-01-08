@@ -46,7 +46,7 @@ export function DraggableColumnHeader<D>({
       return (
         <FaChevronDown
           className={clsx(
-            'opacity-0 group-hover:opacity-50 transition-all hover:bg-primary-transparent-light',
+            'opacity-0 group-hover:opacity-50 transition-all hover:bg-light-purple-100',
             'rounded-full'
           )}
         />
@@ -126,9 +126,7 @@ export function DraggableColumnHeader<D>({
             : undefined,
         }}
         className={tlsx(
-          header.column.getIsPinned()
-            ? 'bg-primary-transparent-light'
-            : '',
+          header.column.getIsPinned() ? 'bg-light-purple-100' : '',
           'group',
           'border-none',
           'font-normal',

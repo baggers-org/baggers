@@ -38,7 +38,7 @@ export function PortfolioHeaderRight({
         <span
           className={tlsx(
             'py-5 px-5',
-            'bg-primary-transparent-light dark:bg-primary-transparent-dark',
+            'bg-light-purple-100 dark:bg-primary-transparent-dark',
             'rounded-2xl',
             'text-2xl',
             'font-semibold',

@@ -76,6 +76,9 @@ const columns = [
   }),
 ];
 export function HoldingsTable({ holdings }: HoldingsTableProps) {
+  if (!holdings?.length) {
+    return <>No holdings</>;
+  }
   return (
     <DataTable
       data={holdings}

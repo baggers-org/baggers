@@ -21,7 +21,7 @@ export function MenuItem({
         'last:rounded-b-xl',
         'place-items-center',
         'place-content-baseline',
-        'gap-7',
+        'gap-16',
         'hover:cursor-pointer',
         'dark:hover:text-text-dark',
         'focus:outline-primary-light',
@@ -30,7 +30,7 @@ export function MenuItem({
         'hover:dark:outline-paper-dark',
         'dark:text-text-secondary-dark',
         'font-[400]',
-        'hover:bg-primary-transparent-light dark:hover:bg-primary-transparent-dark',
+        'hover:bg-light-purple-100 dark:hover:bg-primary-transparent-dark',
         rest.textSecondary
           ? 'text-secondary-light dark:text-secondary-dark'
           : ''

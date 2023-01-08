@@ -1,8 +1,17 @@
 import { PropsWithChildren } from 'react';
+import { tlsx } from '../../util/clsx';
 
-export function Paper({ children }: PropsWithChildren) {
+export function Paper({
+  children,
+  className,
+}: PropsWithChildren<{ className?: string }>) {
   return (
-    <div className="bg-paper-light dark:bg-paper-dark shadow-md rounded-xl">
+    <div
+      className={tlsx(
+        'bg-paper-light dark:bg-paper-dark shadow-md rounded-xl',
+        className
+      )}
+    >
       {children}
     </div>
   );

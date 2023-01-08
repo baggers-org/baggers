@@ -10,7 +10,6 @@ import {
   HoldingMetricsService,
   PortfolioMetricsService,
 } from './services';
-import { HoldingsService } from './services/holdings.service';
 import { PlaidClientModule } from '~/plaid-client';
 import { PlaidItemsModule } from '~/plaid-items';
 import { TransactionsUtilService } from './services/transactions-util.service';
@@ -36,7 +35,6 @@ import { MarketDataSocketModule } from '~/market-data-socket/market-data-socket.
     PortfolioMetricsService,
     PortfoliosResolver,
     PortfoliosService,
-    HoldingsService,
     HoldingsUtilService,
     TransactionsUtilService,
     TransactionsService,

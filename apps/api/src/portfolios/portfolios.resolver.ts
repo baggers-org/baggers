@@ -21,16 +21,16 @@ import {
   RemoveMultipleResponse,
   ObjectId,
 } from '~/shared';
-import { AddHoldingInput } from './dto/add-holding';
-import { HoldingsService } from './services/holdings.service';
 import { observableToAsyncIterable } from '~/market-data-socket/observableToAsyncITerable';
 import { map } from 'rxjs';
+import { TransactionsService } from './services/transactions.service';
+import { AddTransactionInput } from './dto/add-transaction.input';
 
 @Resolver(() => Portfolio)
 export class PortfoliosResolver {
   constructor(
     private readonly portfoliosService: PortfoliosService,
-    private holdingsService: HoldingsService
+    private transactionsService: TransactionsService
   ) {}
 
   /**
@@ -123,26 +123,13 @@ export class PortfoliosResolver {
     return this.portfoliosService.updateOne(_id, input, currentUser);
   }
 
-  @Mutation(() => Portfolio, { name: 'portfoliosAddHolding' })
-  addHolding(
-    @Args('_id', { type: () => ObjectIdScalar }) _id: ObjectId,
-    @Args('input') input: AddHoldingInput,
+  @Mutation(() => Portfolio, { name: 'portfoliosAddTransaction' })
+  async addTransaction(
+    @Args('input') input: AddTransactionInput,
     @CurrentUser() currentUser: Auth0AccessTokenPayload
-  ) {
-    return this.holdingsService.addHolding(_id, input, currentUser);
-  }
-
-  @Mutation(() => ObjectIdScalar, { name: 'portfoliosRemoveHolding' })
-  async removeHolding(
-    @Args('portfolioId', { type: () => ObjectIdScalar })
-    portfolioId: ObjectId,
-    @Args('holdingId', { type: () => ObjectIdScalar })
-    holdingId: ObjectId,
-    @CurrentUser() currentUser: Auth0AccessTokenPayload
-  ): Promise<mongoose.Types.ObjectId> {
-    return this.holdingsService.removeHolding(
-      portfolioId,
-      holdingId,
+  ): Promise<Portfolio> {
+    return this.transactionsService.addTransaction(
+      input,
       currentUser
     );
   }

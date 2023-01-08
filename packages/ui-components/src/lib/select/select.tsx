@@ -7,7 +7,11 @@ import { SelectProps } from './select.props';
 export function Select({ options, ...props }: SelectProps) {
   return (
     <InputWrapper {...props}>
-      <Listbox defaultValue={options[0].id} name={props.name}>
+      <Listbox
+        name={props.name}
+        defaultValue={props.defaultValue}
+        onChange={props.onChange}
+      >
         <Listbox.Button
           className={tlsx(
             inputCommonClasses,
@@ -27,8 +31,11 @@ export function Select({ options, ...props }: SelectProps) {
                 </>
               );
             }
-
-            return value;
+            return (
+              <span className="text-text-secondary-light dark:text-text-secondary-dark">
+                {props.placeholder}
+              </span>
+            );
           }}
         </Listbox.Button>
         <Listbox.Options
@@ -39,7 +46,7 @@ export function Select({ options, ...props }: SelectProps) {
             'z-50',
             'w-full',
             'rounded-xl',
-            'shadow-sm',
+            'shadow-lg',
             'dark:bg-dark-grey-600',
             'bg-light-grey-300'
           )}
@@ -51,7 +58,7 @@ export function Select({ options, ...props }: SelectProps) {
               className={tlsx(
                 'p-3',
                 'cursor-pointer',
-                'hover:bg-primary-transparent-light',
+                'hover:bg-light-purple-100',
                 'flex',
                 'place-items-center',
                 'gap-2'

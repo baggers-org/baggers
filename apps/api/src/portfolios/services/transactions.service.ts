@@ -2,41 +2,53 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Auth0AccessTokenPayload } from '~/auth';
+import { SecuritiesService } from '~/securities';
 import { ObjectId } from '~/shared';
 import { ownerAnd } from '~/shared/util/ownerAnd';
 import { AddTransactionInput } from '../dto/add-transaction.input';
-import { Portfolio, PortfolioDocument } from '../entities';
+import {
+  Portfolio,
+  PortfolioDocument,
+  Transaction,
+} from '../entities';
+import { TransactionsUtilService } from './transactions-util.service';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     @InjectModel(Portfolio.name)
-    private portfolioModel: Model<PortfolioDocument>
+    private portfolioModel: Model<PortfolioDocument>,
+    private transactionsUtil: TransactionsUtilService,
+    private securitiesService: SecuritiesService
   ) {}
 
-  addTransaction(
+  async addTransaction(
     input: AddTransactionInput,
     currentUser: Auth0AccessTokenPayload
   ) {
     const { portfolioId } = input;
+    // Lookup the security, to get its details for the transaction
+    const security = await this.securitiesService.findById(
+      input.security
+    );
+    const newTransaction: Transaction = {
+      ...input,
+      assetClass: security.assetClass,
+      name: this.transactionsUtil.getTransactionName(
+        input.subType,
+        security
+      ),
+      currency: input.currency || 'USD',
+      fees: input.fees || 0,
+      date: input.date || new Date(),
+      _id: new ObjectId(),
+    };
 
-    return this.portfolioModel
-      .findOneAndUpdate(
+    const portfolio = await this.portfolioModel
+      .findOne(
         ownerAnd<PortfolioDocument>(currentUser, {
           _id: portfolioId,
-        }),
-        {
-          $push: {
-            transactions: {
-              ...input,
-              date: input.date || new Date(),
-              _id: new ObjectId(),
-            },
-          },
-        },
-        {
-          new: true,
-        }
+        })
       )
       .orFail(
         () =>
@@ -44,6 +56,25 @@ export class TransactionsService {
             'Could not find a portfolio to add a transaction to'
           )
       );
+
+    const { holdings } = this.transactionsUtil.applyTransaction(
+      portfolio,
+      newTransaction
+    );
+
+    return portfolio.update(
+      {
+        $set: {
+          holdings,
+        },
+        $push: {
+          transactions: newTransaction,
+        },
+      },
+      {
+        new: true,
+      }
+    );
   }
 
   // async addTransactions(

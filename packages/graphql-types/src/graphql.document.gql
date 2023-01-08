@@ -134,17 +134,9 @@ fragment AllTransactionData on Transaction {
 }
 
 
-mutation portfoliosAddHolding(
-  $_id: ObjectId!
-  $input: AddHoldingInput!
-) {
-  portfoliosAddHolding(_id: $_id, input: $input) {
+mutation portfoliosAddTransaction($input: AddTransactionInput!) {
+  portfoliosAddTransaction(input: $input) {
     _id
-    holdings {
-      averagePrice
-      costBasis
-      quantity
-    }
   }
 }
 
@@ -175,14 +167,6 @@ mutation portfoliosInitEmpty {
   portfoliosInitEmpty {
     _id
   }
-}
-
-
-mutation portfoliosRemoveHolding(
-  $portfolioId: ObjectId!
-  $holdingId: ObjectId!
-) {
-  portfoliosRemoveHolding(portfolioId: $portfolioId, holdingId: $holdingId)
 }
 
 

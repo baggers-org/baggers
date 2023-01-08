@@ -1,0 +1,5 @@
+mutation portfoliosAddTransaction($input: AddTransactionInput!) {
+  portfoliosAddTransaction(input: $input) {
+    _id
+  }
+}

@@ -45,6 +45,9 @@ const columns = [
 export function TransactionsTable({
   transactions,
 }: TransactionsTableProps) {
+  if (!transactions?.length) {
+    return <>No transactions</>;
+  }
   return (
     <DataTable
       data={transactions}

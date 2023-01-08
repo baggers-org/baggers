@@ -2,13 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddHoldingInput {
-  costBasis: Float!
-  currency: String!
-  direction: HoldingDirection!
+input AddTransactionInput {
+  amount: Float!
+  currency: String = "USD"
+  date: DateTime = "2023-01-08T21:59:52.921Z"
+  fees: Float
+  portfolioId: ObjectId!
+  price: Float
   quantity: Float!
   security: String!
-  transactionDate: DateTime
+  subType: TransactionSubtype!
+  type: TransactionType!
 }
 
 type Aggregate {
@@ -139,10 +143,9 @@ type Institution {
 
 type Mutation {
   addAlphaTesterEmail(email: String!): RecordId!
-  portfoliosAddHolding(_id: ObjectId!, input: AddHoldingInput!): PortfolioFromDb!
+  portfoliosAddTransaction(input: AddTransactionInput!): PortfolioFromDb!
   portfoliosBeginImport(publicToken: String!): ImportResponse!
   portfoliosInitEmpty: RecordId!
-  portfoliosRemoveHolding(holdingId: ObjectId!, portfolioId: ObjectId!): ObjectId!
   portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!
   portfoliosUpdateOne(_id: ObjectId!, input: UpdatePortfolioInput!): PortfolioFromDb!
