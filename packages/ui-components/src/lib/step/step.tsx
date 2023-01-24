@@ -1,6 +1,6 @@
 import { FaCheck } from 'react-icons/fa';
 import { tlsx } from '../../util/clsx';
-import { StepProps } from './scroll-stepper.props';
+import { StepProps } from './step.props';
 
 export function Step({
   title,
@@ -25,7 +25,7 @@ export function Step({
           'text-2xl',
           'font-bold',
           active
-            ? 'outline outline-2 outline-primary-light dark:outline-primary-dark bg-light-purple-100 dark:bg-primary-transparent-dark' +
+            ? 'outline outline-2 outline-primary-light dark:outline-dark-purple-500 dark:bg-dark-purple-800' +
                 'text-primary-light dark:text-primary-dark'
             : '',
 

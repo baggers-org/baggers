@@ -10,7 +10,7 @@ export * from './radio-group';
 export * from './profit-loss';
 export * from './search-input';
 export * from './select';
-export * from './stepper';
+export * from './step';
 export * from './text-field';
 export * from './tabs';
 export * from './table';

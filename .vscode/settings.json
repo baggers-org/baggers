@@ -1,3 +1,5 @@
 {
+  "tailwindCSS.experimental.configFile": "packages/tailwind/tailwind.config.js",
+
   "eslint.workingDirectories": [{ "mode": "auto" }]
 }

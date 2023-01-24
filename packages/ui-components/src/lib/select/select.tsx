@@ -3,8 +3,13 @@ import { tlsx } from '../../util/clsx';
 import { inputCommonClasses } from '../input-wrapper/input-common-classes';
 import { InputWrapper } from '../input-wrapper/input-wrapper';
 import { SelectProps } from './select.props';
+import { useCategories } from './useCategories';
+import { useRenderOptions } from './useRenderOptions';
 
 export function Select({ options, ...props }: SelectProps) {
+  const optionsWithCategories = useCategories(options);
+  const renderOptions = useRenderOptions();
+
   return (
     <InputWrapper {...props}>
       <Listbox
@@ -42,7 +47,9 @@ export function Select({ options, ...props }: SelectProps) {
           className={tlsx(
             'absolute',
             'overflow-auto',
-            'mt-24',
+            'max-h-96',
+            'mt-16',
+            'dark:border-4 dark:border-dark-grey-900',
             'z-50',
             'w-full',
             'rounded-xl',
@@ -51,23 +58,7 @@ export function Select({ options, ...props }: SelectProps) {
             'bg-light-grey-300'
           )}
         >
-          {options.map((option) => (
-            <Listbox.Option
-              key={option.id}
-              value={option.id}
-              className={tlsx(
-                'p-3',
-                'cursor-pointer',
-                'hover:bg-light-purple-100',
-                'flex',
-                'place-items-center',
-                'gap-2'
-              )}
-            >
-              {option.renderIcon?.()}
-              {option.label}
-            </Listbox.Option>
-          ))}
+          {renderOptions(optionsWithCategories || options)}
         </Listbox.Options>
       </Listbox>
     </InputWrapper>

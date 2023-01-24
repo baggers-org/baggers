@@ -22,6 +22,9 @@ export function Button({ variant, ...buttonProps }: ButtonProps) {
     case 'massive': {
       return <MassiveVariant {...buttonProps} />;
     }
+    case 'grey': {
+      return <Grey {...buttonProps} />;
+    }
     case 'mono': {
       return <Mono {...buttonProps} />;
     }
@@ -118,8 +121,8 @@ function Primary({
         commonClasses,
         'bg-primary-light',
         'dark:bg-primary-dark',
+        'hover:bg-secondary-light dark:hover:bg-secondary-dark',
         'border-none',
-        'hover:outline  hover:outline-1 outline-primary-light dark:outline-primary-dark',
         'text-text-dark',
         'dark:border-none',
         'p-2',
@@ -144,10 +147,28 @@ function Secondary({
         'bg-light-purple-100',
         'dark:bg-primary-transparent-dark',
         'border-none',
-        'hover:outline  hover:outline-1 outline-primary-light dark:outline-primary-dark',
         'dark:text-text-dark',
         'text-primary-light',
         'dark:border-none',
+        'p-3',
+        'px-8'
+      )}
+    >
+      {props.children}
+      <EndIcon endIcon={endIcon} />
+    </button>
+  );
+}
+
+function Grey({ endIcon, ...props }: Omit<ButtonProps, 'variant'>) {
+  return (
+    <button
+      {...props}
+      className={clsx(
+        commonClasses,
+        'bg-light-grey-300',
+        'dark:bg-dark-grey-700',
+        'border-none',
         'p-3',
         'px-8'
       )}

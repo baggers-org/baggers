@@ -3,6 +3,7 @@ import { InputWrapperProps } from '../input-wrapper/input-wrapper.props';
 
 export type SelectOption = {
   id: string;
+  category?: string;
   label: string;
   renderIcon?: () => ReactElement;
   defaultValue?: string;
@@ -16,3 +17,8 @@ export type SelectProps = {
   InputWrapperProps & {
     onChange?: (val: string) => void;
   };
+
+export type OptionWithCategories = {
+  category: string;
+  options: SelectOption[];
+};

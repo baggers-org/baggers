@@ -1,5 +1,4 @@
 import { INestApplication } from '@nestjs/common';
-import { portfoliosAddHoldingTest } from './suites/portfolios/mutations/portfoliosAddHolding.test';
 import { portfoliosBeginImportTests } from './suites/portfolios/mutations/portfoliosBeginImport.test';
 import { portfoliosInitEmptyTests } from './suites/portfolios/mutations/portfoliosInitEmpty.test';
 import { portfoliosRemoveMultipleTests } from './suites/portfolios/mutations/portfoliosRemoveMultiple.test';
@@ -25,7 +24,6 @@ describe('Portfolio', () => {
     portfoliosRemoveOneTests();
     portfoliosRemoveMultipleTests();
     portfoliosUpdateOneTests();
-    portfoliosAddHoldingTest();
   });
 
   afterAll(async () => {

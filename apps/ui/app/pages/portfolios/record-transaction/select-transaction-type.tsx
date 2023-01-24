@@ -1,28 +1,37 @@
 import { Select } from '@baggers/ui-components';
-import { useLocation, useNavigate } from '@remix-run/react';
-import { IoSwapHorizontal } from 'react-icons/io5';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from '@remix-run/react';
 import { useT } from '~/hooks/useT';
+import { useTransactionTypes } from './useTransactionTypes';
 
 export function SelectTransactionType() {
   const t = useT('portfolio_tracker');
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { id } = useParams();
   const activeStep = pathname.split('/').pop();
+
+  const types = useTransactionTypes();
+
   return (
     <Select
+      name="subType"
       defaultValue={activeStep}
       placeholder={t(
         'transaction_type_dropdown_placeholder',
         'Select transaction type'
       )}
-      onChange={(val) => navigate(`${pathname}/${val}`)}
-      options={[
-        {
-          id: 'trade',
-          label: 'Trade',
-          renderIcon: () => <IoSwapHorizontal />,
-        },
-      ]}
-    ></Select>
+      onChange={(val) =>
+        navigate(
+          `/portfolios/${id}/transactions/record/${val
+            .toString()
+            .toLowerCase()}`
+        )
+      }
+      options={types}
+    />
   );
 }

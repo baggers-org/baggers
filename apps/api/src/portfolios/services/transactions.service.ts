@@ -62,7 +62,7 @@ export class TransactionsService {
       newTransaction
     );
 
-    return portfolio.update(
+    await portfolio.update(
       {
         $set: {
           holdings,
@@ -75,6 +75,8 @@ export class TransactionsService {
         new: true,
       }
     );
+
+    return portfolio;
   }
 
   // async addTransactions(

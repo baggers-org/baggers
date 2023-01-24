@@ -5,10 +5,11 @@ import {
   redirect,
 } from '@remix-run/node';
 import {
+  Form,
   Link,
   Outlet,
   useLoaderData,
-  useLocation,
+  useParams,
 } from '@remix-run/react';
 import { useT } from '~/hooks/useT';
 import {
@@ -16,37 +17,44 @@ import {
   unauthenticatedSdk,
 } from '~/server/sdk.server';
 import { tlsx } from '~/util/clsx';
-import {
-  MenuDivider,
-  Paper,
-  RadioCard,
-  RadioGroup,
-  Step,
-} from '@baggers/ui-components';
-import { FaCalendar, FaChevronLeft, FaClock } from 'react-icons/fa';
-import {
-  TransactionSubtype,
-  TransactionType,
-} from '@baggers/graphql-types';
-import { RecordTransactionForm } from '~/pages/portfolios/record-transaction/record-transaction-form';
+import { FaChevronLeft } from 'react-icons/fa';
 import { SelectTransactionType } from '~/pages/portfolios/record-transaction/select-transaction-type';
+import { zfd } from 'zod-form-data';
+import { AddTransactionInput } from '@baggers/graphql-types';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: 'Record transaction',
 });
 
 export const action: ActionFunction = async ({ request, params }) => {
+  const headers = new Headers();
+  const sdk = await authenticatedSdk(request, headers);
+  const formData = Object.fromEntries(await request.formData());
+
+  const { id } = params;
   try {
+    const schema = zfd.formData({
+      quantity: zfd.numeric(),
+      price: zfd.numeric(),
+      security: zfd.text(),
+      subType: zfd.text(),
+      type: zfd.text(),
+    });
+
+    const transaction = schema.parse(formData);
     await sdk.portfoliosAddTransaction({
       input: {
-        ...recordTransactionSchema.parse(formData),
+        ...transaction,
+        amount: transaction.quantity * transaction.price,
         portfolioId: id,
-      },
+      } as AddTransactionInput,
     });
     return redirect(`/portfolios/${id}/transactions`);
   } catch (e) {
     console.error(e);
-    return e;
+    throw Error(
+      'An error ocurred when adding the transaction. Please try again'
+    );
   }
 };
 export const loader: LoaderFunction = async ({ params, request }) => {
@@ -63,7 +71,6 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 export default function RecordTransactionLayout() {
   const portfolio = useLoaderData<ReturnType<typeof loader>>();
 
-  const { pathname } = useLocation();
   const t = useT('portfolio_tracker');
 
   return (
@@ -80,64 +87,42 @@ export default function RecordTransactionLayout() {
         <FaChevronLeft />
         Return
       </Link>
-      <h1 className={tlsx('font-semibold text-4xl')}>
+      <h1 className={tlsx('font-semibold text-4xl', 'mb-16')}>
         {t('record_transaction', 'Record transaction')}
       </h1>
-      <h2 className="text-text-secondary-light dark:text-text-secondary-dark mb-6">
-        {t(
-          'record_transaction_description',
-          'Tell us about the transaction you would like to record, your portfolio will be updated accordingly.'
-        )}
+      <h2 className="text-xl font-bold">
+        {t('select_transaction_type', 'Transaction type')}
       </h2>
-      <div className="flex flex-col mt-12 gap-8">
-        <Step
-          number={1}
-          title={t(
-            'transaction_date',
-            'When did this transaction occur?'
-          )}
-          subtitle={t(
-            'transaction_date_subtitle',
-            'Start by telling us if this transaction should be added in the past, or present.'
-          )}
-          active={pathname.endsWith('/record')}
-        />
-        <RadioGroup
-          options={[
-            {
-              id: 'now',
-              renderOption: ({ checked }) => (
-                <RadioCard
-                  title={t('this_moment', 'This moment')}
-                  className="heropattern-wiggle-light-purple-200"
-                  selected={checked}
-                  icon={<FaClock />}
-                  description={t(
-                    'this_moment_description',
-                    'This transaction will be added using the current date/time'
-                  )}
-                />
-              ),
-            },
-            {
-              id: 'historical',
-              renderOption: ({ checked }) => (
-                <RadioCard
-                  title={t('historical', 'Historical')}
-                  className="heropattern-charliebrown-light-purple-200"
-                  selected={checked}
-                  icon={<FaCalendar />}
-                  description={t(
-                    'historical_description',
-                    'Choose a specific date/time in the past for this transaction'
-                  )}
-                />
-              ),
-            },
-          ]}
-        />
+      <h3 className="dark:text-text-secondary-dark text-text-secondary-light">
+        {t(
+          'select_transaction_type_subtitle',
+          'Select the transaction type from the dropdown below to begin'
+        )}
+      </h3>
+      <Form method="post">
+        <SelectTransactionType />
         <Outlet />
-      </div>
+      </Form>
+    </div>
+  );
+}
+
+export function ErrorBoundary({ error }: any) {
+  const { id } = useParams();
+  console.error(error);
+  return (
+    <div className="flex place-items-center flex-col">
+      <h1 className="text-5xl mb-8">Oops - an error occurred</h1>
+      <p className="text-xl text-text-secondary-dark dark:text-text-secondary-dark">
+        {/* {error} */}
+      </p>
+
+      <Link
+        to={`/portfolios/${id}/transactions/record`}
+        className="text-secondary-light dark:text-secondary-dark mt-2 underline"
+      >
+        Take me back
+      </Link>
     </div>
   );
 }

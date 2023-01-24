@@ -43,8 +43,15 @@ module.exports = {
       'dark-grey-700': '#393D41',
       'dark-grey-600': '#414549',
 
-      'dark-purple-600': '#9A6AFF',
-      'dark-purple-700': '#7433FF',
+      'dark-purple-900': '#110727',
+      'dark-purple-800': '#4D367C',
+      'dark-purple-700': '#5F3BAB',
+      'dark-purple-600': '#8766CC',
+      'dark-purple-500': '#9A6AFF',
+      'dark-purple-400': '#BD9EFF',
+      'dark-purple-300': '#BD9EFF',
+      'dark-purple-200': '#E0D4F2',
+      'dark-purple-100': '#F3ECFE',
 
       'light-grey-100': '#FFFFFF',
       'light-grey-200': '#FAFAFA',

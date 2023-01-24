@@ -1,4 +1,4 @@
-import { Holding } from '@baggers/graphql-types';
+import { AssetClass, Holding } from '@baggers/graphql-types';
 import {
   createColumnHelper,
   DataTable,
@@ -81,7 +81,7 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
   }
   return (
     <DataTable
-      data={holdings}
+      data={holdings.filter((h) => h.assetClass === AssetClass.Stock)}
       defaultColumns={columns}
       defaultSort={[{ id: 'marketValue', desc: true }]}
     />

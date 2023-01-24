@@ -4,6 +4,7 @@ export type ButtonProps = PropsWithChildren<
   {
     variant?:
       | 'mono'
+      | 'grey'
       | 'massive'
       | 'primary'
       | 'secondary'

@@ -3,7 +3,6 @@ import {
   InvestmentTransactionSubtype,
   InvestmentTransactionType,
 } from 'plaid';
-import { AssetClass } from '~/securities/enums/asset-class.enum';
 import { ObjectId, ObjectIdScalar } from '~/shared';
 
 @InputType()
