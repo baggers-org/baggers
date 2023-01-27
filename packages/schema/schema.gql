@@ -5,7 +5,7 @@
 input AddTransactionInput {
   amount: Float!
   currency: String = "USD"
-  date: DateTime = "2023-01-24T10:36:32.534Z"
+  date: DateTime = "2023-01-27T16:11:06.766Z"
   fees: Float
   portfolioId: ObjectId!
   price: Float

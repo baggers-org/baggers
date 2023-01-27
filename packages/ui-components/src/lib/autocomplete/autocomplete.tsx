@@ -32,8 +32,8 @@ export function Autocomplete({
             'w-full',
             'mt-24',
             'rounded-xl',
-            'dark:bg-dark-grey-600',
-            'bg-light-grey-300',
+            'dark:bg-d-neutral-500',
+            'bg-neutral-300',
             'shadow-lg',
             'p-2',
             'z-20'

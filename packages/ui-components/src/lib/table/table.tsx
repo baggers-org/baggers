@@ -5,13 +5,12 @@ export function Table(props: TableProps) {
   return (
     <table
       className={tlsx(
-        'bg-light-grey-100',
-        'dark:bg-dark-grey-700',
+        'bg-white',
+        'dark:bg-paper-dark',
         'overflow-auto',
+        'shadow-sm',
         'block',
-        'shadow-xl',
         'table-fixed',
-        'rounded-xl',
         'border-spacing-0'
       )}
       {...props}

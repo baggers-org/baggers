@@ -5,9 +5,11 @@ export function TableHead(props: TableHeadProps) {
   return (
     <thead
       className={tlsx(
-        'dark:bg-dark-grey-800',
-        'bg-[#F0F2F5]',
-        'text-center'
+        'dark:',
+        'text-center',
+        'border-b ',
+        'border-b-[rgba(51,46,60,0.24)]',
+        'dark:border-b-[#414549]'
       )}
       {...props}
     />

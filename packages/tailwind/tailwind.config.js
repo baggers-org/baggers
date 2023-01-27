@@ -19,7 +19,6 @@ module.exports = {
       },
     },
     colors: {
-      'background-light': '#FAFAFA',
       'background-dark': '#1E2023',
       'paper-light': '#FFFFFF',
       'paper-dark': '#2F3236',
@@ -31,7 +30,9 @@ module.exports = {
       'text-light': '#232323',
       'text-dark': '#FAFAFA',
       'text-secondary-dark': 'rgba(242, 242, 242, 0.7)',
+      'text-disabled-dark': 'rgba(242, 242, 242, 0.4)',
       'text-secondary-light': ' #585858',
+      'text-disabled-light': 'rgba(0, 0, 0, 0.4)',
       'profit-dark': '#1CD456',
       'profit-light': '#7AC74F',
       'loss-light': '#FF8E72',
@@ -39,7 +40,7 @@ module.exports = {
 
       // Starting with grays now instead
       'dark-grey-900': '#1E2023',
-      'dark-grey-800': '#2F3236',
+      'dark-grey-800': '#3B3F45',
       'dark-grey-700': '#393D41',
       'dark-grey-600': '#414549',
 
@@ -53,9 +54,20 @@ module.exports = {
       'dark-purple-200': '#E0D4F2',
       'dark-purple-100': '#F3ECFE',
 
-      'light-grey-100': '#FFFFFF',
-      'light-grey-200': '#FAFAFA',
-      'light-grey-300': '#F1F4F9',
+      'd-neutral-700': '#1E2023',
+      'd-neutral-600': '#2F3236',
+      'd-neutral-500': '#373A3F',
+      'd-neutral-400': '#40444A',
+      'd-neutral-300': '#474C52',
+      'd-neutral-200': '#51565D',
+
+      white: '#FFFFFF',
+      'neutral-100': '#FAFAFA',
+      'neutral-200': '#F5F7F9',
+      'neutral-300': '#F1F4F9',
+      'neutral-400': '#E7E8E9',
+      'neutral-600': '#747981',
+      'neutral-700': '#27282B',
 
       'light-purple-900': '#251641',
       'light-purple-800': '#370792',
@@ -65,7 +77,7 @@ module.exports = {
       'light-purple-400': '#AC80FF',
       'light-purple-300': '#C09EFF',
       'light-purple-200': '#EEE5FF',
-      'light-purple-100': '#FCF5FF',
+      'light-purple-100': '#F5F2FA',
     },
   },
   plugins: [

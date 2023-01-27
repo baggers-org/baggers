@@ -8,7 +8,7 @@ export function Paper({
   return (
     <div
       className={tlsx(
-        'bg-paper-light dark:bg-paper-dark shadow-md rounded-xl',
+        'bg-white dark:bg-d-neutral-600 shadow-md rounded-xl',
         className
       )}
     >

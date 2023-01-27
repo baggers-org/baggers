@@ -14,7 +14,9 @@ export function ViewPortfolioHeader({
         'border-b',
         'border-b-[rgba(96,96,96,0.14)]',
         'dark:border-b-[rgba(96,96,96,0.60)]',
+        '-my-16',
         '-mx-24',
+        'pt-6',
         'px-24',
         'mb-12'
       )}

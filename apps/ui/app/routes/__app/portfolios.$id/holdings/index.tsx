@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useSubscribe } from 'remix-sse/client';
 import { HoldingsTable } from '~/components/tables/holdings-table';
 import { usePortfolio } from '~/hooks/usePortfolio';
+import { HoldingsHeader } from '~/pages/portfolios/holdings/holdings-header';
 
 export default function Holdings() {
   const { id } = useParams();
@@ -35,5 +36,11 @@ export default function Holdings() {
     });
   }, [holdings, portfolio.holdings]);
 
-  return <HoldingsTable holdings={realtimeHoldings as Holding[]} />;
+  return (
+    <div className="flex flex-col gap-8">
+      <HoldingsHeader />
+
+      <HoldingsTable holdings={realtimeHoldings as Holding[]} />
+    </div>
+  );
 }

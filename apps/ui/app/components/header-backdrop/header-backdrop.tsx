@@ -8,7 +8,7 @@ export function HeaderBackdrop({
     <div
       style={{ height }}
       className={tlsx(
-        'absolute bg-background-light w-screen top-0 left-0 -z-10',
+        'absolute bg-neutral-200 w-screen top-0 left-0 -z-10',
         'dark:bg-background-dark',
         'shadow-md',
         'shadow-[rgba(96,96,96,0.14)]'

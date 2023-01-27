@@ -70,13 +70,13 @@ function Mono({ endIcon, ...props }: Omit<ButtonProps, 'variant'>) {
       className={clsx(
         commonClasses,
 
-        'bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark',
+        'bg-neutral-200 dark:bg-background-dark text-text-light dark:text-text-dark',
         'font-heading',
         'text-sm',
         'px-6',
         'py-1',
         'gap-4',
-        'hover:bg-background-dark hover:dark:bg-background-light',
+        'hover:bg-background-dark hover:dark:bg-neutral-200',
         'hover:text-text-dark hover:dark:text-text-light'
       )}
     >
@@ -121,12 +121,20 @@ function Primary({
         commonClasses,
         'bg-primary-light',
         'dark:bg-primary-dark',
-        'hover:bg-secondary-light dark:hover:bg-secondary-dark',
+        !props.disabled
+          ? 'hover:bg-secondary-light dark:hover:bg-secondary-dark'
+          : '',
         'border-none',
         'text-text-dark',
         'dark:border-none',
         'p-2',
-        'px-8'
+        'px-8',
+        props.disabled
+          ? 'bg-neutral-600 dark:bg-d-neutral-600 ' +
+              'text-text-disabled-light' +
+              'dark:text-text-disabled-dark' +
+              'pointer-events-none cursor-default'
+          : ''
       )}
     >
       {props.children}
@@ -166,7 +174,7 @@ function Grey({ endIcon, ...props }: Omit<ButtonProps, 'variant'>) {
       {...props}
       className={clsx(
         commonClasses,
-        'bg-light-grey-300',
+        'bg-neutral-300',
         'dark:bg-dark-grey-700',
         'border-none',
         'p-3',

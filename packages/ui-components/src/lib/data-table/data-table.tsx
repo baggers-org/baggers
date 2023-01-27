@@ -16,12 +16,18 @@ import {
   TableHead,
   TableRow,
 } from '../table';
+import { TableActions } from '../table/table-actions';
 import { DataTableProps } from './data-table.props';
 import { DraggableColumnHeader } from './draggable-header';
 
 export function DataTable<
   D extends object = Record<string, unknown>
->({ defaultColumns, data, defaultSort }: DataTableProps<D>) {
+>({
+  defaultColumns,
+  data,
+  defaultSort,
+  ...tableActionProps
+}: DataTableProps<D>) {
   const [columns] = useState(() => [...defaultColumns]);
   const [columnVisibility, setColumnVisibility] =
     useState<VisibilityState>({});
@@ -57,9 +63,10 @@ export function DataTable<
   return (
     <Table
       style={{
-        width: table.getCenterTotalSize(),
+        overflow: 'scroll',
       }}
     >
+      <TableActions {...tableActionProps} />
       <TableHead>
         {table.getHeaderGroups().map((group) => (
           <TableRow key={group.id}>

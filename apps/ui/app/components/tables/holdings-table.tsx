@@ -81,6 +81,8 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
   }
   return (
     <DataTable
+      tableName="Your holdings"
+      isFilterable
       data={holdings.filter((h) => h.assetClass === AssetClass.Stock)}
       defaultColumns={columns}
       defaultSort={[{ id: 'marketValue', desc: true }]}

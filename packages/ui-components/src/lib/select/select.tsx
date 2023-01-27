@@ -55,7 +55,7 @@ export function Select({ options, ...props }: SelectProps) {
             'rounded-xl',
             'shadow-lg',
             'dark:bg-dark-grey-600',
-            'bg-light-grey-300'
+            'bg-neutral-300'
           )}
         >
           {renderOptions(optionsWithCategories || options)}

@@ -6,9 +6,9 @@ export default function Transactions() {
   const { transactions } = usePortfolio();
 
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <TransactionsHeader />
-      <TransactionsTable transactions={transactions} />;
+      <TransactionsTable transactions={transactions} />
     </div>
   );
 }

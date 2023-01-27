@@ -1,17 +1,17 @@
 import { Button } from '@baggers/ui-components';
 import { FaFileImport, FaPlusSquare } from 'react-icons/fa';
-import { HeaderBackdrop } from '~/components/header-backdrop';
 import { useT } from '~/hooks/useT';
 import { tlsx } from '~/util/clsx';
 
 export function CreatedHeader() {
   const t = useT('portfolio_tracker');
   return (
-    <div className="flex place-content-between place-items-center mb-32 ">
-      <HeaderBackdrop />
+    <div className="flex place-content-between place-items-center mb-16 ">
       <h1
         className={tlsx(
           'font-bold',
+          'uppercase',
+          'font-heading',
           'xl:text-3xl text-xl lg:text-2xl'
         )}
       >

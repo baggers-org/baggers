@@ -11,6 +11,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { tlsx } from '../../util/clsx';
 import { TableHeader } from '../table';
+import { DataTableMenu } from './data-table-menu';
 
 export type DraggableColumnHeaderProps<D> = {
   table: Table<D>;
@@ -110,12 +111,9 @@ export function DraggableColumnHeader<D>({
           ? 'outline outline-1 border-primary-light'
           : '',
         'whitespace-nowrap',
-        'border-none',
+        'text-lg',
         isNumeric ? 'text-right' : 'text-left',
-        'dark:text-text-secondary-dark',
-        'text-text-secondary-light',
-        'tracking-wider',
-        'uppercase'
+        'tracking-wider'
       )}
     >
       <div
@@ -130,6 +128,7 @@ export function DraggableColumnHeader<D>({
           'group',
           'border-none',
           'font-normal',
+          'relative',
           'py-2',
           'transition-transform'
         )}
@@ -163,12 +162,16 @@ export function DraggableColumnHeader<D>({
               </div>
 
               {/* TODO: find out a nice way to display this menu with right-aligned headers*/}
-              {/* <div
-                className="opacity-0 group-hover:opacity-100 transition-all ml-auto "
+              <div
+                className={clsx(
+                  'opacity-0 group-hover:opacity-100 transition-all ml-auto absolute right-0',
+                  'bg-paper-light dark:bg-paper-dark',
+                  'translate-y-[2px]'
+                )}
                 onClick={(e) => e.stopPropagation()}
               >
                 <DataTableMenu table={table} column={header.column} />
-              </div> */}
+              </div>
             </div>
           )}
         </div>

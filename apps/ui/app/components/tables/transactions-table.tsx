@@ -50,6 +50,8 @@ export function TransactionsTable({
   }
   return (
     <DataTable
+      tableName="Your transactions"
+      isFilterable
       data={transactions}
       defaultColumns={columns}
       defaultSort={[{ id: 'date', desc: true }]}
