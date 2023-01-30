@@ -13,9 +13,22 @@ export class AlphaTestersService {
     private alphaTesterModel: Model<AlphaTesterDocument>
   ) {}
 
-  addAlphaTesterEmail(email: string) {
-    return this.alphaTesterModel.create({
+  async addAlphaTesterEmail(email: string) {
+    await this.alphaTesterModel.updateOne(
+      {
+        _id: email,
+      },
+      {
+        _id: email,
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
+
+    return {
       _id: email,
-    });
+    };
   }
 }
