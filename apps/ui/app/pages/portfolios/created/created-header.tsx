@@ -1,10 +1,12 @@
 import { Button } from '@baggers/ui-components';
+import { useNavigate } from '@remix-run/react';
 import { FaFileImport, FaPlusSquare } from 'react-icons/fa';
 import { useT } from '~/hooks/useT';
 import { tlsx } from '~/util/clsx';
 
 export function CreatedHeader() {
   const t = useT('portfolio_tracker');
+  const navigate = useNavigate();
   return (
     <div className="flex place-content-between place-items-center mb-16 ">
       <h1
@@ -20,13 +22,12 @@ export function CreatedHeader() {
 
       <div className="flex gap-6">
         <Button
-          type="submit"
-          name="intent"
           value="create"
+          onClick={() => navigate('/portfolios/new')}
           variant="massive"
           endIcon={<FaPlusSquare />}
         >
-          {t('create_portfolio', 'Create portfolio')}
+          {t('new_portfolio', 'New portfolio')}
         </Button>
 
         <Button

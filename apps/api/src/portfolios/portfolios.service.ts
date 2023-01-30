@@ -17,6 +17,7 @@ import { Auth0AccessTokenPayload } from '~/auth';
 import { ObjectId, RemoveMultipleResponse } from '~/shared';
 import { map, Observable } from 'rxjs';
 import { MarketDataSocketService } from '~/market-data-socket/market-data-socket.service';
+import { CreatePortfolioInput } from './dto/create-portfolio.input';
 
 @Injectable()
 export class PortfoliosService {
@@ -30,6 +31,15 @@ export class PortfoliosService {
 
   initEmpty(currentUser: Auth0AccessTokenPayload) {
     return this.portfolioModel.create({
+      owner: currentUser.sub,
+    });
+  }
+  create(
+    input: CreatePortfolioInput,
+    currentUser: Auth0AccessTokenPayload
+  ) {
+    return this.portfolioModel.create({
+      ...input,
       owner: currentUser.sub,
     });
   }

@@ -3,8 +3,8 @@ import { OptionWithCategories, SelectOption } from './select.props';
 
 export function useCategories(options: SelectOption[]) {
   const categories = options
-    .map((o) => o.category)
-    ?.filter((option, i, all) => all.indexOf(option) === i);
+    .map((o) => o?.category)
+    ?.filter((option, i, all) => option && all.indexOf(option) === i);
 
   const optionsWithCategories: OptionWithCategories[] | null =
     useMemo(() => {

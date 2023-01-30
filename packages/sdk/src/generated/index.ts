@@ -66,6 +66,12 @@ export type ChartPriceRangeOptions = {
   to: Scalars['String'];
 };
 
+export type CreatePortfolioInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  private?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type CreateUserInput = {
   _id: Scalars['String'];
   displayName: Scalars['String'];
@@ -164,6 +170,7 @@ export type Mutation = {
   addAlphaTesterEmail: RecordId;
   portfoliosAddTransaction: PortfolioFromDb;
   portfoliosBeginImport: ImportResponse;
+  portfoliosCreateOne: RecordId;
   portfoliosInitEmpty: RecordId;
   portfoliosRemoveMultiple: RemoveMultipleResponse;
   portfoliosRemoveOne: RecordId;
@@ -186,6 +193,11 @@ export type MutationPortfoliosAddTransactionArgs = {
 
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
+};
+
+
+export type MutationPortfoliosCreateOneArgs = {
+  input: CreatePortfolioInput;
 };
 
 
@@ -652,6 +664,13 @@ export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null }> };
 
+export type PortfoliosCreateOneMutationVariables = Exact<{
+  input: CreatePortfolioInput;
+}>;
+
+
+export type PortfoliosCreateOneMutation = { __typename?: 'Mutation', portfoliosCreateOne: { __typename?: 'RecordId', _id: string } };
+
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];
 }>;
@@ -959,6 +978,13 @@ export const PortfoliosCreatedDocument = gql`
   }
 }
     ${FullPortfolioSummaryFragmentDoc}`;
+export const PortfoliosCreateOneDocument = gql`
+    mutation portfoliosCreateOne($input: CreatePortfolioInput!) {
+  portfoliosCreateOne(input: $input) {
+    _id
+  }
+}
+    `;
 export const PortfoliosFindByIdDocument = gql`
     query portfoliosFindById($_id: ObjectId!) {
   portfoliosFindById(_id: $_id) {
@@ -1066,6 +1092,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     portfoliosCreated(variables?: PortfoliosCreatedQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosCreatedQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosCreatedQuery>(PortfoliosCreatedDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosCreated', 'query');
+    },
+    portfoliosCreateOne(variables: PortfoliosCreateOneMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosCreateOneMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosCreateOneMutation>(PortfoliosCreateOneDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosCreateOne', 'mutation');
     },
     portfoliosFindById(variables: PortfoliosFindByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PortfoliosFindByIdQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PortfoliosFindByIdQuery>(PortfoliosFindByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'portfoliosFindById', 'query');

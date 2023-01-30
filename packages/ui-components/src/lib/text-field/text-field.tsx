@@ -7,7 +7,11 @@ import { TextFieldProps } from './text-field.types';
 export function TextField(props: TextFieldProps) {
   return (
     <InputWrapper {...props}>
-      <input className={tlsx(inputCommonClasses)} {...props} />
+      {props.rows ? (
+        <textarea className={tlsx(inputCommonClasses)} {...props} />
+      ) : (
+        <input className={tlsx(inputCommonClasses)} {...props} />
+      )}
       {props.isMonetaryInput ? (
         <MdAttachMoney
           className={tlsx(

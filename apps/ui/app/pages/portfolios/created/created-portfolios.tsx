@@ -8,7 +8,7 @@ export function CreatedPortfolios({
   portfolios,
 }: CreatePortfoliosProps) {
   return (
-    <Form method="post">
+    <>
       <CreatedHeader />
 
       <div
@@ -25,6 +25,6 @@ export function CreatedPortfolios({
           <PortfolioCard portfolio={portfolio} key={portfolio._id} />
         ))}
       </div>
-    </Form>
+    </>
   );
 }

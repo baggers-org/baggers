@@ -55,7 +55,8 @@ function MassiveVariant({
         'py-3',
         'text-primary-light dark:text-primary-dark',
         'hover:bg-primary-light hover:text-text-dark hover:dark:text-text-dark',
-        'gap-32'
+        'gap-32',
+        props.className
       )}
     >
       {props.children}
@@ -129,11 +130,14 @@ function Primary({
         'dark:border-none',
         'p-2',
         'px-8',
+
         props.disabled
-          ? 'bg-neutral-600 dark:bg-d-neutral-600 ' +
-              'text-text-disabled-light' +
+          ? 'text-text-disabled-light' +
               'dark:text-text-disabled-dark' +
               'pointer-events-none cursor-default'
+          : '',
+        props.disabled
+          ? ' dark:bg-d-neutral-600 bg-neutral-600 opacity-30'
           : ''
       )}
     >

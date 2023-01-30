@@ -6,4 +6,7 @@ export type TextFieldProps = React.DetailedHTMLProps<
 > &
   InputWrapperProps & {
     isMonetaryInput?: boolean;
-  };
+  } & React.DetailedHTMLProps<
+    React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
+  >;

@@ -5,7 +5,7 @@
 input AddTransactionInput {
   amount: Float!
   currency: String = "USD"
-  date: DateTime = "2023-01-27T16:11:06.766Z"
+  date: DateTime = "2023-01-30T21:53:33.987Z"
   fees: Float
   portfolioId: ObjectId!
   price: Float
@@ -46,6 +46,12 @@ input ChartPriceRangeOptions {
   sort: AscDesc
   timespan: Timespan!
   to: String!
+}
+
+input CreatePortfolioInput {
+  description: String
+  name: String
+  private: Boolean
 }
 
 input CreateUserInput {
@@ -145,6 +151,7 @@ type Mutation {
   addAlphaTesterEmail(email: String!): RecordId!
   portfoliosAddTransaction(input: AddTransactionInput!): PortfolioFromDb!
   portfoliosBeginImport(publicToken: String!): ImportResponse!
+  portfoliosCreateOne(input: CreatePortfolioInput!): RecordId!
   portfoliosInitEmpty: RecordId!
   portfoliosRemoveMultiple(_ids: [ObjectId!]!): RemoveMultipleResponse!
   portfoliosRemoveOne(_id: ObjectId!): RecordId!

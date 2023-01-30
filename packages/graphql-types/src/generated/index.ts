@@ -63,6 +63,12 @@ export type ChartPriceRangeOptions = {
   to: Scalars['String'];
 };
 
+export type CreatePortfolioInput = {
+  description?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  private?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type CreateUserInput = {
   _id: Scalars['String'];
   displayName: Scalars['String'];
@@ -161,6 +167,7 @@ export type Mutation = {
   addAlphaTesterEmail: RecordId;
   portfoliosAddTransaction: PortfolioFromDb;
   portfoliosBeginImport: ImportResponse;
+  portfoliosCreateOne: RecordId;
   portfoliosInitEmpty: RecordId;
   portfoliosRemoveMultiple: RemoveMultipleResponse;
   portfoliosRemoveOne: RecordId;
@@ -183,6 +190,11 @@ export type MutationPortfoliosAddTransactionArgs = {
 
 export type MutationPortfoliosBeginImportArgs = {
   publicToken: Scalars['String'];
+};
+
+
+export type MutationPortfoliosCreateOneArgs = {
+  input: CreatePortfolioInput;
 };
 
 
@@ -648,6 +660,13 @@ export type PortfoliosCreatedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PortfoliosCreatedQuery = { __typename?: 'Query', portfoliosCreated: Array<{ __typename?: 'PortfolioSummary', _id: any, cash: number, name: string, description?: string | null, private: boolean, createdAt?: any | null, updatedAt?: any | null, totalValue: number, owner: { __typename?: 'User', _id: string, displayName: string, emails?: Array<string> | null, photos: Array<string>, createdAt?: any | null, updatedAt?: any | null }, plaidAccount?: { __typename?: 'PlaidAccount', type?: PlaidAccountType | null, name?: string | null, subtype?: string | null, official_name?: string | null, account_id: string, balances: { __typename?: 'PlaidAccountBalance', current?: number | null, available?: number | null } } | null }> };
+
+export type PortfoliosCreateOneMutationVariables = Exact<{
+  input: CreatePortfolioInput;
+}>;
+
+
+export type PortfoliosCreateOneMutation = { __typename?: 'Mutation', portfoliosCreateOne: { __typename?: 'RecordId', _id: string } };
 
 export type PortfoliosFindByIdQueryVariables = Exact<{
   _id: Scalars['ObjectId'];

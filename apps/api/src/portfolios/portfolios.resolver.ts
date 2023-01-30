@@ -25,6 +25,7 @@ import { observableToAsyncIterable } from '~/market-data-socket/observableToAsyn
 import { map } from 'rxjs';
 import { TransactionsService } from './services/transactions.service';
 import { AddTransactionInput } from './dto/add-transaction.input';
+import { CreatePortfolioInput } from './dto/create-portfolio.input';
 
 @Resolver(() => Portfolio)
 export class PortfoliosResolver {
@@ -41,6 +42,20 @@ export class PortfoliosResolver {
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
     const { _id } = await this.portfoliosService.initEmpty(
+      currentUser
+    );
+
+    return {
+      _id,
+    };
+  }
+  @Mutation(() => RecordId, { name: 'portfoliosCreateOne' })
+  async create(
+    @Args('input') input: CreatePortfolioInput,
+    @CurrentUser() currentUser: Auth0AccessTokenPayload
+  ) {
+    const { _id } = await this.portfoliosService.create(
+      input,
       currentUser
     );
 

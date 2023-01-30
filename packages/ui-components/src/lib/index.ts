@@ -3,6 +3,7 @@ export * from './avatar';
 export * from './charts';
 export * from './data-table';
 export * from './menu';
+export * from './form-section';
 export * from './button';
 export * from './paper';
 export * from './cards';

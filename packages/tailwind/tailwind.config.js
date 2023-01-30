@@ -26,6 +26,7 @@ module.exports = {
       'secondary-light': '#2461F7',
       'primary-dark': '#9A6AFF',
       'primary-transparent-dark': 'rgba(154, 106, 255, 0.15)',
+      'primary-transparent-light': '#742ff617',
       'secondary-dark': '#5474FE',
       'text-light': '#232323',
       'text-dark': '#FAFAFA',
