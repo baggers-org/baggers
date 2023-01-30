@@ -24,6 +24,9 @@ export class Portfolio extends OwnedDocument {
   @Prop({ default: `` })
   description?: string;
 
+  @Prop()
+  imageUrl?: string;
+
   @Prop({ type: Holding, default: [] })
   @Field(() => [Holding])
   holdings: Holding[];

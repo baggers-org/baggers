@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react';
-import clsx from 'clsx';
 import { FaChevronLeft } from 'react-icons/fa';
 import { useT } from '~/hooks/useT';
 import { tlsx } from '~/util/clsx';

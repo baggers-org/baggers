@@ -1,5 +1,6 @@
-import { Paper } from '@baggers/ui-components';
+import { FormSectionHeader, Paper } from '@baggers/ui-components';
 import clsx from 'clsx';
+import { FaCalendar } from 'react-icons/fa';
 import { Theme, useTheme } from '~/components/theme';
 import { useT } from '~/hooks/useT';
 import './styles.css';
@@ -9,17 +10,12 @@ export function TransactionDate() {
   const [theme] = useTheme();
 
   return (
-    <div>
-      <h2 className="text-xl font-bold">
-        {t('transaction', 'Transaction date')}
-      </h2>
-      <h3 className="dark:text-text-secondary-dark text-text-secondary-light">
-        {t(
-          'enter_transaction_date',
-          'Enter the transaction date for more accurate analysis, defaults to right now otherwise.'
-        )}
-      </h3>
-      <Paper className="p-8 mt-6">
+    <Paper>
+      <FormSectionHeader
+        title={t('transaction_date', 'Transaction date')}
+        icon={<FaCalendar />}
+      />
+      <div className="p-8">
         <input
           name="date"
           type="datetime-local"
@@ -37,7 +33,7 @@ export function TransactionDate() {
             colorScheme: theme === Theme.DARK ? 'dark' : 'light',
           }}
         />
-      </Paper>
-    </div>
+      </div>
+    </Paper>
   );
 }

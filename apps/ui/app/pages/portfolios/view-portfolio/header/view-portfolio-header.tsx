@@ -8,10 +8,16 @@ import { PortfolioTabs } from './portfolio-tabs';
 export function ViewPortfolioHeader({
   portfolio,
 }: ViewPortfolioProps) {
+  console.log(portfolio);
+
   return (
     <div
+      style={{
+        backgroundImage: `url(${portfolio.imageUrl})`,
+      }}
       className={tlsx(
         'border-b',
+        'bg-[rgba(154,106,255,0.03)]',
         'border-b-[rgba(96,96,96,0.14)]',
         'dark:border-b-[rgba(96,96,96,0.60)]',
         '-my-16',

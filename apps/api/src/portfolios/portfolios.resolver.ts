@@ -54,6 +54,8 @@ export class PortfoliosResolver {
     @Args('input') input: CreatePortfolioInput,
     @CurrentUser() currentUser: Auth0AccessTokenPayload
   ) {
+    console.log(input);
+
     const { _id } = await this.portfoliosService.create(
       input,
       currentUser

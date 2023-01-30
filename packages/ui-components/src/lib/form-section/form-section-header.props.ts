@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type FormSectionHeaderProps = {
-  title: string;
+  title?: string;
   icon?: React.ReactElement;
   className?: string;
 };

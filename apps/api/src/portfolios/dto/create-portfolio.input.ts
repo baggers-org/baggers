@@ -7,4 +7,6 @@ export class CreatePortfolioInput {
   description?: string;
 
   private?: boolean;
+
+  imageUrl?: string;
 }

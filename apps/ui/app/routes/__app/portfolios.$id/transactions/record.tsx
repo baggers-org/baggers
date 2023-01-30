@@ -16,11 +16,12 @@ import {
   authenticatedSdk,
   unauthenticatedSdk,
 } from '~/server/sdk.server';
-import { tlsx } from '~/util/clsx';
-import { FaChevronLeft } from 'react-icons/fa';
 import { SelectTransactionType } from '~/pages/portfolios/record-transaction/select-transaction-type';
 import { zfd } from 'zod-form-data';
 import { AddTransactionInput } from '@baggers/graphql-types';
+import { FormPageHeader } from '~/components/shared/forms/form-page-header';
+import { FormSectionHeader, Paper } from '@baggers/ui-components';
+import { FaQuestionCircle } from 'react-icons/fa';
 
 export const meta: MetaFunction = ({ data }) => ({
   title: 'Record transaction',
@@ -69,38 +70,25 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 };
 
 export default function RecordTransactionLayout() {
-  const portfolio = useLoaderData<ReturnType<typeof loader>>();
-
   const t = useT('portfolio_tracker');
+  const portfolio = useLoaderData<ReturnType<typeof loader>>();
 
   return (
     <div className="-mt-8 mb-12 max-w-5xl xl:ml-auto xl:mr-auto">
-      <Link
-        tabIndex={-1}
-        to={`/portfolios/${portfolio._id}/transactions`}
-        className={tlsx(
-          'text-secondary-light dark:text-secondary-dark',
-          'flex place-items-center',
-          'mb-3'
-        )}
-      >
-        <FaChevronLeft />
-        Return
-      </Link>
-      <h1 className={tlsx('font-semibold text-4xl', 'mb-16')}>
-        {t('record_transaction', 'Record transaction')}
-      </h1>
-      <h2 className="text-xl font-bold">
-        {t('select_transaction_type', 'Transaction type')}
-      </h2>
-      <h3 className="dark:text-text-secondary-dark text-text-secondary-light">
-        {t(
-          'select_transaction_type_subtitle',
-          'Select the transaction type from the dropdown below to begin'
-        )}
-      </h3>
+      <FormPageHeader
+        title={t('record_transaction', 'Record transaction')}
+        returnLink={`/portfolios/${portfolio._id}`}
+      />
       <Form method="post">
-        <SelectTransactionType />
+        <Paper>
+          <FormSectionHeader
+            icon={<FaQuestionCircle />}
+            title={t('type', 'Type')}
+          />
+          <div className="p-8">
+            <SelectTransactionType />
+          </div>
+        </Paper>
         <Outlet />
       </Form>
     </div>

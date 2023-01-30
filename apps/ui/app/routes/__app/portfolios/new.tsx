@@ -21,7 +21,9 @@ export const action: ActionFunction = async ({ request }) => {
     input: formData,
   });
 
-  return redirect(`/portfolios/${_id}`, headers);
+  return redirect(`/portfolios/${_id}`, {
+    headers,
+  });
 };
 export default function NewPortfolio() {
   const t = useT('portfolio_tracker');

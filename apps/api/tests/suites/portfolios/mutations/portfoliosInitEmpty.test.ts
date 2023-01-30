@@ -25,6 +25,7 @@ export const portfoliosInitEmptyTests = () =>
           "createdAt": "2022-01-17T00:00:00.000Z",
           "description": "",
           "holdings": [],
+          "imageUrl": null,
           "name": "",
           "owner": {
             "_id": "google-oauth1-233838",

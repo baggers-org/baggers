@@ -11,7 +11,7 @@ export function FormSectionHeader({
       className={clsx(
         'flex w-full place-content-start place-items-center gap-6 px-8 py-2',
         'bg-primary-transparent-light dark:bg-primary-transparent-dark',
-        'heropattern-charliebrown-paper-dark',
+        'dark:heropattern-charliebrown-paper-dark heropattern-charliebrown-paper-light',
         className
       )}
     >

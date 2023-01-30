@@ -5,7 +5,7 @@
 input AddTransactionInput {
   amount: Float!
   currency: String = "USD"
-  date: DateTime = "2023-01-30T21:53:33.987Z"
+  date: DateTime = "2023-01-30T23:27:04.199Z"
   fees: Float
   portfolioId: ObjectId!
   price: Float
@@ -50,6 +50,7 @@ input ChartPriceRangeOptions {
 
 input CreatePortfolioInput {
   description: String
+  imageUrl: String
   name: String
   private: Boolean
 }
@@ -232,6 +233,7 @@ type Portfolio {
   createdAt: DateTime
   description: String
   holdings: [Holding!]!
+  imageUrl: String
   name: String!
   owner: User!
   plaidAccount: PlaidAccount
@@ -247,6 +249,7 @@ type PortfolioFromDb {
   createdAt: DateTime
   description: String
   holdings: [HoldingFromDb!]!
+  imageUrl: String
   name: String!
   owner: User!
   plaidAccount: PlaidAccount
@@ -261,6 +264,7 @@ type PortfolioSummary {
   cash: Float!
   createdAt: DateTime
   description: String
+  imageUrl: String
   name: String!
   owner: User!
   plaidAccount: PlaidAccount

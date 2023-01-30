@@ -20,6 +20,11 @@ export function SelectTransactionType() {
     <Select
       name="subType"
       defaultValue={activeStep}
+      label={t('select_transaction_type', 'Transaction type')}
+      helperText={t(
+        'select_transaction_type_subtitle',
+        'Select the transaction type from the dropdown below to begin'
+      )}
       placeholder={t(
         'transaction_type_dropdown_placeholder',
         'Select transaction type'

@@ -6,6 +6,7 @@ fragment FullPortfolioSummary on PortfolioSummary {
   }
   name
   description
+  imageUrl
   private
   createdAt
   updatedAt
@@ -34,6 +35,7 @@ fragment AllPortfolioData on Portfolio {
   }
   name
   description
+  imageUrl
   private
   createdAt
   updatedAt
