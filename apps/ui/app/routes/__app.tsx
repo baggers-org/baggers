@@ -13,6 +13,7 @@ export default function AppLayout() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            className="text-sm lg:text-md"
           >
             <Outlet />
           </motion.main>

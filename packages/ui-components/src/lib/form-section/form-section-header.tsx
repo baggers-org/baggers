@@ -10,8 +10,7 @@ export function FormSectionHeader({
     <h2
       className={clsx(
         'flex w-full place-content-start place-items-center gap-6 px-8 py-2',
-        'bg-primary-transparent-light dark:bg-primary-transparent-dark',
-        'dark:heropattern-charliebrown-paper-dark heropattern-charliebrown-paper-light',
+        'bg-neutral-3 dark:bg-d-neutral-4',
         className
       )}
     >

@@ -19,7 +19,7 @@ export function PortfolioCard({ portfolio }: PortfolioCardProps) {
     <Link
       to={`/portfolios/${portfolio._id}/overview`}
       className={tlsx(
-        'dark:bg-dark-grey-800 bg-paper-light',
+        'dark:bg-paper-dark bg-paper-light',
         'rounded-2xl',
         'h-[600px]',
         'drop-shadow-md',

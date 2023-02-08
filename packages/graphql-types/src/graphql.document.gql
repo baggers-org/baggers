@@ -74,7 +74,8 @@ fragment FullPortfolioSummary on PortfolioSummary {
   }
   name
   description
-  imageUrl
+  patternUrl
+  portfolioType
   private
   createdAt
   updatedAt
@@ -103,7 +104,8 @@ fragment AllPortfolioData on Portfolio {
   }
   name
   description
-  imageUrl
+  patternUrl
+  portfolioType
   private
   createdAt
   updatedAt

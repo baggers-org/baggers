@@ -28,10 +28,10 @@ export function FormPageHeader({
         <FaChevronLeft />
         {t('return', 'Return')}
       </Link>
-      <h1 className="font-heading uppercase text-3xl font-bold">
+      <h1 className="font-heading uppercase text-xl lg:text-3xl font-bold">
         {title}
       </h1>
-      <h2 className="text-lg text-text-secondary-light dark:text-text-secondary-dark">
+      <h2 className="text-text-secondary-light dark:text-text-secondary-dark">
         {subtitle}
       </h2>
     </section>

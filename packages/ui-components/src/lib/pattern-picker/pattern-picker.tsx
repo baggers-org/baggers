@@ -1,42 +1,42 @@
 import { RadioGroup } from '@headlessui/react';
 import clsx from 'clsx';
+import { useState } from 'react';
 import { InputWrapper } from '../input-wrapper/input-wrapper';
-import { ImageUploaderProps } from './image-uploader.props';
+import { ImageUploaderProps } from './pattern-picker.props';
 import { usePatterns } from './usePatterns';
 
 const imageIconClasses = [
-  'w-[64px] h-[64px]',
+  'w-full h-[64px]',
   'hover:opacity-50',
   'cursor-pointer',
-  'rounded-full',
+  'rounded-lg',
 ];
-export function ImageUploader({
+export function PatternPicker({
   name,
   ...inputWrapperProps
 }: ImageUploaderProps) {
   const patterns = usePatterns();
+  const [value, setValue] = useState();
   return (
     <InputWrapper {...inputWrapperProps}>
       <RadioGroup
         name={name}
-        className="rounded-xl grid-cols-12 grid p-2"
+        onChange={setValue}
+        className="rounded-xl grid grid-cols-2 gap-2 p-2 dark:bg-dark-grey-900 bg-background-light"
       >
-        {patterns.map((url) => (
+        {patterns.map((className) => (
           <RadioGroup.Option
-            value={url}
+            value={className}
             className={({ checked }) =>
               clsx(
                 imageIconClasses,
-                'bg-light-purple-300 dark:bg-primary-dark',
                 'transition-opacity',
-                checked
-                  ? 'outline  outline-secondary-light dark:outline-secondary-dark'
-                  : ''
+                value && !checked ? 'opacity-30' : '',
+                className,
+                'dark:bg-[rgba(154,106,255,0.03)]',
+                'bg-light-purple-100'
               )
             }
-            style={{
-              backgroundImage: `url(${url})`,
-            }}
           />
         ))}
       </RadioGroup>

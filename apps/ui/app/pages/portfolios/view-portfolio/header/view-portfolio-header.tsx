@@ -8,15 +8,11 @@ import { PortfolioTabs } from './portfolio-tabs';
 export function ViewPortfolioHeader({
   portfolio,
 }: ViewPortfolioProps) {
-  console.log(portfolio);
-
   return (
     <div
-      style={{
-        backgroundImage: `url(${portfolio.imageUrl})`,
-      }}
       className={tlsx(
         'border-b',
+        'dark:bg-[rgba(154,106,255,0.03)]',
         'bg-[rgba(154,106,255,0.03)]',
         'border-b-[rgba(96,96,96,0.14)]',
         'dark:border-b-[rgba(96,96,96,0.60)]',
@@ -24,7 +20,8 @@ export function ViewPortfolioHeader({
         '-mx-24',
         'pt-6',
         'px-24',
-        'mb-12'
+        'mb-12',
+        'dark:heropattern-charliebrown-paper-dark heropattern-charliebrown-paper-light'
       )}
     >
       <div className="flex place-content-between place-items-center">

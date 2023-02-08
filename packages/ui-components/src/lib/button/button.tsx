@@ -71,13 +71,13 @@ function Mono({ endIcon, ...props }: Omit<ButtonProps, 'variant'>) {
       className={clsx(
         commonClasses,
 
-        'bg-neutral-200 dark:bg-background-dark text-text-light dark:text-text-dark',
+        'bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark',
         'font-heading',
         'text-sm',
         'px-6',
         'py-1',
         'gap-4',
-        'hover:bg-background-dark hover:dark:bg-neutral-200',
+        'hover:bg-background-dark hover:dark:bg-white',
         'hover:text-text-dark hover:dark:text-text-light'
       )}
     >

@@ -8,6 +8,7 @@
 	"devDependencies": {
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"autoprefixer": "^10.4.13",
-		"postcss": "^8.4.19"
+		"postcss": "^8.4.19",
+		"tailwind-scrollbar": "^2.1.0"
 	}
 }

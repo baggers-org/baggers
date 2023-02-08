@@ -9,6 +9,7 @@ import {
 } from './holding.entity';
 import { PopulatedTransaction, Transaction } from './transaction';
 import { OwnedDocument } from '~/users';
+import { PortfolioType } from '../enums/portfolio-type.enum';
 
 export type PortfolioDocument = Portfolio & Document;
 
@@ -24,8 +25,14 @@ export class Portfolio extends OwnedDocument {
   @Prop({ default: `` })
   description?: string;
 
+  @Prop({
+    enum: PortfolioType,
+  })
+  @Field(() => PortfolioType)
+  portfolioType?: PortfolioType;
+
   @Prop()
-  imageUrl?: string;
+  patternUrl?: string;
 
   @Prop({ type: Holding, default: [] })
   @Field(() => [Holding])

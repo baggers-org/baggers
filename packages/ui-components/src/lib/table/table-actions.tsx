@@ -14,6 +14,7 @@ export function TableActions({
       className={clsx(
         'flex p-4 place-items-center border-b',
         'gap-4',
+        'rounded-t-xl',
         'border-b-[rgba(51,46,60,0.24)]',
         'dark:border-b-[#414549]'
       )}

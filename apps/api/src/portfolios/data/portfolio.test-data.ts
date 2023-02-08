@@ -7,6 +7,7 @@ import { ObjectId } from '~/shared';
 import { Holdings1, ImportedHoldings } from './holding.test-data';
 import { PlaidAccountType } from '../enums';
 import { PlaidAccountSubtype } from '~/plaid-items/enums/plaid-account-subtype.enum';
+import { PortfolioType } from '../enums/portfolio-type.enum';
 
 export const Portfolio1: Portfolio = {
   _id: new mongoose.Types.ObjectId('62d2cd45c63873e235c99532'),

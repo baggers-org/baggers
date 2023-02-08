@@ -40,7 +40,6 @@ const getOptionFromEnum = (
 export function useTransactionTypes(): SelectOption[] {
   return Object.values([
     TransactionSubtype.Buy,
-    TransactionSubtype.BuyToCover,
     TransactionSubtype.Sell,
   ]).map(getOptionFromEnum);
 }

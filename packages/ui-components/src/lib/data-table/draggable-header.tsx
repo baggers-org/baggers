@@ -143,9 +143,6 @@ export function DraggableColumnHeader<D>({
                 isNumeric ? 'flex-row-reverse' : 'flex-row',
                 isNumeric ? 'place-content-end' : 'place-items-start',
                 'p-2',
-                header.column.getIsSorted()
-                  ? 'font-bold '
-                  : 'font-normal',
                 'border-none',
                 'flex-nowrap'
               )}

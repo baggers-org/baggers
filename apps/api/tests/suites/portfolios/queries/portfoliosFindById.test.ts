@@ -31,7 +31,6 @@ export const portfoliosFindByIdTests = () =>
           "createdAt": "2001-01-01T00:00:00.000Z",
           "description": "",
           "holdings": undefined,
-          "imageUrl": null,
           "name": "Wells Fargo - Plaid isa",
           "owner": {
             "_id": "google-oauth1-233838",
@@ -45,7 +44,9 @@ export const portfoliosFindByIdTests = () =>
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
           },
+          "patternUrl": null,
           "plaidAccount": null,
+          "portfolioType": null,
           "private": true,
           "totalValue": 2984.32,
           "transactions": undefined,

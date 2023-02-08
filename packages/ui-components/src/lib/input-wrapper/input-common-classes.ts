@@ -1,10 +1,10 @@
 import { tlsx } from '../../util/clsx';
 
 export const inputCommonClasses = tlsx(
-  'dark:bg-d-neutral-400',
-  'bg-neutral-300',
+  'dark:bg-d-neutral-3',
+  'bg-neutral-1',
   'focus:outline outline-2 outline-primary-light dark:outline-primary-dark',
-  'hover:bg-neutral-400 dark:hover:bg-d-neutral-500',
+  'hover:bg-neutral-2 dark:hover:bg-d-neutral-4',
   'active:outline',
   'rounded-xl',
   'p-3',

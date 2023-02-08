@@ -30,7 +30,7 @@ export function MenuItem({
         'hover:dark:outline-paper-dark',
         'dark:text-text-secondary-dark',
         'font-[400]',
-        'hover:bg-light-purple-100 dark:hover:bg-primary-transparent-dark',
+        'hover:bg-neutral-2 dark:hover:bg-d-neutral-3',
         rest.textSecondary
           ? 'text-secondary-light dark:text-secondary-dark'
           : ''

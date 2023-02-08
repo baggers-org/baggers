@@ -75,7 +75,7 @@ export function App() {
       </head>
       <body
         className={clsx(
-          'dark:bg-background-dark bg-neutral-200',
+          'dark:bg-background-dark bg-background-light',
           'dark:text-text-dark text-text-light'
         )}
       >

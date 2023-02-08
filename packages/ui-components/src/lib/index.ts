@@ -4,7 +4,7 @@ export * from './charts';
 export * from './data-table';
 export * from './menu';
 export * from './form-section';
-export * from './image-uploader';
+export * from './pattern-picker';
 export * from './button';
 export * from './paper';
 export * from './cards';

@@ -2,7 +2,6 @@ import {
   FormSectionHeader,
   TextField,
   Select,
-  ImageUploader,
 } from '@baggers/ui-components';
 import { FaList, FaDollarSign, FaPoundSign } from 'react-icons/fa';
 import { useT } from '~/hooks/useT';
@@ -54,14 +53,6 @@ export function PortfolioDetails() {
               renderIcon: () => <FaPoundSign />,
             },
           ]}
-        />
-        <ImageUploader
-          name="imageUrl"
-          label={t('image', 'Image')}
-          helperText={t(
-            'image_helper',
-            'Upload an image that will be displayed on your portfolio card, or pick from one of our preset patterns'
-          )}
         />
       </div>
     </>

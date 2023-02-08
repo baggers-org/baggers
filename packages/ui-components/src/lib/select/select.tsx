@@ -49,13 +49,12 @@ export function Select({ options, ...props }: SelectProps) {
             'overflow-auto',
             'max-h-96',
             'mt-16',
-            'dark:border-4 dark:border-dark-grey-900',
             'z-50',
             'w-full',
             'rounded-xl',
             'shadow-lg',
-            'dark:bg-dark-grey-600',
-            'bg-neutral-300'
+            'dark:bg-d-neutral-3',
+            'bg-white'
           )}
         >
           {renderOptions(optionsWithCategories || options)}

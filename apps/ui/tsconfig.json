@@ -4,7 +4,8 @@
     "remix.env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "../../packages/ui-util/src/lib/format-currency.ts"
+    "../../packages/ui-util/src/lib/format-currency.ts",
+    "../../packages/ui-components/src/lib/image-uploader/image-uploader.tsx"
   ],
   "compilerOptions": {
     "paths": {

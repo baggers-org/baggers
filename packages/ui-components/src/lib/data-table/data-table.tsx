@@ -8,6 +8,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import clsx from 'clsx';
 import { useState } from 'react';
 import {
   Table,
@@ -61,11 +62,7 @@ export function DataTable<
   });
 
   return (
-    <Table
-      style={{
-        overflow: 'scroll',
-      }}
-    >
+    <Table>
       <TableActions {...tableActionProps} />
       <TableHead>
         {table.getHeaderGroups().map((group) => (
@@ -80,7 +77,7 @@ export function DataTable<
           </TableRow>
         ))}
       </TableHead>
-      <TableBody className="transition-all">
+      <TableBody className={clsx('transition-all')}>
         {table.getRowModel().rows.map((row) => (
           <TableRow key={row.id}>
             {row.getVisibleCells().map((cell) => (

@@ -25,7 +25,6 @@ export const portfoliosInitEmptyTests = () =>
           "createdAt": "2022-01-17T00:00:00.000Z",
           "description": "",
           "holdings": [],
-          "imageUrl": null,
           "name": "",
           "owner": {
             "_id": "google-oauth1-233838",
@@ -39,7 +38,9 @@ export const portfoliosInitEmptyTests = () =>
             ],
             "updatedAt": "2001-01-01T00:00:00.000Z",
           },
+          "patternUrl": null,
           "plaidAccount": null,
+          "portfolioType": null,
           "private": true,
           "totalValue": 0,
           "transactions": [],

@@ -1,4 +1,5 @@
 import { InputType } from '@nestjs/graphql';
+import { PortfolioType } from '../enums/portfolio-type.enum';
 
 @InputType()
 export class CreatePortfolioInput {
@@ -8,5 +9,5 @@ export class CreatePortfolioInput {
 
   private?: boolean;
 
-  imageUrl?: string;
+  portfolioType: PortfolioType;
 }

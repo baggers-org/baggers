@@ -7,6 +7,7 @@ module.exports = {
   // publicPath: "/build/",
   watchPaths: [
     '../../packages/ui-components/**/*.{ts,tsx}',
+    '../../packages/tailwind/tailwind.config.js',
     '../../packages/ui-util/**/*.{ts,tsx}',
     '../../packages/sdk/**/*.{ts,tsx}',
   ],

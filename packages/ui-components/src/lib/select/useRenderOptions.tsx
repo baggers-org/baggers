@@ -40,6 +40,7 @@ export function useRenderOptions() {
               className={clsx(
                 'p-3 text-text-secondary-light dark:text-text-secondary-dark',
                 'dark:bg-dark-grey-800',
+                'bg-neutral-400',
                 'w-full',
                 'uppercase'
               )}

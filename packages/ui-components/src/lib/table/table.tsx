@@ -8,6 +8,7 @@ export function Table(props: TableProps) {
         'bg-white',
         'dark:bg-paper-dark',
         'overflow-auto',
+        'rounded-lg',
         'shadow-sm',
         'block',
         'table-fixed',
